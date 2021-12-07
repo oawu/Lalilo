@@ -31,7 +31,7 @@
     "@oawu/cli-progress": "^1.0.14",
     "@oawu/helper": "^1.0.4",
     "@oawu/queue": "^1.0.10",
-    "@oawu/scss": "^1.0.21",
+    "@oawu/scss": "^1.0.22",
     "@oawu/uploader": "^1.0.11",
     "@oawu/xterm": "^1.0.6",
     "babel-preset-minify": "^0.5.1",
