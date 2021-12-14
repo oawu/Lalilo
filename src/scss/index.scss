@@ -5,6 +5,7 @@
 // @link        https://www.ioa.tw/
 //
 
+@use "sass:math";
 @import "Lalilo";
 
 * {
@@ -44,4 +45,507 @@ body {
   font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
   
   background-color: rgba(255, 255, 255, 1.00);
+}
+
+@include keyframes(fire1) {
+    0% { @include opacity(0.9); @include transform(scale(1.2) rotate(-18deg)); }
+   50% { @include opacity(0.7); @include transform(scale(1) rotate(-15deg)); }
+  100% { @include opacity(0.9); @include transform(scale(1.2) rotate(-18deg)); }
+}
+@include keyframes(fire2) {
+    0% { @include opacity(0.7); @include transform(scale(1)); }
+   50% { @include opacity(0.9); @include transform(scale(1.2)); }
+  100% { @include opacity(.7); @include transform(scale(1)); }
+}
+@include keyframes(fire3) {
+    0% { @include opacity(0.9); @include transform(scale(1.2) rotate(20deg)); }
+   50% { @include opacity(0.7); @include transform(scale(1) rotate(17deg)); }
+  100% { @include opacity(0.9); @include transform(scale(1.2) rotate(20deg)); }
+}
+
+
+      
+@include keyframes(gear) {
+    0% { @include transform(translateX(0)); }
+   25% { @include transform(translateX(-6px)); }
+   50% { @include transform(translateX(0)); }
+   75% { @include transform(translateX(6px)); }
+  100% { @include transform(translateX(0)); }
+}
+
+@include keyframes(rotate1) {
+  0% { @include rotate(0); }
+  100% { @include rotate(360deg); }
+}
+
+@include keyframes(rotate2) {
+  0% { @include rotate(360deg); }
+  100% { @include rotate(0); }
+}
+@include keyframes(open) {
+    0% { bottom: 6px; }
+   50% { bottom: 8px; }
+  100% { bottom: 6px; }
+}
+
+#device {
+  display: inline-block;
+  width: 250px;
+  height: 270px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  $paddingR: 48px;
+  $borderColor: rgba(138, 138, 142, 1.00);
+  $borderWidth: 8px;
+  $coverH: 40px;
+  $headerH: 60px;
+  $footerH: 44px;
+  
+  position: relative;
+  .fire {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: inline-block;
+    width: $paddingR;
+    height: $paddingR;
+    i {
+      position: absolute;
+      display: inline-block;
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+    }
+    i:nth-child(1) {
+      left: calc(50% - 44px / 2 - 10px);
+      bottom: 0;
+      font-size: 24px;
+      z-index: 1;
+      @include rotate(-15deg);
+      color: transparent;;
+    }
+    i:nth-child(2) {
+      left: calc(50% - 44px / 2);
+      bottom: 5px;
+      font-size: 32px;
+      z-index: 2;
+      color: rgba(221, 221, 222, 1.00);
+    }
+    i:nth-child(3) {
+      left: calc(50% - 44px / 2 + 12px);
+      bottom: 0;
+      font-size: 24px;
+      z-index: 3;
+      color: transparent;;
+      @include rotate(15deg);
+    }
+    &.ing {
+      i:nth-child(1) {
+        color: rgba(255, 149, 0, 1);
+        @include animation(fire1 1.3s linear infinite forwards);
+      }
+      i:nth-child(2) {
+        color: rgba(255, 59, 48, 1);
+        @include animation(fire2 1s linear infinite forwards);
+      }
+      i:nth-child(3) {
+        color: rgba(255, 149, 0, 1);
+        @include animation(fire3 0.9s linear infinite forwards);
+      }
+    }
+  }
+  .water {
+    position: absolute;
+    right: 8px;
+    top: $coverH + math.div($headerH, 2);
+    bottom: $paddingR;
+    display: inline-block;
+    width: $paddingR - 8px * 2;
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      @include border-bottom-radius(math.div($paddingR - 8px * 2, 2));
+    }
+    &:before {
+      top: calc(100% - 36px);
+      background-color: rgba(90, 200, 250, 1);
+      @include transition(top .3s);
+    }
+    &:after {
+      top: 0;
+      border: 3px solid rgba(138, 138, 142, 1.00);
+      border-top: 0;
+    }
+    &.full {
+      &:before {
+        top: 8px;
+      }
+    }
+    i {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      width: 10px;
+      height: 3px;
+      background-color: rgba(138, 138, 142, 1.00);
+      @include border-right-radius(1.5px);
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          top: calc(20px + (100% - 30px) / 10 * #{$i - 1});
+        }
+      }
+    }
+  }
+  .cover {
+    display: inline-block;
+    width: 100%;
+    height: $coverH;
+    position: relative;
+
+    &:before, &:after {
+      position: absolute;
+      display: inline-block;
+      background-color: $borderColor;
+      @include transition(bottom .3s);
+    }
+    &:before {
+      content: '';
+      left: $borderWidth * 4;
+      bottom: 0;
+      right: $borderWidth * 4 + $paddingR;
+      height: $borderWidth;
+      @include border-top-radius(math.div($borderWidth, 2));
+      @include border-bottom-radius(2px);
+    }
+    &:after {
+      content: '';
+      left: calc(50% - #{math.div($paddingR, 2)});
+      color: white;
+      bottom: math.div($borderWidth, 2);
+      width: $borderWidth * 2;
+      height: $borderWidth * 2;
+      @include transform(translate(-50%, 0));
+      @include border-radius(math.div($borderWidth * 2, 2));
+    }
+    &.open {
+      &:before, &:after {
+        background-color: rgba(255, 59, 48, 1);
+      }
+      &:before {
+        height: $borderWidth * 2;
+        bottom: 8px;
+        // @include animation(open .5s linear infinite forwards);
+        @include border-top-radius(math.div($borderWidth * 2, 2));
+        @include border-bottom-radius(3px);
+      }
+      &:after {
+        content: '!';
+        width: $borderWidth * 3;
+        height: $borderWidth * 3;
+        line-height: $borderWidth * 3;
+        bottom: $borderWidth * 1.5;
+        @include border-radius(math.div($borderWidth * 3, 2));
+      }
+    }
+    
+    
+  }
+  header {
+    display: inline-block;
+    width: 100%;
+    height: $headerH;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    padding: 0 ($borderWidth * 2 + 2px);
+    padding-right: $paddingR + $borderWidth * 2 + 2px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: $borderWidth + 2px;
+      right: $borderWidth + 2px + $paddingR;
+      top: 0;
+      display: inline-block;
+      height: $headerH;
+      border: $borderWidth solid $borderColor;
+      @include border-bottom-radius(16px);
+      background-color: rgba(0, 0, 0, .05);
+    }
+    
+    i {
+      position: relative;
+      flex-shrink: 0;
+      display: inline-block;
+      width: $headerH - $borderWidth * 2;
+      height: $headerH - $borderWidth * 2;
+      line-height: $headerH - $borderWidth * 2;
+      &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-color: rgba(255, 59, 48, 1);
+        @include border-radius(50%);
+        @include transform(translate(-50%, -50%));
+      }
+      &.on {
+        &:before {
+          background-color: rgba(52, 199, 89, 1);
+        }
+        
+      }
+    }
+    span {
+      flex-grow: 1;
+      display: inline-block;
+      height: $headerH - $borderWidth * 2;
+      line-height: $headerH - $borderWidth * 2;
+      text-align: left;
+    }
+  }
+  .body {
+    display: inline-block;
+    width: 100%;
+    height: calc(100% - #{$coverH + $headerH + $footerH});
+    position: relative;
+    overflow: hidden;
+
+    &:after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+
+      left: $borderWidth * 3;
+      right: $borderWidth * 3 + $paddingR;
+      top: 0;
+      bottom: 0;
+      border-left: $borderWidth solid $borderColor;
+      border-right: $borderWidth solid $borderColor;
+      background-color: rgba(0, 0, 0, .15);
+    }
+    .shadow1, .shadow2 {
+      position: absolute;
+      display: inline-block;
+      left: $borderWidth * 3 + $borderWidth / 2;
+      right: $borderWidth * 3 + $paddingR + $borderWidth / 2;
+      height: 1px;
+      z-index: 1;
+    }
+    .shadow1 {
+      top: -2px;
+      @include box-shadow(0 2px 6px 1px rgba(0, 0, 0, .5));
+    }
+    .shadow2 {
+      bottom: -2px;
+      @include box-shadow(0 -2px 6px 1px rgba(0, 0, 0, .3));
+    }
+    .cup {
+      position: absolute;
+      bottom: 0;
+      left: calc(50% - #{$paddingR} / 2 - 64px / 2);
+      display: inline-block;
+      width: 64px + 14px;
+      height: 44px;
+      z-index: 5;
+      
+      &:before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: calc(50% - 4px);
+        @include transform(translateY(-50%));
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        @include border-radius(50%);
+        border: 6px solid rgba(180, 180, 180, 1.00)
+      }
+      
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 14px;
+        border: 1px solid rgba(108, 108, 108, .3);
+        border-top: 1px solid rgba(128, 128, 128, .3);
+        border-left: 1px solid rgba(128, 128, 128, .3);
+        background-color: rgba(177, 177, 179, 1.00);
+        @include border-bottom-radius(math.div(32px, 2));
+        
+      }
+    }
+    .sprinkler {
+      position: absolute;
+      top: 50px;
+      left: calc(50% - #{$paddingR} / 2 - 12px / 2);
+      display: inline-block;
+      width: 12px;
+      height: 20px;
+      background-color: $borderColor;
+      @include border-bottom-radius(4px);
+      z-index: 4;
+      &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        display: inline-block;
+        width: 5px;
+        height: 3px;
+        @include opacity(.5);
+        @include border-bottom-radius(math.div(5px, 2));
+        @include transform(translateX(-50%));
+        @include transition(height .3s, opacity .3s);
+        background-color: rgba(90, 200, 250, 1);
+        
+      }
+      
+    }
+    .gear {
+      position: absolute;
+      display: inline-block;
+      width: 100px;
+      height: 50px;
+      top: 0;
+      left: calc(50% - 100px / 2 - #{$paddingR} / 2);
+      background-color: white;
+      z-index: 5;
+      overflow: hidden;
+      border: $borderWidth solid $borderColor;
+      border-top: 0;
+      @include border-bottom-radius(20px);
+      @include box-shadow(1px 2px 6px rgba(0, 0, 0, .2));
+      
+      i {
+        position: absolute;
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        color: rgba(138, 138, 142, 1.00);
+        @include transition(color .3s);
+        z-index: 2;
+      }
+      i:nth-child(1) {
+        top: 10px;
+        font-size: 24px;
+        left: calc(50% - 32px / 2 - 23px);
+      }
+      i:nth-child(2) {
+        top: 2px;
+        left: calc(50% - 32px / 2 + 3px);
+        font-size: 32px;
+      }
+      i:nth-child(3) {
+        top: 4px;
+        font-size: 18px;
+        left: calc(50% - 32px / 2 + 28px);
+      }
+      i:nth-child(4), i:nth-child(5) {
+        z-index: 1;
+        color: rgba(50, 50, 50, .2);
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
+        top: calc(50% - 64px / 2 - #{$borderWidth} / 2);
+        font-size: 60px;
+        // left: calc(50% - 64px / 2);
+        left: -32px;
+      }
+      i:nth-child(5) {
+        top: calc(50% - 64px / 2 - #{$borderWidth} / 2 + 12px);
+        left: auto;
+        right: -22px;
+      }
+      &.ing {
+        @include animation(gear 4.3s linear infinite forwards);
+        ~ .sprinkler {
+          @include animation(gear 4.3s linear infinite forwards);
+          &:before {
+            height: 20px;
+            @include opacity(1);
+          }
+        }
+
+        i {
+          // &:nth-child(-n + 3) {
+          //   @include text-shadow(0 0 3px rgba(0, 0, 0, .3));
+          // }
+        }
+        i:nth-child(1) {
+          color: rgba(255, 149, 0, 1);
+            @include text-shadow(0 0 3px rgba(0, 0, 0, .2));
+          @include animation(rotate2 4.3s linear infinite forwards);
+        }
+        i:nth-child(2) {
+          color: rgba(255, 204, 0, 1);
+            @include text-shadow(0 0 3px rgba(0, 0, 0, .3));
+          @include animation(rotate1 5s linear infinite forwards);
+        }
+        i:nth-child(3) {
+          color: rgba(52, 199, 89, 1);
+            @include text-shadow(0 0 3px rgba(0, 0, 0, .1));
+          @include animation(rotate2 3s linear infinite forwards);
+        }
+        i:nth-child(4) {
+          // color: rgba(52, 199, 89, 1);
+          @include animation(rotate2 20s linear infinite forwards);
+        }
+        i:nth-child(5) {
+          // color: rgba(52, 199, 89, 1);
+          @include animation(rotate1 22.5s linear infinite forwards);
+        }
+      }
+    }
+    
+  }
+  footer {
+    display: inline-block;
+    width: 100%;
+    height: $footerH;
+    
+
+
+    // border-bottom: $borderWidth solid $borderColor;
+    // @include border-bottom-radius(16px);
+    position: relative;
+    &:before, &:after {
+      position: absolute;
+      display: inline-block;
+      content: '';
+    }
+    &:before {
+      left: $borderWidth;
+      right: $borderWidth + $paddingR;
+      bottom: 0;
+      height: 100%;
+      border: $borderWidth solid $borderColor;
+      @include border-top-radius(16px);
+      background-color: rgba(0, 0, 0, .05);
+
+    }
+    &:after {
+      bottom: 0;
+      left: 0;
+      right: 0 + $paddingR;
+      @include border-radius(math.div($borderWidth, 2));
+      height: $borderWidth;
+      background-color: $borderColor;
+    }
+    
+    
+  }
 }

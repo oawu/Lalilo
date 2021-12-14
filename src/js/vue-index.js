@@ -29,14 +29,25 @@ Load.init({
     }
   },
   template: El.render(`
-    main#app.a
-      h1 => *text='你好，世界！'
-      div => :style=style
-        span => *text='這是 '
-        b    => *text='Lalilo'
-        span => *text='，你目前版本是 '
-        b    => *text=version
-      br
-      span => *text=date('Y-m-d H:i:s')
+    main#app
+      div#device
+        div.fire.ing
+          i.icon-f0001 => *for=(_, i) in [1,2,3]   :key=i
+
+        div.water.full
+          i => *for=(_, i) in [1,2,3,4,5,6,7,8,9,10]   :key=i
+        div.cover.open.ing
+        header
+          i.on
+          span => *text='EC123432123'
+        div.body
+          div.shadow1
+          div.shadow2
+          div.gear.ing
+            i.icon-f0002 => *for=(_, i) in [1,2,3,4,5]   :key=i
+          b.sprinkler
+          div.cup
+
+        footer
       `)
 })
