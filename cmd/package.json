@@ -27,7 +27,7 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@oawu/core": "git+https://github.com/comdan66/LaliloCore.git",
+    "@oawu/core": "git+https://github.com/oawu/LaliloCore.git",
     "@oawu/cli-progress": "^1.0.14",
     "@oawu/helper": "^1.0.4",
     "@oawu/queue": "^1.0.10",
