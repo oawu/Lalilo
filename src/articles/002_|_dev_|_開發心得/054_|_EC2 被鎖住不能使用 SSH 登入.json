@@ -1,0 +1,537 @@
+{ 
+  "key": "AWS-EC2-Lock-SSH",
+  "cover": "/img/dev/054.png",
+  "title":"EC2 被鎖住不能使用 SSH 登入 怎麼辦？",
+  "subtitle":"不小心弄錯設定，造成 root 權限的 ubuntu 無法 SSH 登入了，怎辦？有辦法搶救嗎？",
+  "at":"2020-10-28",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"緣起" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"為了限制 AWS EC2 上某個 user 僅能使用 " },
+        { "e":"b",    "t":"SFTP" },
+        { "e":"span", "t":" 在自己的 " },
+        { "e":"b",    "t":"家目錄" },
+        { "e":"span", "t":" 內運作，於是我更改 Server 的 " },
+        { "e":"code", "t":"sshd_config" },
+        { "e":"span", "t":"，加入了對該 " },
+        { "e":"b",    "t":"user" },
+        { "e":"span", "t":" 的 " },
+        { "e":"code", "t":"ChrootDirectory" },
+        { "e":"span", "t":"、" },
+        { "e":"code", "t":"ForceCommand" },
+        { "e":"span", "t":" 與 " },
+        { "e":"code", "t":"AllowTcpForwarding" },
+        { "e":"span", "t":" 設定。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"但手殘卻不小心把 " },
+        { "e":"code", "t":"Match User" },
+        { "e":"span", "t":" 註解了…" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"如此一來會造成所有 User 皆只能使用 SFTP 連上 Server，並且根目錄僅能在自己的 " },
+        { "e":"b",    "t":"家目錄" },
+        { "e":"span", "t":" 內，而且 " },
+        { "e":"b",    "t":"不能往上層移動" },
+        { "e":"span", "t":" 😢" }
+      ]
+    },
+    { "e":"h2", "t":"處理過程" },
+    { "e":"p", "t":"以下是我試圖搶救的過程，不是一個最佳的方式，如要了解最適合的方法可以直接看下方結論～" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"首先 root 權限的 ubuntu 因為 " },
+        { "e":"code", "t":"sshd_config" },
+        { "e":"span", "t":" 的設定值關係所以無法 SSH 上 server" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"每當使用 SSH 連線時，就會有錯誤訊息：" },
+        { "e":"code", "t":"This service allows sftp connections only." }
+      ]
+    },
+    { "e":"p", "t":"所以 SSH 這條路算是封死了…" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"那試著 " },
+        { "e":"code", "t":"SFTP" },
+        { "e":"span", "t":" 上去看能不能修改與更新 " },
+        { "e":"code", "t":"sshd_config" },
+        { "e":"span", "t":"，然後 " },
+        { "e":"b",    "t":"重啟" },
+        { "e":"span", "t":" 上系統自動 " },
+        { "e":"code", "t":"ssh reload" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"但是由於 " },
+        { "e":"b",    "t":"不能往上層移動" },
+        { "e":"span", "t":" 的限制，自然的也就無法變更到 " },
+        { "e":"code", "t":"sshd_config" },
+        { "e":"span", "t":" 😫" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"萬念俱灰之下還嘗試了將 Server build 出 " },
+        { "e":"code", "t":"image" },
+        { "e":"span", "t":"，想藉由 image launch 新的 EC2 instance" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"結果當然失敗，因為既然是 image…，所以設定值一模一樣，SSH 上這台新的 instance 也是一樣的錯誤訊息 " },
+        { "e":"code", "t":"This service allows sftp connections only." }
+      ]
+    },
+    { "e":"p", "t":"所以 image 方式也是失敗…" },
+    { "e":"h2", "t":"備份資料" },
+    { "e":"p", "t":"既然無法進去 Server，那換個角度，至少要想辦法備份資料吧？" },
+    { "e":"p", "t":"雖然程式碼都有上 git，但是很多 config 都是被 gitignore 的，如果遺失勢必麻煩…" },
+    { "e":"p", "t":"此時我想起 AWS EC2 的服務是拆成" },
+    {
+      "e":"ol",
+      "s":[
+        { "e":"li", "t":"運算" },
+        { "e":"li", "t":"儲存" }
+      ]
+    },
+    { "e":"p", "t":"所以收費時有三個收費項目" },
+    {
+      "e":"ol",
+      "s":[
+        { "e":"li", "t":"運算" },
+        { "e":"li", "t":"儲存" },
+        { "e":"li", "t":"流量" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"那代表儲存是獨立切開的，而且資料是儲存在 EC2 的硬碟上的，也就是 " },
+        { "e":"b",    "t":"Volume" },
+        { "e":"span", "t":"，那就把腦筋動到 Volume 上吧！" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/956a3006c41b6528e0213c160ef53fd7.jpg" },
+    { "e":"h2", "t":"複製 Volume" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"以我這台主要的 EC2 " },
+        { "e":"code", "t":"i-xxx" },
+        { "e":"span", "t":" 的機器來說，所搭配的硬碟是 " },
+        { "e":"code", "t":"vol-xxx" },
+        { "e":"span", "t":"，如下圖 " },
+        { "e":"b",    "t":"1" },
+        { "e":"span", "t":" 代表的就是發生問題的 EC2 instance，而標示 " },
+        { "e":"b",    "t":"3" },
+        { "e":"span", "t":" 則是這台 EC2 所掛載的 Volume " },
+        { "e":"code", "t":"vol-xxx" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/84e4057829dd65edc3f322a6c8f48b52.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"點擊標示 3 的 " },
+        { "e":"code", "t":"vol-xxx" },
+        { "e":"span", "t":" ID 後會跳至 Volumes 頁面，檢視其細節，如下圖可以得知當初我並未對硬碟座加密，所以看來是有機會的可以讀出內容" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/b76e7b18a5b5264e532654a427796284.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"方法就是將此 " },
+        { "e":"code", "t":"vol-xxx" },
+        { "e":"span", "t":" 的 volume clone 一份出來，並且開啟另一台 EC2 instance " },
+        { "e":"code", "t":"i-ooo" },
+        { "e":"span", "t":" 然後掛載上去！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"首先對這個 " },
+        { "e":"code", "t":"vol-xxx" },
+        { "e":"span", "t":" 右鍵選擇 " },
+        { "e":"code", "t":"Create Snapshot" },
+        { "e":"span", "t":"，建立一份此 Volume 的 " },
+        { "e":"b",    "t":"快照" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/5a0efe88aacd66ff2ca651ead106e2cb.jpg" },
+    { "e":"p", "t":"然後點擊去 Snapshots 頁面上看所產生的 Volume Snapshot" },
+    { "e":"img", "src":"/img/dev/054/8822751f9f380176300a16bc129ff56a.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"如下圖就是 " },
+        { "e":"code", "t":"vol-xxx" },
+        { "e":"span", "t":" 所產生的快照 " },
+        { "e":"code", "t":"snap-xxx" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/9a559abd274fddbc029a80cbf8313cb1.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"然後對著 " },
+        { "e":"code", "t":"snap-xxx" },
+        { "e":"span", "t":" 右鍵選擇 " },
+        { "e":"code", "t":"Create Volume" },
+        { "e":"span", "t":"，建立一份與原本一樣的 Volume" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/87fb064f0c419fa5ccc6a031199e0556.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"回到 Volumes 頁面，可以看到多出一顆新的 Volume，如下圖的綠框 " },
+        { "e":"code", "t":"vol-ooo" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/8974810b521f17964c83b34c27fef917.jpg" },
+    { "e":"p", "t":"以上流程就是 Volume1 ➜ Snapshot ➜ Volume2，所以 Volume1 內容 == Volume2 內容" },
+    { "e":"h2", "t":"掛載 Volume 至新的 EC2" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"接著開一台新的 EC2 instance " },
+        { "e":"code", "t":"i-ooo" },
+        { "e":"span", "t":"，方法可以參考 " },
+        {
+          "e":"a",
+          "href":"/index.html?k=aws&id=EC2-Ubuntu",
+          "t":"此篇"
+        }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"如下圖，開好後在 Instances 頁面看到多出一台全新的 EC2 實例，紅框為原本的 EC2 instance " },
+        { "e":"code", "t":"i-xxx" },
+        { "e":"span", "t":"，綠框為新的 EC2 instance " },
+        { "e":"code", "t":"i-ooo" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/63bb34e4f2abfbe80cb08b8a76de7748.jpg" },
+    { "e":"p", "t":"當然新的 EC2 一開始會有一顆預載的 8G 硬碟，所以回到 Volumes 頁面看，也會看到多出來的那顆硬碟" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"如下圖紅色為原本舊 EC2 instance " },
+        { "e":"code", "t":"i-xxx" },
+        { "e":"span", "t":" 的 volume " },
+        { "e":"code", "t":"vol-xxx" },
+        { "e":"span", "t":"，綠色是 clone 出來的 volume " },
+        { "e":"code", "t":"vol-ooo" },
+        { "e":"span", "t":"，藍色就是新開啟的 EC2 instance " },
+        { "e":"code", "t":"i-ooo" },
+        { "e":"span", "t":" 所使用的預設的 volume " },
+        { "e":"code", "t":"vol-aaa" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/bd66351452d383269680ed62f9284024.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"接著掛載 " },
+        { "e":"code", "t":"vol-ooo" },
+        { "e":"span", "t":" 到剛剛開啟的 " },
+        { "e":"code", "t":"i-ooo" },
+        { "e":"span", "t":" instance 上，直接點選 " },
+        { "e":"code", "t":"vol-ooo" },
+        { "e":"span", "t":" 右鍵選擇 " },
+        { "e":"code", "t":"Attach Volume" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/178347c9c8e54834407d60fb5c1531ab.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"將 " },
+        { "e":"code", "t":"vol-ooo" },
+        { "e":"span", "t":" 掛載到 " },
+        { "e":"code", "t":"i-ooo" },
+        { "e":"span", "t":" instance 上，並且要注意一下 Device 此硬碟的編號（綠框）" },
+        { "e":"code", "t":"sdf" },
+        { "e":"span", "t":"，掛載好之後回到 Instances 頁面上，將 " },
+        { "e":"code", "t":"i-ooo" },
+        { "e":"span", "t":" 的 EC2 instance 做 " },
+        { "e":"b",    "t":"Reboot" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/de61146933c6d24413418c0dbd45063b.jpg" },
+    { "e":"h2", "t":"讀取掛載的 Volume" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"馬上使用 SSH 到 " },
+        { "e":"code", "t":"i-ooo" },
+        { "e":"span", "t":" 的 EC2 instance 上，並且切換身份至 root，所以輸入指令 " },
+        { "e":"code", "t":"sudo -s" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/1a395e5e475863e5e2df8311185fbfe2.jpg" },
+    { "e":"img", "src":"/img/dev/054/97ee128e811a606210f6de6e74589ded.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"切換好身份後，輸入指令 " },
+        { "e":"code", "t":"lsblk" },
+        { "e":"span", "t":" 列出此機器上有多少顆硬碟" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"紅框代表預載的 8G volume " },
+        { "e":"code", "t":"vol-aaa" },
+        { "e":"span", "t":"，而綠框則舊是那刻 20G 的 " },
+        { "e":"code", "t":"vol-ooo" },
+        { "e":"span", "t":" volume" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"code", "t":"xvda" },
+        { "e":"span", "t":" 代表磁碟 " },
+        { "e":"code", "t":"xvda1" },
+        { "e":"span", "t":" 則是第一個磁區，而 " },
+        { "e":"code", "t":"xvdf" },
+        { "e":"span", "t":" 則就是 " },
+        { "e":"code", "t":"vol-ooo" },
+        { "e":"span", "t":" 那顆磁碟，而 " },
+        { "e":"code", "t":"xvdf1" },
+        { "e":"span", "t":" 就是他裡面的第一個磁區" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"code", "t":"xvdf" },
+        { "e":"span", "t":" 與在掛載時 Device 所標示的 " },
+        { "e":"code", "t":"sdf" },
+        { "e":"span", "t":" 尾數應該會是一樣的 " },
+        { "e":"code", "t":"f" },
+        { "e":"span", "t":"，所以掛載多顆硬碟時要注意一下才不會認錯顆" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/40aad4083aed42b1c1dd2fbc5a8ba997.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"接著依然採用 root 身份，在 " },
+        { "e":"code", "t":"/" },
+        { "e":"span", "t":" " },
+        { "e":"b",    "t":"根目錄" },
+        { "e":"span", "t":" 下建立一個 " },
+        { "e":"code", "t":"test" },
+        { "e":"span", "t":" 目錄" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/29477d6dda0da80a60f82440da6efb27.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"建立好 " },
+        { "e":"code", "t":"/test" },
+        { "e":"span", "t":" 目錄後，就要設定將 " },
+        { "e":"code", "t":"xvdf1" },
+        { "e":"span", "t":" 磁區連結到 " },
+        { "e":"code", "t":"/test" },
+        { "e":"span", "t":" 目錄，所以使用指令 " },
+        { "e":"code", "t":"mount /dev/xvdf1 /test" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"接著再用指令 " },
+        { "e":"code", "t":"lsblk" },
+        { "e":"span", "t":" 列出此機器上有多少顆硬碟" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"如下圖可以看到 " },
+        { "e":"code", "t":"xvda1" },
+        { "e":"span", "t":" 磁區 mount 到 " },
+        { "e":"code", "t":"/" },
+        { "e":"span", "t":" 根目錄，而 " },
+        { "e":"code", "t":"xvdaf" },
+        { "e":"span", "t":" 磁區 mount 到 " },
+        { "e":"code", "t":"/test" },
+        { "e":"span", "t":" 目錄，那就代表完成了" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/867377451487ea7c8898355902e7f93c.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"太好了！直接進入 " },
+        { "e":"code", "t":"/test" },
+        { "e":"span", "t":" 目錄吧！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"列出 " },
+        { "e":"code", "t":"/test" },
+        { "e":"span", "t":" 目錄內的內容，完全的可以讀出資料就代表完成了！！！！😂" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/054/ebff779e93b2015131c9ad451d3be3f0.jpg" },
+    { "e":"h2", "t":"結論" },
+    { "e":"p", "t":"上述的過程是我自己的處理經驗流程，但是事後經由我自己的不斷再次嘗試，其實有更好的處理方式，方法總結如下：" },
+    {
+      "e":"ol",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"關閉舊的 EC2 instance " },
+            { "e":"code", "t":"i-xxx" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"將舊的 Volume " },
+            { "e":"code", "t":"vol-xxx" },
+            { "e":"span", "t":" " },
+            { "e":"b",    "t":"Detach" },
+            { "e":"span", "t":"(卸下)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Launch 一台新的 EC2 instance " },
+            { "e":"code", "t":"i-ooo" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"將卸下的 Volume " },
+            { "e":"code", "t":"vol-xxx" },
+            { "e":"span", "t":" " },
+            { "e":"b",    "t":"Attach" },
+            { "e":"span", "t":"(掛載)到新的 EC2 instance " },
+            { "e":"code", "t":"i-ooo" },
+            { "e":"span", "t":"，並 " },
+            { "e":"b",    "t":"Reboot" },
+            { "e":"span", "t":"(重啟) " },
+            { "e":"code", "t":"i-ooo" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"SSH 上新的 EC2 instance " },
+            { "e":"code", "t":"i-ooo" },
+            { "e":"span", "t":" 上，直接使用 " },
+            { "e":"b",    "t":"sudo" },
+            { "e":"span", "t":" 權限 " },
+            { "e":"b",    "t":"mount" },
+            { "e":"span", "t":" " },
+            { "e":"code", "t":"vol-xxx" },
+            { "e":"span", "t":" 的磁區到 " },
+            { "e":"code", "t":"/test" },
+            { "e":"span", "t":" 目錄" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"使用 " },
+            { "e":"b",    "t":"sudo" },
+            { "e":"span", "t":" 權限修正 " },
+            { "e":"code", "t":"/test/etc/ssh/sshd_config" },
+            { "e":"span", "t":" 儲存" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"b",    "t":"Stop" },
+            { "e":"span", "t":"(關閉) EC2 instance " },
+            { "e":"code", "t":"i-ooo" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"將 Volume " },
+            { "e":"code", "t":"vol-xxx" },
+            { "e":"span", "t":" 從 EC2 instance " },
+            { "e":"code", "t":"i-ooo" },
+            { "e":"span", "t":" 上 " },
+            { "e":"b",    "t":"Detach" },
+            { "e":"span", "t":"(卸下)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"將Volume " },
+            { "e":"code", "t":"vol-xxx" },
+            { "e":"span", "t":" " },
+            { "e":"b",    "t":"Attach" },
+            { "e":"span", "t":"(掛載)到原本的 EC2 instance " },
+            { "e":"code", "t":"i-xxx" },
+            { "e":"span", "t":"，並 " },
+            { "e":"b",    "t":"Reboot" },
+            { "e":"span", "t":"(重啟) " },
+            { "e":"code", "t":"i-ooo" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"就可以成功的 SSH 上原本的 EC2 instance " },
+            { "e":"code", "t":"i-xxx" }
+          ]
+        }
+      ]
+    },
+    { "e":"p", "t":"以上是濃縮再濃縮、提鍊再提煉的處理步驟了，雖然前面走了很多冤旺路，但是也獲得了很多寶貴的技術知識 😳" }
+  ],
+  "references":[
+    { "text": "使 Amazon EBS 磁碟區可供在 Linux 上使用 - Amazon Elastic Compute Cloud", "href": "https://docs.aws.amazon.com/zh_tw/AWSEC2/latest/UserGuide/ebs-using-volumes.html" },
+    { "text": "Locked myself out of Amazon EC2 SSH - This service allows sftp connections only", "href": "https://unix.stackexchange.com/questions/143925/locked-myself-out-of-amazon-ec2-ssh-this-service-allows-sftp-connections-only" },
+    { "text": "This service allows sftp connections only - pu20065226 - 博客园", "href": "https://www.cnblogs.com/pu20065226/p/10962906.html" }
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "Volume",
+    "Snapshot",
+    "SSH",
+    "SFTP"
+  ]
+}

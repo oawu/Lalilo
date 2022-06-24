@@ -1,0 +1,52 @@
+{
+  "key": "F2E-2016-Taipei-Child-Art-Festival",
+  "cover": "/img/dev/043.jpg",
+  "title":"2016 新北兒藝節",
+  "at":"2016-06-18",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個前端技術的外包案實作，其網站名稱為 " },
+        { "e":"a", "t":"2016 新北市兒童藝術節", "href":"http://www.ntpc-childartfestival.com.tw/" },
+        { "e":"span", "t":"，主要就是承接新北市 2016 年兒童藝術節的活動官網。此活動網站最具特色的地方是動畫的呈現，大家可以先點至 " },
+        { "e":"a", "t":"GitHub Demo", "href":"https://sasachu.github.io/2016child/" },
+        { "e":"span", "t":" 瀏覽動畫效果喔！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"動畫是整個網站的主軸功能，在與 2015 年的兒藝節官網不同的地方是，以往是大量使用 " },
+        { "e":"a", "t":"jQuery Animate", "href":"http://api.jquery.com/animate/" },
+        { "e":"span", "t":" 的功能，而 2016 年則是使用 " },
+        { "e":"a", "t":"CSS3", "href":"https://www.w3schools.com/css/css3_intro.asp" },
+        { "e":"span", "t":" 的 " },
+        { "e":"a", "t":"Animation", "href":"http://www.w3schools.com/css/css3_animations.asp" },
+        { "e":"span", "t":" 來呈現出動畫效果，藉由不同的時間差，依序的控制動畫，" },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":" 則是扮演著次要功能，例如：skip。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"會使用 CSS3 來實作動畫，主要是考量到前端網頁效能的問題，比起使用 jQuery 來實作，CSS 更能讓畫面流暢許多，專案開發過程中使用 " },
+        { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+        { "e":"span", "t":" 來開發，並且使用 " },
+        { "e":"a", "t":"Compass", "href":"http://compass-style.org/" },
+        { "e":"span", "t":" 來編譯成 CSS，使開發前端專案事半功倍！" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"http://www.ntpc-childartfestival.com.tw/" },
+    { "text": "GitHub Demo", "href":"https://sasachu.github.io/2016child/" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/SaSaChu/2016child" },
+    { "text": "2015 新北兒藝節", "href":"http://www.jackie-imc.com/2015newtaipeicitycaf/" }
+  ],
+  "tags":[
+    "接案"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "key": "PHP-ElasticSearch-PDO",
+  "cover": "/img/dev/027.jpg",
+  "title":"PHP 實作 ElasticSearch PDO 物件",
+  "at":"2015-08-26",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一套 " },
+        { "e":"a", "t":"ElasticSearch", "href":"https://www.elastic.co/" },
+        { "e":"span", "t":" 基本 " },
+        { "e":"a", "t":"Create、Read、Update、Delete(CRUD)", "href":"https://zh.wikipedia.org/wiki/%E8%B3%87%E6%96%99%E6%93%8D%E7%B8%B1%E8%AA%9E%E8%A8%80" },
+        { "e":"span", "t":" 的使用工具，其工具主要目的就是將資料撈出來並且物件化，架構於 " },
+        { "e":"a", "t":"Elastic Library", "href":"https://github.com/ruflin/Elastica" },
+        { "e":"span", "t":"，將讀取出來的資料物件化，以及包裝成方便開發的工具。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"主要功能是經由各種 " },
+        { "e":"b", "t":"類別方法(static)" },
+        { "e":"span", "t":"，對 ElasticSearch 實作 " },
+        { "e":"b", "t":"新增" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"查詢" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"修改" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"刪除" },
+        { "e":"span", "t":" 的操作，並且將查詢出來的每一筆資料，再將其封裝成物件單位，每筆物件皆可繼承基礎的 修改、刪除 的實體方法，更可以對分別不同 Type 做出不同的類別(Class)，方便於物件化思維的設計。" }
+      ]
+    },
+    { "e":"p", "t":"以下是基本的說明：" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"這是一套架構於 " },
+            { "e":"a", "t":"Elastic Library", "href":"https://github.com/ruflin/Elastica" },
+            { "e":"span", "t":" 所開發的工具，進階方便使用物件操作 ElasticaSearch 資料讀取。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"經由各種類別方法(static)，對 Elastica Search 實作" },
+            { "e":"a", "t":"新增", "href":"https://works.ioa.tw/OA-ElasticaSearch/guide/create.html" },
+            { "e":"span", "t":"、" },
+            { "e":"a", "t":"查詢", "href":"https://works.ioa.tw/OA-ElasticaSearch/guide/read.html" },
+            { "e":"span", "t":"、" },
+            { "e":"a", "t":"修改", "href":"https://works.ioa.tw/OA-ElasticaSearch/guide/update.html" },
+            { "e":"span", "t":"、" },
+            { "e":"a", "t":"刪除", "href":"https://works.ioa.tw/OA-ElasticaSearch/guide/delete.html" },
+            { "e":"span", "t":"的操作。" }
+          ]
+        },
+        { "e":"li", "t":"查詢出來的每一筆資料，再將其封裝成物件單位，方便於物件化思維的設計。" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"每筆物件皆可繼承基礎的 修改、刪除 的 " },
+            { "e":"b", "t":"實體方法" },
+            { "e":"span", "t":"。" }
+          ]
+        },
+        { "e":"li", "t":"分別對不同 Type 分類出不同的類別(Class)。" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"使用前要先引入 " },
+            { "e":"code", "t":"demo/Elastica/ElasticaSearch.php" },
+            { "e":"span", "t":" 檔案後即可使用。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"CRUD 範例，將會以 Type User 作為範例說明，詳細結構可以查閱" },
+            { "e":"a", "t":"結構說明", "href":"https://works.ioa.tw/OA-ElasticaSearch/guide/struct.html" },
+            { "e":"span", "t":"。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"後端 PHP 語言範例可以查閱檔案 " },
+            { "e":"code", "t":"demo/index.php" },
+            { "e":"span", "t":"。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"相關 Elastica Search 語法可以查閱 " },
+            { "e":"a", "t":"https://www.elastic.co/", "href":"https://www.elastic.co/" },
+            { "e":"span", "t":"。" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"https://works.ioa.tw/OA-ElasticaSearch/index.html" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-ElasticaSearch" },
+    { "text": "PTT PHP", "href":"https://www.ptt.cc/bbs/PHP/M.1440735206.A.FC7.html" },
+    { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1440735487.A.4C1.html" },
+    { "text": "Facebook PHP 台灣", "href":"https://www.facebook.com/groups/199493136812961/permalink/850647258364209/" },
+    { "text": "Facebook Backend 台灣 (Backend Tw)", "href":"https://www.facebook.com/groups/616369245163622/permalink/725753477558531/" },
+    { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/877530442284322/" }
+  ],
+  "tags":[
+    "PHP",
+    "ElasticSearch"
+  ]
+}

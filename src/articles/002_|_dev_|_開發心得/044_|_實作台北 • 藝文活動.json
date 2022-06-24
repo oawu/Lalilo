@@ -1,0 +1,92 @@
+{
+  "key": "FullStack-Taipei-Activities",
+  "cover": "/img/dev/044.jpg",
+  "title":"實作台北 • 藝文活動",
+  "at":"2016-06-27",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是項利用" },
+        { "e":"a", "t":"新北市政府資料開放平台", "href":"http://data.ntpc.gov.tw/" },
+        { "e":"span", "t":"提供的" },
+        { "e":"a", "t":"新北市政府文化局藝文活動", "href":"http://data.ntpc.gov.tw/od/detail?oid=781B822E-214A-4B9A-B4DB-32C9F4626D98" },
+        { "e":"span", "t":" API 所製作的台北 • 藝文活動。使用 " },
+        { "e":"a", "t":"PHP", "href":"https://zh.wikipedia.org/zh-tw/PHP" },
+        { "e":"span", "t":" 將 API 資料取下來後編輯成 " },
+        { "e":"a", "t":"HTML", "href":"https://zh.wikipedia.org/zh-tw/HTML" },
+        { "e":"span", "t":" 頁面，並且放置到 " },
+        { "e":"a", "t":"Amazon S3", "href":"https://aws.amazon.com/tw/s3/" },
+        { "e":"span", "t":"。放置部署過程中同時將頁面所需的 " },
+        { "e":"a", "t":"SCSS", "href":"https://zh.wikipedia.org/wiki/%E5%B1%82%E5%8F%A0%E6%A0%B7%E5%BC%8F%E8%A1%A8" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/wiki/JavaScript" },
+        { "e":"span", "t":" 一起上傳至 S3。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"上傳 S3 過程採用 PHP 執行，關鍵程式碼在" },
+        { "e":"a", "t":"這裡", "href":"https://github.com/oawu/taipei_activities/blob/master/cmd/put.php" },
+        { "e":"span", "t":"，主要是利用 S3 針對檔案都有 tag 的特性，對上傳檔案做 " },
+        { "e":"a", "t":"md5_file", "href":"http://php.net/manual/en/function.md5-file.php" },
+        { "e":"span", "t":"，達成差異化更新的步驟！" }
+      ]
+    },
+    { "e":"h2", "t":"步驟" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "t":"取得 S3 上所有檔案" },
+        { "e":"li", "t":"整理準備上傳的檔案" },
+        { "e":"li", "t":"比對準備上傳與 S3 上檔案的 md5_file 差異" },
+        { "e":"li", "t":"針對差異做更新、刪除、上傳" }
+      ]
+    },
+    { "e":"img", "alt":"使用 php 將 API 資料取下來後編輯成 HTML 頁面，並且放置到 Amazon S3。放置部署過程中同時將頁面所需的 css、JavaScript，並且一起上傳至 S3", "src":"/img/dev/044/01.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"網頁排版盡量參照 " },
+        { "e":"a", "t":"Material Design", "href":"https://material.google.com/" },
+        { "e":"span", "t":"，同時具有" },
+        { "e":"a", "t":"響應式網頁設計（RWD）", "href":"http://www.ibest.tw/page01.php" },
+        { "e":"span", "t":"的版型，讓手機用戶也可以方便瀏覽與輕鬆操作。切版使用 " },
+        { "e":"a", "t":"Compass", "href":"http://compass-style.org/" },
+        { "e":"span", "t":" 編譯 " },
+        { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+        { "e":"span", "t":"，頁面上使用 JavaScript 完成互動功能，如：快速搜尋，利用 jQuery 的 " },
+        { "e":"a", "t":"selector", "href":"https://api.jquery.com/category/selectors/" },
+        { "e":"span", "t":" " },
+        { "e":"code", "t":"[name*=\"value\"]" },
+        { "e":"span", "t":" 完成模糊搜尋，並且利用網址的 " },
+        { "e":"a", "t":"Hash", "href":"http://www.w3schools.com/jsref/prop_loc_hash.asp" },
+        { "e":"span", "t":" 來做分類查詢。" }
+      ]
+    },
+    { "e":"p", "t":"依據資料開放平台上表示每天會更新，所以系統排程會在每日上午 6 時去取得最新的藝文活動資訊，並且放置到 s3 上做更新。目前只爬取新北市政府的開放資料，未來會補上台北市的部分，若是有發現其他縣市的活動 API，也會一併整理起來。" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"若是覺得不錯，可以對 " },
+        { "e":"a", "t":"GitHub", "href":"https://github.com/oawu/taipei_activities" },
+        { "e":"span", "t":" 按個星星，鼓勵一下作者吧：）" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/taipei_activities" },
+    { "text": "新北市政府資料開放平台", "href":"http://data.ntpc.gov.tw/" },
+    { "text": "新北市政府文化局藝文活動", "href":"http://data.ntpc.gov.tw/od/detail?oid=781B822E-214A-4B9A-B4DB-32C9F4626D98" },
+    { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1467160346.A.EE9.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/1020671314636900/" }
+  ],
+  "tags":[
+    "PHP",
+    "jQuery",
+    "開方資料",
+    "新北市"
+  ]
+}

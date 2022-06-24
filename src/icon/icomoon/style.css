@@ -1,18 +1,19 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?7vfwjk');
-  src:  url('fonts/icomoon.eot?7vfwjk#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?7vfwjk') format('truetype'),
-    url('fonts/icomoon.woff?7vfwjk') format('woff'),
-    url('fonts/icomoon.svg?7vfwjk#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?r9hzi6');
+  src:  url('fonts/icomoon.eot?r9hzi6#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?r9hzi6') format('truetype'),
+    url('fonts/icomoon.woff?r9hzi6') format('woff'),
+    url('fonts/icomoon.svg?r9hzi6#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
-  speak: none;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -24,3 +25,132 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-2a:before {
+  content: "\a002a";
+}
+.icon-0:before {
+  content: "\a0000";
+}
+.icon-1:before {
+  content: "\a0001";
+}
+.icon-2:before {
+  content: "\a0002";
+}
+.icon-3:before {
+  content: "\a0003";
+}
+.icon-4:before {
+  content: "\a0004";
+}
+.icon-5:before {
+  content: "\a0005";
+}
+.icon-6:before {
+  content: "\a0006";
+}
+.icon-7:before {
+  content: "\a0007";
+}
+.icon-8:before {
+  content: "\a0008";
+}
+.icon-9:before {
+  content: "\a0009";
+}
+.icon-a:before {
+  content: "\a000a";
+}
+.icon-b:before {
+  content: "\a000b";
+}
+.icon-c:before {
+  content: "\a000c";
+}
+.icon-d:before {
+  content: "\a000d";
+}
+.icon-e:before {
+  content: "\a000e";
+}
+.icon-f:before {
+  content: "\a000f";
+}
+.icon-10:before {
+  content: "\a0010";
+}
+.icon-11:before {
+  content: "\a0011";
+}
+.icon-12:before {
+  content: "\a0012";
+}
+.icon-13:before {
+  content: "\a0013";
+}
+.icon-14:before {
+  content: "\a0014";
+}
+.icon-15:before {
+  content: "\a0015";
+}
+.icon-16:before {
+  content: "\a0016";
+}
+.icon-17:before {
+  content: "\a0017";
+}
+.icon-18:before {
+  content: "\a0018";
+}
+.icon-19:before {
+  content: "\a0019";
+}
+.icon-1a:before {
+  content: "\a001a";
+}
+.icon-1b:before {
+  content: "\a001b";
+}
+.icon-1c:before {
+  content: "\a001c";
+}
+.icon-1d:before {
+  content: "\a001d";
+}
+.icon-1e:before {
+  content: "\a001e";
+}
+.icon-1f:before {
+  content: "\a001f";
+}
+.icon-20:before {
+  content: "\a0020";
+}
+.icon-21:before {
+  content: "\a0021";
+}
+.icon-22:before {
+  content: "\a0022";
+}
+.icon-23:before {
+  content: "\a0023";
+}
+.icon-24:before {
+  content: "\a0024";
+}
+.icon-25:before {
+  content: "\a0025";
+}
+.icon-26:before {
+  content: "\a0026";
+}
+.icon-27:before {
+  content: "\a0027";
+}
+.icon-28:before {
+  content: "\a0028";
+}
+.icon-29:before {
+  content: "\a0029";
+}

@@ -1,0 +1,141 @@
+{
+  "key": "Redis",
+  "cover": "/img/mac/017.png",
+  "title":"macOS 上安裝 Redis",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝方法有兩種：" },
+    { "e":"ol", "s":[{ "e":"li", "t":"指令安裝(推薦)" }, { "e":"li", "t":"步驟安裝" }] },
+    
+    { "e":"h3", "t":"指令安裝(推薦)" },
+    { "e":"ul", "s":[{ "e":"li", "s":[{ "e":"span", "t":"終端機執行指令 " }, { "e":"code", "t":"brew install redis", "copy":"brew install redis" }] }] },
+
+    { "e":"h3", "t":"步驟安裝(不推薦，因為步驟複雜了點)" },
+
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"可以先挑想安裝的 " }, { "e":"a", "t":"版本", "href":"http://download.redis.io/releases/" }]
+        },
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"下載檔案，終端機執行指令 " }, { "e":"code", "t":"wget http://download.redis.io/releases/redis-6.2.4.tar.gz", "copy":"wget http://download.redis.io/releases/redis-6.2.4.tar.gz" }]
+        },
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"解開壓縮，執行指令 " }, { "e":"code", "t":"tar xzf redis-3.0.5.tar.gz", "copy":"tar xzf redis-3.0.5.tar.gz" }]
+        },
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"進去資料夾，執行指令 " }, { "e":"code", "t":"cd redis-3.0.5", "copy":"cd redis-3.0.5" }]
+        },
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"./configure", "copy":"./configure" }]
+        },
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"make", "copy":"make" }]
+        },
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"sudo make install", "copy":"sudo make install" }]
+        }
+      ]
+    },
+    { "e":"h2", "t":"啟動 Redis" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"啟動 Server 終端機執行指令 " }, { "e":"code", "t":"redis-server", "copy":"redis-server" }]
+        },
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"啟動 Client 終端機執行指令 " }, { "e":"code", "t":"redis-cli", "copy":"redis-cli" }]
+        }
+      ]
+    },
+    { "e":"h2", "t":"WEB 介面" },
+    
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"使用 " },
+            { "e":"a", "t":"phpRedisAdmin", "href":"https://github.com/erikdubbelboer/phpRedisAdmin" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"在 Server 目錄下 clone 專案 " },
+            { "e":"code", "t":"git clone https://github.com/ErikDubbelboer/phpRedisAdmin.git", "copy":"git clone https://github.com/ErikDubbelboer/phpRedisAdmin.git" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"進入專案 " },
+            { "e":"code", "t":"cd phpRedisAdmin", "copy":"cd phpRedisAdmin" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"終端機執行指令 " },
+            { "e":"code", "t":"git clone https://github.com/nrk/predis.git vendor", "copy":"git clone https://github.com/nrk/predis.git vendor" }
+          ]
+        }
+      ]
+    },
+    { "e":"blockquote", "t":"要注意是否有開啟 Redis Server" },
+
+    { "e":"h3", "t":"設定" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"打開終端機，進入專案 " },
+            { "e":"code", "t":"cd phpRedisAdmin", "copy":"cd phpRedisAdmin" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"複製並重新命名 " },
+            { "e":"code", "t":"config.sample.inc.php" },
+            { "e":"span", "t":"，終端機執行指令 " },
+            { "e":"code", "t":"cp includes/config.sample.inc.php includes/config.php", "copy":"cp includes/config.sample.inc.php includes/config.php" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"修改檔案 " },
+            { "e":"code", "t":"config.php" },
+            { "e":"span", "t":"，終端機執行指令 " },
+            { "e":"code", "t":"subl includes/config.php", "copy":"subl includes/config.php" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Redis | OA's 常用設定", "href": "https://oawu.github.io/configs/book/mds/mac/redis.html" },
+    { "text": "補充", "href": "https://blog.miniasp.com/post/2018/09/26/Redis-Desktop-Manager-for-Windows-Build-from-Source.aspx" },
+    { "text": "UI", "href": "https://redisdesktop.com/" }
+  ],
+  "tags":[
+    "Redis",
+    "後端"
+  ]
+}

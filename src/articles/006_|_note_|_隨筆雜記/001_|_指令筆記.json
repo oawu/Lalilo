@@ -1,0 +1,62 @@
+{
+  "key": "CMD",
+  "title": "指令筆記",
+  "at": "2021-05-23",
+  "type":"article",
+  "blocks": [
+    { "e": "h2", "t": "Apache" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "查詢誰正在用 " },
+          {"e": "b", "t": "80" },
+          {"e": "span", "t": " Port " },
+          {"e": "code", "t": "sudo lsof -i :80", "copy": "sudo lsof -i :80" }
+        ] }
+      ]
+    },
+
+    { "e": "h2", "t": "ubuntu" },
+    { "e": "h3", "t": "清除核心檔案" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "檔案通常放在 " },
+          {"e": "code", "t": "/usr/src/" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "清除指令 " },
+          {"e": "code", "t": "sudo apt -y autoremove", "copy": "sudo apt -y autoremove" }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "指令" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "列出目前目錄下所有目錄大小 " },
+          {"e": "code", "t": "du -h --max-depth=1", "copy": "du -h --max-depth=1" }
+        ] }
+      ]
+    },
+    { "e": "h2", "t": "jQuery" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "jQuery  " },
+          {"e": "b", "t": "物件陣列" },
+          {"e": "span", "t": " 轉為 " },
+          {"e": "b", "t": " 陣列物件" },
+          {"e": "span", "t": " " },
+          {"e": "code", "t": "$([$('<label />'), $('<label />')]).map($.fn.toArray);", "copy": "$([$('<label />'), $('<label />')]).map($.fn.toArray);" }
+        ] }
+      ]
+    }
+  ],
+  "references": [],
+  "tags": []
+}

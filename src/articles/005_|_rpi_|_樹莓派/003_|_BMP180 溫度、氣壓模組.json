@@ -1,0 +1,315 @@
+{
+  "key": "BMP180",
+  "title": "BMP180 溫度、氣壓模組",
+  "at": "2021-08-02",
+  "type":"article",
+  "blocks": [
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "p", "t": "開啟 I2C，有以下兩個方法，擇一進行即可" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                { "e":"span", "t":"指令操作，終端機執行指令：" },
+                { "e":"code", "t":"sudo raspi-config", "copy":"sudo raspi-config" },
+                { "e":"span", "t":"，選擇 " },
+                { "e":"code", "t":"Interface Options" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"I2C" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"是" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"確定" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Finish" }
+              ] },
+              { "e": "li", "s": [
+                { "e":"span", "t":"介面操作，點擊左上 " },
+                { "e":"code", "t":"樹莓派圖示" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"偏好設定" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Raspberry Pi 設定" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"介面" },
+                { "e":"span", "t":"，" },
+                { "e":"code", "t":"勾選啟用", "class":"green" },
+                { "e":"span", "t":" I2C" }
+              ] }
+            ]
+          }
+        ] },
+        { "e": "li", "s": [
+          {"e": "p", "t": "軟體安裝" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "下載 " },
+                {"e": "code", "t": "Adafruit_Python_BMP" },
+                {"e": "span", "t": "，終端機執行指令：" },
+                {"e": "code", "t": "git clone https://github.com/adafruit/Adafruit_Python_BMP.git", "copy": "git clone https://github.com/adafruit/Adafruit_Python_BMP.git" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "進入目錄，終端機執行指令：" },
+                {"e": "code", "t": "cd Adafruit_Python_BMP", "copy": "cd Adafruit_Python_BMP" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "安裝，終端機執行指令：" },
+                {"e": "code", "t": "sudo python3 setup.py install", "copy": "sudo python3 setup.py install" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "回上一層，終端機執行指令：" },
+                {"e": "code", "t": "cd ..", "copy": "cd .." }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "移除 " },
+                {"e": "code", "t": "Adafruit_Python_BMP" },
+                {"e": "span", "t": " 目錄，終端機執行指令：" },
+                {"e": "code", "t": "sudo rm -rf Adafruit_Python_BMP", "copy": "sudo rm -rf Adafruit_Python_BMP" }
+              ] }
+            ]
+          }
+        ] },
+
+        { "e": "li", "s": [
+          {"e": "p", "t": "硬體設定" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "BMP180" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "VCC" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "3V", "class":"red" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "BMP180" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "GND" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GND" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "BMP180" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "SCL" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GPIO 3" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "BMP180" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "SDA" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GPIO 2" }
+              ]}
+            ]
+          }
+        ] },
+
+        { "e": "li", "s": [
+          {"e": "p", "t": "取得溫濕度" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "新增，終端機執行指令：" },
+                {"e": "code", "t": "nano test.py", "copy": "nano test.py" }
+              ] },
+              {
+                "e":"pre",
+                "class":"lines",
+                "copy":"#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\nimport Adafruit_BMP.BMP085 as BMP085\n\nAddress = 0xA77\n\ndef setup():\n  global Sensor2\n  Sensor2 = BMP085.BMP085(2, Address)\n\ndef main():\n  t = Sensor2.read_temperature()\n  p = Sensor2.read_pressure()\n  a = Sensor2.read_altitude()\n  s = Sensor2.read_sealevel_pressure()\n  print(\"氣溫：%s °C\" % t)\n  print(\"氣壓壓力：%s 帕\" % p)\n  print(\"海拔高度：%s 公尺\" % a)\n  print(\"海平面氣壓：%s 帕\" % s)\n\nif __name__ =='__main__':\n  try:\n    setup()\n    main()\n\n  except KeyboardInterrupt:\n    print('exit')",
+                "s":[
+                  { "e":"div", "t":"#!/usr/bin/env python3", "class": "gray" },
+                  { "e":"div", "t":"# -*- coding: utf-8 -*-", "class": "gray" },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "import", "class": "red" },
+                    { "e":"span", "t": " Adafruit_BMP.BMP085 " },
+                    { "e":"span", "t": "as", "class": "red" },
+                    { "e":"span", "t": " BMP085" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "Address " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0xA77", "class": "purple" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "setup", "class": "green" },
+                    { "e":"span", "t": "():" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "global", "class": "red" },
+                    { "e":"span", "t": " Sensor2" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  Sensor2 " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " BMP085." },
+                    { "e":"span", "t": "BMP085", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "2", "class": "purple" },
+                    { "e":"span", "t": ", Address)" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "main", "class": "green" },
+                    { "e":"span", "t": "():" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  t " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " Sensor2." },
+                    { "e":"span", "t": "read_temperature", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  p " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " Sensor2." },
+                    { "e":"span", "t": "read_pressure", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  a " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " Sensor2." },
+                    { "e":"span", "t": "read_altitude", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  s " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " Sensor2." },
+                    { "e":"span", "t": "read_sealevel_pressure", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "\"氣溫：", "class": "yellow" },
+                    { "e":"span", "t": "%s", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "°C\"", "class": "yellow" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "%", "class": "red" },
+                    { "e":"span", "t": " t)" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "\"氣壓壓力：", "class": "yellow" },
+                    { "e":"span", "t": "%s", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "帕\"", "class": "yellow" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "%", "class": "red" },
+                    { "e":"span", "t": " p)" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "\"海拔高度：", "class": "yellow" },
+                    { "e":"span", "t": "%s", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "公尺\"", "class": "yellow" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "%", "class": "red" },
+                    { "e":"span", "t": " a)" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "\"海平面氣壓：", "class": "yellow" },
+                    { "e":"span", "t": "%s", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "帕\"", "class": "yellow" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "%", "class": "red" },
+                    { "e":"span", "t": " s)" }
+                  ] },
+
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " __name__ " },
+                    { "e":"span", "t": "==", "class": "red" },
+                    { "e":"span", "t": "'__main__'", "class": "yellow" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "try", "class": "red" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "setup", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "main", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "except", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "KeyboardInterrupt", "class": "blue" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "'exit'", "class": "yellow" },
+                    { "e":"span", "t": ")" }
+                  ] }
+                ]
+              },
+
+              { "e": "li", "s": [
+                {"e": "span", "t": "執行，終端機執行指令：" },
+                {"e": "code", "t": "python3 test.py", "copy": "python3 test.py" }
+              ] }
+            ]
+          }
+        ]}
+      ]
+    }
+  ],
+  "references": [
+    { "text": "Raspberry Pi使用BMP180取得大氣壓力及溫度", "href": "https://kingfff.blogspot.com/2018/05/raspberry-pi-3-model-bmp180.html" }
+  ],
+  "tags": []
+}

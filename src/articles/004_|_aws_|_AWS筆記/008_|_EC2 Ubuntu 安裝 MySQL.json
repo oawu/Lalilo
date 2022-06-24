@@ -1,0 +1,66 @@
+{
+  "key": "EC2-Ubuntu-MySQL",
+  "cover": "/img/aws/008.png",
+  "title":"EC2 Ubuntu 安裝 MySQL",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"在 EC2 上安裝 MySQL，輸入指令：" },
+            { "e":"code", "t":"sudo apt -y install mysql-server mysql-client", "copy":"sudo apt -y install mysql-server mysql-client" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"途中會需要你輸入密碼與確認密碼，輸入密碼過程中不會顯示，請不要驚訝，輸入完後按下 " },
+            { "e":"code", "t":"enter" },
+            { "e":"span", "t":" 即可。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"驗證是否安裝成功，輸入指令：" },
+            { "e":"code", "t":"mysql -u root -p", "copy":"mysql -u root -p" },
+            { "e":"span", "t":" 後，接著會需要輸入密碼輸入密碼過程中不會顯示，請不要驚訝，輸入完後按下 " },
+            { "e":"code", "t":"enter" },
+            { "e":"span", "t":" 即可。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"EC2 上的 MySQL 預設是沒有對外的，所以需要修改外部連接權限，修改 MySQL 的 /my.cnf，輸入指令：" },
+            { "e":"code", "t":"sudo nano /etc/mysql/my.cnf", "copy":"sudo nano /etc/mysql/my.cnf" },
+            { "e":"span", "t":"，將其 " },
+            { "e":"code", "t":"bind-address" },
+            { "e":"span", "t":" 改為 " },
+            { "e":"code", "t":"0.0.0.0" },
+            { "e":"span", "t":" (任何地方)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重新啟動 MySQL，輸入指令：" },
+            { "e":"code", "t":"sudo service mysql restart", "copy":"sudo service mysql restart" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html", "href": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html" }
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "MySQL"
+  ]
+}

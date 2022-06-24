@@ -1,0 +1,449 @@
+{
+  "key": "iOS-create-CocoaPods",
+  "cover": "/img/dev/053.png",
+  "title":"自己做自己的 CocoaPods",
+  "subtitle":"寫到一定程度之後，總會有幾個自己愛用語熟悉的 Lib，那就自己做一下屬於自己的 pod 套件吧！",
+  "at":"2019-08-12",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"h2",
+      "t":"新增"
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"以下會用 " },
+        { "e":"code", "t":"OAPodTest" },
+        { "e":"span", "t":" 當作套件名稱範例，各位要做自己的套件請用自己的名稱捏！\n由於 pod 套件可與 " },
+        { "e":"a",    "t":"GitHub", "href":"https://github.com/" },
+        { "e":"span", "t":" 綁定，讓他自動去抓上面的原始碼，所以請先開一個 GitHub repository！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是我自己的 GitHun Repository：" },
+        { "e":"a",    "t":"https://github.com/oawu/OAPodTest", "href":"https://github.com/oawu/OAPodTest" }
+      ]
+    },
+    {
+      "e":"ol",
+      "s":[
+        { "e":"li", "t":"先把 GitHub 上的專案 Clone 下來。" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"進入專案，然後執行指令 " },
+            { "e":"code", "t":"pod lib create OAPodTest" },
+            { "e":"span", "t":"，Pod 會自動去 " },
+            { "e":"code", "t":"https://github.com/CocoaPods/pod-template.git" },
+            { "e":"span", "t":" 複製一份 " },
+            { "e":"code", "t":".podspec" },
+            { "e":"span", "t":" 樣式下來。" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"依據步驟回答即可" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"What platform do you want to use?? [ iOS / macOS ]" },
+            { "e":"br" },
+            { "e":"span", "t":"此 lib 是給哪種系統平台用？" },
+            { "e":"br" },
+            { "e":"span", "t":"➜ iOS" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"What language do you want to use?? [ Swift / ObjC ]" },
+            { "e":"br" },
+            { "e":"span", "t":"此 lib 是主要哪種語言？" },
+            { "e":"br" },
+            { "e":"span", "t":"➜ Swift" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Would you like to include a demo application with your library? [ Yes / No ]" },
+            { "e":"br" },
+            { "e":"span", "t":"此 lib 裡面要不要給予 Demo 範例" },
+            { "e":"br" },
+            { "e":"span", "t":"➜ Yes" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Which testing frameworks will you use? [ Quick / None ]" },
+            { "e":"br" },
+            { "e":"span", "t":"測試框架，不知道用在哪ＸＤ" },
+            { "e":"br" },
+            { "e":"span", "t":"➜ None" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Would you like to do view based testing? [ Yes / No ]" },
+            { "e":"br" },
+            { "e":"span", "t":"不知道ＸＤ" },
+            { "e":"br" },
+            { "e":"span", "t":"➜ No" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"編輯與設定" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"編輯 " },
+            { "e":"code", "t":"OAPodTest.podspec" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"通常需要以下幾個項目：" },
+            {
+              "e":"ul",
+              "s":[
+                { "e":"li", "s":[{ "e":"span", "t":"s.name" }, { "e":"span", "t":" (" }, { "e":"span", "t":"名稱" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.version" }, { "e":"span", "t":" (" }, { "e":"span", "t":"版本" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.summary" }, { "e":"span", "t":" (" }, { "e":"span", "t":"簡述" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.description" }, { "e":"span", "t":" (" }, { "e":"span", "t":"描述" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.homepage" }, { "e":"span", "t":" (" }, { "e":"span", "t":"GitHub 網址" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.license" }, { "e":"span", "t":" (" }, { "e":"span", "t":"授權" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.author" }, { "e":"span", "t":" (" }, { "e":"span", "t":"擁有者" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.source" }, { "e":"span", "t":" (" }, { "e":"span", "t":"原始碼" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.social_media_url" }, { "e":"span", "t":" (" }, { "e":"span", "t":"介紹的網頁" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.ios.deployment_target" }, { "e":"span", "t":" (" }, { "e":"span", "t":"版本限制" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.source_files" }, { "e":"span", "t":" (" }, { "e":"span", "t":"原始碼位置" }, { "e":"span", "t":" )" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"s.frameworks" }, { "e":"span", "t":" (" }, { "e":"span", "t":"使用哪些框架" }, { "e":"span", "t":" )" }] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"blockquote", "t":"通常要該改的有 name、version、summary、description、social_media_url、ios.deployment_target、frameworks" },
+    { "e":"h2", "t":"撰寫範例" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[{ "e":"span", "t":"打開 " }, { "e":"code", "t":"Example/OAPodTest.xcworkspace" }] },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"目錄 " },
+                    { "e":"code", "t":"Example for OAPodTest" },
+                    { "e":"span", "t":" 是提供範例的地方" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"目錄 " },
+                    { "e":"code", "t":"Pods/Development Pods/OAPodTest/" },
+                    { "e":"span", "t":" 下為 lib 的地方，" },
+                    { "e":"code", "t":"ReplaceMe.swift" },
+                    { "e":"span", "t":" 就是要你把 lib 放在這邊的意思，您可以自己更換名稱或新增其他檔案" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"ReplaceMe.swift 內容範例" },
+            {
+              "e":"pre",
+              "class":"lines xcode",
+              "s":[
+                { "e": "div", "s": [
+                  { "e": "span", "t": "public func ", "class": "red1" },
+                  { "e": "span", "t": "testFunc", "class": "blue1" },
+                  { "e": "span", "t": "(" },
+                  { "e": "span", "t": "_ ", "class": "red1" },
+                  { "e": "span", "t": "a: " },
+                  { "e": "span", "t": "Int", "class": "purple2" },
+                  { "e": "span", "t": ") -> " },
+                  { "e": "span", "t": "String ", "class": "purple2" },
+                  { "e": "span", "t": "{" }
+                ]
+              },
+                { "e": "div", "s": [
+                  { "e": "span", "t": "    return ", "class": "red1" },
+                  { "e": "span", "t": "String", "class": "purple2" },
+                  { "e": "span", "t": "." },
+                  { "e": "span", "t": "init", "class": "purple2" },
+                  { "e": "span", "t": "(format: " },
+                  { "e": "span", "t": "\"Int: %d\"", "class": "red2" },
+                  { "e": "span", "t": ", a)" }
+                ]
+              },
+                { "e": "div", "s": [
+                    { "e": "span", "t": " }" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"編輯 " },
+            { "e":"code", "t":"Example for OAPodTest/ViewController.swift" },
+            { "e":"span", "t":" 在上面加入 " },
+            { "e":"code", "t":"import OAPodTest" },
+            { "e":"span", "t":" 即可使用 " },
+            { "e":"code", "t":"testFunc" },
+            { "e":"span", "t":"。" }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"h2",
+      "t":"部署"
+    },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"首次部署記得檢查此 Git 有無設定 github 的 origin，沒有的話可以執行指令 " },
+            { "e":"code", "t":"git remote add origin https://github.com/oawu/OAPodTest.git" },
+            { "e":"span", "t":" 設定。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"設定版號，修改 " },
+            { "e":"code", "t":"OAPodTest.podspec" },
+            { "e":"span", "t":" 內的 " },
+            { "e":"code", "t":"version" },
+            { "e":"span", "t":"，改為 " },
+            { "e":"code", "t":"0.0.1" },
+            { "e":"span", "t":"(此版本號碼您可自己設定)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"先做 git push 以及 tag 的 push" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"p", "t":"全部加入並且丟到 origin，執行指令：" },
+                    {
+                      "e":"pre",
+                      "class":"lines",
+                      "s":[
+                        { "e":"div", "t":"git add -A" },
+                        { "e":"div", "t":"git ci -m 'Fix .podspec'" },
+                        { "e":"div", "t":"git ps master" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"新增一個 Tag 名稱為 " },
+                    { "e":"code", "t":"0.0.1" },
+                    { "e":"span", "t":"，並且將 tag 也丟到 origin，執行指令：" },
+                    { "e":"code", "t":"git tag 0.0.1 && git push --tags" },
+                    { "e":"span", "t":"。" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"更新至 pod" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"檢查 Github 頁面有無 " },
+                    { "e":"code", "t":"0.0.1" },
+                    { "e":"span", "t":" 的 tag" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"丟上去，這邊會有點久，執行指令：" },
+                    { "e":"code", "t":"pod trunk push OAPodTest.podspec" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"如果有警告的情況，要忽略警告可以加上 " },
+                    { "e":"code", "t":"--allow-warnings" },
+                    { "e":"span", "t":" 參數，指令：" },
+                    { "e":"code", "t":"pod trunk push OAPodTest.podspec --allow-warnings" },
+                    { "e":"span", "t":"，通常你如果 " },
+                    { "e":"code", "t":".podspec" },
+                    { "e":"span", "t":" 內容沒修改敘述之類的，他會警告你" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"p", "s":[
+                      { "e":"span", "t":"成功的話 理論上 " },
+                      { "e":"code", "t":"https://cocoapods.org/pods/OAPodTest" },
+                      { "e":"span", "t":" 可以直接有網頁看得到，或者可以用指令 " },
+                      { "e":"code", "t":"pod trunk info OAPodTest" },
+                      { "e":"span", "t":" 檢查是否有存在以及其線上相關版號資訊！" }
+                    ] },
+                    { "e":"img", "alt":"成功資訊", "src":"/img/dev/053/01.png" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"取用" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"測試有無存在，執行指令：" },
+            { "e":"code", "t":"pod trunk info OAPodTest" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"開新的 ios Swift 專案名稱為 " },
+            { "e":"code", "t":"Test" },
+            { "e":"span", "t":"，並且做 " },
+            { "e":"a", "t":"pod init", "href":"/index.html?k=dev&id=iOS-CocoaPods-note" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"編輯 " },
+            { "e":"code", "t":"Podfile" },
+            { "e":"span", "t":"，加入 " },
+            { "e":"code", "t":"pod 'OAPodTest'" },
+            { "e":"span", "t":" 然後儲存" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"執行安裝 pod 執行指令：" },
+              { "e":"code", "t":"pod install" },
+              { "e":"span", "t":"，然後執行 " },
+              { "e":"code", "t":"Test.xcworkspace" }
+            ] },
+
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"可以檢查目錄 " },
+                    { "e":"code", "t":"Pods/Pods/" },
+                    { "e":"span", "t":" 內應該可以看到 " },
+                    { "e":"code", "t":"OAPodTest" },
+                    { "e":"span", "t":" 目錄" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"可以在 " },
+                    { "e":"code", "t":"Test7/Test7/ViewController.swift" },
+                    { "e":"span", "t":" 內寫個測試，檔案開頭加入 " },
+                    { "e":"code", "t":"import OAPodTest" },
+                    { "e":"span", "t":" 就可使用 " },
+                    { "e":"code", "t":"testFunc" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"刪除" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"執行指令：" },
+            { "e":"code", "t":"pod trunk delete OAPodTest 0.0.1" },
+            { "e":"span", "t":"，然後輸入 " },
+            { "e":"code", "t":"yes" },
+            { "e":"span", "t":" 即可" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"刪除完後，可在用 " },
+            { "e":"code", "t":"pod trunk info OAPodTest" },
+            { "e":"span", "t":" 檢查資訊" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "CocoaPods.org", "href": "https://cocoapods.org/" },
+    { "text": "https://medium.com/practical-code-labs/how-to-create-private-cocoapods-in-swift-3cc199976a18", "href": "https://medium.com/practical-code-labs/how-to-create-private-cocoapods-in-swift-3cc199976a18" },
+    { "text": "https://www.jianshu.com/p/4b63dfbd8be7", "href": "https://www.jianshu.com/p/4b63dfbd8be7" }
+  ],
+  "tags":[
+    "iOS",
+    "Xcode",
+    "CocoaPods",
+    "App",
+    "GitHub"
+  ]
+}

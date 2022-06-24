@@ -1,0 +1,46 @@
+{
+  "key": "jQuery-Pokemon-Game",
+  "cover": "/img/dev/006.jpg",
+  "title":"用 jQuery 做一套遊戲",
+  "at":"2010-07-01",
+  "type":"article",
+  "blocks":[
+    { "e":"p", "t":"大學期間學習網頁開發過程中，總是會有一些有趣的靈感，而我總是喜歡使用我所會的語言工具，去將想法實現出來，而使用 jQuery 製作遊戲也是我的一項小小里程碑。" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這作品相信大家會有似曾相似感，靈感來自於 " },
+        { "e":"a", "t":"Nintendo", "href":"http://www.nintendo.tw/" },
+        { "e":"span", "t":" 的一款遊戲，叫做 " },
+        { "e":"a", "t":"Pokémon", "href":"https://en.wikipedia.org/wiki/Pok%C3%A9mon" },
+        { "e":"span", "t":"，當初構想曾有過大至商城化、地圖化劇情，但由於多項因素就沒將它完整的完成。其中個人最滿意的部分是全部網站效果皆由 jQuery 製作，而圖示、視覺，則利用" },
+        { "e":"a", "t":"小畫家", "href":"http://windows.microsoft.com/zh-tw/windows-vista/open-paint" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"PhotoImpact", "href":"https://zh.wikipedia.org/wiki/Ulead_PhotoImpact" },
+        { "e":"span", "t":" 獨立完成。" }
+      ]
+    },
+    { "e":"p", "t":"以下是 Demo 影片，演釋了整個遊戲的流程，歡迎有興趣者點閱。" },
+    {
+      "e":"div",
+      "class": "iframe",
+      "s": [
+        {
+          "e":"iframe",
+          "src":"https://www.youtube.com/embed/9cPiXCAnA6E",
+          "attr":{
+            "allowfullscreen":"",
+            "frameborder":"0"
+          }
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影片", "href": "https://www.youtube.com/embed/9cPiXCAnA6E" }
+  ],
+  "tags":[
+    "jQuery",
+    "Pokémon"
+  ]
+}

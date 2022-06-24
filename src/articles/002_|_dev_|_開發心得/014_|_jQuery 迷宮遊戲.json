@@ -1,0 +1,61 @@
+{
+  "key": "jQuery-Maze-Game",
+  "cover": "/img/dev/014.jpg",
+  "title":"用 jQuery 做迷宮遊戲",
+  "at":"2014-12-03",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"此作品主要架構於 " },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":" 之下實作，它不是一個前端 jQuery extend function，而是 based on jQuery 的前端迷宮遊戲，並且當使用智慧型手機瀏覽時，可支援使用" },
+        { "e":"a", "t":"重力感測器(G-sensor)", "href":"https://zh.wikipedia.org/wiki/%E5%8A%A0%E9%80%9F%E8%A6%8F" },
+        { "e":"span", "t":"，所以可利用搖晃手機達到操作方向的簡單體感遊戲。" }
+      ]
+    },
+    { "e":"img", "alt":"迷宮還有另外一項隱藏視角，就是當 Git 切換到 3D Branch 時，即可檢視 3D 介面的迷宮模式，此項是利用 css 的旋轉(transform、rotateX、rotateY、translateZ)，將原本的每個節點元素各自新增出六個元素充當六個面，再分別調整每個元素內的各個面旋轉、位移角度", "src":"/img/dev/014/01.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"專案內有附一隻" },
+        { "e":"a", "t":"地圖產生器", "href":"https://works.ioa.tw/OA-maze/create.html" },
+        { "e":"span", "t":"，可以提供各位自行編輯迷宮地圖路線，當地圖編輯完後按下 " },
+        {
+          "e":"b",
+          "t":"dump"
+        },
+        { "e":"span", "t":" 後，複製陣列文字，並且貼至 " },
+        { "e":"a", "t":"res/index.js", "href":"https://works.ioa.tw/OA-maze/create.html" },
+        { "e":"span", "t":" 內覆蓋 maze 陣列變數後，即可產生自己的地圖迷宮，由此可以得知整個地圖設計原理，是參考" },
+        { "e":"a", "t":"老鼠走迷宮", "href":"http://openhome.cc/Gossip/AlgorithmGossip/MouseGoMaze.htm" },
+        { "e":"span", "t":"的進階遊戲，在網頁上更可以利用 JavaScript 去監聽鍵盤 " },
+        {
+          "e":"b",
+          "t":"keydown"
+        },
+        { "e":"span", "t":" 的按鍵以實作上、下、左、右的反應。" }
+      ]
+    },
+    { "e":"img", "alt":"二維陣列製作的迷宮，參考老鼠走迷宮，在網頁上更可以利用 JavaScript 去監聽鍵盤 keydown 的按鍵以實作上、下、左、右的反應", "src":"/img/dev/014/02.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"迷宮還有另外一項隱藏視角，就是當 " },
+        { "e":"a", "t":"Git", "href":"https://git-scm.com/" },
+        { "e":"span", "t":" 切換到 " },
+        { "e":"a", "t":"3D", "href":"https://github.com/oawu/OA-maze/tree/3D" },
+        { "e":"span", "t":" Branch 時，即可檢視 3D 介面的迷宮模式，此項是利用 css 的旋轉(transform、rotateX、rotateY、translateZ)，將原本的每個節點元素各自新增出六個元素充當六個面，再分別調整每個元素內的各個面旋轉、位移角度。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "https://works.ioa.tw/OA-maze/index.html" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/OA-maze" }
+  ],
+  "tags":[
+    "jQuery",
+    "遊戲"
+  ]
+}

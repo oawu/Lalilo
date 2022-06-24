@@ -1,0 +1,57 @@
+{
+  "key": "GoogleMaps-Richman-Game",
+  "cover": "/img/dev/022.jpg",
+  "title":"Google Maps 大富翁",
+  "at":"2015-05-04",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個使用 " },
+        { "e":"a", "t":"Google Maps JavaScript API", "href":"https://developers.google.com/maps/documentation/javascript/?hl=zh-tw" },
+        { "e":"span", "t":" 製作的大富翁遊戲！基本上是利用 Google Maps Markers 以及 Polyline 所建置出路線、節點、角色、計分、蓋房... 等設計！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個使用前端 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"Google Maps", "href":"https://www.google.com.tw/maps" },
+        { "e":"span", "t":" 所設計的" },
+        { "e":"a", "t":"大富翁遊戲", "href":"https://zh.wikipedia.org/wiki/%E5%A4%A7%E5%AF%8C%E7%BF%81%E7%B3%BB%E5%88%97" },
+        { "e":"span", "t":"，主要也使用了 " },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":" 以及 " },
+        { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+        { "e":"span", "t":" 等工具實作，利用 " },
+        { "e":"a", "t":"Google Maps Marker", "href":"https://developers.google.com/maps/documentation/javascript/markers" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"Polyline", "href":"https://developers.google.com/maps/documentation/javascript/examples/polyline-simple?hl=zh-tw" },
+        { "e":"span", "t":" 去做設計，繪製出路線、人物。" }
+      ]
+    },
+    { "e":"p", "t":"此版本加入與電腦對戰的設計，遇到的困難是當兩個角色(Marker)落於同一個點時，必須要做位置的調整，房屋座落點的位置計算兩線的外角，之後可能進階改版成線上多人對戰，並且可以使用道具遊戲..等功能。" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"前端版型，主要是用 " },
+        { "e":"a", "t":"Compass", "href":"http://compass-style.org/" },
+        { "e":"span", "t":" 撰寫 SCSS 以協助 " },
+        { "e":"a", "t":"CSS", "href":"https://developer.mozilla.org/zh-TW/docs/Web/CSS" },
+        { "e":"span", "t":" 的切版，JavaScript 的部分則是使用 jQuery 加強跨瀏覽器的語法之援度問題。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "https://works.ioa.tw/OA-richman/index.html" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/OA-richman" },
+    { "text": "PTT Soft_Job", "href": "https://www.ptt.cc/bbs/Soft_Job/M.1431526940.A.7B1.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href": "https://www.facebook.com/groups/f2e.tw/permalink/830618616975505/" }
+  ],
+  "tags":[
+    "Google Maps"
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "key": "Memcached",
+  "cover": "/img/mac/018.png",
+  "title":"macOS 上安裝 Memcached",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝方法有兩種：" },
+    {
+      "e":"ol",
+      "s":[{ "e":"li", "t":"指令安裝(推薦)" }, { "e":"li", "t":"步驟安裝" }]
+    },
+    { "e":"h3", "t":"指令安裝(推薦)" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[{ "e":"span", "t":"指令 " }, { "e":"code", "t":"brew install memcached", "copy":"brew install memcached" }]
+        }
+      ]
+    },
+    { "e":"h3", "t":"步驟安裝(不推薦，因為步驟複雜了點)" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Memcached 相依於 " },
+            { "e":"b", "t":"libevent" },
+            { "e":"span", "t":", 所以在安裝之前要先安裝 " },
+            { "e":"a", "t":"libevent", "href":"http://libevent.org" },
+            { "e":"span", "t":"。" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"p", "t":"安裝 libevent" },
+                    {
+                      "e":"ul",
+                      "s":[
+                        { "e":"li", "s":[{ "e":"span", "t":"選擇暫存資料夾 " }, { "e":"code", "t":"cd /tmp", "copy":"cd /tmp" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"下載檔案 " }, { "e":"code", "t":"wget https://github.com/downloads/libevent/libevent/libevent-2.0.18-stable.tar.gz", "copy":"wget https://github.com/downloads/libevent/libevent/libevent-2.0.18-stable.tar.gz" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"解開壓縮 " }, { "e":"code", "t":"tar zxvf libevent-2.0.18-stable.tar.gz", "copy":"tar zxvf libevent-2.0.18-stable.tar.gz" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"進去資料夾 " }, { "e":"code", "t":"cd libevent-2.0.18-stable", "copy":"cd libevent-2.0.18-stable" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"./configure", "copy":"./configure" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"make", "copy":"make" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"sudo make install", "copy":"sudo make install" }] }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"p", "t":"安裝 Memcached" },
+                    {
+                      "e":"ul",
+                      "s":[
+                        { "e":"li", "s":[{ "e":"span", "t":"選擇暫存資料夾 " }, { "e":"code", "t":"cd /tmp", "copy":"cd /tmp" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"下載檔案 " }, { "e":"code", "t":"wget http://memcached.googlecode.com/files/memcached-1.4.13.tar.gz", "copy":"wget http://memcached.googlecode.com/files/memcached-1.4.13.tar.gz" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"解開壓縮 " }, { "e":"code", "t":"cd memcached-1.4.13", "copy":"cd memcached-1.4.13" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"./configure", "copy":"./configure" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"make", "copy":"make" }] },
+                        { "e":"li", "s":[{ "e":"span", "t":"執行指令 " }, { "e":"code", "t":"sudo make install", "copy":"sudo make install" }] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"h2",
+      "t":"啟動 Memcached"
+    },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"啟動指令 " },
+            { "e":"code", "t":"memcached -p 8000", "copy":"memcached -p 8000" },
+            { "e":"span", "t":"，" },
+            { "e":"code", "t":"-p" },
+            { "e":"span", "t":" 代表 " },
+            { "e":"b", "t":"port" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"背景執行指令 " },
+            { "e":"code", "t":"memcached -d -p 8000", "copy":"memcached -d -p 8000" },
+            { "e":"span", "t":"，加個 " },
+            { "e":"code", "t":"-d" },
+            { "e":"span", "t":" 即可背景。" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"WEB 介面" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"a", "t":"memcache.php_ByHarunYayli", "href":"https://github.com/oawu/memcache.php_ByHarunYayli" }, { "e":"span", "t":" (推薦) " }] },
+        { "e":"li", "s":[{ "e":"a", "t":"phpMemAdmin", "href":"https://github.com/clickalicious/phpmemadmin" }] },
+        { "e":"li", "s":[{ "e":"a", "t":"memcached", "href":"https://github.com/memcached/memcached" }] },
+        { "e":"li", "s":[{ "e":"a", "t":"phpMemcacheAdmin", "href":"https://github.com/hgschmie/phpmemcacheadmin" }] }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Install Memcached on Mac OS X", "href": "https://www.hacksparrow.com/install-memcached-on-mac-os-x.html" }
+  ],
+  "tags":[
+    "Memcached",
+    "後端"
+  ]
+}

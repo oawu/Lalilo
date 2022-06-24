@@ -1,0 +1,31 @@
+{
+  "key": "Java-Painter",
+  "cover": "/img/dev/001.jpg",
+  "title":"用 Java 實作小畫家",
+  "at":"2008-05-01",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是大學一年級的下學期高等程式設計的學期作業，因為實作讓我對物件導向語言的 " },
+        { "e":"b", "t":"封裝" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"繼承" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"多型" },
+        { "e":"span", "t":"..等特性更加熟悉！有別於上學期的 C，Java 可以利用 " },
+        { "e":"a", "t":"GUI 介面", "href":"https://zh.wikipedia.org/wiki/Swing_(Java)" },
+        { "e":"span", "t":"實作出我理想中的作品，並且可以以封裝成 .jar 的方式與朋友分享。" }
+      ]
+    },
+    { "e":"img", "alt":"用 Java 實作小畫家", "src":"/img/dev/001/01.jpg" }
+  ],
+  "references":[
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/freshman-java-painter" }
+  ],
+  "tags":[
+    "Java",
+    "小畫家"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "key": "Chrome",
+  "cover": "/img/mac/002.png",
+  "title":"macOS 上安裝 Chrome 瀏覽器",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"開啟 " }, { "e":"b", "t":"Safari" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"官網下載 － " }, { "e":"a", "t":"https://www.google.com/intl/zh-TW_ALL/chrome/", "href":"https://www.google.com/intl/zh-TW_ALL/chrome/" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"把它移到" }, { "e":"b", "t":"應用程式資料夾" }, { "e":"span", "t":"，並開啟。" }] }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=lYoqoTwNGvQ" }
+  ],
+  "tags":[
+    "Google",
+    "Chrome",
+    "瀏覽器"
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "key": "Create-Elastic-IPs",
+  "cover": "/img/aws/002.png",
+  "title":"AWS Elastic IPs",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"每次重開 EC2 都會變換 Public IP，然後都要重新設定 DNS(Domain Name Server)，還要等他生效，實在有點麻煩，所以我們可以設定 " },
+        { "e":"code", "t":"Elastic IPs" },
+        { "e":"span", "t":"，藉由聲請一個 Elastic IPs，然後關聯指定的 EC2 Instance，如此一來只要控制指向，IP 就不會一直亂變囉。" }
+      ]
+    },
+    
+    { "e":"h2", "t":"新增" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"點選左邊的 " }, { "e":"code", "t":"Elastic IPs" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"點選右上黃色按鈕 " }, { "e":"code", "t":"Allocate new address" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"點選右下藍色按鈕 " }, { "e":"code", "t":"Allocate" }] }
+      ]
+    },
+    
+    { "e":"h2", "t":"使用" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"點選左邊的 " },
+            { "e":"code", "t":"Elastic IPs" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"code", "t":"勾選", "class":"green" },
+            { "e":"span", "t":" 新增的 IP 再點選右上角 " },
+            { "e":"code", "t":"Actions" },
+            { "e":"span", "t":" 按鈕，然後選擇 " },
+            { "e":"code", "t":"Associate Elastic IP address" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後 " },
+            { "e":"code", "t":"Instance" },
+            { "e":"span", "t":" 選擇你新增的那台 EC2" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後 " },
+            { "e":"code", "t":"Private IP" },
+            { "e":"span", "t":" 選擇下拉，會看到該台 EC2 的 private ip" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後點選右下角黃色按鈕 " },
+            { "e":"code", "t":"Associate" },
+            { "e":"span", "t":" 即可" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"經過以上步驟，你這台 EC2 的 IP 就可採用此組 " },
+            { "e":"code", "t":"Elastic IPs" },
+            { "e":"span", "t":" 的 " },
+            { "e":"b", "t":"固定 IP" },
+            { "e":"span", "t":"，如此一來自己的 DNS 就可指向該 IP" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"取代" },
+    { "e":"p", "t":"若舊的 IP 原本有指向另一台 EC2，想指來新的機器也是可以 " },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"點選左邊的 " },
+            { "e":"code", "t":"Elastic IPs" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"code", "t":"勾選", "class":"green" },
+            { "e":"span", "t":" IP 再點選右上角 " },
+            { "e":"code", "t":"Actions" },
+            { "e":"span", "t":" 按鈕，然後選擇 " },
+            { "e":"code", "t":"Associate Elastic IP address" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後 " },
+            { "e":"code", "t":"Instance" },
+            { "e":"span", "t":" 選擇你新增的那台 EC2" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後 " },
+            { "e":"code", "t":"Private IP" },
+            { "e":"span", "t":" 選擇下拉，會看到該台 EC2 的 private ip" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"code", "t":"勾選", "class":"green" },
+            { "e":"span", "t":" " },
+            { "e":"code", "t":"Allow this Elastic IP address to be reassociated" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後點選右下角黃色按鈕 " },
+            { "e":"code", "t":"Associate" },
+            { "e":"span", "t":" 即可" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"經過以上步驟，你這台 EC2 的 IP 就可採用此組 " },
+              { "e":"code", "t":"Elastic IPs" },
+              { "e":"span", "t":" 的 " },
+              { "e":"b", "t":"固定 IP" },
+              { "e":"span", "t":"，如此一來自己的 DNS 就可指向該 IP" }
+            ] },
+            {
+              "e":"blockquote",
+              "s":[
+                { "e":"span", "t":"由於是變更 IP 指向的機器，如果在 " },
+                { "e":"code", "t":"SSH" },
+                { "e":"span", "t":" 連線時發生 " },
+                { "e":"code", "t":"WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!" },
+                { "e":"span", "t":" 錯誤時，請移除 " },
+                { "e":"code", "t":"known_hosts", "copy": "subl ~/.ssh/known_hosts" },
+                { "e":"span", "t":" 內的 IP 後再重新 SSH 連線應該就 OK 啦！" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "Elastic IPs"
+  ]
+}

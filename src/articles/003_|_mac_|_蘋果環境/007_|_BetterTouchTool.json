@@ -1,0 +1,281 @@
+{
+  "key": "BetterTouchTool",
+  "cover": "/img/mac/007.png",
+  "title":"macOS 必裝的輔助工具 BetterTouchTool",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"官網下載 － " }, { "e":"a", "t":"https://folivora.ai/", "href":"https://folivora.ai/" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"備用載點 － " }, { "e":"a", "t":"BetterTouchTool.zip", "href":"https://cdn.ioa.tw/MacEnvInit/BetterTouchTool.zip" }] },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"把它移到" },
+            { "e":"b", "t":"應用程式資料夾" },
+            { "e":"span", "t":"，並開啟" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {"e":"p", "s":[
+              {"e":"span", "t":"如有安全性提醒，就選擇 " },
+              {"e":"code", "t":"打開" }
+            ]},
+            { "e":"ul", "s":[
+
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"選擇 " },
+                  { "e":"code", "t":"Continue to use BetterTouchTool" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"選擇 " },
+                  { "e":"code", "t":"Allow" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"如果跳出提醒可以更新，先選 " },
+                  { "e":"code", "t":"Check For Updates" },
+                  { "e":"span", "t":" 然後跳出更新提示時，在選擇 Keep" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"選擇 " },
+                  { "e":"code", "t":"Open System Preferences => Security & Privacy" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"先解開左下角 " },
+                  { "e":"code", "t":"鎖頭" },
+                  { "e":"span", "t":" 後，再選 " },
+                  { "e":"span", "t":" " },
+                  { "e":"code", "t":"勾選", "class": "green" },
+                  { "e":"span", "t":" BetterTouchTool.app" },
+                  { "e":"blockquote", "class": "info", "s": [
+                    { "e":"span", "t":"應該要跳出 " },
+                    { "e":"code", "t":"安全性與隱私" },
+                    { "e":"span", "t":"，若無跳出，請選點選螢幕左上角的 " },
+                    { "e":"code", "t":"" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"系統偏好設定" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"安全性與隱私權" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"隱私權" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"輔助使用" }
+                  ] }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  {"e":"span", "t": "接著點選 " },
+                  {"e":"code", "t": "start using BTT & open preferences" }
+                ]
+              }
+            ]}
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"授權" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"打開 Gmail，搜尋 " },
+            { "e":"code", "t":"bettertouchtool license mail", "copy":"bettertouchtool license mail" },
+            { "e":"span", "t":"，點選 " },
+            { "e":"code", "t":"http://lostlicense.boastr.net" },
+            { "e":"span", "t":" 鏈結，輸入信箱，下載 License" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"點選右上角的 " },
+            { "e":"code", "t":"About" },
+            { "e":"span", "t":" > " },
+            { "e":"code", "t":"Buy/Register BetterTouchTool now" },
+            { "e":"span", "t":" > " },
+            { "e":"code", "t":"Load Existing License" },
+            { "e":"span", "t":" > " },
+            { "e":"code", "t":"Import License file" },
+            { "e":"span", "t":"，選擇剛剛下載的 License 檔案" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"驗證完後，因為 License 只能用兩年，所以可以選擇最後版本就好，所以可以選 " },
+            { "e":"code", "t":"Downgrade to last covered version" },
+            { "e":"span", "t":"，安裝好之後再選擇 " },
+            { "e":"code", "t":"Cancel(continue current version)" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"常用設定" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "s":[
+                { "e":"span", "t":"選擇 " },
+                { "e":"code", "t":"Simple" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Basic Settings" },
+                { "e":"span", "t":" > 勾選 " },
+                { "e":"code", "t":"Launch BetterTouchTool on startup" }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "s":[
+                { "e":"span", "t":"選擇 " },
+                { "e":"code", "t":"Simple" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Gestures" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Keyboard" }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "s":[
+                { "e":"span", "t":"點選 " },
+                { "e":"code", "t":"+ Add New Shortcut or Key Sequence" }
+              ]
+            },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"快捷鍵 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"option" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"↑" },
+                    { "e":"span", "t":"，設定為 " },
+                    { "e":"code", "t":"Maximize Window to Next Monitor" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"快捷鍵 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"option" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"↓" },
+                    { "e":"span", "t":"，設定為 " },
+                    { "e":"code", "t":"Maximize Window to Next Monitor" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "s":[
+                { "e":"span", "t":"選擇 " },
+                { "e":"code", "t":"Simple" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Gestures" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Normal Mice" }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "s":[
+                { "e":"span", "t":"點選 " },
+                { "e":"code", "t":"+ Add New Button" }
+              ]
+            },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"感應區內，按下滑鼠 " },
+                    { "e":"code", "t":"滾輪往左" },
+                    { "e":"span", "t":"，然後下方勾選 " },
+                    { "e":"code", "t":"cmd" },
+                    { "e":"span", "t":"，最後 Predefined Action 選擇 " },
+                    { "e":"code", "t":"3F Swipe Left(Page Back)" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"感應區內，按下滑鼠 " },
+                    { "e":"code", "t":"滾輪往右" },
+                    { "e":"span", "t":"，然後下方勾選 " },
+                    { "e":"code", "t":"cmd" },
+                    { "e":"span", "t":"，最後 Predefined Action 選擇 " },
+                    { "e":"code", "t":"3F Swipe Right(Page Forward)" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=4AzkljIcF9E" }
+  ],
+  "tags":[
+    "macOS",
+    "BetterTouchTool",
+    "系統輔助"
+  ]
+}

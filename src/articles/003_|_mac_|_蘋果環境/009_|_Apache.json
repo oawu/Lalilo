@@ -1,0 +1,509 @@
+{
+  "key": "Apache",
+  "cover": "/img/mac/009.png",
+  "title":"macOS 上安裝 Apache",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+
+    {
+      "e":"blockquote",
+      "class": "warning",
+      "t":"安裝時需注意自己電腦內的位置，以下為 OA 本人的設定值，請注意自己的路徑是否正確。"
+    },
+
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"更新 xcode command line，終端機執行指令 " },
+            { "e":"code", "t":"xcode-select --install", "copy":"xcode-select --install" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"更新 Brew，終端機執行指令 " },
+            { "e":"code", "t":"brew update", "copy":"brew update" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"安裝 openssl，終端機執行指令 " },
+            { "e":"code", "t":"brew install openssl", "copy":"brew install openssl" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"移除停止使用 mac 原生的 Apache" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"先暫停 Apache，終端機執行指令 " },
+                    { "e":"code", "t":"sudo apachectl stop", "copy":"sudo apachectl stop" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"關閉自動開啟，終端機執行指令 " },
+                    { "e":"code", "t":"sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null", "copy":"sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"安裝新的 Apache" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"用 Brew 安裝，終端機執行指令 " },
+                    { "e":"code", "t":"brew install httpd", "copy":"brew install httpd" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"啟動 Apache，終端機執行指令 " },
+                    { "e":"code", "t":"sudo brew services start httpd", "copy":"sudo brew services start httpd" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"設定，終端機執行指令 " },
+                    { "e":"code", "t":"ps -aef | grep httpd", "copy":"ps -aef | grep httpd" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"重啟 Apache，終端機執行指令 " },
+                    { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" },
+                    { "e":"blockquote", "class": "info", "t": "重啟 Apache 如有發生錯誤是正常的現象，後續步驟會修正！" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"設定" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"用 Sublime Text 編輯 " },
+                    { "e":"code", "t":"httpd.conf" },
+                    { "e":"span", "t":"，終端機執行指令 " },
+                    { "e":"code", "t":"subl /usr/local/etc/httpd/httpd.conf", "copy":"subl /usr/local/etc/httpd/httpd.conf" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"修改 " },
+                    { "e":"code", "t":"Listen 8080" },
+                    { "e":"span", "t":" 改為 " },
+                    { "e":"code", "t":"Listen 80", "copy":"Listen" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"修改 " },
+                    { "e":"code", "t":"DocumentRoot \"/usr/local/var/www\"", "copy":"DocumentRoot \"/usr/local/var/www\"" },
+                    { "e":"span", "t":"，改成指定位置 " },
+                    { "e":"code", "t":"DocumentRoot \"/Users/oa/www\"", "copy":"DocumentRoot \"/Users/oa/www\"" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"修改 " },
+                    { "e":"code", "t":"<Directory \"/usr/local/var/www\">", "copy":"<Directory \"/usr/local/var/www\">" },
+                    { "e":"span", "t":"，改成指定位置 " },
+                    { "e":"code", "t":"<Directory \"/Users/oa/www\">", "copy":"<Directory \"/Users/oa/www\">" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"拿掉註解 " },
+                    { "e":"code", "t":"LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so", "copy":"mod_rewrite.so" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"拿掉註解，並改成 " },
+                    { "e":"code", "t":"ServerName localhost", "copy":"ServerName" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"拿掉註解 " },
+                    { "e":"code", "t":"Include /usr/local/etc/httpd/extra/httpd-vhosts.conf", "copy":"httpd-vhosts" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"為了之後方便常常設定，不用每次輸入密碼，終端機執行指令 " },
+                    { "e":"code", "t":"sudo chmod 777 /usr/local/etc/httpd/httpd.conf", "copy":"sudo chmod 777 /usr/local/etc/httpd/httpd.conf" },
+                    { "e":"span", "t":" 將權限打開" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"為了之後方便常常設定，所以建立一個鏈結，終端機執行指令 " },
+                    { "e":"code", "t":"ln -s /usr/local/etc/httpd/httpd.conf ~/Documents/httpd.conf", "copy":"ln -s /usr/local/etc/httpd/httpd.conf ~/Documents/httpd.conf" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"設定 Host" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"位置在 " },
+            { "e":"code", "t":"/etc/hosts", "copy":"/etc/hosts" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"為了之後修改時不用每次輸入密碼，所以直接將權限開到最大，終端機執行指令 " },
+            { "e":"code", "t":"sudo chmod 777 /etc/hosts", "copy":"sudo chmod 777 /etc/hosts" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"接著建立一個鏈結方便快速找到，終端機執行指令 " },
+            { "e":"code", "t":"ln -s /etc/hosts ~/Documents/hosts", "copy":"ln -s /etc/hosts ~/Documents/hosts" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"用 Sublime Text 編輯 " },
+              { "e":"code", "t":"hosts" },
+              { "e":"span", "t":"，終端機執行指令 " },
+              { "e":"code", "t":"subl /etc/hosts", "copy":"subl /etc/hosts" },
+              { "e":"span", "t":"，將內容調整一下，常用內容如下：" }
+            ] },
+            {
+              "e":"pre",
+              "copy": "127.0.0.1 dev.case.ioa.tw",
+              "t":"127.0.0.1    dev.case.ioa.tw"
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"設定 Virtual Host" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"位置在 " },
+            { "e":"code", "t":"/usr/local/etc/httpd/extra/httpd-vhosts.conf", "copy":"/usr/local/etc/httpd/extra/httpd-vhosts.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"為了之後修改時不用每次輸入密碼，所以直接將權限開到最大，終端機執行指令 " },
+            { "e":"code", "t":"sudo chmod 777 /usr/local/etc/httpd/extra/httpd-vhosts.conf", "copy":"sudo chmod 777 /usr/local/etc/httpd/extra/httpd-vhosts.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"接著建立一個鏈結方便快速找到，終端機執行指令" },
+            { "e":"code", "t":"ln -s /usr/local/etc/httpd/extra/httpd-vhosts.conf ~/Documents/httpd-vhosts.conf", "copy":"ln -s /usr/local/etc/httpd/extra/httpd-vhosts.conf ~/Documents/httpd-vhosts.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"用 Sublime Text 編輯 " },
+              { "e":"code", "t":"httpd-vhosts.conf" },
+              { "e":"span", "t":"，終端機執行指令 " },
+              { "e":"code", "t":"subl /usr/local/etc/httpd/extra/httpd-vhosts.conf", "copy":"subl /usr/local/etc/httpd/extra/httpd-vhosts.conf" },
+              { "e":"span", "t":"，將內容調整一下，常用內容如下：" }
+            ] },
+            {
+              "e":"pre",
+              "class":"lines",
+              "copy": "# root\n<VirtualHost *:80>\n  ServerAdmin oawu.tw@gmail.com\n  DocumentRoot \"/Users/oa/www\"\n  <Directory \"/Users/oa/www\">\n      Options FollowSymLinks MultiViews\n      AllowOverride All\n      Order allow,deny\n      Allow from all\n  </Directory>\n</VirtualHost>\n# Case\n<VirtualHost *:80>\n  ServerName dev.case.ioa.tw\n  ServerAlias dev.case.ioa.tw\n  DocumentRoot \"/Users/oa/www/case\"\n  <Directory \"/Users/oa/www/case\">\n      Options FollowSymLinks MultiViews\n      AllowOverride All\n      Order allow,deny\n      Allow from all\n  </Directory>\n</VirtualHost>",
+              "s":[
+                { "e":"div", "t":"# root" },
+                { "e":"div", "t":"<VirtualHost *:80>" },
+                { "e":"div", "t":"  ServerAdmin oawu.tw@gmail.com" },
+                { "e":"div", "t":"  DocumentRoot \"/Users/oa/www\"" },
+                { "e":"div", "t":" " },
+                { "e":"div", "t":"  <Directory \"/Users/oa/www\">" },
+                { "e":"div", "t":"      Options FollowSymLinks MultiViews" },
+                { "e":"div", "t":"      AllowOverride All" },
+                { "e":"div", "t":"      Order allow,deny" },
+                { "e":"div", "t":"      Allow from all" },
+                { "e":"div", "t":"  </Directory>" },
+                { "e":"div", "t":"</VirtualHost>" },
+                { "e":"div", "t":" " },
+                { "e":"div", "t":"# Case" },
+                { "e":"div", "t":"<VirtualHost *:80>" },
+                { "e":"div", "t":"  ServerName dev.case.ioa.tw" },
+                { "e":"div", "t":"  ServerAlias dev.case.ioa.tw" },
+                { "e":"div", "t":" " },
+                { "e":"div", "t":"  DocumentRoot \"/Users/oa/www/case\"" },
+                { "e":"div", "t":"  <Directory \"/Users/oa/www/case\">" },
+                { "e":"div", "t":"      Options FollowSymLinks MultiViews" },
+                { "e":"div", "t":"      AllowOverride All" },
+                { "e":"div", "t":"      Order allow,deny" },
+                { "e":"div", "t":"      Allow from all" },
+                { "e":"div", "t":"  </Directory>" },
+                { "e":"div", "t":"</VirtualHost>" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    { "e":"h2", "t":"指令" },
+    { "e":"p", "s":[
+      { "e":"span", "t":"完成上述步驟後，記得終端機執行指令 " },
+      { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" },
+      { "e":"span", "t":"，以下是此次安裝的 Apache 相關指令：" }
+    ] },
+
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"開啟 " }, { "e":"code", "t":"sudo apachectl start", "copy":"sudo apachectl start" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"關閉 " }, { "e":"code", "t":"sudo apachectl stop", "copy":"sudo apachectl stop" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"重啟 " }, { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" }] }
+      ]
+    },
+
+
+
+
+
+
+
+
+    { "e":"h2", "t":"設定 https 的 SSL 功能" },
+    { "e":"blockquote", "class": "info", "t": "此功能一般來說不太會用到，所以不一定要安裝，不需要此功能的話就直接跳過吧！" },
+
+    { "e":"p", "t":"本機開發時若需 https 功能，可藉由 openssl 輔助，方法如下：" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"編輯 Conf，終端機執行指令 " },
+            { "e":"code", "t":"subl /usr/local/etc/httpd/httpd.conf", "copy":"subl /usr/local/etc/httpd/httpd.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s": [
+            {"e": "p", "t": "將以下三個註解拿掉" },
+            {
+              "e":"pre",
+              "copy":"mod_socache_shmcb.so",
+              "t": "LoadModule socache_shmcb_module lib/httpd/modules/mod_socache_shmcb.so"
+            },
+            {
+              "e":"pre",
+              "copy":"mod_ssl.so",
+              "t":"LoadModule ssl_module lib/httpd/modules/mod_ssl.so"
+            },
+            {
+              "e":"pre",
+              "copy":"httpd-ssl.conf",
+              "t":"Include /usr/local/etc/httpd/extra/httpd-ssl.conf"
+            }
+          ]
+        },
+
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"編輯 SSL Conf，終端機執行指令 " },
+            { "e":"code", "t":"subl /usr/local/etc/httpd/extra/httpd-ssl.conf", "copy":"subl /usr/local/etc/httpd/extra/httpd-ssl.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"將 " },
+            { "e":"code", "t":"Listen 8443", "copy":"Listen" },
+            { "e":"span", "t":" 改為 " },
+            { "e":"code", "t":"Listen 443", "copy":"Listen 443" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"將 " },
+            { "e":"code", "t":"<VirtualHost _default_:8443>", "copy":"<VirtualHost _default_" },
+            { "e":"span", "t":" 改為 " },
+            { "e":"code", "t":"<VirtualHost _default_:443>", "copy":"<VirtualHost _default_:443>" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"將 " },
+            { "e":"code", "t":"DocumentRoot", "copy":"DocumentRoot" },
+            { "e":"span", "t":" 與 " },
+            { "e":"code", "t":"ServerName", "copy":"ServerName" },
+            { "e":"span", "t":" 註解" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"編輯 vhost，指令輸入 " },
+              { "e":"code", "t":"subl /usr/local/etc/httpd/extra/httpd-vhosts.conf", "copy":"subl /usr/local/etc/httpd/extra/httpd-vhosts.conf" }
+            ] },
+            {
+              "e":"pre",
+              "class":"lines",
+              "copy": "<VirtualHost *:443>\n    DocumentRoot \"/Users/oa/www\"\n    ServerName localhost\n    SSLEngine on\n    SSLCertificateFile \"/usr/local/etc/httpd/server.crt\"\n    SSLCertificateKeyFile \"/usr/local/etc/httpd/server.key\"\n</VirtualHost>",
+              "s":[
+                { "e":"div", "t":"<VirtualHost *:443>" },
+                { "e":"div", "t":"    DocumentRoot \"/Users/oa/www\"" },
+                { "e":"div", "t":"    ServerName localhost" },
+                { "e":"div", "t":"    SSLEngine on" },
+                { "e":"div", "t":"    SSLCertificateFile \"/usr/local/etc/httpd/server.crt\"" },
+                { "e":"div", "t":"    SSLCertificateKeyFile \"/usr/local/etc/httpd/server.key\"" },
+                { "e":"div", "t":"</VirtualHost>" }
+              ]
+            }
+          ]
+        },
+        { "e":"li", "t":"第一次設定，需要產生 key，所以要執行 openssl" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"終端機進入目錄，指令 " },
+            { "e":"code", "t":"cd /usr/local/etc/httpd", "copy":"cd /usr/local/etc/httpd" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"產生 ssl key，指令 " },
+            { "e":"code", "t":"openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt", "copy":"openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt" },
+            { "e":"span", "t":"，中間要你輸入資料，因為是本機開發，所以簡單輸入即可" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"執行 " },
+            { "e":"code", "t":"sudo apachectl configtest", "copy":"sudo apachectl configtest" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重新啟動 " },
+            { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"重點整理" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Conf 位置 " },
+            { "e":"code", "t":"/usr/local/etc/httpd/httpd.conf", "copy":"/usr/local/etc/httpd/httpd.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Vhosts 位置 " },
+            { "e":"code", "t":"/usr/local/etc/httpd/extra/httpd-vhosts.conf", "copy":"/usr/local/etc/httpd/extra/httpd-vhosts.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"開啟 Apache，終端機執行指令 " },
+            { "e":"code", "t":"sudo apachectl start", "copy":"sudo apachectl start" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"關閉 Apache，終端機執行指令 " },
+            { "e":"code", "t":"sudo apachectl stop", "copy":"sudo apachectl stop" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重啟 Apache，終端機執行指令 " },
+            { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=V32zn8xtGnM" },
+    { "text": "macOS 11.0 Big Sur Apache Setup: Multiple PHP Versions | Grav CMS", "href": "https://getgrav.org/blog/macos-bigsur-apache-multiple-php-versions" },
+    { "text": "https://getgrav.org/blog/macos-mojave-apache-ssl", "href": "https://getgrav.org/blog/macos-mojave-apache-ssl" }
+  ],
+  "tags":[
+    "Apache",
+    "後端",
+    "http"
+  ]
+}

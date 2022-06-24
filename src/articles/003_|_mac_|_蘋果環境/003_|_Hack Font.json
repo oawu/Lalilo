@@ -1,0 +1,39 @@
+{
+  "key": "HackFont",
+  "cover": "/img/mac/003.png",
+  "title":"程式碼等寬字型字體 Hack Font",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"官網下載 － " },
+            { "e":"a", "t":"https://sourcefoundry.org/hack/", "href":"https://sourcefoundry.org/hack/" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"備用載點 － " },
+            { "e":"a", "t":"Hack-v3.003-ttf.zip", "href":"https://cdn.ioa.tw/MacEnvInit/Hack-v3.003-ttf.zip" }
+          ]
+        },
+        {
+          "e":"li",
+          "t":"解開壓縮，會有四個字型檔案，依序點開，就有看到安裝鈕"
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=VSSxnZdog7U" }
+  ],
+  "tags":[
+    "字型"
+  ]
+}

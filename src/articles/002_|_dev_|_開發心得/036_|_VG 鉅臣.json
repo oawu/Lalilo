@@ -1,0 +1,41 @@
+{
+  "key": "case-VG",
+  "cover": "/img/dev/036.jpg",
+  "title":"VG 鉅臣",
+  "at":"2016-03-18",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個前端技術的外包案實作，其網站名稱為 " },
+        { "e":"a", "t":"VG 鉅臣", "href":"http://www.vgmold.com.tw/" },
+        { "e":"span", "t":"，此專案主要負責前端刻板部份，版型設計則由" },
+        { "e":"a", "t":"宙思設計", "href":"https://www.zeusdesign.com.tw/" },
+        { "e":"span", "t":"所製作。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"此專案為純前端的實作，有鑒於網站架構的特性，於是將網頁命名以中文顯示，一方面增強 " },
+        { "e":"a", "t":"SEO", "href":"https://zh.wikipedia.org/zh-tw/%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%9C%80%E4%BD%B3%E5%8C%96" },
+        { "e":"span", "t":"，另一方面方便素材人員配合更換素材(命名規則)。而網站前台可以發現都有固定幾項規則，所以就使用 " },
+        { "e":"a", "t":"jQuery", "href":"https://zh.wikipedia.org/wiki/JQuery" },
+        { "e":"span", "t":" 來 Render 共同相似的畫面，如此一來當版型有所更換時就不需要每隻 " },
+        { "e":"a", "t":"HTML", "href":"https://zh.wikipedia.org/zh-tw/HTML" },
+        { "e":"span", "t":" 檔案的做修改，因為每隻 HTML 皆有使用該 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":"。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"http://www.vgmold.com.tw/" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/vg" }
+  ],
+  "tags":[
+    "接案",
+    "JavaScript"
+  ]
+}

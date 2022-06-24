@@ -1,0 +1,64 @@
+{
+  "key": "Flickr-Search-API",
+  "cover": "/img/dev/019.jpg",
+  "title":"實作 Flickr API 搜尋器",
+  "at":"2015-01-28",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "t":"這是一個簡單快速搜尋 Flickr 的前端工具，借由輸入想搜尋的圖片關鍵字而撈取出 Flickr 上面的熱門照片！"
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"專案內利用了 " },
+        { "e":"a", "t":"Flickr API", "href":"https://www.flickr.com/services/api/" },
+        { "e":"span", "t":" 製作，作品中 JavaScrip 經由 Flickr Tag API 撈出符合關鍵字的照片集，然後再利用瀑布流套件 " },
+        { "e":"a", "t":"Masonry", "href":"http://masonry.desandro.com/" },
+        { "e":"span", "t":" 完成瀑布流效果的搜尋結果。" }
+      ]
+    },
+    { "e":"p", "t":"使用方式如下：" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"於網頁上方的 " },
+            { "e":"b", "t":"搜尋列" },
+            { "e":"span", "t":" 輸入欲搜尋的圖片 " },
+            { "e":"b", "t":"關鍵字" },
+            { "e":"span", "t":"。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"多組關鍵字可用 " },
+            { "e":"b", "t":"空白鍵" },
+            { "e":"span", "t":"、" },
+            { "e":"b", "t":"逗號" },
+            { "e":"span", "t":"(,) 隔開，ex: ptt,正妹。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"關鍵字輸入完畢後，按下 Enter鍵 或按下 " },
+            { "e":"b", "t":"搜尋按鈕" },
+            { "e":"span", "t":" 即可。" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "https://works.ioa.tw/flickr/index.html" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/flickr" }
+  ],
+  "tags":[
+    "Flickr"
+  ]
+}

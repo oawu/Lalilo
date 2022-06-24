@@ -1,0 +1,338 @@
+{
+  "key": "macOS-High-Sierra-install-PHP-Apache-note",
+  "cover": "/img/dev/050.png",
+  "title":"2017 macOS High Sierra 安裝 PHP Apache 筆記",
+  "subtitle":"被迫更新至最新 macOS 版本，安裝後端環境筆記",
+  "at":"2017-11-27",
+  "type":"article",
+  "blocks":[
+    { "e":"p", "t":"最近因為需要開發 iOS App 所以逼得我自己需要把 Mac OS 更新到最新版本，但更新完後發現內建在 OSX 中的 PHP 版本居然變成了 7，變成 PHP 7 是不打緊，只是我需要的 PHP-imagick 套件一直安裝不起來，覺得氣餒，所以為了解決這問題下了一點點功課。" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"基本上在網路上找相關的解法都是用 " },
+        {
+          "e":"a",
+          "t":"Homebrew",
+          "href":"https://brew.sh/index_zh-tw.html"
+        },
+        { "e":"span", "t":" 來解決這項問題，找了大半天終於讓我找到一篇完整的介紹，以下就用" },
+        {
+          "e":"a",
+          "t":"此篇",
+          "href":"https://getgrav.org/blog/macos-sierra-apache-multiple-php-versions"
+        },
+        { "e":"span", "t":"來說明利用 Homebrew 來針對 PHP 版本控制的方法吧！" }
+      ]
+    },
+    { "e":"h2", "t":"環境設定" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"更新 xcode command line，終端機下 " },
+        { "e":"code", "t":"xcode-select --install", "copy": "xcode-select --install" }
+      ]
+    },
+    { "e":"h2", "t":"安裝 Homebrew" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"安裝 Homebrew " },
+            { "e":"code", "t":"ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"", "copy":"ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"顯示版本 " },
+            { "e":"code", "t":"brew --version", "copy":"brew --version" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"檢查 " },
+            { "e":"code", "t":"Brew brew doctor", "copy":"Brew brew doctor" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"執行設定 " },
+            { "e":"code", "t":"brew tap homebrew/php", "copy":"brew tap homebrew/php" },
+            { "e":"span", "t":"，Tap 的用意是之後就不用再打 " },
+            { "e":"code", "t":"homebrew/php", "copy":"homebrew/php" },
+            { "e":"span", "t":"，例如 " },
+            { "e":"code", "t":"brew install homebrew/php/php71 --with-apache" },
+            { "e":"span", "t":"，就可以直接 " },
+            { "e":"code", "t":"brew install php71 --with-apache", "copy":"brew install php71 --with-apache" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"更新 " },
+            { "e":"code", "t":"brew brew update", "copy":"brew brew update" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"移除停止使用 mac 原生的 Apache" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"先暫停 Apache " },
+        { "e":"code", "t":"sudo apachectl stop", "copy":"sudo apachectl stop" },
+        { "e":"span", "t":" 與 " },
+        { "e":"code", "t":"sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist > /dev/null", "copy":"sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist > /dev/null" }
+      ]
+    },
+    { "e":"h2", "t":"安裝新的 Apache" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"用 Brew 安裝 " },
+            { "e":"code", "t":"brew install httpd", "copy":"brew install httpd" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"啟動 " },
+            { "e":"code", "t":"sudo brew services start httpd", "copy":"sudo brew services start httpd" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"設定 " },
+            { "e":"code", "t":"ps -aef | grep httpd", "copy":"ps -aef | grep httpd" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重開 " },
+            { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"新 Apache 指令" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"開啟 " }, { "e":"code", "t":"sudo apachectl start", "copy":"sudo apachectl start" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"關閉 " }, { "e":"code", "t":"sudo apachectl stop", "copy":"sudo apachectl stop" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"重開 " }, { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" }] }
+      ]
+    },
+    { "e":"h2", "t":"新 Apache 相關設定" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"編輯 " },
+            { "e":"code", "t":"/usr/local/etc/httpd/httpd.conf", "copy":"/usr/local/etc/httpd/httpd.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"修改一下項目" },
+            {
+              "e":"ul",
+              "s":[
+                { "e":"li", "s":[{ "e": "code", "t": "Listen 80", "copy": "Listen" }] },
+                { "e":"li", "s":[{ "e": "code", "t": "DocumentRoot \"/usr/local/var/www\"", "copy": "DocumentRoot" }] },
+                { "e":"li", "s":[{ "e": "code", "t": "LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so", "copy": "rewrite_module" }] },
+                { "e":"li", "s":[{ "e": "code", "t": "ServerName localhost", "copy": "ServerName" }] }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重開 Apache " },
+            { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"安裝各版本的 PHP" },
+    { "e":"p", "t":"重新安裝記得 unlink 然後是下 reinstall 安裝 php，安裝會比較久別擔心。" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"安裝 5.6 " }, { "e":"code", "t":"brew install php56 --with-httpd", "copy":"brew install php56 --with-httpd" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"先移除 5.6 設定 " }, { "e":"code", "t":"brew unlink php56", "copy":"brew unlink php56" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"安裝 7.0 " }, { "e":"code", "t":"brew install php70 --with-httpd", "copy":"brew install php70 --with-httpd" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"先移除 7.0 設定 " }, { "e":"code", "copy":"brew unlink php70", "t":"brew unlink php70" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"安裝 7.1 " }, { "e":"code", "t":"brew install php71 --with-httpd", "copy":"brew install php71 --with-httpd" }] }
+      ]
+    },
+    { "e":"p", "t":"可以順便安裝相關套件如 mcrypt、imagick、redis，各版本指令如下：" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"5.6 版本 " }, { "e":"code", "t":"brew install php56-mcrypt php56-imagick php56-redis", "copy":"brew install php56-mcrypt php56-imagick php56-redis" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"7.0 版本 " }, { "e":"code", "t":"brew install php70-mcrypt php70-imagick php70-redis", "copy":"brew install php70-mcrypt php70-imagick php70-redis" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"7.1 版本 " }, { "e":"code", "t":"brew install php71-mcrypt php71-imagick php71-redis", "copy":"brew install php71-mcrypt php71-imagick php71-redis" }] }
+      ]
+    },
+    { "e":"p", "t":"各版本的 php.ini 分別在：" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"5.6 版本 " }, { "e":"code", "t":"/usr/local/etc/php/5.6/php.ini", "copy":"/usr/local/etc/php/5.6/php.ini" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"7.0 版本 " }, { "e":"code", "t":"/usr/local/etc/php/7.0/php.ini", "copy":"/usr/local/etc/php/7.0/php.ini" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"7.1 版本 " }, { "e":"code", "t":"/usr/local/etc/php/7.1/php.ini", "copy":"/usr/local/etc/php/7.1/php.ini" }] }
+      ]
+    },
+    { "e":"h2", "t":"更改 CLI 的 php 版本，以下以更改 5.6 為例" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"因最後一個 install 的是 7.1 所以記得移除 " },
+            { "e":"code", "t":"brew unlink php71", "copy":"brew unlink php71" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"改使用 5.6 " },
+              { "e":"code", "t":"brew link php56", "copy":"brew link php56" }
+            ] },
+            {
+              "e":"blockquote",
+              "class": "warning",
+              "t":"注意！這裡只有改到 cli 部分，Apache 還沒改掉所以 phpinfo 出來應該還是 7.1"
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"更改 Apache 的 php 版本" },
+    { "e":"p", "t":"以下以更改 5.6 為例" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"打開編輯 " },
+        { "e":"code", "t":"/usr/local/etc/httpd/httpd.conf", "copy": "/usr/local/etc/httpd/httpd.conf" },
+        { "e":"span", "t":" 會發現多出如下：" }
+      ]
+    },
+    {
+      "e":"pre",
+      "s":[
+        { "e":"div", "t":"LoadModule php5_module /usr/local/Cellar/php56/5.6.31_7/libexec/apache2/libphp5.so" },
+        { "e":"div", "t":"LoadModule php7_module /usr/local/Cellar/php70/7.0.24_16/libexec/apache2/libphp7.so" },
+        { "e":"div", "t":"LoadModule php7_module /usr/local/Cellar/php71/7.1.10_21/libexec/apache2/libphp7.so" }
+      ]
+    },
+    { "e":"p", "t":"將其改成" },
+    {
+      "e":"pre",
+      "copy": "LoadModule php5_module /usr/local/opt/php56/libexec/apache2/libphp5.so\nLoadModule php7_module /usr/local/opt/php70/libexec/apache2/libphp7.so\nLoadModule php7_module /usr/local/opt/php71/libexec/apache2/libphp7.so",
+      "s":[
+        { "e":"div", "t":"LoadModule php5_module /usr/local/opt/php56/libexec/apache2/libphp5.so" },
+        { "e":"div", "t":"LoadModule php7_module /usr/local/opt/php70/libexec/apache2/libphp7.so" },
+        { "e":"div", "t":"LoadModule php7_module /usr/local/opt/php71/libexec/apache2/libphp7.so" }
+      ]
+    },
+    { "e":"p", "t":"但只能一個，因為要以 5.6 為例子，所以其他註解起來" },
+    {
+      "e":"pre",
+      "s":[
+        { "e":"div", "t":"LoadModule php5_module /usr/local/opt/php56/libexec/apache2/libphp5.so" },
+        { "e":"div", "t":"#LoadModule php7_module /usr/local/opt/php70/libexec/apache2/libphp7.so" },
+        { "e":"div", "t":"#LoadModule php7_module /usr/local/opt/php71/libexec/apache2/libphp7.so" }
+      ]
+    },
+    {
+      "e":"blockquote",
+      "class": "warning",
+      "t":"注意！這裡改的是 Apache 部分，CLI 則不是這樣改的～"
+    },
+    {
+      "e":"p",
+      "t":"接著把"
+    },
+    {
+      "e":"pre",
+      "class":"lines",
+      "s":[
+        { "e":"label", "copy": "DirectoryIndex" },
+        { "e":"div", "t":"<IfModule dir_module>" },
+        { "e":"div", "t":"    DirectoryIndex index.html" },
+        { "e":"div", "t":"</IfModule>" }
+      ]
+    },
+    {
+      "e":"p", "t":"改成"
+    },
+    {
+      "e":"pre",
+      "class":"lines",
+      "copy": "<IfModule dir_module>\n    DirectoryIndex index.php index.html\n</IfModule>\n<FilesMatch \\.php$>\n    SetHandler application/x-httpd-php\n</FilesMatch",
+      "s":[
+        { "e":"div", "t":"<IfModule dir_module>" },
+        { "e":"div", "t":"    DirectoryIndex index.php index.html" },
+        { "e":"div", "t":"</IfModule>" },
+        { "e":"div", "t":"<FilesMatch \\.php$>" },
+        { "e":"div", "t":"    SetHandler application/x-httpd-php" },
+        { "e":"div", "t":"</FilesMatch>" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"然後重該 Apache " },
+        { "e":"code", "t":"sudo apachectl -k restop", "copy":"sudo apachectl -k restop" }
+      ]
+    },
+    { "e":"h2", "t":"版本切換工具" },
+    { "e":"p", "t":"因版本切換時，因為都要先 unlink 再 line 太麻煩，而且還有分 CLI 與 Apache 的更改兩步驟，所以可以使用 sphp 來快速解決這問題。" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"安裝 " }, { "e":"code", "t":"curl -L https://gist.github.com/w00fz/142b6b19750ea6979137b963df959d11/raw > /usr/local/bin/sphp", "copy":"curl -L https://gist.github.com/w00fz/142b6b19750ea6979137b963df959d11/raw > /usr/local/bin/sphp" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"更改權限 " }, { "e":"code", "t":"chmod +x /usr/local/bin/sphp", "copy":"chmod +x /usr/local/bin/sphp" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"安裝好後 " }, { "e":"code", "t":"echo $PATH", "copy":"echo $PATH" }, { "e":"span", "t":" 看一下有無 " }, { "e":"b", "t":"sphp" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"舉例，終端機直個打 sphp 就可以列出可用的 php 版本，而切換 70 版本則 " }, { "e":"code", "t":"sphp 70", "copy":"sphp 70" }] }
+      ]
+    },
+    { "e":"h2", "t":"筆記" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"新的 Apache conf 位置 " }, { "e":"code", "t":"/usr/local/etc/httpd/httpd.conf", "copy":"/usr/local/etc/httpd/httpd.conf" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"新的 Apache vhosts 位置 " }, { "e":"code", "t":"/usr/local/etc/httpd/extra/httpd-vhosts.conf", "copy":"/usr/local/etc/httpd/extra/httpd-vhosts.conf" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"Apache 開啟 " }, { "e":"code", "t":"sudo apachectl start", "copy":"sudo apachectl start" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"Apache 關閉 " }, { "e":"code", "t":"sudo apachectl stop", "copy":"sudo apachectl stop" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"Apache 重開 " }, { "e":"code", "t":"sudo apachectl -k restart", "copy":"sudo apachectl -k restart" }] }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "macOS 10.13 High Sierra Apache Setup: Multiple PHP Versions | Grav", "href": "https://getgrav.org/blog/macos-sierra-apache-multiple-php-versions" }
+  ],
+  "tags":[
+    "macOS",
+    "Apache",
+    "PHP"
+  ]
+}

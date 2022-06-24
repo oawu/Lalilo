@@ -1,0 +1,43 @@
+{
+  "key": "jQuery-Youtube-Player",
+  "cover": "/img/dev/018.jpg",
+  "title":"用 jQuery 實作 Youtube 播放器",
+  "at":"2014-12-29",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"此作品主要是練習 " },
+        { "e":"a", "t":"Youtube API", "href":"https://www.youtube.com/yt/dev/zh-TW/api-resources.html" },
+        { "e":"span", "t":" 的運用，主要功能是利用 API 來操作播放清單以及播放參數的設定。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"雖然這功能有點多此一舉..(" },
+        { "e":"a", "t":"Youtube", "href":"https://support.google.com/youtube/answer/57792?hl=zh-Hant" },
+        { "e":"span", "t":" 就可以做清單了)，但是還是分享一下製作心得！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"功能主要就是利用 Youtube 所提供的 API 再利用 " },
+        { "e":"a", "t":"Local Storage", "href":"http://www.w3schools.com/html/html5_webstorage.asp" },
+        { "e":"span", "t":" 紀錄播放清單，再利用 JavaScript 按鍵事件，建立一個簡單的播放清單，並且可以循環播放。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "https://works.ioa.tw/u2/index.html" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/u2" },
+    { "text": "PTT Soft_Job", "href": "https://www.ptt.cc/bbs/Soft_Job/M.1419871812.A.813.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href": "https://www.facebook.com/groups/f2e.tw/permalink/774027889301245/" }
+  ],
+  "tags":[
+    "jQuery",
+    "Youtube"
+  ]
+}

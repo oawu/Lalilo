@@ -1,0 +1,744 @@
+{
+  "key": "FullStack-2019-Baishatun-GPS",
+  "cover": "/img/dev/052.png",
+  "title":"2019 白沙屯媽祖南下進香 GPS 系統",
+  "subtitle":"回頭看去年，總會有哪麼一點點不完美的地方，執著的工程師個性，就會想要把他重寫，讓這個專案更加完美！",
+  "at":"2019-03-07",
+  "type":"article",
+  "blocks":[
+    { "e":"p", "t":"因為每年我都會協助幫忙準備這個「白沙屯媽祖南下進香」的活動，所以今年我也在準備著，一年一次，這個專案每年這時候都會啟動，常常有人會問我，不就是把去年的資料庫清空就好了嗎？" },
+    { "e":"p", "t":"不！因為每一年，在我的技術上都是在進步，於是回頭看去年，總會有哪麼一點點不完美的地方，執著的工程師個性，就會想要把他重寫，讓這個專案更加完美！" },
+    { "e":"p", "t":"這個專案每年從的資訊工程幾乎都是由我完成的，以下就是這次我個人完成的項目：" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"後端程式碼 － " },
+            {
+              "e":"a",
+              "t":"PHP",
+              "href":"https://zh.wikipedia.org/zh-tw/PHP"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"a", "t":"AWS", "href":"https://aws.amazon.com/tw/" },
+              { "e":"span", "t":" 系統架設" }
+            ] },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    {
+                      "e":"a",
+                      "t":"EC2",
+                      "href":"https://aws.amazon.com/tw/ec2/"
+                    },
+                    { "e":"span", "t":" － 後端伺服器" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    {
+                      "e":"a",
+                      "t":"RDS",
+                      "href":"https://aws.amazon.com/tw/rds/"
+                    },
+                    { "e":"span", "t":" － 資料庫" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    {
+                      "e":"a",
+                      "t":"S3",
+                      "href":"https://aws.amazon.com/tw/s3/"
+                    },
+                    { "e":"span", "t":" － 雲端空間" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    {
+                      "e":"a",
+                      "t":"CloudFront",
+                      "href":"https://aws.amazon.com/tw/cloudfront/"
+                    },
+                    { "e":"span", "t":" － CDN" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    {
+                      "e":"a",
+                      "t":"Certificate Manager",
+                      "href":"https://aws.amazon.com/tw/certificate-manager/"
+                    },
+                    { "e":"span", "t":" － 憑證管理" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "e":"li", "t":"GPS 訊號後台收集與校正" },
+        { "e":"li", "t":"前端網頁地圖功能" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"都是一個人完成，而這次也加入了開發 iOS App，其實成就感頗高！所以這篇會著重在 iOS Swift 的學習心得，若要看其他部分也可以參考" },
+        {
+          "e":"a",
+          "t":"2016 的心得",
+          "href":"/index.html?k=dev&id=FullStack-2016-Baishatun-GPS"
+        },
+        { "e":"span", "t":"！" }
+      ]
+    },
+    { "e":"p", "t":"廢話不多說。寫 App，當然是直接先給鏈結下載呀，有興趣的夥伴歡迎下載囉！" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"App － " },
+            {
+              "e":"a",
+              "t":"白沙屯 GPS",
+              "href":"https://itunes.apple.com/tw/app/id1455045995"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"網站 － " },
+            {
+              "e":"a",
+              "t":"2019 白沙屯 GPS",
+              "href":"https://gps.godmaps.tw/"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"粉專 － " },
+            {
+              "e":"a",
+              "t":"白沙屯媽祖在哪裡？",
+              "href":"https://www.facebook.com/baishatunGPS/"
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"開發心得" },
+    { "e":"p", "t":"回想起當初想學 App 已經是三年前了，當初還是寫 Object-C，但因為本身工作是專職的網站前後端工程師，所以一直沒有時間好好的專研，頂多就是想到就寫個小 App，了解一下推播、Watch App.. 等，但都一直沒上架過，所以就默默的繳了三年的開發者費用，這就是信仰！？（疑）" },
+    { "e":"p", "t":"在今年，我終於上架了我第一個 App" },
+    { "e":"p", "t":"以往這個活動我都是使用網頁技術來呈現，但是從去年開始 Google Maps 就調漲了費用、收費方式，於是不得不另尋他路改採用 App 的方式來省錢，Google Maps 官方也寫了，採用 App SDK 好像基本的地圖就可以無上限使用，所以在今年一月底，我正式開始籌備今年度的 GPS 系統！" },
+    { "e":"p", "t":"這個系統我想對很多資深的工程師來說困難度應該不高，主要就是讀取 API 並且將內容呈現，所以對我來說幾項重點：" },
+    {
+      "e":"ol",
+      "s":[
+        { "e":"li", "t":"UI － Constraint" },
+        { "e":"li", "t":"API － Alamofire" },
+        { "e":"li", "t":"Maps － Google Maps" },
+        { "e":"li", "t":"送審 － Reject" }
+      ]
+    },
+    { "e":"h2", "t":"UI － Constraint" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"以 UI 來說，我有練習過 Obj-C 的經驗，應該不難，就只是語法上的差異，而我在刻板時，其實很不習慣使用 storyboard，所以我的專案內都是採用 " },
+        {
+          "e":"a",
+          "t":"NSLayoutConstraint",
+          "href":"https://developer.apple.com/documentation/uikit/nslayoutconstraint"
+        },
+        { "e":"span", "t":" 的方式將版型兜出來，可能是 css 切版習慣了，所以還是偏愛 Constraint 的方式來調整版型，所以自己寫了個簡單的 Lib 來使用，例如以下的方式讓我自己方便調整版型！" }
+      ]
+    },
+    {
+      "e":"pre",
+      "class":"lines xcode",
+      "copy": "OA.layout(self.view, nameView) (\n    $0.at(.left, .equal, .left, 8)\n    $0.at(.right, .equal, .right, 8)\n    $0.at(.top, .equal, self.view.safeAreaLayoutGuide, .top, 8)\n    $0.at(.height, .equal, 8)\n}",
+      "s":[
+        {
+          "e":"div",
+          "s": [
+            { "e": "span", "t": "OA", "class": "green1" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "layout", "class": "green2" },
+            { "e": "span", "t": "(" },
+            { "e": "span", "t": "self", "class": "red1" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "view", "class": "purple1" },
+            { "e": "span", "t": ", nameView) (" }
+          ]
+        },
+        {
+          "e":"div",
+          "s": [
+            { "e": "span", "t": "    $0." },
+            { "e": "span", "t": "at", "class": "green2" },
+            { "e": "span", "t": "(." },
+            { "e": "span", "t": "left", "class": "purple1" },
+            { "e": "span", "t": ", ." },
+            { "e": "span", "t": "equal", "class": "purple1" },
+            { "e": "span", "t": ", ." },
+            { "e": "span", "t": "left", "class": "purple1" },
+            { "e": "span", "t": ", " },
+            { "e": "span", "t": "8", "class": "yellow" },
+            { "e": "span", "t": ")" }
+          ]
+        },
+        {
+          "e":"div",
+          "s": [
+            { "e": "span", "t": "    $0." },
+            { "e": "span", "t": "at", "class": "green2" },
+            { "e": "span", "t": "(." },
+            { "e": "span", "t": "right", "class": "purple1" },
+            { "e": "span", "t": ", ." },
+            { "e": "span", "t": "equal", "class": "purple1" },
+            { "e": "span", "t": ", ." },
+            { "e": "span", "t": "right", "class": "purple1" },
+            { "e": "span", "t": ", " },
+            { "e": "span", "t": "8", "class": "yellow" },
+            { "e": "span", "t": ")" }
+          ]
+        },
+        {
+          "e":"div",
+          "s": [
+            { "e": "span", "t": "    $0." },
+            { "e": "span", "t": "at", "class": "green2" },
+            { "e": "span", "t": "(." },
+            { "e": "span", "t": "top", "class": "purple1" },
+            { "e": "span", "t": ", ." },
+            { "e": "span", "t": "equal", "class": "purple1" },
+            { "e": "span", "t": ", " },
+            { "e": "span", "t": "self", "class": "red1" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "view", "class": "purple1" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "safeAreaLayoutGuide", "class": "purple1" },
+            { "e": "span", "t": ", ." },
+            { "e": "span", "t": "top", "class": "purple1" },
+            { "e": "span", "t": ", " },
+            { "e": "span", "t": "8", "class": "yellow" },
+            { "e": "span", "t": ")" }
+          ]
+        },
+        {
+          "e":"div",
+          "s": [
+            { "e": "span", "t": "    $0." },
+            { "e": "span", "t": "at", "class": "green2" },
+            { "e": "span", "t": "(." },
+            { "e": "span", "t": "height", "class": "purple1" },
+            { "e": "span", "t": ", ." },
+            { "e": "span", "t": "equal", "class": "purple1" },
+            { "e": "span", "t": ", " },
+            { "e": "span", "t": "8", "class": "yellow" },
+            { "e": "span", "t": ")" }
+          ]
+        },
+        {
+          "e":"div",
+          "s": [
+            { "e": "span", "t": " }" }
+          ]
+        }
+      ]
+    },
+    { "e":"p", "t":"其中包含 TableView 的 Cell 我也是這樣做，之後我還打算加入可以判斷螢幕寬高、旋轉的條件！" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"至於圖示，因為本身對於設計真的很外行，所以沒辦法產出我想要的 icon，但因為有網頁前端的經驗，所以很長使用 SVG 的 icon，於是使用了 " },
+        {
+          "e":"a",
+          "t":"SwiftSVG",
+          "href":"http://mchoe.github.io/SwiftSVG/"
+        },
+        { "e":"span", "t":" 這個套件，所以 App 中的圖示，都是採用 SVG 的方式呈現。" }
+      ]
+    },
+    { "e":"h2", "t":"API － Alamofire" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"API 的方式我採用 Alamofire 這個套件，因為以前 Obj-C 是使用 " },
+        {
+          "e":"a",
+          "t":"AFNetworking",
+          "href":"https://github.com/AFNetworking/AFNetworking"
+        },
+        { "e":"span", "t":"，上去 GitHub 看了一下，感覺他們推薦使用 " },
+        {
+          "e":"a",
+          "t":"Alamofire",
+          "href":"https://github.com/Alamofire/Alamofire"
+        },
+        { "e":"span", "t":"，所以這專案我採用 Alamofire，使用方式網路上很多資源，而我把它進階包了一下，因為 " },
+        {
+          "e":"a",
+          "t":"closure",
+          "href":"https://docs.swift.org/swift-book/LanguageGuide/Closures.html"
+        },
+        { "e":"span", "t":" 擺在後面可以直接這樣用，所以語意上好像更清楚了（？），範例如下：" }
+      ]
+    },
+    {
+      "e":"pre",
+      "class":"lines xcode",
+      "copy": "class Api {\n    static var get = ApiGet()\n    static var post = ApiGet()\n}",
+      "s":[
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "class", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "Api", "class": "blue2" },
+            { "e": "span", "t": " {" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    " },
+            { "e": "span", "t": "static var", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "get", "class": "blue1" },
+            { "e": "span", "t": " = " },
+            { "e": "span", "t": "ApiGet", "class": "green1" },
+            { "e": "span", "t": "()" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    " },
+            { "e": "span", "t": "static var", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "post", "class": "blue1" },
+            { "e": "span", "t": " = " },
+            { "e": "span", "t": "ApiGet", "class": "green1" },
+            { "e": "span", "t": "()" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": " }" }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"pre",
+      "class":"lines xcode",
+      "copy": "class ApiGet {\n    public func path(_ closure: @escaping (([String: Any]) -> ())) {\n        Alamofire.request(\"API\", method: .get).validate().responseJSON { response in\n            switch response.result {\n            case .success(let json):\n                return closure(json as! [String : Any])\n            case .failure(let error):\n                return // Error Func\n        }\n    }\n}\nclass ApiPost {\n    public func path(_ closure: @escaping (([String: Any]) -> ())) {\n        // 以下省略\n    }\n}",
+      "s":[
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "class", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "ApiGet", "class": "blue2" },
+            { "e": "span", "t": " {" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    " },
+            { "e": "span", "t": "public func", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "path", "class": "blue1" },
+            { "e": "span", "t": "(" },
+            { "e": "span", "t": "_", "class": "red1" },
+            { "e": "span", "t": " closure: " },
+            { "e": "span", "t": "@escaping", "class": "red1" },
+            { "e": "span", "t": " (([" },
+            { "e": "span", "t": "String", "class": "purple2" },
+            { "e": "span", "t": ": " },
+            { "e": "span", "t": "Any", "class": "red1" },
+            { "e": "span", "t": "]) -> " },
+            { "e": "span", "t": "())) {" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "        " },
+            { "e": "span", "t": "Alamofire", "class": "green1" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "request", "class": "green2" },
+            { "e": "span", "t": "(" },
+            { "e": "span", "t": "\"API\"", "class": "red2" },
+            { "e": "span", "t": ", method: " },
+            { "e": "span", "t": ".get", "class": "purple1" },
+            { "e": "span", "t": ")." },
+            { "e": "span", "t": "validate", "class": "green2" },
+            { "e": "span", "t": "()." },
+            { "e": "span", "t": "responseJSON", "class": "green2" },
+            { "e": "span", "t": " { response " },
+            { "e": "span", "t": "in", "class": "red1" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "            " },
+            { "e": "span", "t": "switch", "class": "red1" },
+            { "e": "span", "t": " response." },
+            { "e": "span", "t": "result", "class": "green2" },
+            { "e": "span", "t": " {" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "            " },
+            { "e": "span", "t": "case", "class": "red1" },
+            { "e": "span", "t": " ." },
+            { "e": "span", "t": "success", "class": "green2" },
+            { "e": "span", "t": "(" },
+            { "e": "span", "t": "let", "class": "red1" },
+            { "e": "span", "t": " json):" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "                " },
+            { "e": "span", "t": "return", "class": "red1" },
+            { "e": "span", "t": " closure(json " },
+            { "e": "span", "t": "as", "class": "red1" },
+            { "e": "span", "t": "! [" },
+            { "e": "span", "t": "String", "class": "purple2" },
+            { "e": "span", "t": " : " },
+            { "e": "span", "t": "Any", "class": "red1" },
+            { "e": "span", "t": "])" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "            " },
+            { "e": "span", "t": "case", "class": "red1" },
+            { "e": "span", "t": " ." },
+            { "e": "span", "t": "failure", "class": "green2" },
+            { "e": "span", "t": "(" },
+            { "e": "span", "t": "let", "class": "red1" },
+            { "e": "span", "t": " error):" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "                " },
+            { "e": "span", "t": "return", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "// Error Func", "class": "gray" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "        }" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    }" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": " }" }
+          ]
+        },
+        {
+          "e":"div",
+          "t":" "
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "class", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "ApiPost", "class": "blue2" },
+            { "e": "span", "t": " {" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    " },
+            { "e": "span", "t": "public func", "class": "red1" },
+            { "e": "span", "t": " " },
+            { "e": "span", "t": "path", "class": "blue1" },
+            { "e": "span", "t": "(" },
+            { "e": "span", "t": "_", "class": "red1" },
+            { "e": "span", "t": " closure: " },
+            { "e": "span", "t": "@escaping", "class": "red1" },
+            { "e": "span", "t": " (([" },
+            { "e": "span", "t": "String", "class": "purple2" },
+            { "e": "span", "t": ": " },
+            { "e": "span", "t": "Any", "class": "red1" },
+            { "e": "span", "t": "]) -> " },
+            { "e": "span", "t": "())) {" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "        " },
+            { "e": "span", "t": "// 以下省略", "class": "gray" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    }" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": " }" }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"pre",
+      "class":"lines xcode",
+      "copy": "Api.get.path { json in\n    // 取得資料後要做的事\n}\nApi.post.location { json in\n    // 完成 Post 後要做的事\n}",
+      "s":[
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "Api", "class": "green1" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "get", "class": "green2" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "path", "class": "green2" },
+            { "e": "span", "t": " { json " },
+            { "e": "span", "t": "in", "class": "red1" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    " },
+            { "e": "span", "t": "// 取得資料後要做的事", "class": "gray" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": " }" }
+          ]
+        },
+        {
+          "e":"div",
+          "t":" "
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "Api", "class": "green1" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "post", "class": "green2" },
+            { "e": "span", "t": "." },
+            { "e": "span", "t": "location", "class": "green2" },
+            { "e": "span", "t": " { json " },
+            { "e": "span", "t": "in", "class": "red1" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": "    " },
+            { "e": "span", "t": "// 完成 Post 後要做的事", "class": "gray" }
+          ]
+        },
+        {
+          "e":"div",
+          "s":[
+            { "e": "span", "t": " }" }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"不過我其實也想說要不要改用原生的 " },
+        {
+          "e":"a",
+          "t":"NSURLConnection",
+          "href":"https://developer.apple.com/documentation/foundation/nsurlconnection"
+        },
+        { "e":"span", "t":" 之類的，打造出自己的 Call Api 工具，這等之後熟一點後，在重新送一版好了ＸＤ" }
+      ]
+    },
+    { "e":"h2", "t":"Maps － Google Maps" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"關於地圖，其實我原本想採用原生的 " },
+        {
+          "e":"a",
+          "t":"MapKit",
+          "href":"https://developer.apple.com/documentation/mapkit"
+        },
+        { "e":"span", "t":"，但想到活動時，可能會有很多人不習慣 Apple Maps 的樣式，於是才依然使用 " },
+        {
+          "e":"a",
+          "t":"Google Maps",
+          "href":"https://developers.google.com/maps/documentation/ios-sdk/start"
+        },
+        { "e":"span", "t":"。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"安裝套件方法其實 " },
+        {
+          "e":"a",
+          "t":"官方文件",
+          "href":"https://developers.google.com/maps/documentation/ios-sdk/start"
+        },
+        { "e":"span", "t":" 照著走就可以完成了，所以沒太大的難點，而使用方式也跟 " },
+        {
+          "e":"a",
+          "t":"JavaScript",
+          "href":"https://developers.google.com/maps/documentation/javascript/tutorial"
+        },
+        { "e":"span", "t":" 大同小異。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"唯一比較特別的是，在我的地圖上的 Marker 都是客製的 Marker，繼承 " },
+        {
+          "e":"a",
+          "t":"GMSMarker",
+          "href":"https://developers.google.com/maps/documentation/ios-sdk/marker"
+        },
+        { "e":"span", "t":"，並取代其 " },
+        {
+          "e":"a",
+          "t":"iconView",
+          "href":"https://developers.google.com/maps/documentation/ios-sdk/marker#use_the_markers_iconview_property"
+        },
+        { "e":"span", "t":" 即可，只是在算中心點位置時要特別注意 " },
+        {
+          "e":"a",
+          "t":"groundAnchor",
+          "href":"https://developers.google.com/maps/documentation/ios-sdk/reference/interface_g_m_s_marker.html#a65c160c7a9d3aadbbfc0a9a640fa826b"
+        },
+        { "e":"span", "t":" 的算法。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"在 Marker 的動畫上，我則練習了 " },
+        {
+          "e":"a",
+          "t":"CAAnimationGroup",
+          "href":"https://developer.apple.com/documentation/quartzcore/caanimationgroup"
+        },
+        { "e":"span", "t":" 的用法，並且使用 " },
+        {
+          "e":"a",
+          "t":"CAMediaTimingFunction",
+          "href":"https://developer.apple.com/documentation/quartzcore/camediatimingfunction"
+        },
+        { "e":"span", "t":" 來呈現動畫的效果，不過我對 iOS App 的 UI 效能還沒有很熟，所以我也不知道我的作法會不會有效能上的問題就是了ＸＤ" }
+      ]
+    },
+    { "e":"h2", "t":"送審 － Reject" },
+    { "e":"p", "t":"最後送審了！" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"其實我是按照「" },
+        {
+          "e":"a",
+          "t":"iOS App 上架: 一步一腳印的新手教學和更新流程 - AppCoda",
+          "href":"https://www.appcoda.com.tw/ios-app-submission/"
+        },
+        { "e":"span", "t":"」這篇的步驟完成的，以上都順利，只是還是被 Reject 了一次，但好像第一次都被 Reject 好像都是正常的ＸＤ？" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"被 Reject 的原因是 " },
+        { "e":"code", "t":"Privacy - Location When In Use Usage Description" },
+        { "e":"span", "t":" 的原因沒寫清楚，若要取得使用者的位置資訊，那你就必須寫清楚是在 App 上的哪個功能使用，我原本是寫 " },
+        { "e":"code", "t":"讓白沙屯媽祖取得你的位置吧！" },
+        { "e":"span", "t":" 所以就被 Reject，但改成 " },
+        { "e":"code", "t":"若允許取用您的位置，地圖上就可以顯示您與媽祖的相對位置，並且可以查看自己所在的地點。" },
+        { "e":"span", "t":" 就審核通過啦！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"不過意外的小插曲是，第一次送審雖然被 Reject 了，不過我從 Reject 的訊息中看到 Apple 的截圖才發現我送錯版了，看到截圖中怎會有測試站的資料，才發現我在 Archive 時，沒有調整 Scheme，所以把測試版拿去送審了，不過剛好與 " },
+        { "e":"code", "t":"Privacy - Location When In Use Usage Description" },
+        { "e":"span", "t":" 的問題一起重新送審！" }
+      ]
+    },
+    { "e":"h2", "t":"小結論" },
+    { "e":"p", "t":"以上很趕，短短一個月，所以還有很多東西沒做到完美，例如：效能、有效的 Debug，以後若有開發更進階的有趣的 App 我也會再分享，文章中若有錯誤觀念或者寫法，再麻煩指正，感謝 >\"<" }
+  ],
+  "references":[
+    { "text": "https://gps.godmaps.tw/", "href":"https://gps.godmaps.tw/" },
+    { "text": "https://www.appcoda.com.tw/ios-app-submission/", "href":"https://www.appcoda.com.tw/ios-app-submission/" },
+    { "text": "https://www.appcoda.com.tw/intermediate-swift-tips/", "href":"https://www.appcoda.com.tw/intermediate-swift-tips/" },
+    { "text": "https://stackoverflow.com/questions/29311093/place-activity-indicator-over-uitable-view", "href":"https://stackoverflow.com/questions/29311093/place-activity-indicator-over-uitable-view" },
+    { "text": "http://mchoe.github.io/SwiftSVG/", "href":"http://mchoe.github.io/SwiftSVG/" },
+    { "text": "https://github.com/Alamofire/Alamofire", "href":"https://github.com/Alamofire/Alamofire" }
+  ],
+  "tags":[
+    "Google Maps",
+    "GPS",
+    "白沙屯",
+    "媽祖",
+    "iOS",
+    "Swift",
+    "HUD",
+    "App",
+    "Alamofire",
+    "AFNetworking"
+  ]
+}

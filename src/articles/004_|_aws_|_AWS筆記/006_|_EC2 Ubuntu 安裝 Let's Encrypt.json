@@ -1,0 +1,393 @@
+{
+  "key": "EC2-Ubuntu-LetsEncrypt",
+  "cover": "/img/aws/006.png",
+  "title":"EC2 Ubuntu 安裝 Let's Encrypt",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"假設" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "t":"以下操作先做假設"
+            },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"Elastic IPs：" },
+                    { "e":"code", "t":"123.456.789" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"下載的 .pem 檔案名稱：" },
+                    { "e":"code", "t":"test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"test.pem" },
+                    { "e":"span", "t":" 位置：" },
+                    { "e":"code", "t":"/User/oa/test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"網址(domain)：" },
+                    { "e":"code", "t":"your.url.tw" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"E-Mail：" },
+                    { "e":"code", "t":"your.email@gmail.com" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"以下編輯器主要是使用 " },
+                    { "e":"code", "t":"nano" },
+                    { "e":"span", "t":"，請自行斟酌是否使用 " },
+                    { "e":"code", "t":"vi" },
+                    { "e":"span", "t":" 或 " },
+                    { "e":"code", "t":"vim" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"blockquote",
+      "s":[
+        { "e":"span", "t":"記得去你的 DNS(Domain Name Server) 設定，新增 " },
+        { "e":"code", "t":"A" },
+        { "e":"span", "t":" 紀錄 " },
+        { "e":"code", "t":"your.url.tw" },
+        { "e":"span", "t":"，指向 IP " },
+        { "e":"code", "t":"123.456.789" }
+      ]
+    },
+
+    { "e":"h2", "t":"Let's Encrypt(ssl)" },
+    { "e":"p", "t": "方法有兩種，自己選擇" },
+
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {"e": "span", "t": "快速指令 " },
+            {"e": "code", "t": "點我複製", "copy": "sudo apt install curl && cd ~/www && git clone https://github.com/lukas2511/dehydrated.git && cd dehydrated && sudo mkdir /etc/dehydrated/ && sudo chmod 777 /etc/dehydrated/ && cp dehydrated /etc/dehydrated/ && chmod a+x /etc/dehydrated/dehydrated && mkdir -p /var/www/dehydrated/ && /etc/dehydrated/dehydrated --register --accept-terms" }
+          ]
+        },
+        {
+          "e": "li",
+          "s": [
+            {"e": "p", "t": "一步一步" },
+            {
+              "e":"ul",
+              "s":[
+                { "e":"li", "s":[{ "e":"span", "t":"安裝 curl，指令 " }, { "e":"code", "t":"sudo apt install curl", "copy":"sudo apt install curl" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"進入 www 目錄，指令 " }, { "e":"code", "t":"cd ~/www", "copy":"cd ~/www" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"從 Git 下載最新 dehydrated，指令 " }, { "e":"code", "t":"git clone https://github.com/lukas2511/dehydrated.git", "copy":"git clone https://github.com/lukas2511/dehydrated.git" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"進入專案，指令 " }, { "e":"code", "t":"cd dehydrated", "copy":"cd dehydrated" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"新增目錄，指令 " }, { "e":"code", "t":"sudo mkdir /etc/dehydrated/", "copy":"sudo mkdir /etc/dehydrated/" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"修改權限，指令 " }, { "e":"code", "t":"sudo chmod 777 /etc/dehydrated/", "copy":"sudo chmod 777 /etc/dehydrated/" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"將檔案移進去，指令 " }, { "e":"code", "t":"cp dehydrated /etc/dehydrated/", "copy":"cp dehydrated /etc/dehydrated/" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"修改 dehydrated 權限 " }, { "e":"code", "t":"chmod a+x /etc/dehydrated/dehydrated", "copy":"chmod a+x /etc/dehydrated/dehydrated" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"建立證驗時所需目錄，指令 " }, { "e":"code", "t":"mkdir -p /var/www/dehydrated/", "copy":"mkdir -p /var/www/dehydrated/" }] },
+                { "e":"li", "s":[{ "e":"span", "t":"第一次執行同意 Let's Encrypt 的條款，指令 " }, { "e":"code", "t":"/etc/dehydrated/dehydrated --register --accept-terms", "copy":"/etc/dehydrated/dehydrated --register --accept-terms" }] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+
+
+    { "e":"h2", "t":"新增 SSL by Let's Encrypt" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"先在該專案下的 " },
+            { "e":"code", "t":"http vhost" },
+            { "e":"span", "t":" 內，加入 " },
+            { "e":"code", "t":"Alias /.well-known/acme-challenge/ /var/www/dehydrated/", "copy":"Alias /.well-known/acme-challenge/ /var/www/dehydrated/" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重新載入 Apache 設定，指令：" },
+            { "e":"code", "t":"sudo systemctl reload apache2", "copy":"sudo systemctl reload apache2" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"取得憑證 " },
+            { "e":"code", "t":"/etc/dehydrated/dehydrated -c -d your.url.tw", "copy":"/etc/dehydrated/dehydrated -c -d " }
+          ]
+        }
+      ]
+    },
+
+
+    { "e":"h2", "t":"設定 Apache" },
+    { "e":"h3", "t":"第一次使用" },
+    { "e":"p", "t": "方法有兩種，自己選擇" },
+
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {"e": "span", "t": "快速指令 " },
+            {"e": "code", "t": "點我複製", "copy": "sudo a2enmod ssl && sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/my-ssl.conf && sudo a2ensite my-ssl.conf && sudo systemctl reload apache2" }
+          ]
+        },
+        {
+          "e": "li",
+          "s": [
+            {"e": "p", "t": "一步一步" },
+            
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"啟用，輸入指令：" },
+                    { "e":"code", "t":"sudo a2enmod ssl", "copy":"sudo a2enmod ssl" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"複製一份 ssl vhost 檔案指令 " },
+                    { "e":"code", "t":"sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/my-ssl.conf", "copy":"sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/my-ssl.conf" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"啟用 " },
+                    { "e":"code", "t":"my-ssl.conf" },
+                    { "e":"span", "t":"，指令：" },
+                    { "e":"code", "t":"sudo a2ensite my-ssl.conf", "copy":"sudo a2ensite my-ssl.conf" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"重新載入 Apache 設定，指令：" },
+                    { "e":"code", "t":"sudo systemctl reload apache2", "copy":"sudo systemctl reload apache2" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+    { "e":"h3", "t":"編輯 SSL VirtualHost" },
+
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"編輯 " },
+        { "e":"code", "t":"my-ssl.conf", "copy":"sudo nano /etc/apache2/sites-available/my-ssl.conf" },
+        { "e":"span", "t":"，加入 " },
+        { "e":"code", "t": "VirtualHost", "copy":"\n  <VirtualHost _default_:443>\n    # 你的 Domain\n    ServerName  your.url.tw\n    ServerAlias your.url.tw\n\n    # 你的 E-Mail\n    ServerAdmin your.email@gmail.com\n\n    # 你的專案目錄\n    DocumentRoot /var/www\n\n    # Log 的儲存位置\n    ErrorLog ${APACHE_LOG_DIR}/error.log\n    CustomLog ${APACHE_LOG_DIR}/access.log combined\n\n    # SSL 設定\n    SSLEngine on\n    SSLCertificateFile /etc/dehydrated/certs/your.url.tw/cert.pem\n    SSLCertificateKeyFile /etc/dehydrated/certs/your.url.tw/privkey.pem\n    SSLCertificateChainFile /etc/dehydrated/certs/your.url.tw/chain.pem\n\n    # 記得也要是你的專案目錄\n    <Directory /var/www>\n      Options FollowSymLinks MultiViews\n      AllowOverride All\n      Order allow,deny\n      Allow from all\n    </Directory>\n  </VirtualHost>" },
+        { "e":"span", "t":"，然後 " },
+        { "e":"code", "t":"重啟 Apache", "copy":"sudo service apache2 restart" },
+        { "e":"span", "t":" 即可，範例：" }
+      ]
+    },
+    {
+      "e":"pre",
+      "class":"lines",
+      "copy":"\n  <VirtualHost _default_:443>\n    # 你的 Domain\n    ServerName  your.url.tw\n    ServerAlias your.url.tw\n\n    # 你的 E-Mail\n    ServerAdmin your.email@gmail.com\n\n    # 你的專案目錄\n    DocumentRoot /var/www\n\n    # Log 的儲存位置\n    ErrorLog ${APACHE_LOG_DIR}/error.log\n    CustomLog ${APACHE_LOG_DIR}/access.log combined\n\n    # SSL 設定\n    SSLEngine on\n    SSLCertificateFile /etc/dehydrated/certs/your.url.tw/cert.pem\n    SSLCertificateKeyFile /etc/dehydrated/certs/your.url.tw/privkey.pem\n    SSLCertificateChainFile /etc/dehydrated/certs/your.url.tw/chain.pem\n\n    # 記得也要是你的專案目錄\n    <Directory /var/www>\n      Options FollowSymLinks MultiViews\n      AllowOverride All\n      Order allow,deny\n      Allow from all\n    </Directory>\n  </VirtualHost>",
+      "s":[
+        { "e":"div", "s":[
+          {"e": "span", "t": "<IfModule", "class": "red" },
+          {"e": "span", "t": " " },
+          {"e": "span", "t": "mod_ssl.c", "class": "yellow" },
+          {"e": "span", "t": ">", "class": "red" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "<VirtualHost", "class": "red" },
+          {"e": "span", "t": " " },
+          {"e": "span", "t": "_default_:443", "class": "yellow" },
+          {"e": "span", "t": ">", "class": "red" }] },
+        { "e":"div", "t":"        # 你的 Domain", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "ServerName", "class": "blue" },
+          {"e": "span", "t": " your.url.tw" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "ServerAlias", "class": "blue" },
+          {"e": "span", "t": " your.url.tw" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"        # 你的 E-Mail", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "ServerAdmin", "class": "blue" },
+          {"e": "span", "t": " your.email@gmail.com" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"        # 你的專案目錄", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "DocumentRoot", "class": "blue" },
+          {"e": "span", "t": " /var/www" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"        # Log 的儲存位置", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "ErrorLog", "class": "blue" },
+          {"e": "span", "t": " ${APACHE_LOG_DIR}/error.log" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "CustomLog", "class": "blue" },
+          {"e": "span", "t": " ${APACHE_LOG_DIR}/access.log combined" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"        # SSL 設定", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "SSLEngine", "class": "blue" },
+          {"e": "span", "t": " on" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "SSLCertificateFile", "class": "blue" },
+          {"e": "span", "t": " /etc/dehydrated/certs/your.url.tw/cert.pem" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "SSLCertificateKeyFile", "class": "blue" },
+          {"e": "span", "t": " /etc/dehydrated/certs/your.url.tw/privkey.pem" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "SSLCertificateChainFile", "class": "blue" },
+          {"e": "span", "t": " /etc/dehydrated/certs/your.url.tw/chain.pem" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"        # 記得也要是你的專案目錄", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "<Directory", "class": "red" },
+          {"e": "span", "t": " " },
+          {"e": "span", "t": "/var/www", "class": "yellow" },
+          {"e": "span", "t": ">", "class": "red" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "            " },
+          {"e": "span", "t": "Options", "class": "blue" },
+          {"e": "span", "t": " FollowSymLinks MultiViews" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "            " },
+          {"e": "span", "t": "AllowOverride", "class": "blue" },
+          {"e": "span", "t": " All" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "            " },
+          {"e": "span", "t": "Order", "class": "blue" },
+          {"e": "span", "t": " allow,deny" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "            " },
+          {"e": "span", "t": "Allow", "class": "blue" },
+          {"e": "span", "t": " from all" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "</Directory>", "class": "red" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    </VirtualHost>", "class": "red" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "s":[
+          {"e": "span", "t": "</IfModule>", "class": "red" }] }
+      ]
+    },
+
+    { "e":"h3", "t":"重啟錯誤" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "t":"若出現以下錯誤，代表你還沒申請 ssl 的憑證檔案，所以出錯。"
+            },
+            {
+              "e":"pre",
+              "t":"Job for apache2.service failed because the control process exited with error code.\nSee \"systemctl status apache2.service\" and \"journalctl -xe\" for details."
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"所以，先把 " },
+            { "e":"code", "t":"my-ssl.conf" },
+            { "e":"span", "t":" 停用再重開 Apache，指令：" },
+            { "e":"code", "t":"sudo a2dissite my-ssl.conf", "copy":"sudo a2dissite my-ssl.conf" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重新載入 Apache 設定，指令：" },
+            { "e":"code", "t":"sudo systemctl reload apache2", "copy":"sudo systemctl reload apache2" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重啟 Apache 即可，指令：" },
+            { "e":"code", "t":"sudo service apache2 restart", "copy":"sudo service apache2 restart" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後再執行上述的 " },
+            { "e":"code", "t":"新增 SSL by Let's Encrypt" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html", "href": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html" },
+    { "text": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/", "href": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/" }
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "Let's Encrypt",
+    "https"
+  ]
+}

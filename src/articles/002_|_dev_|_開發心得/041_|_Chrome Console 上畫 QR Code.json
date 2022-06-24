@@ -1,0 +1,153 @@
+{
+  "key": "FullStack-Browser-Console-QRcode",
+  "cover": "/img/dev/041.jpg",
+  "title":"瀏覽器 Console 上畫 QR Code",
+  "subtitle":"來用瀏覽器除錯器畫一個屬於個人的彩蛋吧！",
+  "at":"2016-06-04",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"使用瀏覽器 " },
+        { "e":"a", "t":"Console.log", "href":"https://developer.chrome.com/devtools/docs/console" },
+        { "e":"span", "t":" 的功能，再利用 " },
+        { "e":"a", "t":"CSS", "href":"http://www.w3schools.com/css/" },
+        { "e":"span", "t":" 語法調整樣式，製作有趣的個人彩蛋，本次使用 " },
+        { "e":"a", "t":"QRCode", "href":"https://zh.wikipedia.org/zh-tw/QR%E7%A2%BC" },
+        { "e":"span", "t":" 當作實作範例，大家也可以改成自己的喲！Painting QR Code on the browser Console." }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是個無聊靈機一動的小作！大家應該都有打開 Facebook 網頁的 Console 介面吧，這個是我自己實作的，所以分享一下！沒錯，就是來畫 Console，利用 console.log 印出字串，再利用 css 修飾一下，QR Code 的黑、白點則是使用 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":" 二維陣列來表示！有興趣的話可以參考一下喲！要用的話，幫我按個 " },
+        { "e":"a", "t":"GitHub", "href":"https://github.com/oawu/browser_console_qrcode" },
+        { "e":"span", "t":" " },
+        { "e":"b", "t":"星星" },
+        { "e":"span", "t":"後就拿去用吧！" }
+      ]
+    },
+    { "e":"h2", "t":"步驟說明" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"首先，請按 " },
+            { "e":"b", "t":"滑鼠右鍵" },
+            { "e":"span", "t":"，選擇 " },
+            { "e":"b", "t":"檢視" },
+            { "e":"span", "t":" 再選擇 " },
+            { "e":"b", "t":"Console" },
+            { "e":"span", "t":" 吧。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Mac Chrome 電腦鍵盤快捷鍵 " },
+            { "e":"code", "t":"Cmd + Option + j" },
+            { "e":"span", "t":" 打開。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Windows、Linux Chrome 電腦鍵盤快捷鍵 " },
+            { "e":"code", "t":"Ctrl + Shift + j" },
+            { "e":"span", "t":" 打開。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"關鍵" },
+            { "e":"a", "t":"程式碼", "href":"https://github.com/oawu/browser_console_qrcode/blob/master/js/browser_console_qrcode.js" },
+            { "e":"span", "t":"在 " },
+            { "e":"code", "t":"js/browser_console_qrcode.js" },
+            { "e":"span", "t":" 內，程式碼有簡易註解，請各位大大服用。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"主要先利用 " },
+            { "e":"b", "t":"二維陣列" },
+            { "e":"span", "t":" 表示 QR Code，以 1 代表黑點、0 代表白點，再轉換成要印出的字串。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"接著利用 JavaScript " },
+            { "e":"a", "t":"eval", "href":"http://www.w3schools.com/jsref/jsref_eval.asp" },
+            { "e":"span", "t":" 將組合出的 console.log 字串執行。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"GitHub 在" },
+            { "e":"a", "t":"這裡", "href":"https://github.com/oawu/browser_console_qrcode" },
+            { "e":"span", "t":"，" },
+            { "e":"a", "t":"Demo", "href":"https://works.ioa.tw/browser_console_qrcode/index.html" },
+            { "e":"span", "t":" 的話看這裡，可以的話幫我按一下 " },
+            { "e":"b", "t":"GitHub 星星" },
+            { "e":"span", "t":" 吧。" }
+          ]
+        },
+        {
+          "e":"li",
+          "t":"主要利用 Console.log 的方式印出，其中使用基本 css 語法修飾。"
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"會使用 text-shadow 主要是要掩飾換行的 " },
+            { "e":"b", "t":"行距空白" },
+            { "e":"span", "t":"，line-height 不能設太小，所以利用 text-shadow 掩飾空白處。" }
+          ]
+        },
+        {
+          "e":"li",
+          "t":"因為 Safari 的 Console 對於空白的處理寬度不同，所以也需要對白點做 CSS 設定。"
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"若各位大大覺得有趣或不錯的話，請幫我在 " },
+            { "e":"a", "t":"GitHub", "href":"https://github.com/oawu/browser_console_qrcode" },
+            { "e":"span", "t":" 上按個星星喜歡吧。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"相關參考：" },
+            { "e":"a", "t":"Colors in JavaScript console - stackoverflow", "href":"http://stackoverflow.com/questions/7505623/colors-in-javascript-console" }
+          ]
+        }
+      ]
+    },
+    { "e":"img", "alt":"程式碼在 js/browser_console_qrcode.js 內，程式碼有簡易註解，主要利用 Console.log 的方式去印出，其中使用基本 css 語法修飾，會使用 text-shadow 主要是要掩飾換行的行距空白，line-height 不能設太小，所以利用 text-shadow 掩飾空白處", "src":"/img/dev/041/01.png" },
+    { "e":"img", "alt":"瀏覽器 Console 介面內的 QR Code 樣式", "src":"/img/dev/041/02.png" },
+    { "e":"img", "alt":"滑鼠按右鍵，開啟 「檢視」 後選擇 「Console」，即可看到 QR Code", "src":"/img/dev/041/03.png" },
+    { "e":"img", "alt":"若使用 Google Chrome 則可以使用 Chrome 快捷鍵，Mac Chrome 電腦鍵盤快捷鍵 Cmd + Option + j，Windows、Linux Chrome 電腦鍵盤快捷鍵 Ctrl + Shift + j", "src":"/img/dev/041/04.png" },
+    { "e":"img", "alt":"若各位大大覺得有趣或不錯的話，請幫我在 GitHub 上按個喜歡吧！若想引用的話，按喜歡後全部授權給你喲", "src":"/img/dev/041/05.png" }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"https://works.ioa.tw/browser_console_qrcode/index.html" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/browser_console_qrcode" },
+    { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1465179541.A.7AE.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/1008440282526670/" },
+    { "text": "Facebook JavaScript.tw", "href":"https://www.facebook.com/groups/javascript.tw/permalink/786607411440599" }
+  ],
+  "tags":[
+    "Google Chrome",
+    "JavaScript"
+  ]
+}

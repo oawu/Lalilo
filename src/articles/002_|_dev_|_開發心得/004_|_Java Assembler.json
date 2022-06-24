@@ -1,0 +1,35 @@
+{
+  "key": "Java-Assembler",
+  "cover": "/img/dev/004.jpg",
+  "title":"用 Java 實作 Assembler",
+  "at":"2009-05-01",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是大學二年級時在系統程式課程中所實作的 " },
+        { "e":"a", "t":"Assembler 組譯器", "href":"https://en.wikipedia.org/wiki/Assembly_language#Assembler" },
+        { "e":"span", "t":"，主功能是將 " },
+        { "e":"a", "t":"SIC XE Literal", "href":"https://en.wikipedia.org/wiki/SIC/XE" },
+        { "e":"span", "t":" 的" },
+        { "e":"a", "t":"組合語言", "href":"https://zh.wikipedia.org/wiki/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80" },
+        { "e":"span", "t":"編譯成" },
+        { "e":"a", "t":"機械語言", "href":"https://zh.wikipedia.org/wiki%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80" },
+        { "e":"span", "t":"，借由實作這個轉換器的同時，可以更加的了解組合語言與機械語言間的關係與原理。當時會選擇使用 " },
+        { "e":"a", "t":"Java", "href":"https://zh.wikipedia.org/wiki/Java" },
+        { "e":"span", "t":" 是因為 " },
+        { "e":"a", "t":"GUI", "href":"https://zh.wikipedia.org/wiki/Swing_(Java)" },
+        { "e":"span", "t":" 介面更容易表現出理想的操作介面，更可以讓使用者更加方便轉換組合語言。" }
+      ]
+    },
+    { "e":"img", "alt":"Java Assembler", "src":"/img/dev/004/01.jpg" }
+  ],
+  "references":[
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/sophomore-java-assembler" }
+  ],
+  "tags":[
+    "Java",
+    "Assembler"
+  ]
+}

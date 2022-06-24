@@ -1,0 +1,358 @@
+{
+  "key": "Backup-MySQL",
+  "title":"[備份] macOS 上安裝 MySQL 5.6",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"5.6 安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"a", "t":"官網頁面", "href":"http://dev.mysql.com/downloads/file.php?id=454017" },
+            {
+              "e":"span",
+              "t":"下方 "
+            },
+            {
+              "e":"code",
+              "t":"No thanks, just start my download."
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"備用載點 － "
+            },
+            { "e":"a", "t":"mysql-5.6.21-osx10.9-x86_64.dmg", "href":"https://cdn.ioa.tw/MacEnvInit/mysql-5.6.21-osx10.9-x86_64.dmg" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"對 "
+            },
+            {
+              "e":"code",
+              "t":"mysql-5.6.21-osx10.9-x86_64.dmg"
+            },
+            {
+              "e":"span",
+              "t":" 點擊兩下進行安裝，點擊兩下 "
+            },
+            {
+              "e":"code",
+              "t":"mysql-5.6.21-osx10.8-x86_64.pkg"
+            },
+            {
+              "e":"span",
+              "t":" 開始安裝"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"‼️若是 OSX 10.10 以上，請在 "
+            },
+            {
+              "e":"code",
+              "t":"安裝類型"
+            },
+            {
+              "e":"span",
+              "t":" 的步驟時點擊 "
+            },
+            {
+              "e":"code",
+              "t":"自訂"
+            },
+            {
+              "e":"span",
+              "t":"，把 "
+            },
+            {
+              "e":"code",
+              "t":"Startup Item"
+            },
+            {
+              "e":"span",
+              "t":" 選項 "
+            },
+            {
+              "e":"code",
+              "t":"取消勾選"
+            },
+            {
+              "e":"span",
+              "t":"！"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"安裝完成後，打開 "
+            },
+            {
+              "e":"code",
+              "t":"系統偏好設定"
+            },
+            {
+              "e":"span",
+              "t":" > "
+            },
+            {
+              "e":"code",
+              "t":"MySQL"
+            },
+            {
+              "e":"span",
+              "t":" > "
+            },
+            {
+              "e":"code",
+              "t":"Start MySQL Server"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"若 "
+            },
+            {
+              "e":"code",
+              "t":"系統偏好設定"
+            },
+            {
+              "e":"span",
+              "t":" 裡面沒看到 "
+            },
+            {
+              "e":"code",
+              "t":"MySQL"
+            },
+            {
+              "e":"span",
+              "t":" 的話，請重開 "
+            },
+            {
+              "e":"code",
+              "t":"系統偏好設定"
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"變更啟動鈕權限" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"每次啟動 MySQL 都要輸入密碼，很麻煩，所以變更一下權限，終端機輸入指令 "
+            },
+            {
+              "e":"code",
+              "t":"sudo chmod 777 /usr/local/mysql/support-files/mysql.server"
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"加入指令" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"用 Sublime Text 編輯 "
+            },
+            {
+              "e":"code",
+              "t":".zshrc"
+            },
+            {
+              "e":"span",
+              "t":"，終端機執行指令 "
+            },
+            {
+              "e":"code",
+              "t":"subl ~/.zshrc"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"在檔案最下面新增 "
+            },
+            {
+              "e":"code",
+              "t":"export PATH=\"/usr/local/mysql/bin:$PATH\""
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "t":"重開終端機"
+        }
+      ]
+    },
+    { "e":"h2", "t":"設定密碼" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"打開 "
+            },
+            {
+              "e":"code",
+              "t":"iTerm2"
+            },
+            {
+              "e":"span",
+              "t":" 終端機"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"進入 MySQL，終端機執行指令 "
+            },
+            {
+              "e":"code",
+              "t":"mysql -u root"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"執行指令 "
+            },
+            {
+              "e":"code",
+              "t":"use mysql;"
+            },
+            {
+              "e":"span",
+              "t":" 選擇資料庫"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"執行指令 "
+            },
+            {
+              "e":"code",
+              "t":"update user set password=PASSWORD(\"你的密碼\") where User='root';"
+            },
+            {
+              "e":"span",
+              "t":" 設定密碼"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"執行指令 "
+            },
+            {
+              "e":"code",
+              "t":"flush privileges;"
+            },
+            {
+              "e":"span",
+              "t":" 刷新 MySQL"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"執行指令 "
+            },
+            {
+              "e":"code",
+              "t":"quit"
+            },
+            {
+              "e":"span",
+              "t":" 離開 MySQL"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"blockquote",
+      "s":[
+        {
+          "e":"p",
+          "s":[
+            {
+              "e":"span",
+              "t":"注意！設置密碼時，要記得加上引號，假設密碼為 1234，應該為:"
+            },
+            {
+              "e":"br"
+            },
+            {
+              "e":"code",
+              "t":"update user set password=PASSWORD(\"1234\") where User='root';"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=xRyxQ1qmj2c" },
+    { "text": "http://stackoverflow.com/questions/6474775/setting-the-mysql-root-user-password-on-osx", "href": "http://stackoverflow.com/questions/6474775/setting-the-mysql-root-user-password-on-osx" }
+  ],
+  "tags":[
+    "MySQL",
+    "後端"
+  ]
+}

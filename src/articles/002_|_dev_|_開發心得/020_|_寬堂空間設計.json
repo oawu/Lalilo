@@ -1,0 +1,47 @@
+{
+  "key": "case-Harmonize",
+  "cover": "/img/dev/020.jpg",
+  "title":"寬堂空間設計",
+  "at":"2015-02-26",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個前、後端技術的外包案實作，其網站名稱為" },
+        { "e":"a", "t":"寬堂空間設計", "href":"http://www.harmonizedesign.com/" },
+        { "e":"span", "t":"，此專案主要負責前端刻板、後端串接部份，版型設計則由" },
+        { "e":"a", "t":"宙思設計", "href":"https://www.zeusdesign.com.tw/" },
+        { "e":"span", "t":"所製作。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"此專案是我第一次承接視差滾動(Parallax Scrolling)的專案，一般前端常見的視差滾動有層級數量的差異，此專案是使用兩層，所以是差沒有道非常的顯著，但是從背景依然可以看出 Scroll 滑動所產生的視差。網站的視差效果參考 " },
+        { "e":"a", "t":"The history of aeronautics", "href":"http://jonathannicol.com/projects/parallax-scrolling/" },
+        { "e":"span", "t":" 此篇的方式所實作，算是初階的視差效果作品。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"網站後端主要需求是使用 php 去處理使用留言寄信的功能，所以就沒使用框架，而前端框架則是使用 " },
+        { "e":"a", "t":"OAF2E", "href":"https://github.com/oawu/oaf2e" },
+        { "e":"span", "t":" 實作，所以使用 " },
+        { "e":"a", "t":"Compass", "href":"http://compass-style.org/" },
+        { "e":"span", "t":" 來編譯 " },
+        { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+        { "e":"span", "t":"。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "http://www.harmonizedesign.com/" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/harmonize" },
+    { "text": "The history of aeronautics", "href": "http://jonathannicol.com/projects/parallax-scrolling/" }
+  ],
+  "tags":[
+    "接案"
+  ]
+}

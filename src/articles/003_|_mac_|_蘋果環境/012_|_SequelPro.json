@@ -1,0 +1,119 @@
+{
+  "key": "SequelPro",
+  "cover": "/img/mac/012.png",
+  "title":"macOS 上安裝 Sequel Pro 資料庫管理介面",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"官網下載 － " },
+            { "e":"a", "t":"https://sequelpro.com/download", "href":"https://sequelpro.com/download" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"備用載點 － " },
+            { "e":"a", "t":"sequel-pro-1.1.2.dmg", "href":"https://cdn.ioa.tw/MacEnvInit/sequel-pro-1.1.2.dmg" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"把它移到" },
+            { "e":"b", "t":"應用程式資料夾" },
+            { "e":"span", "t":"，並開啟" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"設定 " },
+            { "e":"code", "t":"command" },
+            { "e":"span", "t":" + " },
+            { "e":"code", "t":"," },
+            { "e":"span", "t":" 選擇 " },
+            { "e":"code", "t":"Tables" },
+            { "e":"span", "t":" 字形調整為 " },
+            { "e":"code", "t":"Hack 標準體, 18.0 pt" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"新增 Localhost" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"點選左下 " },
+            { "e":"code", "t":"+" },
+            { "e":"span", "t":" 輸入 " },
+            { "e":"code", "t":"Localhost", "copy":"Localhost" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Host 輸入 " },
+            { "e":"code", "t":"127.0.0.1", "copy":"127.0.0.1" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Username 輸入 " },
+            { "e":"code", "t":"root", "copy":"root" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Password 輸入剛剛 " },
+            { "e":"a", "t":"MySQL", "href":"/index.html?k=mac&id=MySQL" },
+            { "e":"span", "t":" 設定的密碼" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span", "t":"先點選 " },
+            { "e":"code", "t":"Test Connection" },
+            { "e":"span", "t":" 測試是否可以成功" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"若是 " },
+            { "e":"code", "t":"Connection Succeeded" },
+            { "e":"span", "t":" 則是成功" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"儲存點選 " },
+            { "e":"code", "t":"Save change" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=xRyxQ1qmj2c" }
+  ],
+  "tags":[
+    "MySQL",
+    "Sequel Pro",
+    "後端"
+  ]
+}

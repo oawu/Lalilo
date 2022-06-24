@@ -1,0 +1,152 @@
+{
+  "key": "Sip",
+  "cover": "/img/mac/019.png",
+  "title":"macOS 螢幕顏色吸取器 － Sip",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"blockquote", "s":[
+      { "e":"span", "t":"若在 " },
+      { "e":"a", "t":"設定 Xcode 與基礎環境", "href":"/index.html?k=mac&id=Base" },
+      { "e":"span", "t":" 有在 App Store 下載安裝過 " },
+      { "e":"b", "t":"Sip" },
+      { "e":"span", "t":" 的話就不用做此步驟" }
+    ] },
+    
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"官網下載 － " }, { "e":"a", "t":"https://sipapp.io/","href":"https://sipapp.io/" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"備用載點 － " }, { "e":"a", "t":"sip.dmg","href":"https://cdn.ioa.tw/MacEnvInit/sip.dmg" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"把它移到" }, { "e":"b", "t":"應用程式資料夾" }, { "e":"span", "t":"，並開啟" }] }
+      ]
+    },
+    
+    { "e":"h2", "t":"設定" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"下拉點選齒輪" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"General" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"Show color history" },
+                    { "e":"span", "t":" 將 " },
+                    { "e":"code", "t":"Number of colors in color history" },
+                    { "e":"span", "t":" " },
+                    { "e":"code", "t":"取消", "class": "red" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"Formats" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"CSS" },
+                    { "e":"span", "t":" 將 " },
+                    { "e":"code", "t":"All caps" },
+                    { "e":"span", "t":" " },
+                    { "e":"code", "t":"取消", "class": "red" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"Shortcuts" },
+                    { "e":"span", "t":" > 只留 " },
+                    { "e":"code", "t":"General" },
+                    { "e":"span", "t":" 的 " },
+                    { "e":"code", "t":"Show Magnifier" },
+                    { "e":"span", "t":"，並且設定快捷鍵為 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"shift" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"e" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"Color Docker" },
+                    { "e":"span", "t":" " },
+                    { "e":"code", "t":"全部取消", "class": "red" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"Account" },
+                    { "e":"span", "t":" > 登入" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"h2",
+      "t":"授權"
+    },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"打開 Gmail，搜尋 "
+            },
+            {
+              "e":"code",
+              "t":"sip"
+            },
+            {
+              "e":"span",
+              "t":"，複製授權碼"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"span",
+              "t":"選擇 "
+            },
+            {
+              "e":"code",
+              "t":"Activate License"
+            },
+            {
+              "e":"span",
+              "t":"，輸入信箱 License Code，點選 "
+            },
+            {
+              "e":"code",
+              "t":"Activate License"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[],
+  "tags":[
+    "Sip",
+    "前端",
+    "取色"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "key": "case-Hoga",
+  "cover": "/img/dev/037.jpg",
+  "title":"嘉豪光學",
+  "at":"2016-03-21",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個前、後端技術的外包案實作，其網站名稱為" },
+        { "e":"a", "t":"嘉豪光學", "href":"http://www.hogaoptical.com.tw/" },
+        { "e":"span", "t":"，嘉豪光學有限公司為多國外知名品牌之總代理。於2007成立至今，憑著經營團隊專業的知識領域和熱誠的服務態度，產品銷售已涵蓋全台眼鏡商圈。" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/037/01.jpg" },
+    { "e":"img", "alt":"基本上稿功能的官網", "src":"/img/dev/037/02.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"專案為" },
+        { "e":"a", "t":"宙思設計", "href":"https://www.zeusdesign.com.tw/" },
+        { "e":"span", "t":"的網站專案，專案除了設計與聯絡外，從" },
+        { "e":"b", "t":"前端刻板" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"後端資料庫" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"系統架設" },
+        { "e":"span", "t":"皆是獨立完成。網站框架是使用 OACI " },
+        { "e":"a", "t":"version 4.1", "href":"https://github.com/oawu/oaci/tree/version/4.1" },
+        { "e":"span", "t":" 語言則是 " },
+        { "e":"a", "t":"PHP", "href":"https://zh.wikipedia.org/zh-tw/PHP" },
+        { "e":"span", "t":"，而前端刻板則是搭配 OACI 的框架使用 " },
+        { "e":"a", "t":"Compass", "href":"http://compass-style.org/" },
+        { "e":"span", "t":" 加強前端管理。" }
+      ]
+    },
+    { "e":"img", "alt":"嘉豪光學後台系統", "src":"/img/dev/037/03.jpg" },
+    { "e":"img", "alt":"文章編輯器的後台", "src":"/img/dev/037/04.jpg" },
+    { "e":"img", "alt":"網站使用 SCSS 撰寫", "src":"/img/dev/037/05.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"網站性質主要已公告資訊為主，所以功能面不外乎 Banner 輪播、列表呈現、表單功能，而這部分的 JavaScript 也是獨立完成。而後台上稿則是沿用" },
+        { "e":"a", "t":"宙思設計", "href":"https://www.zeusdesign.com.tw/" },
+        { "e":"span", "t":"官網後台 Layout 並新增所需功能而完成。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"http://www.hogaoptical.com.tw/" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/hoga" }
+  ],
+  "tags":[
+    "接案",
+    "PHP",
+    "JavaScript"
+  ]
+}

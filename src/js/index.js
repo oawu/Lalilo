@@ -5,6 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-$(function() {
-
+$(_ => {
+  const $menu = $('#menu')
+  $('#cover, #hamburger').click(_ => $menu.toggleClass('show'))
 })

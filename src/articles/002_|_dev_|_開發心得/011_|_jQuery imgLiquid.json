@@ -1,0 +1,48 @@
+{
+  "key": "jQuery-imgLiquid-extend",
+  "cover": "/img/dev/011.jpg",
+  "title":"實作 jQuery imgLiquid 套件",
+  "at":"2014-11-28",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"imgLiquid 是一個處理前端圖片置中的 " },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":" Extend Function，其中參考了 " },
+        { "e":"a", "t":"imgLiquid", "href":"https://github.com/karacas/imgLiquid" },
+        { "e":"span", "t":"，但其架構與做法不大相同。" }
+      ]
+    },
+    { "e":"img", "alt":"垂直置中(藍色為父層、黃色為 img 元素)", "src":"/img/dev/011/01.jpg" },
+    { "e":"img", "alt":"水平置中(藍色為父層、黃色為 img 元素)", "src":"/img/dev/011/02.jpg" },
+    { "e":"p", "t":"此作品雖然與 imgLiquid 功能一樣，但是做法不同，前者將  設定成隱藏，在取出其圖片網址後設定在該  父元素的 Style，而我的這次要實作的雖然目的相同，但做法則不一樣。" },
+    { "e":"p", "t":"首先需要幾個先決條件：" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "t":"父層 position 一定要是 position、absolute、fixed。" },
+        { "e":"li", "t":"父層一定要有設定 width 以及 height。" }
+      ]
+    },
+    { "e":"p", "t":"做法是將指定的元素 position 設定成 absolute，在用 top、right、bottom、left 去調整位置，而此時父層再加上一項屬性 overflow: hidden; 即可做到調整位置的效果了！" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"其中功能也加入很多方式使用，包含了搭配" },
+        { "e":"a", "t":"元素屬性", "href":"http://w3school.com.cn/html/html_attributes.asp" },
+        { "e":"span", "t":"設定..等功能，若要更清楚瞭解可以置 " },
+        { "e":"a", "t":"GitHub", "href":"https://github.com/oawu/OA-imgLiquid#%E7%9B%AE%E9%8C%84" },
+        { "e":"span", "t":" 查看說明。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"https://works.ioa.tw/OA-imgLiquid/index.html" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-imgLiquid" }
+  ],
+  "tags":[
+    "jQuery"
+  ]
+}

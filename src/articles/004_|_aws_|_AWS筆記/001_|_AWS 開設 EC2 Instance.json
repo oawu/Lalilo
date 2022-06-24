@@ -1,0 +1,167 @@
+{
+  "key": "Create-EC2-Instance",
+  "cover": "/img/aws/001.png",
+  "title":"AWS 開設 EC2 Instance",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"點擊左上角黃色 " },
+            { "e":"code", "t":"Launch Instances" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"選擇要安裝的系統，若要使用免費版要選擇下面有 " },
+            { "e":"code", "t":"Free tier eligible" },
+            { "e":"span", "t":" 的字樣，這邊我們選擇 " },
+            { "e":"code", "t":"Ubuntu Server 18.04 LTS (HVM), SSD Volume Type" },
+            { "e":"span", "t":"，點擊該後面的藍色按鈕 " },
+            { "e":"code", "t":"Select" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"第二頁 " },
+            { "e":"code", "t":"Choose an Instance Type" },
+            { "e":"span", "t":"，主要是確認版本，免費版就確定有綠色的 " },
+            { "e":"code", "t":"Free tier eligible" },
+            { "e":"span", "t":" 即可，然後按右下 " },
+            { "e":"code", "t":"Next: Configure Instance Details" },
+            { "e":"span", "t":"。(注：不是藍色按鈕)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"第三頁 " },
+            { "e":"code", "t":"Configure Instance Details" },
+            { "e":"span", "t":"，確認內容細節，這邊基本上不用動，然後按右下 " },
+            { "e":"code", "t":"Next: Add Storage" },
+            { "e":"span", "t":"。(注：不是藍色按鈕)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"第四頁 " },
+            { "e":"code", "t":"Add Storage" },
+            { "e":"span", "t":"，主要是給你看你的 EC2 的硬碟容量，預設是 " },
+            { "e":"b", "t":"8GB" },
+            { "e":"span", "t":"，如果要更大一點的容量，可以自行修改，確定後按右下 " },
+            { "e":"code", "t":"Next: Add Tag" },
+            { "e":"span", "t":"。(注：不是藍色按鈕)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"第五頁 " },
+            { "e":"code", "t":"Add Tags" },
+            { "e":"span", "t":"，主要是讓你新增「標籤」，但也是通常不太會用到，所以一樣按右下 " },
+            { "e":"code", "t":"Next: Configure Security Group" },
+            { "e":"span", "t":"。(注：不是藍色按鈕)" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"第六頁 " },
+              { "e":"code", "t":"Configure Security Group" },
+              { "e":"span", "t":"，這頁是讓你設定「安全群組」，你可以設定你的 EC2 要採用哪個安全設定，若第一次應該沒有任何的 " },
+              { "e":"code", "t":"Group" },
+              { "e":"span", "t":"，所以你可以在 " },
+              { "e":"code", "t":"Assign a security group" },
+              { "e":"span", "t":" 選擇 " },
+              { "e":"code", "t":"Create a new security group" },
+              { "e":"span", "t":"，然後下方去設定這次要新增的 「Group」細節" }
+            ] },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"預設的 " },
+                    { "e":"code", "t":"SSH" },
+                    { "e":"span", "t":" 是一定要的，要不然你到時候沒辦法 SSH 連上線喔！" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"再增加 " },
+                    { "e":"code", "t":"HTTP" },
+                    { "e":"span", "t":" 與 " },
+                    { "e":"code", "t":"HTTPS" },
+                    { "e":"span", "t":"，然後 " },
+                    { "e":"code", "t":"Source" },
+                    { "e":"span", "t":" 設定成 " },
+                    { "e":"code", "t":"0.0.0.0/0", "copy":"0.0.0.0/0" },
+                    { "e":"span", "t":"，代表任何地方都可以用 HTTP 或 HTTPS 開。" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"然後按下藍色的 " },
+                    { "e":"code", "t":"Review and Launch" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"第七頁 " },
+            { "e":"code", "t":"Review Instance Launch" },
+            { "e":"span", "t":"，請你確認一下資訊，無誤後即可按下左下方的 " },
+            { "e":"code", "t":"Launch" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"跳出 " },
+            { "e":"code", "t":"Select an existing key pair or create a new key pair" },
+            { "e":"span", "t":"，這步驟很重要！下方選擇你這個 EC2 要採用哪個 key，第一次通常沒有，所以選擇 " },
+            { "e":"code", "t":"Create a new key pair" },
+            { "e":"span", "t":"，然後輸入 " },
+            { "e":"code", "t":"Key pair name" },
+            { "e":"span", "t":"，然後按下 " },
+            { "e":"code", "t":"Download Key Pair" },
+            { "e":"span", "t":"，下載後的 " },
+            { "e":"code", "t":".pem" },
+            { "e":"span", "t":" 檔案很重要，到時候要藉由這個檔案做登入 EC2 的憑證！" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"下載完 " },
+            { "e":"code", "t":".pem" },
+            { "e":"span", "t":" 後，按下藍色的 " },
+            { "e":"code", "t":"Launch Instances" },
+            { "e":"span", "t":" 即可。" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+  ],
+  "tags":[
+    "AWS",
+    "EC2"
+  ]
+}

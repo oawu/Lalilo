@@ -1,0 +1,594 @@
+{
+  "key": "LCD1602",
+  "title": "LCD1602 介面顯示模組",
+  "at": "2021-08-02",
+  "type":"article",
+  "blocks": [
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "p", "t": "開啟 I2C，有以下兩個方法，擇一進行即可" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                { "e":"span", "t":"指令操作，終端機執行指令：" },
+                { "e":"code", "t":"sudo raspi-config", "copy":"sudo raspi-config" },
+                { "e":"span", "t":"，選擇 " },
+                { "e":"code", "t":"Interface Options" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"I2C" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"是" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"確定" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Finish" }
+              ] },
+              { "e": "li", "s": [
+                { "e":"span", "t":"介面操作，點擊左上 " },
+                { "e":"code", "t":"樹莓派圖示" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"偏好設定" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"Raspberry Pi 設定" },
+                { "e":"span", "t":" > " },
+                { "e":"code", "t":"介面" },
+                { "e":"span", "t":"，" },
+                { "e":"code", "t":"勾選啟用", "class":"green" },
+                { "e":"span", "t":" I2C" }
+              ] }
+            ]
+          }
+        ] },
+
+        { "e": "li", "s": [
+          {"e": "p", "t": "硬體設定" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "LCD1602" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "VCC" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "5V", "class":"red" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "LCD1602" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "GND" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GND" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "LCD1602" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "SCL" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GPIO 3" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "LCD1602" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "SDA" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GPIO 2" }
+              ]}
+            ]
+          }
+        ] },
+
+        { "e": "li", "s": [
+          {"e": "p", "t": "寫入 Hello World!" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "先新增函式程式，終端機執行指令：" },
+                {"e": "code", "t": "nano LCD1602.py", "copy": "nano LCD1602.py" }
+              ] },
+              {
+                "e":"pre",
+                "class":"lines",
+                "copy":"#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\nimport time\nimport smbus\n\nBUS = smbus.SMBus(1)\n\ndef __write(buf):\n  BUS.write_byte(LCD_ADDR, buf)\n  time.sleep(0.002)\n  BUS.write_byte(LCD_ADDR, buf & 0xFB)\n\ndef __command(comm, sec = 0, setting = 0x0C):\n  __write((comm & 0xF0)      | setting)\n  __write((comm & 0x0F) << 4 | setting)\n  if sec > 0: time.sleep(sec)\n\ndef init(addr = 0x27):\n  global LCD_ADDR\n  LCD_ADDR = addr\n\n  try:\n    # 初始指令\n    __command(0x33, 0.005)\n    __command(0x32, 0.005)\n    __command(0x28, 0.005)\n    __command(0x0C, 0.005)\n    clear() # 清除畫面\n    BUS.write_byte(LCD_ADDR, 0x07) # 關閉背光\n    BUS.write_byte(LCD_ADDR, 0x08) # 開啟背光\n\n  except: return False\n  else:   return True\n\ndef clear():\n  __command(0x01)\n\ndef close():\n  BUS.close()\n\ndef write(x, y, str, light = True):\n  if x <  0: x = 0\n  if x > 15: x = 15\n  if y <  0: y = 0\n  if y >  1: y = 1\n\n  __command(0x80 + 0x40 * y + x) # 移動游標\n\n  for  chr  in  str:\n    __command(ord(chr), 0, 0x0D if light else 0x05)",
+                "s":[
+                  { "e":"div", "t":"#!/usr/bin/env python3", "class": "gray" },
+                  { "e":"div", "t":"# -*- coding: utf-8 -*-", "class": "gray" },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "import", "class": "red" },
+                    { "e":"span", "t": " time" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "import", "class": "red" },
+                    { "e":"span", "t": " smbus" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "BUS " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " smbus." },
+                    { "e":"span", "t": "SMBus", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "1", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "__write", "class": "green" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "buf", "class": "orange" },
+                    { "e":"span", "t": "):" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  BUS." },
+                    { "e":"span", "t": "write_byte", "class": "blue" },
+                    { "e":"span", "t": "(LCD_ADDR, buf)" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  time." },
+                    { "e":"span", "t": "sleep", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0.002", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  BUS." },
+                    { "e":"span", "t": "write_byte", "class": "blue" },
+                    { "e":"span", "t": "(LCD_ADDR, buf " },
+                    { "e":"span", "t": "&", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0xFB", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "__command", "class": "green" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "comm", "class": "orange" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "sec", "class": "orange" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "setting", "class": "orange" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0x0C", "class": "purple" },
+                    { "e":"span", "t": "):" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "__write", "class": "blue" },
+                    { "e":"span", "t": "((comm " },
+                    { "e":"span", "t": "&", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0xF0", "class": "purple" },
+                    { "e":"span", "t": ")      " },
+                    { "e":"span", "t": "|", "class": "red" },
+                    { "e":"span", "t": " setting)" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "__write", "class": "blue" },
+                    { "e":"span", "t": "((comm " },
+                    { "e":"span", "t": "&", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0x0F", "class": "purple" },
+                    { "e":"span", "t": ") " },
+                    { "e":"span", "t": "<<", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "4", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "|", "class": "red" },
+                    { "e":"span", "t": " setting)" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " sec " },
+                    { "e":"span", "t": ">", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0", "class": "purple" },
+                    { "e":"span", "t": ": time." },
+                    { "e":"span", "t": "sleep", "class": "blue" },
+                    { "e":"span", "t": "(sec)" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "init", "class": "green" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "addr", "class": "orange" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0x27", "class": "purple" },
+                    { "e":"span", "t": "):" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "global", "class": "red" },
+                    { "e":"span", "t": " LCD_ADDR" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  LCD_ADDR " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " addr" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "try", "class": "red" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "# 初始指令", "class": "gray" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "__command", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0x33", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "0.005", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "__command", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0x32", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "0.005", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "__command", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0x28", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "0.005", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "__command", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0x0C", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "0.005", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "clear", "class": "blue" },
+                    { "e":"span", "t": "() " },
+                    { "e":"span", "t": "# 清除畫面", "class": "gray" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    BUS." },
+                    { "e":"span", "t": "write_byte", "class": "blue" },
+                    { "e":"span", "t": "(LCD_ADDR, " },
+                    { "e":"span", "t": "0x07", "class": "purple" },
+                    { "e":"span", "t": ") " },
+                    { "e":"span", "t": "# 關閉背光", "class": "gray" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    BUS." },
+                    { "e":"span", "t": "write_byte", "class": "blue" },
+                    { "e":"span", "t": "(LCD_ADDR, " },
+                    { "e":"span", "t": "0x08", "class": "purple" },
+                    { "e":"span", "t": ") " },
+                    { "e":"span", "t": "# 開啟背光", "class": "gray" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "except", "class": "red" },
+                    { "e":"span", "t": ": " },
+                    { "e":"span", "t": "return", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "False", "class": "purple" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "else", "class": "red" },
+                    { "e":"span", "t": ":   " },
+                    { "e":"span", "t": "return", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "True", "class": "purple" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "clear", "class": "green" },
+                    { "e":"span", "t": "():" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "__command", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0x01", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "close", "class": "green" },
+                    { "e":"span", "t": "():" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  BUS." },
+                    { "e":"span", "t": "close", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "write", "class": "green" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "x", "class": "orange" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "y", "class": "orange" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "str", "class": "orange" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "light", "class": "orange" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "True", "class": "purple" },
+                    { "e":"span", "t": "):" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " x " },
+                    { "e":"span", "t": "<", "class": "red" },
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "0", "class": "purple" },
+                    { "e":"span", "t": ": x " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0", "class": "purple" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " x " },
+                    { "e":"span", "t": ">", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "15", "class": "purple" },
+                    { "e":"span", "t": ": x " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "15", "class": "purple" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " y " },
+                    { "e":"span", "t": "<", "class": "red" },
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "0", "class": "purple" },
+                    { "e":"span", "t": ": y " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0", "class": "purple" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " y " },
+                    { "e":"span", "t": ">", "class": "red" },
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "1", "class": "purple" },
+                    { "e":"span", "t": ": y " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "1", "class": "purple" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "__command", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0x80", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "+", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0x40", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "*", "class": "red" },
+                    { "e":"span", "t": " y " },
+                    { "e":"span", "t": "+", "class": "red" },
+                    { "e":"span", "t": " x) " },
+                    { "e":"span", "t": "# 移動游標", "class": "gray" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "for", "class": "red" },
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "chr", "class": "blue" },
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "in", "class": "red" },
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "str", "class": "blue" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "__command", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "ord", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "chr", "class": "blue" },
+                    { "e":"span", "t": "), " },
+                    { "e":"span", "t": "0", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "0x0D", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " light " },
+                    { "e":"span", "t": "else", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0x05", "class": "purple" },
+                    { "e":"span", "t": ")" }
+                  ] }
+                ]
+              },
+              { "e": "li", "s": [
+                {"e": "span", "t": "再於相同目錄下新增測試程式，終端機執行指令：" },
+                {"e": "code", "t": "nano test.py", "copy": "nano test.py" }
+              ] },
+              {
+                "e":"pre",
+                "class":"lines",
+                "copy":"#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\nimport LCD1602\n\nAddress = 0x27\n\ndef setup():\n  LCD1602.init(Address)\n  LCD1602.clear()\n\ndef main():\n  LCD1602.write(0, 0, 'Hello World!')\n\nif __name__ =='__main__':\n  try:\n    setup()\n    main()\n\n  except KeyboardInterrupt:\n    print('exit')",
+                "s":[
+                  { "e":"div", "t":"#!/usr/bin/env python3", "class": "gray" },
+                  { "e":"div", "t":"# -*- coding: utf-8 -*-", "class": "gray" },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "import", "class": "red" },
+                    { "e":"span", "t": " LCD1602" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "Address " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "0x27", "class": "purple" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "setup", "class": "green" },
+                    { "e":"span", "t": "():" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  LCD1602." },
+                    { "e":"span", "t": "init", "class": "blue" },
+                    { "e":"span", "t": "(Address)" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  LCD1602." },
+                    { "e":"span", "t": "clear", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "main", "class": "green" },
+                    { "e":"span", "t": "():" }
+                  ] },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  LCD1602." },
+                    { "e":"span", "t": "write", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "0", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "0", "class": "purple" },
+                    { "e":"span", "t": ", " },
+                    { "e":"span", "t": "'Hello World!'", "class": "yellow" },
+                    { "e":"span", "t": ")" }
+                  ]},
+
+
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " __name__ " },
+                    { "e":"span", "t": "==", "class": "red" },
+                    { "e":"span", "t": "'__main__'", "class": "yellow" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "try", "class": "red" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "setup", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "main", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "except", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "KeyboardInterrupt", "class": "blue" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "'exit'", "class": "yellow" },
+                    { "e":"span", "t": ")" }
+                  ] }
+                ]
+              },
+
+              { "e": "li", "s": [
+                {"e": "span", "t": "執行，終端機執行指令：" },
+                {"e": "code", "t": "python3 test.py", "copy": "python3 test.py" }
+              ] }
+            ]
+          }
+        ]}
+      ]
+    }
+  ],
+  "references": [],
+  "tags": []
+}

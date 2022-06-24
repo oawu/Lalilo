@@ -1,0 +1,44 @@
+{
+  "key": "other",
+  "title": "其他常用指令",
+  "at": "2021-08-02",
+  "type":"article",
+  "blocks": [
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "關機：" },
+          {"e": "code", "t": "sudo shutdown -h now", "copy": "sudo shutdown -h now" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "重啟：" },
+          {"e": "code", "t": "sudo reboot -h now", "copy": "sudo reboot -h now" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "CPU 溫度：" },
+          {"e": "code", "t": "vcgencmd measure_temp", "copy": "vcgencmd measure_temp" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "CPU 電壓：" },
+          {"e": "code", "t": "vcgencmd measure_volts", "copy": "vcgencmd measure_volts" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "查詢網路目前設定狀態：" },
+          {"e": "code", "t": "ifconfig", "copy": "ifconfig" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "查詢無線網路目前設定狀態：" },
+          {"e": "code", "t": "iwconfig", "copy": "iwconfig" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "列出目前搜尋到的 WiFi：" },
+          {"e": "code", "t": "sudo iwlist wlan0 scan", "copy": "sudo iwlist wlan0 scan" }
+        ] }
+      ]
+    }
+
+  ],
+  "references": [],
+  "tags": []
+}

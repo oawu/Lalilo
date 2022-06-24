@@ -1,0 +1,60 @@
+{
+  "key": "Java-Msn",
+  "cover": "/img/dev/002.jpg",
+  "title":"用 Java 實作 MSN",
+  "at":"2008-10-01",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"因為學習 " },
+        { "e":"a", "t":"Java", "href":"https://zh.wikipedia.org/wiki/Java" },
+        { "e":"span", "t":" 語言而發現了有 " },
+        { "e":"a", "t":"UDT", "href":"https://zh.wikipedia.org/wiki/UDT" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"TCP", "href":"https://zh.wikipedia.org/wiki/%E5%82%B3%E8%BC%B8%E6%8E%A7%E5%88%B6%E5%8D%94%E5%AE%9A" },
+        { "e":"span", "t":" 通訊協定的 " },
+        { "e":"a", "t":"Socket", "href":"https://en.wikipedia.org/wiki/Network_socket" },
+        { "e":"span", "t":" 物件可以使用，所以就在利用 " },
+        { "e":"a", "t":"Java GUI", "href":"https://zh.wikipedia.org/wiki/Swing_(Java)" },
+        { "e":"span", "t":" 與 Socket 做了簡單結合，由基本的 Java Socket 實作基本的" },
+        { "e":"a", "t":"主從式架構（Client-Server）", "href":"https://zh.wikipedia.org/wiki/%E4%B8%BB%E5%BE%9E%E5%BC%8F%E6%9E%B6%E6%A7%8B" },
+        { "e":"span", "t":"的伺服端、客戶端，藉由伺服器的角色幫助客服端建立連線而達到通訊的功能，並且模擬 " },
+        { "e":"a", "t":"P2P", "href":"https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%AD%89%E7%B6%B2%E8%B7%AF" },
+        { "e":"span", "t":" 的連線機制，以自定義簡單的格式來達到基本的溝通串流。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"a", "t":"GitHub", "href":"https://github.com/oawu/sophomore-java-msn" },
+        { "e":"span", "t":" 上目前提供 " },
+        { "e":"a", "t":".jar 檔案", "href":"https://zh.wikipedia.org/wiki/JAR_(%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F)" },
+        { "e":"span", "t":"，之後會補上原始碼，而以下是的 Demo 影片，裡面會有詳細的功能介紹。" }
+      ]
+    },
+    {
+      "e":"div",
+      "class": "iframe",
+      "s":[
+        {
+          "e":"iframe",
+          "src":"https://www.youtube.com/embed/Z8ozcKeDsbk",
+          "attr":{
+            "allowfullscreen":"",
+            "frameborder":"0"
+          }
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "GitHub jar 檔案", "href": "https://github.com/oawu/sophomore-java-msn" },
+    { "text": "Youtube 影片", "href": "https://www.youtube.com/watch?v=Z8ozcKeDsbk" }
+  ],
+  "tags":[
+    "Java",
+    "MSM"
+  ]
+}

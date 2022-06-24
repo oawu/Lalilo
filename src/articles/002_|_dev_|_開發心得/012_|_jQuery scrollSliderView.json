@@ -1,0 +1,26 @@
+{
+  "key": "jQuery-scrollSliderView-extend",
+  "cover": "/img/dev/012.jpg",
+  "title":"實作 jQuery scrollSliderView 套件",
+  "at":"2014-12-01",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"OA-scrollSliderView 這是一個前端 " },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":" Extend Function，主要架構於 jQuery，此版本是支援 " },
+        { "e":"a", "t":"Responsive Web Design(RWD)", "href":"http://www.ibest.tw/page01.php" },
+        { "e":"span", "t":" 的頁面。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "https://works.ioa.tw/OA-scrollSliderView/index.html" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/OA-scrollSliderView" }
+  ],
+  "tags":[
+    "jQuery"
+  ]
+}

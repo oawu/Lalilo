@@ -1,0 +1,80 @@
+{
+  "key": "iOS-CocoaPods-note",
+  "cover": "/img/dev/051.png",
+  "title":"CocoaPods 筆記",
+  "subtitle":"每次都會忘記，因為開發 iOS APP 有時候都會用到 CocoaPods 安裝相關套件，所以筆記一下！",
+  "at":"2017-11-28",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"參考 " },
+            {
+              "e":"a",
+              "t":"https://cocoapods.org/",
+              "href":"https://cocoapods.org/"
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"指令 " },
+            { "e":"code", "t":"sudo gem install cocoapods", "copy": "sudo gem install cocoapods" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"版本 " },
+            { "e":"code", "t":"pod --version", "copy": "pod --version" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"初始 " },
+            { "e":"code", "t":"pod init", "copy": "pod init" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"安裝 AlamofireObjectMapper 在專案下 Podfile 加入 " },
+            { "e":"code", "t":"pod 'AlamofireObjectMapper', '~> 5.0'" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"執行 " },
+            { "e":"code", "t":"pod install", "copy": "pod install" },
+            { "e":"span", "t":"，第一次會很久" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"原本應該開啟 " },
+            { "e":"code", "t":".xcodeproj" },
+            { "e":"span", "t":" 改開啟 " },
+            { "e":"code", "t":".xcworkspace" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "CocoaPods.org", "href": "https://cocoapods.org/" }
+  ],
+  "tags":[
+    "iOS",
+    "Xcode",
+    "CocoaPods",
+    "App"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "key": "EC2-Ubuntu-NodeJS",
+  "cover": "/img/aws/007.png",
+  "title":"EC2 Ubuntu 安裝 Node.js",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝 Node.js" },
+    { "e":"p", "t": "方法有兩種，自己選擇" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {"e": "span", "t": "快速指令 " },
+            { "e":"code", "t":"點我複製", "copy":"sudo apt update && curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - && sudo apt -y install nodejs && node -v" }
+          ]
+        },
+        { "e": "li", "s": [
+          {"e": "p", "t": "一步一步" },
+          {
+            "e":"ul",
+            "s":[
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"更新 apt " },
+                  { "e":"code", "t":"sudo apt update", "copy":"sudo apt update" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"下載 setup " },
+                  { "e":"code", "t":"curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -", "copy":"curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"使用 apt 安裝，指令 " },
+                  { "e":"code", "t":"sudo apt -y install nodejs", "copy":"sudo apt -y install nodejs" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"檢查版本，確認是否安裝成功，指令：" },
+                  { "e":"code", "t":"node -v", "copy":"node -v" }
+                ]
+              }
+            ]
+          }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "https://stackoverflow.com/questions/62931232/attempting-to-install-nodejs-14-installs-nodejs-8-instead", "href": "https://stackoverflow.com/questions/62931232/attempting-to-install-nodejs-14-installs-nodejs-8-instead" }
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "Node.js"
+  ]
+}

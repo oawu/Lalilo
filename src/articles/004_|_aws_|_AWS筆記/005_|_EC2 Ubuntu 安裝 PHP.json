@@ -1,0 +1,184 @@
+{
+  "key": "EC2-Ubuntu-PHP",
+  "cover": "/img/aws/005.png",
+  "title":"EC2 Ubuntu 安裝 PHP",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"假設" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "t":"以下操作先做假設"
+            },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"Elastic IPs：" },
+                    { "e":"code", "t":"123.456.789" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"下載的 .pem 檔案名稱：" },
+                    { "e":"code", "t":"test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"test.pem" },
+                    { "e":"span", "t":" 位置：" },
+                    { "e":"code", "t":"/User/oa/test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"網址(domain)：" },
+                    { "e":"code", "t":"your.url.tw" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"E-Mail：" },
+                    { "e":"code", "t":"your.email@gmail.com" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"以下編輯器主要是使用 " },
+                    { "e":"code", "t":"nano" },
+                    { "e":"span", "t":"，請自行斟酌是否使用 " },
+                    { "e":"code", "t":"vi" },
+                    { "e":"span", "t":" 或 " },
+                    { "e":"code", "t":"vim" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"blockquote",
+      "s":[
+        { "e":"span", "t":"記得去你的 DNS(Domain Name Server) 設定，新增 " },
+        { "e":"code", "t":"A" },
+        { "e":"span", "t":" 紀錄 " },
+        { "e":"code", "t":"your.url.tw" },
+        { "e":"span", "t":"，指向 IP " },
+        { "e":"code", "t":"123.456.789" }
+      ]
+    },
+
+
+    { "e":"h2", "t":"安裝 PHP" },
+    { "e":"p", "t": "方法有兩種，自己選擇" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {"e": "span", "t": "快速指令 " },
+            { "e":"code", "t":"點我複製", "copy":"sudo apt -y install php-fpm libapache2-mod-php php-curl php-imagick php-mysql php-gd php-mbstring php-xml && cd ~/www/ && echo \"<?php\\n  phpinfo();\\n\" > phpinfo.php && sudo service apache2 restart" }
+          ]
+        },
+        { "e": "li", "s": [
+          {"e": "p", "t": "一步一步" },
+          {
+            "e":"ul",
+            "s":[
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"使用 apt 安裝，指令 " },
+                  { "e":"code", "t":"sudo apt -y install php-fpm libapache2-mod-php php-curl php-imagick php-mysql php-gd php-mbstring php-xml", "copy":"sudo apt -y install php-fpm libapache2-mod-php php-curl php-imagick php-mysql php-gd php-mbstring php-xml && php -v" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"檢查版本，確認是否安裝成功，指令：" },
+                  { "e":"code", "t":"php -v", "copy":"php -v" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"p", "s":[
+                    { "e":"span", "t":"在 www 下新增測試 PHP 檔案，指令 " },
+                    { "e":"code", "t":"nano phpinfo.php", "copy":"nano phpinfo.php" },
+                    { "e":"span", "t":"，內容為如下：" }
+                  ] },
+                  {
+                    "e":"pre",
+                    "class":"lines",
+                    "copy":"<?php\n    phpinfo();",
+                    "s":[
+                      { "e":"div", "t": "<?php" },
+                      { "e":"div", "s":[
+                        {"e": "span", "t": "    " },
+                        {"e": "span", "t": "phpinfo", "class": "blue" },
+                        {"e": "span", "t": "();" }] }
+                    ]
+                  }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"重啟 Apache：" },
+                  { "e":"code", "t":"sudo service apache2 restart", "copy":"sudo service apache2 restart" },
+                  { "e":"span", "t":"，瀏覽器開啟網址：" },
+                  { "e":"code", "t":"http://123.456.789/phpinfo.php", "copy":"http://123.456.789/phpinfo.php" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"檢查是否有 " },
+                  { "e":"code", "t":"imagick" },
+                  { "e":"span", "t":"、" },
+                  { "e":"code", "t":"curl" },
+                  { "e":"span", "t":"、" },
+                  { "e":"code", "t":"mysqli" },
+                  { "e":"span", "t":"、" },
+                  { "e":"code", "t":"pdo_mysql" },
+                  { "e":"span", "t":"、" },
+                  { "e":"code", "t":"gd" },
+                  { "e":"span", "t":"、" },
+                  { "e":"code", "t":"mbstring" },
+                  { "e":"span", "t":" 功能。" }
+                ]
+              }
+            ]
+          }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html", "href": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html" },
+    { "text": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/", "href": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/" }
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "PHP"
+  ]
+}

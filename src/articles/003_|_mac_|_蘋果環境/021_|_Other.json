@@ -1,0 +1,94 @@
+{
+  "key": "Other",
+  "title":"其他雜記",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"收尾" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"下方 Dock 排序" },
+            {
+              "e":"ul",
+              "s":[
+                { "e":"li", "t":"Finder" },
+                { "e":"li", "t":"啟動台" },
+                { "e":"li", "t":"Chrome" },
+                { "e":"li", "t":"Sublime Text" },
+                { "e":"li", "t":"iTerm" },
+                { "e":"li", "t":"Sourcetree" },
+                { "e":"li", "t":"Sequel Pro" },
+                { "e":"li", "t":"line" },
+                { "e":"li", "t":"下載" },
+                { "e":"li", "t":"垃圾桶" }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Finder 左邊 " },
+            { "e":"code", "t":"位置" },
+            { "e":"span", "t":" 將安裝過的軟體退出" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"指令筆記" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"顯示目前的位置 － " },
+            { "e":"code", "t":"pwd", "copy":"pwd" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"顯示此指令的位置 － " },
+            { "e":"code", "t":"which 指令", "copy":"which " }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"建立捷徑指令 － " },
+            { "e":"code", "t":"ln -s 真實檔案 捷徑檔案", "copy":"ln -s " }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"變更擁有者，" },
+            { "e":"code", "t":"-R" },
+            { "e":"span", "t":" 為全部資料夾 － " },
+            { "e":"code", "t":"sudo chown -R oa /檔案/", "copy":"sudo chown -R " }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"關掉 Spotlight 索引" },
+    { "e":"p", "t":"如果你完全不使用 Spotlight，則可以考慮把 Spotlight 完全關閉，而 Spotlight 基本上是沒辦法從圖形介面去關閉的，所以你必須先打開你的終端機輸入一些指令！" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"終端機執行指令 " }, { "e":"code", "t":"sudo mdutil -i off /", "copy":"sudo mdutil -i off /" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"終端機執行指令 " }, { "e":"code", "t":"sudo mdutil -i off -a", "copy":"sudo mdutil -i off -a" }] }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=nIf-_9mTGOg" }
+  ],
+  "tags":[
+    
+  ]
+}

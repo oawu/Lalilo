@@ -1,0 +1,43 @@
+{
+  "key": "case-Chitorch",
+  "cover": "/img/dev/013.jpg",
+  "title":"奇拓室內裝修設計",
+  "at":"2014-12-03",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個後端技術的外包案實作，其網站名稱為" },
+        { "e":"a", "t":"奇拓室內裝修設計", "href":"http://www.chitorch.com/" },
+        { "e":"span", "t":"，奇拓室內裝修設計是我近年來第一個與" },
+        { "e":"a", "t":"宙思設計", "href":"https://www.zeusdesign.com.tw/" },
+        { "e":"span", "t":"承接的網站外包案，不過這專案我並非為全端作業，而是只實作後端與系統的部分，前端刻板則由宙思設計所製作。" }
+      ]
+    },
+    { "e":"img", "src":"/img/dev/013/01.jpg" },
+    { "e":"img", "alt":"列表頁包含了多樣的查詢方式", "src":"/img/dev/013/02.jpg" },
+    { "e":"img", "alt":"響應式網頁設計", "src":"/img/dev/013/03.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"後端主要功能是提供上稿系統，以提供前台畫面使用，所以主要功能為一般的 " },
+        { "e":"a", "t":"Create、Read、Update、Delete(CRUD)", "href":"https://zh.wikipedia.org/wiki/%E8%B3%87%E6%96%99%E6%93%8D%E7%B8%B1%E8%AA%9E%E8%A8%80" },
+        { "e":"span", "t":" 操作。網站同時是有提供響" },
+        { "e":"a", "t":"應式設計(RWD)", "href":"http://www.ibest.tw/page01.php" },
+        { "e":"span", "t":"，所以在手機瀏覽上亦能順暢閱讀。後端架構上使用 " },
+        { "e":"a", "t":"PHP 5.6", "href":"http://php.net/ChangeLog-5.php" },
+        { "e":"span", "t":" 而框架上則是使用 " },
+        { "e":"a", "t":"CodeIgniter version 2.1.4", "href":"https://codeigniter.org.tw/" },
+        { "e":"span", "t":" 所實作的。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "https://www.chitorch.com/" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/chitorch" }
+  ],
+  "tags":[
+    "接案"
+  ]
+}

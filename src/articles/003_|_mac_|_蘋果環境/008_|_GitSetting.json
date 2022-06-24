@@ -1,0 +1,145 @@
+{
+  "key": "GitSetting",
+  "cover": "/img/mac/008.png",
+  "title":"OA 個人常用的 Git 設定",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"設定步驟" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"用 Sublime Text 編輯 " },
+            { "e":"code", "t":".gitconfig" },
+            { "e":"span", "t":"，終端機執行指令 " },
+            { "e":"code", "t":"subl ~/.gitconfig", "copy":"subl ~/.gitconfig" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"code", "t":"user" },
+              { "e":"span", "t":" 的部分請針對自己的資料做調整，" },
+              { "e":"code", "t":"alias" },
+              { "e":"span", "t":" 主要是 " },
+              { "e":"code", "t":"git" },
+              { "e":"span", "t":" 的短指令，也可依照自己習慣做設定" }
+            ] },
+            {
+              "e":"pre",
+              "class":"lines",
+              "copy": "[user]\n    name = OA Wu\n    email = oawu.tw@gmail.com\n[alias]\n    st = status\n    co = checkout\n    rb = rebase\n    cp = cherry-pick\n    ci = commit\n    ss = stash\n    cn = clean\n    pu = push origin\n    ps = push origin\n    sl = shortlog -s -n",
+              "s":[
+                { "e":"div", "s":[
+                  { "e": "span", "t": "[user]" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    name " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "OA Wu", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    email " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "oawu.tw@gmail.com", "class": "yellow" }
+                ] },
+                { "e":"div", "t":" " },
+
+                { "e":"div", "s":[
+                  { "e": "span", "t": "[alias]" }
+                ] },
+
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    st " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "status", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    co " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "checkout", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    rb " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "rebase", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    cp " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "cherry-pick", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    ci " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "commit", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    ss " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "stash", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    cn " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "clean", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    pu " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "push origin", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    ps " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "push origin", "class": "yellow" }
+                ] },
+                { "e":"div", "s":[
+                  { "e": "span", "t": "    sl " },
+                  { "e": "span", "t": "=", "class": "red" },
+                  { "e": "span", "t": " " },
+                  { "e": "span", "t": "shortlog -s -n", "class": "yellow" }
+                ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"修改 git 編輯器改用 Sublime Text" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"終端機執行指令 " },
+            { "e":"code", "t":"git config --global core.editor \"subl -n -w\"", "copy":"git config --global core.editor \"subl -n -w\"" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=QYgOGgcydSU" }
+  ],
+  "tags":[
+    "Git",
+    "管控工具"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "key": "jQuery-Navbar-extend",
+  "cover": "/img/dev/015.jpg",
+  "title":"實作 jQuery Navbar 套件",
+  "at":"2014-12-04",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個前端 " },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":" Extend Function，主要架構於 jQuery 以及 " },
+        { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"SASS", "href":"https://zh.wikipedia.org/wiki/Sass" },
+        { "e":"span", "t":"。開發者可自行設定 SCSS 變數、jQuery Extend Options 來更換樣式。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href": "https://works.ioa.tw/OA-navbar/index.html" },
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/OA-navbar" }
+  ],
+  "tags":[
+    "jQuery",
+    "Navbar"
+  ]
+}

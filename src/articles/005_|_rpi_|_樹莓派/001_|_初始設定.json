@@ -1,0 +1,289 @@
+{
+  "key": "init",
+  "title": "初始設定",
+  "at": "2021-08-02",
+  "type":"article",
+  "blocks": [
+    { "e": "h3", "t": "初始螢幕設定" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "編輯 SD 卡上的檔案 " },
+          {"e": "code", "t": "config.txt" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "p", "t": "檔案末端加入 " },
+          {
+            "e":"pre",
+            "class":"lines",
+            "copy":"# [1024x600]\nhdmi_force_hotplug=1\nhdmi_group=2\nhdmi_mode=87\nhdmi_drive=1\nhdmi_cvt 1024 600 60 6 0 0 0",
+            "s":[
+              { "e":"div", "t":"# [1024x600]", "class": "gray" },
+              { "e":"div", "t":"hdmi_force_hotplug=1" },
+              { "e":"div", "t":"hdmi_group=2" },
+              { "e":"div", "t":"hdmi_mode=87" },
+              { "e":"div", "t":"hdmi_drive=1" },
+              { "e":"div", "t":"hdmi_cvt 1024 600 60 6 0 0 0" }
+            ]
+          }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "安裝 AnyDesk" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "更新 APT，終端機執行指令：" },
+          {"e": "code", "t": "sudo apt update && sudo apt full-upgrade", "copy": "sudo apt update && sudo apt full-upgrade" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "下載 AnyDesk，終端機執行指令：" },
+          {"e": "code", "t": "wget https://download.anydesk.com/rpi/anydesk_6.1.1-1_armhf.deb", "copy": "wget https://download.anydesk.com/rpi/anydesk_6.1.1-1_armhf.deb" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝套件，終端機執行指令：" },
+          {"e": "code", "t": "sudo dpkg -i anydesk_6.1.1-1_armhf.deb", "copy": "sudo dpkg -i anydesk_6.1.1-1_armhf.deb" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝 AnyDesk，終端機執行指令：" },
+          {"e": "code", "t": "sudo apt install -yf", "copy": "sudo apt install -yf" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "開啟 AnyDesk，點選右上角 " },
+          { "e":"code", "t":"漢堡圖示" },
+          { "e":"span", "t":" > " },
+          { "e":"code", "t":"設定" },
+          { "e":"span", "t":" > " },
+          { "e":"code", "t":"安全性" },
+          { "e":"span", "t":" > " },
+          { "e":"code", "t":"解鎖安全性設定…" },
+          { "e":"span", "t":" > " },
+          { "e":"code", "t":"勾選", "class":"green" },
+          { "e":"span", "t":" 啟用無人值守存取" }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "安裝 Git" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝 Git，終端機執行指令：" },
+          {"e": "code", "t": "sudo apt install -y git", "copy": "sudo apt install -y git" }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "安裝 Zsh" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝 Zsh，終端機執行指令：" },
+          {"e": "code", "t": "sudo apt install -y zsh", "copy": "sudo apt install -y zsh" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝 oh-my-zsh，終端機執行指令：" },
+          {"e": "code", "t": "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"", "copy": "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "更換 shell，終端機執行指令：" },
+          {"e": "code", "t": "chsh -s /bin/zsh", "copy": "chsh -s /bin/zsh" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "重啟，終端機執行指令：" },
+          {"e": "code", "t": "sudo reboot -h now", "copy": "sudo reboot -h now" }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "檢查與設定 WiFi" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          { "e": "p", "s": [
+            {"e": "span", "t": "開啟與編輯 " },
+            {"e": "code", "t": "wpa_supplicant.conf" },
+            {"e": "span", "t": "，終端機執行指令：" },
+            {"e": "code", "t": "sudo nano /etc/wpa_supplicant/wpa_supplicant.conf", "copy": "sudo nano /etc/wpa_supplicant/wpa_supplicant.conf" }
+          ] },
+          {
+            "e":"pre",
+            "class":"lines",
+            "copy":"",
+            "s":[
+              { "e":"div", "t":"ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev" },
+              { "e":"div", "t":"update_config=1" },
+              { "e":"div", "t":"country=TW" },
+              { "e": "span", "t": " " },
+              { "e":"div", "t":"network={" },
+              { "e":"div", "t":"    ssid=\"OA's Home 5G\"" },
+              { "e":"div", "t":"    psk=\"******\"" },
+              { "e":"div", "t":"    key_mgmt=WPA-PSK" },
+              { "e":"div", "t":" }" }
+            ]
+          }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "關閉休眠模式" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "關閉 WiFi 自動休眠" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "開啟編輯 " },
+                {"e": "code", "t": "interfaces" },
+                {"e": "span", "t": "，終端機執行指令：" },
+                {"e": "code", "t": "sudo nano /etc/network/interfaces", "copy": "sudo nano /etc/network/interfaces" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "加入 " },
+                {"e": "code", "t": "wireless-power off", "copy": "wireless-power off" }
+              ] }
+            ]
+          }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "關閉 螢幕自動休眠" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "開啟編輯 " },
+                {"e": "code", "t": "lightdm.conf" },
+                {"e": "span", "t": "，終端機執行指令：" },
+                {"e": "code", "t": "sudo nano /etc/lightdm/lightdm.conf", "copy": "sudo nano /etc/lightdm/lightdm.conf" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "xserver-command", "copy": "xserver-command" },
+                {"e": "span", "t": " 註解移除，並且改為 " },
+                {"e": "code", "t": "xserver-command=X -s 0 -dpms", "copy": "xserver-command=X -s 0 -dpms" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "重啟，終端機執行指令：" },
+                {"e": "code", "t": "sudo reboot -h now", "copy": "sudo reboot -h now" }
+              ] }
+            ]
+          }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "SSH" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "p", "t": "建立與設定登入藉由 ssh key" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "建立 SSH，終端機執行指令：" },
+                {"e": "code", "t": "ssh-keygen -t rsa -C \"your.email@gmail.com\"", "copy": "ssh-keygen -t rsa -C \"your.email@gmail.com\"" }
+              ] },
+
+              { "e": "li", "s": [
+                  { "e":"span", "t":"點擊左上 " },
+                  { "e":"code", "t":"樹莓派圖示" },
+                  { "e":"span", "t":" > " },
+                  { "e":"code", "t":"偏好設定" },
+                  { "e":"span", "t":" > " },
+                  { "e":"code", "t":"Raspberry Pi 設定" },
+                  { "e":"span", "t":" > " },
+                  { "e":"code", "t":"介面" },
+                  { "e":"span", "t":"，" },
+                  { "e":"code", "t":"勾選啟用", "class":"green" },
+                  { "e":"span", "t":" SSH" }
+              ] },
+
+              { "e": "li", "s": [
+                  { "e":"span", "t":"將本地端電腦內的 ssh public key 複製到 pi 的 " },
+                  { "e":"code", "t":"authorized_keys" },
+                  { "e":"span", "t":"，終端機執行指令：" },
+                  { "e":"code", "t":"nano ~/.ssh/authorized_keys", "copy": "nano ~/.ssh/authorized_keys" }
+              ] }
+            ]
+          }
+        ]},
+        { "e": "li", "s": [
+          {"e": "p", "t": "設定禁止使用密碼登入" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "編輯 " },
+                {"e": "code", "t": "sshd_config" },
+                {"e": "span", "t": "，終端機執行指令：" },
+                { "e":"code", "t":"sudo nano /etc/ssh/sshd_config", "copy": "sudo nano /etc/ssh/sshd_config" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "設定 " },
+                {"e": "code", "t": "PasswordAuthentication", "copy": "PasswordAuthentication" },
+                {"e": "span", "t": " 將其取消註解並值改為：" },
+                { "e":"code", "t":"no" }
+              ]},
+
+              { "e": "li", "s": [
+                {"e": "span", "t": "重新啟動 " },
+                {"e": "code", "t": "SSH" },
+                {"e": "span", "t": "，終端機執行指令：" },
+                { "e":"code", "t":"sudo service ssh restart", "copy": "sudo service ssh restart" }
+              ]}
+            ]
+          }
+        ]}
+      ]
+    },
+    
+    { "e": "h3", "t": "Node.js" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "下載 Node.js，終端機執行指令：" },
+          {"e": "code", "t": "curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -", "copy": "curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝 Node.js，終端機執行指令：" },
+          {"e": "code", "t": "sudo apt install -y nodejs", "copy": "sudo apt install -y nodejs" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "檢查版號確認是否安裝成功，終端機執行指令：" },
+          {"e": "code", "t": "node -v", "copy": "node -v" }
+        ] }
+      ]
+    },
+    { "e": "h3", "t": "GPIO" },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "找個暫存目錄，終端機執行指令：" },
+          {"e": "code", "t": "cd /tmp", "copy": "cd /tmp" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "下載，終端機執行指令：" },
+          {"e": "code", "t": "wget https://project-downloads.drogon.net/wiringpi-latest.deb", "copy": "wget https://project-downloads.drogon.net/wiringpi-latest.deb" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝，終端機執行指令：" },
+          {"e": "code", "t": "sudo dpkg -i wiringpi-latest.deb", "copy": "sudo dpkg -i wiringpi-latest.deb" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "檢查，終端機執行指令：" },
+          {"e": "code", "t": "gpio -v", "copy": "gpio -v" }
+        ] }
+      ]
+    }
+  ],
+  "references": [
+    { "text": "樹莓派Raspberry Pi關閉休眠、螢幕長亮", "href": "https://blog.twtnn.com/2021/02/raspberry-pi.html" }
+  ]
+}

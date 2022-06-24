@@ -1,0 +1,121 @@
+{
+  "key": "F2E-Theta-S-360",
+  "cover": "/img/dev/030.jpg",
+  "title":"全景相簿 Theta S 360",
+  "at":"2015-11-30",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"blockquote",
+      "class": "warning",
+      "t":"目前已將 Live Demo 關閉並且不維護囉，請大家先參考 GitHub 的原始碼吧！"
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一項特別的作品，由於近幾年全景攝影器材的進步，所以全景影片、全景照片漸漸的流行起來，而最近剛好也入購了 " },
+        { "e":"b", "t":"RICOH Theta S" },
+        { "e":"span", "t":" 全景攝影機，所以我便實作了一下 " },
+        { "e":"b", "t":"360度全景相簿" },
+        { "e":"span", "t":"，這作品我特意分成兩個專案，分別是純前端、純後端的角度切入，所以在 GitHub 上會有兩包 code，以下會大略的說明！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"由於 RICOH Theta S 360 全景相機具備兩鏡頭，所以可以產出一張由兩顆鏡頭組成的 360 度的相片，照片是以水平呈現，所以瀏覽起來效果不佳。目前據我所知 RICOH Theta S 官網也有提供上傳瀏覽 " },
+        { "e":"a", "t":"360 度相片播放器", "href":"https://theta360.com/s/ky0a4C1uh1JWl1Q56C8NZm3OO" },
+        { "e":"span", "t":" 的功能，但當時官網的播放器是使用 " },
+        { "e":"a", "t":"Flash", "href":"https://get.adobe.com/tw/flashplayer/" },
+        { "e":"span", "t":" 來呈現的(目前好像改成使用 " },
+        { "e":"a", "t":"Canvas", "href":"http://www.w3schools.com/html/html5_canvas.asp" },
+        { "e":"span", "t":")，身為前端工程師的我，當然立馬想使用 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":" 去實作 360 度全景相片播放器！" }
+      ]
+    },
+    { "e":"img", "alt":"由於 RICOH Theta S 360 全景相機具備兩鏡頭，所以可以產出一張由兩顆鏡頭組成的 360度的相片，照片是以水平呈現", "src":"/img/dev/030/01.jpg" },
+    { "e":"img", "alt":"使用 360 度全景相片播放器呈現的方式，此方式對於瀏覽操作流程上較為方便與美觀", "src":"/img/dev/030/02.png" },
+    { "e":"h2", "t":"前端" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"既然要在網頁前端呈現球狀的方式，那就利用一些 library 實作，專案內我參考了 " },
+        { "e":"a", "t":"theta-viewer.js", "href":"https://github.com/shokai/theta-viewer.js" },
+        { "e":"span", "t":"，細看 theta-viewer.js 的內容可以發現裡面有著三個主要物件，分別是 " },
+        { "e":"b", "t":"async.js" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"three.js" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"OrbitControls.js" },
+        { "e":"span", "t":"，而我只是將它進一步的使用與改造而已，例如: 可以取得轉向後的座標存進資料庫.. 等。還有一項功能較為特殊，主要是利用 JavaScript 的 " },
+        { "e":"a", "t":"document.execCommand", "href":"https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand" },
+        { "e":"span", "t":" 來執行觸發剪貼簿的功能，用 JavaScript 直接將複製的網址存入剪貼簿內，如此一來就不用再按滑鼠右鍵。" }
+      ]
+    },
+    { "e":"img", "alt":"Theta S 本身有 GPS 內建定位功能，所以在上傳時候可以使用 php 去讀取 exif 的經緯度資料，並一起新增於資料庫內，前端輸出再搭配 Google Maps 即可做出此相簿地圖的功能", "src":"/img/dev/030/03.jpg" },
+    { "e":"img", "alt":"此功能較為特殊，主要利用 JavaScript 的 document.execCommand 來執行觸發剪貼簿的功能，用 JavaScript 直接將複製的網址存入剪貼簿內，如此一來就不用再按滑鼠右鍵", "src":"/img/dev/030/04.jpg" },
+    { "e":"h2", "t":"後端" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"其框架使用個人的 framework " },
+        { "e":"a", "t":"OACI", "href":"https://github.com/oawu/oaci" },
+        { "e":"span", "t":"，也就是 OA's CodeIgniter 實作，功能主要就是 " },
+        { "e":"b", "t":"登入" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"上傳" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"縮圖" },
+        { "e":"span", "t":"，比較特別的是因為 360 圖檔較大，所以這次也使用 " },
+        { "e":"a", "t":"AWS S3", "href":"https://aws.amazon.com/tw/s3/" },
+        { "e":"span", "t":" 作為儲存空間！登入(目前尚未開放註冊)後，即可使用上傳功能將 360 度相片上傳，網頁是 RWD 設計，所以在上傳 360 度相片的流程上也不會是問題。登入後還可瀏覽尚未公開的 360 度相片，雖然未公開，但使用者可以將網址分享給朋友，由於網址 token 使用 " },
+        { "e":"a", "t":"MD5", "href":"https://zh.wikipedia.org/wiki/MD5" },
+        { "e":"span", "t":" 編碼過，所以只有知道網址的人才可以瀏覽。Theta S 本身有 GPS 內建定位功能，所以在上傳時候可以使用 php 去讀取 exif 的經緯度資料，並一起新增於資料庫內，前端輸出再搭配 Google Maps 即可做出此相簿地圖的功能。" }
+      ]
+    },
+    { "e":"img", "alt":"登入(目前尚未開放註冊)後，即可使用上傳功能，將 360 度相片上傳", "src":"/img/dev/030/05.jpg" },
+    { "e":"img", "alt":"由於網頁也製作成手機相容的 RWD 設計，所以在上傳 360 度相片的流程上也不會是問題", "src":"/img/dev/030/06.jpg" },
+    { "e":"img", "alt":"登入後可以瀏覽尚未公開的 360 度相片，雖然未公開，但使用者可以將網址分享給朋友，由於網址 token 使用 MD5 編碼過，所以只有知道該照片網址的人才可以瀏覽", "src":"/img/dev/030/07.jpg" },
+    { "e":"h2", "t":"壓縮圖檔" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"主要是因為檔案大怕前端傳輸太久，所以這次加入 " },
+        { "e":"a", "t":"TinyPNG", "href":"https://tinypng.com/" },
+        { "e":"span", "t":" 作為壓縮圖片的方式，以減少圖片大小，提升傳輸速度以及成本，原本用 " },
+        { "e":"a", "t":"https://compressor.io/", "href":"https://compressor.io/" },
+        { "e":"span", "t":" 但是處理時間花太久了，所以就先不慘用。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這作品我故意分成兩個架構實作，在 GitHub 上分別是 " },
+        { "e":"b", "t":"360" },
+        { "e":"span", "t":"、" },
+        { "e":"b", "t":"ThetaS" },
+        { "e":"span", "t":" 兩包專案，基本上 " },
+        { "e":"a", "t":"360", "href":"https://github.com/oawu/360" },
+        { "e":"span", "t":" 是一包前後端寫在一起的專案，而 " },
+        { "e":"a", "t":"ThetaS", "href":"https://works.ioa.tw/ThetaS/index.html" },
+        { "e":"span", "t":" 則是純前端的架構，ThetaS 藉由 360 專案提供的 api 所實作的網站，而 360 則是架設在 AWS EC2 上面，ThetaS 則是架構在 " },
+        { "e":"a", "t":"GitHub.io", "href": "https://pages.github.com/" },
+        { "e":"span", "t":" 的服務上，會這樣拆開的原因主要是因為想練習前後端分離的架構模式，另一方面則是藉由 GitHub.io 的服務減低 AWS EC2 的負擔。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"https://works.ioa.tw/ThetaS/index.html" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/ThetaS" },
+    { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1450408446.A.009.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/919907694713263/" },
+    { "text": "shokai/theta-viewer.js", "href":"https://github.com/shokai/theta-viewer.js" }
+  ],
+  "tags":[
+    "JavaScript",
+    "Theta S 360",
+    "PHP",
+    "Compressor"
+  ]
+}

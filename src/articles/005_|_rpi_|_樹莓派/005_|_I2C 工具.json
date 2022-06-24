@@ -1,0 +1,37 @@
+{
+  "key": "I2C",
+  "title": "I2C 工具",
+  "at": "2021-08-02",
+  "type":"article",
+  "blocks": [
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝 " },
+          {"e": "code", "t": "python-smbus" },
+          {"e": "span", "t": "，終端機執行指令：" },
+          {"e": "code", "t": "sudo apt install -y python-smbus", "copy": "sudo apt install -y python-smbus" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "安裝 " },
+          {"e": "code", "t": "i2c-tools" },
+          {"e": "span", "t": "，終端機執行指令：" },
+          {"e": "code", "t": "sudo apt install -y i2c-tools", "copy": "sudo apt install -y i2c-tools" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "測試 " },
+          {"e": "code", "t": "i2c" },
+          {"e": "span", "t": "，終端機執行指令：" },
+          {"e": "code", "t": "sudo i2cdetect -y 1", "copy": "sudo i2cdetect -y 1" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "重啟，終端機執行指令：" },
+          {"e": "code", "t": "sudo reboot -h now", "copy": "sudo reboot -h now" }
+        ] }
+      ]
+    }
+  ],
+  "references": [],
+  "tags": []
+}

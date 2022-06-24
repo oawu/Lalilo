@@ -1,0 +1,68 @@
+{
+  "key": "C-language-ComicBook",
+  "cover": "/img/dev/009.jpg",
+  "title":"用C語言寫漫畫下載器",
+  "at":"2012-11-17",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"blockquote",
+      "class": "warning",
+      "t":"目前已將 Live Demo 關閉並且不維護囉，請大家先參考 GitHub 的原始碼吧！"
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是個使用 " },
+        { "e":"a", "t":"C 語言", "href":"https://zh.wikipedia.org/wiki/C%E8%AF%AD%E8%A8%80" },
+        { "e":"span", "t":" 的 Console 畫面去繪出模擬 " },
+        { "e":"a", "t":"BBS", "href":"https://zh.wikipedia.org/zh-tw/BBS" },
+        { "e":"span", "t":" 版型，並且利用 wget 指令將知名網站 " },
+        { "e":"a", "t":"8comic", "href":"http://www.comicbus.com/" },
+        { "e":"span", "t":" 上的原始碼轉譯出漫畫並下載，簡單說就是使用 C 語言製作一個" },
+        { "e":"a", "t":"爬蟲", "href":"https://zh.wikipedia.org/wiki/%E7%B6%B2%E8%B7%AF%E8%9C%98%E8%9B%9B" },
+        { "e":"span", "t":"，並且以 Console 的方式模擬 BBS 介面的排版，然後將爬回來的數據以 " },
+        { "e":"a", "t":"HTML", "href":"http://www.w3schools.com/html/" },
+        { "e":"span", "t":" 方式開啟。" }
+      ]
+    },
+    { "e":"img", "alt":"此實作是使用 C語言 Console 界面繪出模擬 BBS 版型", "src":"/img/dev/009/01.jpg" },
+    { "e":"img", "alt":"並且利用 wget 將知名網站 8comic 上的原始碼轉譯出漫畫並下載，簡單說就是使用 C語言 製作一個爬蟲，並且以 Console 的方式模擬 BBS 介面的排版", "src":"/img/dev/009/02.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"作品靈感來源只是想方便看漫畫，所以動手寫了程式將網站上的圖檔可以依照自己的選擇進行下載，程式中利用了 " },
+        { "e":"a", "t":"SQLite", "href":"https://www.sqlite.org/" },
+        { "e":"span", "t":"、C 語言多重" },
+        { "e":"a", "t":"指標", "href":"https://zh.wikipedia.org/zh-tw/%E6%8C%87%E6%A8%99_(%E9%9B%BB%E8%85%A6%E7%A7%91%E5%AD%B8)" },
+        { "e":"span", "t":"、網頁語言工具..等。下載後的漫畫皆會存在客戶端的資料夾裡面，搭配 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":"、HTML 來達到瀏覽效果，所以只要開啟資料夾內的 index.html 即可方便看漫畫，有興趣也歡迎至 " },
+        { "e":"a", "t":"GitHub", "href":"https://github.com/oawu/c-comic-book" },
+        { "e":"span", "t":" 下載執行檔、原始碼試試，不過此作目前已經沒在維護，若 8comic 網站有更新原始碼的話，則" },
+        { "e":"b", "t":"不保證" },
+        { "e":"span", "t":"可以正常下載漫畫。" }
+      ]
+    },
+    { "e":"img", "alt":"並且利用 wget 將知名網站 8comic 上的原始碼轉譯出漫畫並下載", "src":"/img/dev/009/03.jpg" },
+    { "e":"img", "alt":"聲明、介紹與使用方式", "src":"/img/dev/009/04.jpg" },
+    { "e":"img", "alt":"下載完後會儲存於 Download 目錄下", "src":"/img/dev/009/05.jpg" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"其中 BBS 介面的方式是自行制定一套檔案規則，並且放置在 " },
+        { "e":"a", "t":"Interface/", "href":"https://github.com/oawu/c-comic-book/tree/master/Interface" },
+        { "e":"span", "t":" 目錄下，當要產生畫面時，C語言 去讀取自訂的字串規格，並且在 Console 上格式化即可達到想要的畫面。換句話就是自行實作一個簡單的 " },
+        { "e":"a", "t":"MVC", "href":"https://zh.wikipedia.org/zh-tw/MVC" },
+        { "e":"span", "t":" 架構的 View。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "GitHub 原始碼", "href": "https://github.com/oawu/c-comic-book" }
+  ],
+  "tags":[
+    "C 語言",
+    "SQLite"
+  ]
+}

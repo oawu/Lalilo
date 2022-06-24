@@ -1,0 +1,485 @@
+{
+  "key": "iTerm2",
+  "cover": "/img/mac/004.png",
+  "title":"macOS 開發者必安裝的終端機 － iTerm2",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"官網下載 － " },
+            { "e":"a", "t":"https://www.iterm2.com/", "href":"https://www.iterm2.com/" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"備用載點 － " },
+            { "e":"a", "t":"iTerm2-3_2_0.zip", "href":"https://cdn.ioa.tw/MacEnvInit/iTerm2-3_2_0.zip" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"解壓縮，把它移到" },
+            { "e":"b", "t":"應用程式資料夾" },
+            { "e":"span", "t":"，並開啟" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"第一次開啟後請按 " },
+            { "e":"code", "t":"command" },
+            { "e":"span", "t":" + " },
+            { "e":"code", "t":"q" },
+            { "e":"span", "t":" 關閉後，再重開一次 iterm2，此時系統會跳出請你去設定權限的東西，就讓它通過就好，記得先解左下方的鎖！" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"若無跳出，請選點選螢幕左上角的 " },
+            { "e":"code", "t":"" },
+            { "e":"span", "t":" > " },
+            { "e":"code", "t":"系統偏好設定" },
+            { "e":"span", "t":" > " },
+            { "e":"code", "t":"安全性與隱私權" },
+            { "e":"span", "t":" > " },
+            { "e":"code", "t":"隱私權" },
+            { "e":"span", "t":" 先解開左下角 " },
+            { "e":"code", "t":"鎖頭" },
+            { "e":"span", "t":" 後，再選 " },
+            { "e":"code", "t":"輔助使用" },
+            { "e":"span", "t":" " },
+            { "e":"code", "t":"勾選", "class": "green" },
+            { "e":"span", "t":" AEServer" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"安裝 command line" },
+    
+    {
+      "e":"ul","s":[
+      {"e":"li", "s":[
+        { "e":"span", "t":"更新 xcode command line，終端機執行指令 " },
+        { "e":"code", "t":"xcode-select --install", "copy":"xcode-select --install" }
+      ]}
+    ]},
+
+    { "e":"h2", "t":"安裝 Homebrew" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"終端機執行指令 " },
+            { "e":"code", "t":"ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"", "copy":"ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"顯示版本，終端機執行指令 " },
+            { "e":"code", "t":"brew --version", "copy":"brew --version" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"檢查，終端機執行指令 " },
+            { "e":"code", "t":"brew doctor", "copy":"brew doctor" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"更新，終端機執行指令 " },
+            { "e":"code", "t":"brew update", "copy":"brew update" }
+          ]
+        },
+        { "e":"li", "t":"重開 iTerm" }
+      ]
+    },
+    { "e":"h2", "t":"安裝 Zsh" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"終端機執行指令 " },
+            { "e":"code", "t":"brew install zsh", "copy":"brew install zsh" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"終端機執行指令 " },
+            { "e":"code", "t":"sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"", "copy":"sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"" }
+          ]
+        },
+        { "e":"li", "t":"重開 iTerm" }
+      ]
+    },
+    { "e":"h2", "t":"建立 SSH" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"終端機執行指令 " },
+            { "e":"code", "t":"ssh-keygen -t rsa -C \"your_email@example.com\"", "copy":"ssh-keygen -t rsa -C \"your_email@example.com\"" },
+            { "e":"span", "t":"，your_email@example.com 請改成你的 mail，過程中會要求輸入相關東西，可以直接 Enter 使用預設值跳過" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"複製公鑰，終端機執行指令 " },
+              { "e":"code", "t":"pbcopy < ~/.ssh/id_rsa.pub", "copy":"pbcopy < ~/.ssh/id_rsa.pub" }
+            ] },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"p", "s":[
+                      { "e":"span", "t":"貼到 " },
+                      { "e":"a", "t":"GitHub", "href":"https://github.com/" },
+                      { "e":"span", "t":" 上" }
+                    ] },
+                    {
+                      "e":"ul",
+                      "s":[
+                        {
+                          "e":"li",
+                          "s":[
+                            { "e":"span", "t":"右上頭像 > " },
+                            { "e":"code", "t":"Setting" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"SSH and GPG keys" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"New SSH Key" },
+                            { "e":"span", "t":"，貼上公鑰" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"p", "s":[
+                      { "e":"span", "t":"貼到 " },
+                      { "e":"a", "t":"BitBucket", "href":"https://bitbucket.org/" },
+                      { "e":"span", "t":" 上" }
+                    ] },
+                    {
+                      "e":"ul",
+                      "s":[
+                        {
+                          "e":"li",
+                          "s":[
+                            { "e":"span", "t":"左下頭像 > " },
+                            { "e":"code", "t":"View profile" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"Settings" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"SSH keys" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"Add Key" },
+                            { "e":"span", "t":"，貼上公鑰" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"自動登入 Server 的話，貼到 Server 上的 " },
+                    { "e":"code", "t":"~/.ssh/authorized_keys", "copy":"~/.ssh/authorized_keys" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"常用設定" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"快捷鍵 " },
+            { "e":"code", "t":"command + ," },
+            { "e":"span", "t":" 開啟設定" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "s":[
+              { "e":"span", "t":"Profiles" },
+              { "e":"span", "t":"，先選擇左邊的 " },
+              { "e":"code", "t":"Default" },
+              { "e":"span", "t":" 再進行以下設定" }
+            ] },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"General" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"Working Directory" },
+                    { "e":"span", "t":" > " },
+                    { "e":"code", "t":"Directory" },
+                    { "e":"span", "t":"，輸入位置開啟時的位置 " },
+                    { "e":"code", "t":"~/www" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"p", "t":"Text" },
+                    {
+                      "e":"ul",
+                      "s":[
+                        {
+                          "e":"li",
+                          "s":[
+                            { "e":"code", "t":"Font" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"Hank" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"標準體(Regular)" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"18" }
+                          ]
+                        },
+                        {
+                          "e":"li",
+                          "s":[
+                            {"e": "code", "t":"勾選", "class":"green" },
+                            { "e":"code", "t":"Use a different font for non-ASCII text" }
+                          ]
+                        },
+                        {
+                          "e":"li",
+                          "s":[
+                            { "e":"code", "t":"Non-ASCII Font" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"Hank" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"標準體(Regular)" },
+                            { "e":"span", "t":" > " },
+                            { "e":"code", "t":"18" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"Window" },
+                    { "e":"span", "t":" － " },
+                    { "e":"code", "t":"Settings for New Windows" },
+                    { "e":"span", "t":"，Columns 調整為 " },
+                    { "e":"code", "t":"120" },
+                    { "e":"span", "t":"，Rows 調整為 " },
+                    { "e":"code", "t":"38" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"Keys" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"游標移至最前 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"←" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Send Hex Code", "copy":"Send Hex Code" },
+                    { "e":"span", "t":"，輸入 " },
+                    { "e":"code", "t":"0x01", "copy":"0x01" }
+                    
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"游標移至最後 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"→" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Send Hex Code", "copy":"Send Hex Code" },
+                    { "e":"span", "t":"，輸入 " },
+                    { "e":"code", "t":"0x05", "copy":"0x05" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"切換左邊頁籤 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"option" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"←" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Previous Tab", "copy":"Previous Tabus copyab", "copy":"Previous Tab" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"切換右邊頁籤 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"option" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"→" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Next Tab", "copy":"Next Tabxt copyab", "copy":"Next Tab" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"切換左方分頁 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"control" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"←" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Select Split Pane on Left", "copy":"Select Split Pane on Left" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"切換右方分頁 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"control" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"→" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Select Split Pane on Right", "copy":"Select Split Pane on Right" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"切換上方分頁 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"control" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"↑" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Select Split Pane on Above", "copy":"Select Split Pane on Above" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"切換下方分頁 － " },
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"+" },
+                    { "e":"span", "t":" 點選 " },
+                    { "e":"code", "t":"Click to Set" },
+                    { "e":"span", "t":" 按下 " },
+                    { "e":"code", "t":"command" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"control" },
+                    { "e":"span", "t":" + " },
+                    { "e":"code", "t":"↓" },
+                    { "e":"span", "t":"，Action 選 " },
+                    { "e":"code", "t":"Select Split Pane on Below", "copy":"Select Split Pane on Below" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=4A3L1kJ6q5Q" }
+  ],
+  "tags":[
+    "iTerm2",
+    "終端機",
+    "Zsh",
+    "SSH"
+  ]
+}

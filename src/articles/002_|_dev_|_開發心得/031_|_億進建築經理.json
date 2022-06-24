@@ -1,0 +1,46 @@
+{
+  "key": "case-Bto",
+  "cover": "/img/dev/031.jpg",
+  "title":"億進建築經理",
+  "at":"2015-12-07",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個前端技術的外包案實作，其網站名稱為" },
+        { "e":"a", "t":"億進建築經理", "href":"http://www.egbto.com.tw/" },
+        { "e":"span", "t":"，此專案主要負責前端部份，版型設計則由" },
+        { "e":"a", "t":"宙思設計", "href":"https://www.zeusdesign.com.tw/" },
+        { "e":"span", "t":"所製作。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"此專案因為只負責前端部分的切版，所以就使用了 " },
+        { "e":"a", "t":"OAF2E", "href":"https://github.com/oawu/oaf2e" },
+        { "e":"span", "t":" " },
+        { "e":"a", "t":"version 1.8", "href":"https://github.com/oawu/oaf2e/tree/version/1.8" },
+        { "e":"span", "t":" 框架，架構中主要是使用 " },
+        { "e":"a", "t":"Compass", "href":"http://compass-style.org/" },
+        { "e":"span", "t":" 來編譯 " },
+        { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+        { "e":"span", "t":"，而 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":" 函式庫則是使用 " },
+        { "e":"a", "t":"jQuery", "href":"https://zh.wikipedia.org/zh-tw/JQuery" },
+        { "e":"span", "t":"，網頁首頁的 Banner 輪播主要就是利用 jQuery 與 " },
+        { "e":"a", "t":"CSS", "href":"https://zh.wikipedia.org/zh-tw/%E5%B1%82%E5%8F%A0%E6%A0%B7%E5%BC%8F%E8%A1%A8" },
+        { "e":"span", "t":" 所實作的效果。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"http://www.egbto.com.tw/" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/bto" }
+  ],
+  "tags":[
+    "接案"
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "key": "Sourcetree",
+  "cover": "/img/mac/006.png",
+  "title":"macOS 上安裝 Sourcetree Git 管理介面",
+  "at":"2021-06-02",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"安裝步驟" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[{ "e":"span", "t":"官網下載 － " }, { "e":"a", "t":"https://www.sourcetreeapp.com/", "href":"https://www.sourcetreeapp.com/" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"備用載點 － " }, { "e":"a", "t":"Sourcetree_4.1.1_237.zip", "href":"https://cdn.ioa.tw/MacEnvInit/2021/Sourcetree_4.1.1_237.zip" }] },
+        { "e":"li", "s":[{ "e":"span", "t":"解壓縮完後，把它移到" }, { "e":"b", "t":"應用程式資料夾" }, { "e":"span", "t":"，並開啟" }] },
+        { "e":"li", "s":[
+          {"e":"p", "s":[
+            {"e":"span", "t":"如有安全性提醒，就選擇 " },
+            {"e":"code", "t":"打開" }
+          ]},
+          { "e":"ul", "s":[
+            {
+              "e":"li",
+              "s":[
+                { "e":"span", "t":"Install － 什麼都不用選，直接點選 " },
+                { "e":"code", "t":"Continue" }
+              ]
+            },
+            {
+              "e":"li",
+              "s":[
+                { "e":"span", "t":"Account － " },
+                { "e":"code", "class": "green", "t":"勾選" },
+                { "e":"span", "t":" " },
+                { "e":"code", "t":"Set global…" },
+                { "e":"span", "t":" 並且輸入你本地端的 Git 帳戶，然後 " },
+                { "e":"code", "t":"Continue" }
+              ]
+            }
+          ] }
+        ] }
+      ]
+    },
+    { "e":"h2", "t":"設定" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"快捷鍵 " },
+            { "e":"code", "t":"command + ," }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"General" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"Project folder － 點選 " },
+                    { "e":"code", "t":"Browse…" },
+                    { "e":"span", "t":" 選擇你放專案的資料夾，通常會選擇 " },
+                    { "e":"code", "t":"www" },
+                    { "e":"span", "t":" 目錄 " }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"Terminal app － 選擇 " },
+                    { "e":"code", "t":"iTerm2" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"Accounts" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"按 " },
+                    { "e":"code", "t":"Add…" },
+                    { "e":"span", "t":" 新增一個帳戶，Host 選擇 " },
+                    { "e":"code", "t":"Github" },
+                    { "e":"span", "t":"，Auth Type 選擇 " },
+                    { "e":"code", "t":"Basic" },
+                    { "e":"span", "t":"，然後輸入 " },
+                    { "e":"code", "t":"帳密" },
+                    { "e":"span", "t":" 後 " },
+                    { "e":"code", "t":"Save" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"點選 GitHub 帳戶，並設為 " },
+                    { "e":"code", "t":"Default" },
+                    { "e":"span", "t":"，然後將原本的 Bitbucket " },
+                    { "e":"code", "t":"Remove" },
+                    { "e":"span", "t":" 掉。" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"p", "t":"Commit" },
+            { "e":"ul", "s":[{ "e":"li", "t":"下方可以填寫懶的填註解的預設文字" }] }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=LoZLPcMPmiM" }
+  ],
+  "tags":[
+    "Git",
+    "Sourcetree",
+    "bitbucket",
+    "管控工具"
+  ]
+}

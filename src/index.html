@@ -8,17 +8,71 @@
     <title>Lalilo！</title>
 
     <link rel="stylesheet" type="text/css" href="css/icon.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
 
     <script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/core.js"></script>
-    <script language="javascript" type="text/javascript" src="js/jq-index.js"></script>
+    <script language="javascript" type="text/javascript" src="js/index.js"></script>
   </head>
   <body>
 
-    <h1>你好，世界！</h1>
-    <span style="color: rgba(120, 120, 120, 1.00);">這是 <b>Lalilo</b>，你目前版本是 <b>1.0.0</b></span>
+    <div id="app">
+      <aside id="menu">
+        <a class="active">
+          <span count="10">{{ text }}</span>
+        </a>
+      </aside>
+
+      <div id="cover"></div>
+      
+      <header id="header">
+        <label id="hamburger"></label>
+        <b>OA Wu's Blog</b>
+      </header>
+
+      <div id="main">
+        
+        <div id="articles">
+          <header>
+            <h1>開發心得</h1>
+          </header>
+
+          <div class="article">
+
+            <div class="info">
+              <a href="">
+                <b>a</b>
+                <p>b</p>
+              </a>
+            
+              <div class="meta">
+                <div class="tags">
+                  <a href="">tag</a>
+                </div>
+                <time>2 年之前</time>
+              </div>
+            </div>
+
+            <a href="">
+              <figure style="background-image: 'url()';">
+                <img src="">
+              </figure>
+            </a>
+          </div>
+          
+          <footer>
+            <a class="active" href="">1</a>
+            <a href="">2</a>
+            <a href="">3</a>
+            <a href=""><i class="next"></i></a>
+            <a href=""><i class="last"></i></a>
+          </footer>
+
+        </div>
+
+      </div>
+
+    </div>
 
   </body>
 </html>

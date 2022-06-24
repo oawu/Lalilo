@@ -1,0 +1,78 @@
+{
+  "key": "jQuery-ScrollView-extend",
+  "cover": "/img/dev/034.jpg",
+  "title":"實作 jQuery ScrollView 套件",
+  "at":"2016-03-14",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"為了讓手機水平瀏覽圖片的操作更像 App 的介面，所以利用 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"jQuery-UI", "href":"https://jqueryui.com/" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"jQuery.UI.Touch-Punch", "href":"http://touchpunch.furf.com/" },
+        { "e":"span", "t":" 等套件，實作 ScrollView 的水平滑動效果。" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"功能主要是依賴 jQuery 與 jquery-UI 實作，再利用 jQuery-UI 的 " },
+        { "e":"a", "t":"Draggable", "href":"https://jqueryui.com/draggable/" },
+        { "e":"span", "t":" 實作拖曳的效果，則 Draggable 需要設定 " },
+        { "e":"code", "t":"axis: 'x'" },
+        { "e":"span", "t":" 來固定水平拖曳移動。不過此時會發現手機的滑動時 Draggable 會失效，所以還需仰賴 jQuery.UI.Touch-Punch 修正！然後我再利用這些巨人大大的 library 作出這個 jQuery extend function！" }
+      ]
+    },
+    { "e":"h2", "t":"特別注意" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "t":"手機上實測好像還會頓頓的… 還在調整中…" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Demo 頁面所有元素都是採用 " },
+            { "e":"code", "t":"box-sizing: border-box;" },
+            { "e":"span", "t":" 操作，所以要改的話，要稍微注意版型 " },
+            { "e":"a", "t":"CSS", "href":"https://developer.mozilla.org/zh-TW/docs/Web/CSS" },
+            { "e":"span", "t":" 部分。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"因為是使用 " },
+            { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+            { "e":"span", "t":" 撰寫，故此專案會有 SCSS、CSS 的資料夾。" }
+          ]
+        },
+        { "e":"li", "t":"目前最多容納 100 個水平元素！" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"Demo 頁面中 " },
+            { "e":"a", "t":"imgLiquid", "href":"https://github.com/karacas/imgLiquid" },
+            { "e":"span", "t":" 只是讓我調整圖片的顯示，非主要功能！" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"https://works.ioa.tw/OA-mobileScrollView/index.html" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-mobileScrollView" },
+    { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1457948370.A.BE9.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/960507037319995/" }
+  ],
+  "tags":[
+    "jQuery",
+    "jQuery UI",
+    "ScrollView"
+  ]
+}

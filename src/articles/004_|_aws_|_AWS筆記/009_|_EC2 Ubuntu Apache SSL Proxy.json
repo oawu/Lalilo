@@ -1,0 +1,179 @@
+{
+  "key": "EC2-Ubuntu-Apache-SSL-Proxy",
+  "cover": "/img/aws/009.png",
+  "title":"EC2 Ubuntu Apache SSL Proxy",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"專案有時候會使用到 " },
+        { "e":"a", "t":"Node.js", "href": "https://nodejs.org/en/" },
+        { "e":"span", "t":" 架設 " },
+        { "e":"a", "t":"Socket", "href": "https://zh.wikipedia.org/wiki/%E7%B6%B2%E8%B7%AF%E6%8F%92%E5%BA%A7" },
+        { "e":"span", "t":" 伺服器，而且必須使用 HTTPs 的服務。通常是先使用 " },
+        { "e":"a", "t":"Let's Encrypt", "href": "/?k=aws&id=EC2-Ubuntu-LetsEncrypt" },
+        { "e":"span", "t":" Build 出 SSL 金鑰，再使用 " },
+        { "e":"b", "t":"Node.js" },
+        { "e":"span", "t":" start 一個使用該金鑰的 https server，最後再將 EC2 對外 port 打開即可！" }
+      ]
+    },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"不過我這邊採用的方式是採用 " },
+        { "e":"b", "t":"Apache Proxy" },
+        { "e":"span", "t":" 接收 SSL Request，再轉至內部區網的 https service，如此一來就在程式碼上寫金鑰路徑，直接統一在 Apache 上設定即可！" }
+      ]
+    },
+
+    
+    { "e":"h2", "t":"步驟" },
+    {
+      "e":"ul",
+      "s":[
+        { "e":"li", "s":[
+          { "e":"span", "t":"開啟 Apache " },
+          { "e":"code", "t":"proxy" },
+          { "e":"span", "t":"、" },
+          { "e":"code", "t":"proxy_http" },
+          { "e":"span", "t":"、" },
+          { "e":"code", "t":"proxy_wstunnel" },
+          { "e":"span", "t":" 這些 Mod，指令輸入 " },
+          { "e":"code", "t":"sudo a2enmod proxy proxy_http proxy_wstunnel && sudo systemctl restart apache2", "copy": "sudo a2enmod proxy proxy_http proxy_wstunnel && sudo systemctl restart apache2" }
+        ] },
+        { "e":"li", "s":[
+          { "e":"span", "t":"建立 " },
+          { "e":"code", "t":"Apache Http VirtualHost" },
+          { "e":"span", "t":"，可以參考 " }, 
+          { "e":"a", "t":"此篇", "href": "/?k=aws&id=EC2-Ubuntu-Apache" }
+        ] },
+        { "e":"li", "s":[
+          { "e":"span", "t":"建立 " },
+          { "e":"code", "t":"Let's Encrypt" },
+          { "e":"span", "t":" 金鑰與 " }, 
+          { "e":"code", "t":"Apache Https VirtualHost" },
+          { "e":"span", "t":"，可以參考 " }, 
+          { "e":"a", "t":"此篇", "href": "/?k=aws&id=EC2-Ubuntu-LetsEncrypt" }
+        ] },
+        { "e":"li", "s":[
+          { "e":"p", "s":[
+            { "e":"span", "t":"以下範例是假設 Port 為 " }, 
+            { "e":"b", "t":"8101" }, 
+            { "e":"span", "t":" 就修改 " }, 
+            { "e":"code", "t":"Https VirtualHost", "copy":"sudo nano /etc/apache2/sites-available/my-ssl.conf" },
+            { "e":"span", "t":"，加入 " }, 
+            { "e":"code", "t":"Proxy 設定", "copy":"\n\n    # 覆寫\n    RewriteEngine On\n    RewriteCond %{QUERY_STRING} transport=websocket    [NC]\n    RewriteRule /(.*)           ws://127.0.0.1:8101/$1 [P,L]\n\n    # 啟用代理\n    ProxyRequests On\n    ProxyPass / http://127.0.0.1:8101/\n    ProxyPassReverse / http://127.0.0.1:8101/" },
+            { "e":"span", "t":" 與移除 " }, 
+            { "e":"code", "t":"Directory" }, 
+            { "e":"span", "t":"，可以參考以下範例" }
+          ] }, 
+          {
+            "e":"pre",
+            "class":"lines",
+            "copy":"\n\n    # 覆寫\n    RewriteEngine On\n    RewriteCond %{QUERY_STRING} transport=websocket    [NC]\n    RewriteRule /(.*)           ws://127.0.0.1:8101/$1 [P,L]\n\n    # 啟用代理\n    ProxyRequests On\n    ProxyPass / http://127.0.0.1:8101/\n    ProxyPassReverse / http://127.0.0.1:8101/",
+            "s":[
+              { "e":"div", "s":[
+                {"e": "span", "t": "<IfModule", "class": "red" },
+                {"e": "span", "t": " " },
+                {"e": "span", "t": "mod_ssl.c", "class": "yellow" },
+                {"e": "span", "t": ">", "class": "red" }
+              ] },
+              { "e":"div", "t":" " },
+              { "e":"div", "s":[
+                {"e": "span", "t": "    " },
+                {"e": "span", "t": "<VirtualHost", "class": "red" },
+                {"e": "span", "t": " " },
+                {"e": "span", "t": "_default_:443", "class": "yellow" },
+                {"e": "span", "t": ">", "class": "red" }] },
+              { "e":"div", "t":"        # 你的 Domain", "class": "gray" },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "ServerName", "class": "blue" },
+                {"e": "span", "t": " your.url.tw" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "ServerAlias", "class": "blue" },
+                {"e": "span", "t": " your.url.tw" }] },
+              { "e":"div", "t":" " },
+              { "e":"div", "t":"        # 你的 E-Mail", "class": "gray" },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "ServerAdmin", "class": "blue" },
+                {"e": "span", "t": " your.email@gmail.com" }] },
+              { "e":"div", "t":" " },
+              { "e":"div", "t":"        # 覆寫", "class": "gray" },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "RewriteEngine", "class": "blue" },
+                {"e": "span", "t": " On" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "RewriteCond", "class": "blue" },
+                {"e": "span", "t": " %{QUERY_STRING} transport=websocket    [NC]" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "RewriteRule", "class": "blue" },
+                {"e": "span", "t": " /(.*)           ws://127.0.0.1:8101/$1 [P,L]" }] },
+              { "e":"div", "t":" " },
+              { "e":"div", "t":"        # 啟用代理", "class": "gray" },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "ProxyRequests", "class": "blue" },
+                {"e": "span", "t": " On" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "ProxyPass", "class": "blue" },
+                {"e": "span", "t": " / http://127.0.0.1:8101/" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "ProxyPassReverse", "class": "blue" },
+                {"e": "span", "t": " / http://127.0.0.1:8101/" }] },
+              { "e":"div", "t":" " },
+              { "e":"div", "t":"        # Log 的儲存位置", "class": "gray" },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "ErrorLog", "class": "blue" },
+                {"e": "span", "t": " ${APACHE_LOG_DIR}/error.log" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "CustomLog", "class": "blue" },
+                {"e": "span", "t": " ${APACHE_LOG_DIR}/access.log combined" }] },
+              { "e":"div", "t":" " },
+              { "e":"div", "t":"        # SSL 設定", "class": "gray" },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "SSLEngine", "class": "blue" },
+                {"e": "span", "t": " on" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "SSLCertificateFile", "class": "blue" },
+                {"e": "span", "t": " /etc/dehydrated/certs/your.url.tw/cert.pem" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "SSLCertificateKeyFile", "class": "blue" },
+                {"e": "span", "t": " /etc/dehydrated/certs/your.url.tw/privkey.pem" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "        " },
+                {"e": "span", "t": "SSLCertificateChainFile", "class": "blue" },
+                {"e": "span", "t": " /etc/dehydrated/certs/your.url.tw/chain.pem" }] },
+              { "e":"div", "s":[
+                {"e": "span", "t": "    </VirtualHost>", "class": "red" }] },
+              { "e":"div", "t":" " },
+              { "e":"div", "s":[
+                {"e": "span", "t": "</IfModule>", "class": "red" }] }
+            ]
+          }
+        ] }
+      ]
+    }
+  ],
+  "references":[
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "Elastic IPs"
+  ]
+}

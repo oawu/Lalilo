@@ -1,0 +1,30 @@
+{
+  "key": "Arduino-Competition",
+  "cover": "/img/dev/005.jpg",
+  "title":"Arduino 新銳展翅創意競賽",
+  "at":"2010-04-17",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"大三專題中使用了 " },
+        { "e":"a", "t":"Arduino UNO", "href":"https://www.arduino.cc/en/Main/ArduinoBoardUno" },
+        { "e":"span", "t":" 以及多項 Sensor 組合出多項功能作品，主要架構是以 Arduino 與各個裝置互相溝通，溝通的方式使用 " },
+        { "e":"a", "t":"XBee", "href":"https://en.wikipedia.org/wiki/XBee" },
+        { "e":"span", "t":" 無線套件。作品功能大致上是借由不同 Arduino 所收集到的資訊並彙集並且提供給駕駛者車況等安全資訊，所以算是基本版的 " },
+        { "e":"b", "t":"智慧型腳踏車" },
+        { "e":"span", "t":" 實作。" }
+      ]
+    },
+    { "e":"img", "alt":"搭載各種感應器，簡單以紙箱示意腳踏車，實作智慧型腳踏車的概念模型", "src":"/img/dev/005/01.jpg" },
+    { "e":"img", "alt":"2010年 新銳展翅創意競賽會場", "src":"/img/dev/005/02.jpg" },
+    { "e":"img", "alt":"2010年 新銳展翅創意競賽 參賽證", "src":"/img/dev/005/03.jpg" },
+    { "e":"img", "alt":"2010年 新銳展翅創意競賽 佳作獎狀證明", "src":"/img/dev/005/04.jpg" }
+  ],
+  "references":[],
+  "tags":[
+    "Arduino",
+    "XBee"
+  ]
+}

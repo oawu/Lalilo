@@ -1,0 +1,360 @@
+{
+  "key": "EC2-Ubuntu-Apache",
+  "cover": "/img/aws/004.png",
+  "title":"EC2 Ubuntu 安裝 Apache",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    { "e":"h2", "t":"假設" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "t":"以下操作先做假設"
+            },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"Elastic IPs：" },
+                    { "e":"code", "t":"123.456.789" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"下載的 .pem 檔案名稱：" },
+                    { "e":"code", "t":"test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"test.pem" },
+                    { "e":"span", "t":" 位置：" },
+                    { "e":"code", "t":"/User/oa/test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"網址(domain)：" },
+                    { "e":"code", "t":"your.url.tw" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"E-Mail：" },
+                    { "e":"code", "t":"your.email@gmail.com" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"以下編輯器主要是使用 " },
+                    { "e":"code", "t":"nano" },
+                    { "e":"span", "t":"，請自行斟酌是否使用 " },
+                    { "e":"code", "t":"vi" },
+                    { "e":"span", "t":" 或 " },
+                    { "e":"code", "t":"vim" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"blockquote",
+      "s":[
+        { "e":"span", "t":"記得去你的 DNS(Domain Name Server) 設定，新增 " },
+        { "e":"code", "t":"A" },
+        { "e":"span", "t":" 紀錄 " },
+        { "e":"code", "t":"your.url.tw" },
+        { "e":"span", "t":"，指向 IP " },
+        { "e":"code", "t":"123.456.789" }
+      ]
+    },
+    
+
+    { "e":"h2", "t":"安裝 Apache" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"更新 apt，指令：" },
+            { "e":"code", "t":"sudo apt update", "copy":"sudo apt update" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"安裝 Apache，指令：" },
+            { "e":"code", "t":"sudo apt -y install apache2", "copy":"sudo apt -y install apache2" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"打開 rewrite mode，指令輸入 " },
+            { "e":"code", "t":"sudo a2enmod rewrite", "copy":"sudo a2enmod rewrite" }
+          ]
+        }
+      ]
+    },
+    
+
+    { "e":"h2", "t":"建立 WWW 目錄" },
+    
+    { "e":"p", "t": "方法有兩種，自己選擇" },
+    
+    {
+      "e":"ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "快速指令 " },
+          {"e": "code", "t": "點我複製", "copy": "sudo chmod -R 777 /var/www && cd /var/www && rm -rf html && echo \"Hello World\" > index.html && ln -s /var/www ~/www" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "p", "t": "一步一步" },
+          {
+            "e":"ul",
+            "s":[
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"預設目錄在 " },
+                  { "e":"code", "t":"/var/www" },
+                  { "e":"span", "t":"，先將其權限做調整，輸入指令：" },
+                  { "e":"code", "t":"sudo chmod -R 777 /var/www", "copy":"sudo chmod -R 777 /var/www" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"進入預設 www 目錄，輸入指令：" },
+                  { "e":"code", "t":"cd /var/www", "copy":"cd /var/www" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"移除 " },
+                  { "e":"code", "t":"html" },
+                  { "e":"span", "t":" 目錄，指令：" },
+                  { "e":"code", "t":"rm -rf html", "copy":"rm -rf html" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"新增 index.html，編輯檔案，輸入指令：" },
+                  { "e":"code", "t":"nano index.html", "copy":"nano index.html" },
+                  { "e":"span", "t":"，簡單的輸入 " },
+                  { "e":"code", "t":"Hello World", "copy":"Hello World" },
+                  { "e":"span", "t":" 後儲存離開。" }
+                ]
+              },
+              {
+                "e":"li",
+                "s":[
+                  { "e":"span", "t":"在 Home 下建立捷徑，指令 " },
+                  { "e":"code", "t":"ln -s /var/www ~/www", "copy":"ln -s /var/www ~/www" }
+                ]
+              }
+            ]
+          }
+        ] }
+      ]
+    },
+
+    { "e":"h2", "t":"設定 Apache" },
+    { "e":"h3", "t":"第一次使用" },
+      { "e":"p", "t": "方法有兩種，自己選擇" },
+      {
+        "e":"ul",
+        "s": [
+          { "e": "li", "s": [
+            {"e": "span", "t": "快速指令 " },
+            {"e": "code", "t": "點我複製", "copy": "sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my.conf && sudo a2ensite my.conf && sudo a2dissite 000-default.conf && sudo systemctl reload apache2" }
+
+          ] },
+          { "e": "li", "s": [
+            {"e": "p", "t": "一步一步" },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"複製一份 vhost 檔案，指令 " },
+                    { "e":"code", "t":"sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my.conf", "copy":"sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my.conf" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"啟用 " },
+                    { "e":"code", "t":"my.conf" },
+                    { "e":"span", "t":"，指令：" },
+                    { "e":"code", "t":"sudo a2ensite my.conf", "copy":"sudo a2ensite my.conf" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"關閉 " },
+                    { "e":"code", "t":"000-default.conf" },
+                    { "e":"span", "t":"，指令 " },
+                    { "e":"code", "t":"sudo a2dissite 000-default.conf", "copy":"sudo a2dissite 000-default.conf" },
+                    { "e":"span", "t":"，注意喔，指令是 " },
+                    { "e":"code", "t":"a2dissite" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"重新載入 Apache 設定，指令：" },
+                    { "e":"code", "t":"sudo systemctl reload apache2", "copy":"sudo systemctl reload apache2" }
+                  ]
+                }
+              ]
+            }
+          ] }
+        ]
+      },
+    { "e":"h3", "t":"編輯 VirtualHost" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"編輯 " },
+        { "e":"code", "t":"my.conf", "copy":"sudo nano /etc/apache2/sites-available/my.conf" },
+        { "e":"span", "t":"，加入 " },
+        { "e":"code", "t": "VirtualHost", "copy":"<VirtualHost *:80>\n  # 你的 Domain\n  ServerName your.url.tw\n  ServerAlias your.url.tw\n\n  # 你的 E-Mail\n  ServerAdmin your.email@gmail.com\n\n  # 你的專案目錄\n  DocumentRoot /var/www\n\n  # Log 的儲存位置\n  ErrorLog ${APACHE_LOG_DIR}/error.log\n  CustomLog ${APACHE_LOG_DIR}/access.log combined\n\n  # 記得也要是你的專案目錄\n  <Directory /var/www>\n      Options FollowSymLinks MultiViews\n      AllowOverride All\n      Order allow,deny\n      Allow from all\n  </Directory>\n</VirtualHost>" },
+        { "e":"span", "t":"，然後 " },
+        { "e":"code", "t":"重啟 Apache", "copy":"sudo service apache2 restart" },
+        { "e":"span", "t":" 即可，範例：" }
+      ]
+    },
+    {
+      "e":"pre",
+      "class":"lines",
+      "copy":"<VirtualHost *:80>\n  # 你的 Domain\n  ServerName your.url.tw\n  ServerAlias your.url.tw\n\n  # 你的 E-Mail\n  ServerAdmin your.email@gmail.com\n\n  # 你的專案目錄\n  DocumentRoot /var/www\n\n  # Log 的儲存位置\n  ErrorLog ${APACHE_LOG_DIR}/error.log\n  CustomLog ${APACHE_LOG_DIR}/access.log combined\n\n  # 記得也要是你的專案目錄\n  <Directory /var/www>\n      Options FollowSymLinks MultiViews\n      AllowOverride All\n      Order allow,deny\n      Allow from all\n  </Directory>\n</VirtualHost>",
+      "s":[
+        { "e":"div", "s":[
+          {"e": "span", "t": "<VirtualHost", "class": "red" },
+          {"e": "span", "t": " " },
+          {"e": "span", "t": "*:80", "class": "yellow" },
+          {"e": "span", "t": ">", "class": "red" }] },
+        { "e":"div", "t":"    # 你的 Domain", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "ServerName", "class": "blue" },
+          {"e": "span", "t": " your.url.tw" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "ServerAlias", "class": "blue" },
+          {"e": "span", "t": " your.url.tw" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"    # 你的 E-Mail", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "ServerAdmin", "class": "blue" },
+          {"e": "span", "t": " your.email@gmail.com" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"    # 你的專案目錄", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "DocumentRoot", "class": "blue" },
+          {"e": "span", "t": " /var/www" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"    # Log 的儲存位置", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "ErrorLog", "class": "blue" },
+          {"e": "span", "t": " ${APACHE_LOG_DIR}/error.log" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "CustomLog", "class": "blue" },
+          {"e": "span", "t": " ${APACHE_LOG_DIR}/access.log combined" }] },
+        { "e":"div", "t":" " },
+        { "e":"div", "t":"    # 記得也要是你的專案目錄", "class": "gray" },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "<Directory", "class": "red" },
+          {"e": "span", "t": " " },
+          {"e": "span", "t": "/var/www", "class": "yellow" },
+          {"e": "span", "t": ">", "class": "red" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "Options", "class": "blue" },
+          {"e": "span", "t": " FollowSymLinks MultiViews" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "AllowOverride", "class": "blue" },
+          {"e": "span", "t": " All" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "Order", "class": "blue" },
+          {"e": "span", "t": " allow,deny" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "        " },
+          {"e": "span", "t": "Allow", "class": "blue" },
+          {"e": "span", "t": " from all" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "    " },
+          {"e": "span", "t": "</Directory>", "class": "red" }] },
+        { "e":"div", "s":[
+          {"e": "span", "t": "</VirtualHost>", "class": "red" }] }
+      ]
+    },
+
+    { "e":"h2", "t":"指令筆記" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"啟動：" },
+            { "e":"code", "t":"sudo service apache2 start", "copy":"sudo service apache2 start" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"停止：" },
+            { "e":"code", "t":"sudo service apache2 stop", "copy":"sudo service apache2 stop" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"重啟：" },
+            { "e":"code", "t":"sudo service apache2 restart", "copy":"sudo service apache2 restart" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html", "href": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html" },
+    { "text": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/", "href": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/" }
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "Apache",
+    "http"
+  ]
+}

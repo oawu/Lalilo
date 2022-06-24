@@ -1,0 +1,185 @@
+{
+  "key": "DHT22",
+  "title": "DHT22 溫度、濕度模組",
+  "at": "2021-08-02",
+  "type":"article",
+  "blocks": [
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "p", "t": "軟體安裝" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "下載 " },
+                {"e": "code", "t": "Adafruit_Python_DHT" },
+                {"e": "span", "t": "，終端機執行指令：" },
+                {"e": "code", "t": "git clone https://github.com/oawu/Adafruit_Python_DHT.git", "copy": "git clone https://github.com/oawu/Adafruit_Python_DHT.git" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "進入目錄，終端機執行指令：" },
+                {"e": "code", "t": "cd Adafruit_Python_DHT", "copy": "cd Adafruit_Python_DHT" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "安裝，終端機執行指令：" },
+                {"e": "code", "t": "sudo python3 setup.py install", "copy": "sudo python3 setup.py install" }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "回上一層，終端機執行指令：" },
+                {"e": "code", "t": "cd ..", "copy": "cd .." }
+              ] },
+              { "e": "li", "s": [
+                {"e": "span", "t": "移除 " },
+                {"e": "code", "t": "Adafruit_Python_DHT" },
+                {"e": "span", "t": " 目錄，終端機執行指令：" },
+                {"e": "code", "t": "sudo rm -rf Adafruit_Python_DHT", "copy": "sudo rm -rf Adafruit_Python_DHT" }
+              ] }
+            ]
+          }
+        ] },
+
+        { "e": "li", "s": [
+          {"e": "p", "t": "硬體設定" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "DHT22" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "+" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "3V", "class":"red" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "DHT22" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "-" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GND" }
+              ]},
+              { "e": "li", "s": [
+                {"e": "span", "t": "將 " },
+                {"e": "code", "t": "DHT22" },
+                {"e": "span", "t": " 的 " },
+                {"e": "code", "t": "out" },
+                {"e": "span", "t": " 接至 " },
+                {"e": "code", "t": "GPIO 17" }
+              ]}
+            ]
+          }
+        ] },
+
+        { "e": "li", "s": [
+          {"e": "p", "t": "取得溫濕度" },
+          {
+            "e": "ul",
+            "s": [
+              { "e": "li", "s": [
+                {"e": "span", "t": "新增，終端機執行指令：" },
+                {"e": "code", "t": "nano test.py", "copy": "nano test.py" }
+              ] },
+              {
+                "e":"pre",
+                "class":"lines",
+                "copy":"#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\nimport Adafruit_DHT\n\nGPIO17 = 17\n\ndef main():\n  h, t = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, GPIO17)\n  print(\"濕度：%s %%, 溫度：%s °C\" % (h, t))\n\nif __name__ =='__main__':\n  try:\n    main()\n\n  except KeyboardInterrupt:\n    print('exit')",
+                "s":[
+                  { "e":"div", "t":"#!/usr/bin/env python3", "class": "gray" },
+                  { "e":"div", "t":"# -*- coding: utf-8 -*-", "class": "gray" },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "import", "class": "red" },
+                    { "e":"span", "t": " Adafruit_DHT" }
+                  ] },
+                  { "e":"div", "t":" " },
+
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "GPIO17 " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "17", "class": "purple" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "def", "class": "blue" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "main", "class": "green" },
+                    { "e":"span", "t": "():" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  h, t " },
+                    { "e":"span", "t": "=", "class": "red" },
+                    { "e":"span", "t": " Adafruit_DHT." },
+                    { "e":"span", "t": "read_retry", "class": "blue" },
+                    { "e":"span", "t": "(Adafruit_DHT.DHT22, GPIO17)" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "\"濕度：", "class": "yellow" },
+                    { "e":"span", "t": "%s", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "%%", "class": "purple" },
+                    { "e":"span", "t": ", 溫度：", "class": "yellow" },
+                    { "e":"span", "t": "%s", "class": "purple" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "°C\"", "class": "yellow" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "%", "class": "red" },
+                    { "e":"span", "t": " (h, t))" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "if", "class": "red" },
+                    { "e":"span", "t": " __name__ " },
+                    { "e":"span", "t": "==", "class": "red" },
+                    { "e":"span", "t": "'__main__'", "class": "yellow" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "try", "class": "red" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "main", "class": "blue" },
+                    { "e":"span", "t": "()" }
+                  ] },
+                  { "e":"div", "t":" " },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "  " },
+                    { "e":"span", "t": "except", "class": "red" },
+                    { "e":"span", "t": " " },
+                    { "e":"span", "t": "KeyboardInterrupt", "class": "blue" },
+                    { "e":"span", "t": ":" }
+                  ] },
+                  { "e":"div", "s":[
+                    { "e":"span", "t": "    " },
+                    { "e":"span", "t": "print", "class": "blue" },
+                    { "e":"span", "t": "(" },
+                    { "e":"span", "t": "'exit'", "class": "yellow" },
+                    { "e":"span", "t": ")" }
+                  ] }
+
+                ]
+              },
+
+              { "e": "li", "s": [
+                {"e": "span", "t": "執行，終端機執行指令：" },
+                {"e": "code", "t": "python3 test.py", "copy": "python3 test.py" }
+              ] }
+            ]
+          }
+        ]}
+      ]
+    }
+  ],
+  "references": [],
+  "tags": []
+}

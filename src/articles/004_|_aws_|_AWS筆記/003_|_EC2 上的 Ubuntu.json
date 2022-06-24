@@ -1,0 +1,417 @@
+{
+  "key": "EC2-Ubuntu",
+  "cover": "/img/aws/003.jpg",
+  "title":"EC2 上的 Ubuntu",
+  "at":"2020-03-17",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"以下會教學新的 Ubuntu 常用的幾項基本設定，主要有 " },
+            { "e":"code", "t":"Git" },
+            { "e":"span", "t":"、" },
+            { "e":"code", "t":"Zsh" },
+            { "e":"span", "t":"、" },
+            { "e":"code", "t":"SSH" },
+            { "e":"span", "t":" 設定。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"經過設定 " },
+            { "e":"code", "t":"Elastic IPs" },
+            { "e":"span", "t":" 後，我們就可以藉由其 IP 與下載的 .pem 檔案做第一次的 ssh 連線遠端登入 Server" }
+          ]
+        }
+      ]
+    },
+    { "e":"h2", "t":"假設" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            {
+              "e":"p",
+              "t":"以下操作先做假設"
+            },
+            {
+              "e":"ul",
+              "s":[
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"Elastic IPs：" },
+                    { "e":"code", "t":"123.456.789" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"下載的 .pem 檔案名稱：" },
+                    { "e":"code", "t":"test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"code", "t":"test.pem" },
+                    { "e":"span", "t":" 位置：" },
+                    { "e":"code", "t":"/User/oa/test.pem" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"網址(domain)：" },
+                    { "e":"code", "t":"your.url.tw" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"E-Mail：" },
+                    { "e":"code", "t":"your.email@gmail.com" }
+                  ]
+                },
+                {
+                  "e":"li",
+                  "s":[
+                    { "e":"span", "t":"以下編輯器主要是使用 " },
+                    { "e":"code", "t":"nano" },
+                    { "e":"span", "t":"，請自行斟酌是否使用 " },
+                    { "e":"code", "t":"vi" },
+                    { "e":"span", "t":" 或 " },
+                    { "e":"code", "t":"vim" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "e":"blockquote",
+      "s":[
+        { "e":"span", "t":"記得去你的 DNS(Domain Name Server) 設定，新增 " },
+        { "e":"code", "t":"A" },
+        { "e":"span", "t":" 紀錄 " },
+        { "e":"code", "t":"your.url.tw" },
+        { "e":"span", "t":"，指向 IP " },
+        { "e":"code", "t":"123.456.789" }
+      ]
+    },
+    { "e":"h2", "t":"首次登入" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"先設定 " },
+            { "e":"code", "t":"test.pem" },
+            { "e":"span", "t":" 檔案的權限，指令：" },
+            { "e":"code", "t":"chmod 400 /User/oa/test.pem", "copy":"chmod 400 " }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"以 " },
+            { "e":"code", "t":"ssh" },
+            { "e":"span", "t":" 方式，藉由 " },
+            { "e":"code", "t":"test.pem" },
+            { "e":"span", "t":" 登入 Server，輸入指令：" },
+            { "e":"code", "t":"ssh ubuntu@123.456.789 -i /User/oa/test.pem", "copy":"ssh ubuntu@ -i " }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"第一次會問你要不要加入此 IP 的紀錄(Are you sure you want to continue connecting (yes/no/[fingerprint])?)，你就輸入 " },
+            { "e":"code", "t":"yes" },
+            { "e":"span", "t":" 後按下 " },
+            { "e":"code", "t":"enter" },
+            { "e":"span", "t":" 即可。" }
+          ]
+        }
+      ]
+    },
+
+    { "e":"h2", "t":"系統設定" },
+    { "e":"p", "t":"方法有兩種，自己選擇" },
+    { "e":"ul", "s":[
+      {"e": "li", "s": [
+        {"e": "span", "t": "快速指令" },
+        { "e":"code", "t":"點我複製", "copy":"sudo apt -y install git && sudo apt -y install zsh && curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh && sudo chsh -s $(which zsh) $(whoami) && sudo timedatectl set-timezone Asia/Taipei && sudo service cron restart && sudo locale-gen zh_TW.UTF-8 && exit" },
+        {"e": "span", "t": "，完成後會斷線，請再次重新 SSH 連線即可！" }
+      ]},
+
+      {"e": "li", "s": [
+        {"e": "span", "t": "一步一步" },
+        {
+          "e":"ul",
+          "s":[
+            {
+              "e":"li",
+              "s":[
+                { "e":"p", "t":"安裝 Git" },
+                {
+                  "e":"ul",
+                  "s":[
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"安裝 Git，指令：" },
+                        { "e":"code", "t":"sudo apt -y install git", "copy":"sudo apt -y install git" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"檢查版本，確認是否安裝成功，指令：" },
+                        { "e":"code", "t":"git --version", "copy":"git --version" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+
+            {
+              "e":"li",
+              "s":[
+                { "e":"p", "t":"安裝 Oh My Zsh" },
+                {
+                  "e":"ul",
+                  "s":[
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"修改 " },
+                        { "e":"code", "t":"chsh" },
+                        { "e":"span", "t":" 權限，編輯指令：" },
+                        { "e":"code", "t":"sudo nano /etc/pam.d/chsh", "copy":"sudo nano /etc/pam.d/chsh" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"p", "s":[
+                          { "e":"span", "t":"將 " },
+                          { "e":"code", "t":"auth required pam_shells.so" },
+                          { "e":"span", "t":" 改為  " },
+                          { "e":"code", "t":"auth sufficient pam_shells.so", "copy":"auth sufficient pam_shells.so" }
+                        ] },
+                        {
+                          "e":"blockquote",
+                          "s":[
+                            { "e":"span", "t":"改為 " },
+                            { "e":"code", "t":"auth sufficient pam_shells.so" },
+                            { "e":"span", "t":" 主要是因為後面更改 Shell 都會詢問密碼，但是你是藉由 " },
+                            { "e":"code", "t":"test.pem" },
+                            { "e":"span", "t":" 方式登入，所以沒有密碼，因此才改為 " },
+                            { "e":"code", "t":"sufficient" }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"安裝 " },
+                        { "e":"code", "t":"zsh" },
+                        { "e":"span", "t":"，指令：" },
+                        { "e":"code", "t":"sudo apt -y install zsh", "copy":"sudo apt -y install zsh" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"使用 " },
+                        { "e":"code", "t":"oh-my-zsh" },
+                        { "e":"span", "t":" 主題，指令：" },
+                        { "e":"code", "t":"curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh", "copy":"curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"修改預設的 " },
+                        { "e":"code", "t":"shell" },
+                        { "e":"span", "t":"，指令：" },
+                        { "e":"code", "t":"chsh -s /bin/zsh", "copy":"chsh -s /bin/zsh" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"重新 ssh 連線，輸入指令：" },
+                        { "e":"code", "t":"exit", "copy":"exit" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"然後再重新連線，指令：" },
+                        { "e":"code", "t":"ssh ubuntu@123.456.789 -i /User/oa/test.pem", "copy":"ssh ubuntu@ -i " }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "e":"li",
+              "s":[
+                { "e":"p", "t":"調整時間" },
+                {
+                  "e":"ul",
+                  "s":[
+                    {
+                      "e":"li", "t":"初始的 Ubuntu 會有時間誤差，所以需要校正，並且設定 Local 的時間"
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"設定本地區域，輸入指令：" },
+                        { "e":"code", "t":"sudo timedatectl set-timezone Asia/Taipei", "copy":"sudo timedatectl set-timezone Asia/Taipei" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"校正時間，檢查時間與本地端(你的電腦)是否正確，輸入指令：" },
+                        { "e":"code", "t":"timedatectl", "copy":"timedatectl" }
+                      ]
+                    },
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"重新啟動排程 " },
+                        { "e":"code", "t":"sudo service cron restart", "copy":"sudo service cron restart" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "e":"li",
+              "s":[
+                { "e":"p", "t":"設定編碼語系" },
+                {
+                  "e":"ul",
+                  "s":[
+                    {
+                      "e":"li",
+                      "s":[
+                        { "e":"span", "t":"設定中文語系，沒設定會有亂碼，指令：" },
+                        { "e":"code", "t":"sudo locale-gen zh_TW.UTF-8", "copy":"sudo locale-gen zh_TW.UTF-8" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]}
+    ]},
+    
+    
+    { "e":"h2", "t":"產生 SSH Key" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"輸入指令：" },
+            { "e":"code", "t":"ssh-keygen -t rsa -C \"your.email@gmail.com\"", "copy":"ssh-keygen -t rsa -C \"your.email@gmail.com\"" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"連續按下幾個 " },
+            { "e":"code", "t":"enter" },
+            { "e":"span", "t":" 後即可完成。" }
+          ]
+        }
+      ]
+    },
+    
+    { "e":"h2", "t":"藉由 Authorized Keys 登入" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"先開啟 " },
+            { "e":"code", "t":"伺服器", "class": "green" },
+            { "e":"span", "t":" 的 " },
+            { "e":"code", "t":"authorized_keys" },
+            { "e":"span", "t":"，輸入指令：" },
+            { "e":"code", "t":"nano ~/.ssh/authorized_keys", "copy":"nano ~/.ssh/authorized_keys" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"再開啟 " },
+            { "e":"code", "t":"本機端", "class": "red" },
+            { "e":"span", "t":" 的終端機，複製 Public key，輸入指令：" },
+            { "e":"code", "t":"pbcopy < ~/.ssh/id_rsa.pub", "copy":"pbcopy < ~/.ssh/id_rsa.pub" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"然後回 " },
+            { "e":"code", "t":"伺服器", "class": "green" },
+            { "e":"span", "t":" 在 " },
+            { "e":"code", "t":"authorized_keys" },
+            { "e":"span", "t":" 最後面貼上你剛剛複製的本機端 Public key" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"如此一來，你就不用每次都要藉由 " },
+            { "e":"code", "t":"test.pem" },
+            { "e":"span", "t":" 的方式登入，但也記得請好好的保存 " },
+            { "e":"code", "t":"test.pem" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"再重新連線，指令：" },
+            { "e":"code", "t":"ssh ubuntu@123.456.789", "copy": "ssh ubuntu@ " }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html", "href": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html" },
+    { "text": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/", "href": "https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/" },
+    { "text": "https://help.ubuntu.com/community/UbuntuTime", "href": "https://help.ubuntu.com/community/UbuntuTime" }
+  ],
+  "tags":[
+    "AWS",
+    "EC2",
+    "Git",
+    "Zsh",
+    "SSH"
+  ]
+}

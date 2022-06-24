@@ -1,0 +1,80 @@
+{
+  "key": "F2E-Material-Web-Design",
+  "cover": "/img/dev/016.jpg",
+  "title":"實作 Material Web Design",
+  "at":"2014-12-08",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這套前端工具主要是參考 " },
+        { "e":"a", "t":"Material UI", "href":"https://www.google.com/design/spec/material-design/introduction.html" },
+        { "e":"span", "t":" 風格設計，並且這是一個藉由 " },
+        { "e":"a", "t":"Compass", "href":"http://compass-style.org/" },
+        { "e":"span", "t":"、" },
+        { "e":"a", "t":"HTML", "href":"http://www.w3schools.com/html/" },
+        { "e":"span", "t":" 以及 " },
+        { "e":"a", "t":"jQuery", "href":"https://jquery.com/" },
+        { "e":"span", "t":"..等各種前端工具實作的 Material UI Design for Web，開發者可以自行使用 " },
+        { "e":"a", "t":"SCSS", "href":"http://sass-lang.com/" },
+        { "e":"span", "t":" 或者 " },
+        { "e":"a", "t":"CSS", "href":"https://developer.mozilla.org/zh-TW/docs/Web/CSS" },
+        { "e":"span", "t":" 來做修改，目前是使用 jQuery 來達到更多 UI 回饋效果。" }
+      ]
+    },
+    {
+      "e":"img",
+      "alt":"各種 Material UI 元素",
+      "src":"/img/dev/016/01.jpg"
+    },
+    { "e":"h2", "t":"以下是基本的介紹：" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"此作品開發工具主要使用 " },
+            { "e":"a", "t":"Gulp", "href":"http://gulpjs.com/" },
+            { "e":"span", "t":"、Compass 以及 jQuery 語言所建立，主要架構則使用 " },
+            { "e":"a", "t":"OAF2E v1.2", "href":"https://github.com/oawu/oaf2e/tree/version/1.2" },
+            { "e":"span", "t":"。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"相關概念也參考了 " },
+            { "e":"a", "t":"Tedshd's GitHub", "href":"https://github.com/tedshd" },
+            { "e":"span", "t":" 所設計的 " },
+            { "e":"a", "t":"material_design_for_web", "href":"https://github.com/tedshd/material_design_for_web" },
+            { "e":"span", "t":"。" }
+          ]
+        },
+        { "e":"li", "t":"資料夾 lib 內包含了 _oa-material.scss、oa.material.css、oa.material.min.css，三隻檔案提供了 SCSS、CSS 兩種使用方式的檔案。" }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"https://works.ioa.tw/OA-material/index.html" },
+    { "text": "https://works.ioa.tw/OA-material/index.html", "href":"https://works.ioa.tw/OA-material/index.html" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-material" },
+    { "text": "https://github.com/oawu/OA-material", "href":"https://github.com/oawu/OA-material" },
+    { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1418573892.A.E39.html" },
+    { "text": "https://www.ptt.cc/bbs/Soft_Job/M.1418573892.A.E39.html", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1418573892.A.E39.html" },
+    { "text": "PTT Soft_Job 2", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1439537367.A.64B.html" },
+    { "text": "https://www.ptt.cc/bbs/Soft_Job/M.1439537367.A.64B.html", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1439537367.A.64B.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/766343336736367/" },
+    { "text": "https://www.facebook.com/groups/f2e.tw/permalink/766343336736367/", "href":"https://www.facebook.com/groups/f2e.tw/permalink/766343336736367/" },
+    { "text": "Facebook Front-End Developers Taiwan 2", "href":"https://www.facebook.com/groups/f2e.tw/permalink/871517822885584/" },
+    { "text": "https://www.facebook.com/groups/f2e.tw/permalink/871517822885584/", "href":"https://www.facebook.com/groups/f2e.tw/permalink/871517822885584/" },
+    { "text": "Tedshd's GitHub", "href":"https://github.com/tedshd/material_design_for_web" },
+    { "text": "https://github.com/tedshd/material_design_for_web", "href":"https://github.com/tedshd/material_design_for_web" }
+  ],
+  "tags":[
+    "jQuery",
+    "Material",
+    "CSS"
+  ]
+}

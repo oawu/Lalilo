@@ -1,0 +1,116 @@
+{
+  "key": "F2E-PokemonGo-StopMaps",
+  "cover": "/img/dev/045.jpg",
+  "title":"Pokémon Go 補給站地圖",
+  "subtitle":"這是一個 Pokémon Go 進化後 CP 推測工具，可以快速查詢寶可夢進化後的 CP 範圍值，讓大家可以查詢各精靈在台灣的分佈！",
+  "at":"2016-08-31",
+  "type":"article",
+  "blocks":[
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"這是一個 Pokémon Go 進化後 CP 推測工具，可以快速查詢寶可夢進化後的 CP 範圍值，同時藉由網友互助回報而建立的全台寶可夢巢穴位置，讓大家可以查詢各精靈在台灣的分佈，若大家想要共同編輯" },
+        { "e":"a", "t":"巢穴文件", "href":"https://docs.google.com/spreadsheets/d/1fMYgcbQV0haZcoKTdUYZaoorKaFCl8cFIF0aD4KDpHM/edit#gid=0" },
+        { "e":"span", "t":"可與網站作者聯絡，同時也可以查詢全台灣的補給站、道館的" },
+        { "e":"a", "t":"分佈", "href":"https://works.ioa.tw/evolution/stops.html" },
+        { "e":"span", "t":"。" }
+      ]
+    },
+    { "e":"p", "t":"若要進一步的查詢各精靈的精準數值的話，可以使用 PokeIV小助手 來協助管理、計算數值，PokeIV小助手 不僅可以查詢個體值(IV)外，還可以設定快速進化、估算進化值.. 等功能，PokeIV小助手 同時也修改了被官網軟鎖得疑慮，經不同演算法大大減低風險！" },
+    {
+      "e":"p",
+      "s":[
+        { "e":"span", "t":"巢穴地圖的 Google 文件轉化成地圖呈現亦是使用之前實作的 " },
+        { "e":"a", "t":"Google 試算表取得 API", "href":"/index.html?k=dev&id=GoogleSheets-API" },
+        { "e":"span", "t":" 的方式，藉由 " },
+        { "e":"a", "t":"JavaScript", "href":"https://zh.wikipedia.org/zh-tw/JavaScript" },
+        { "e":"span", "t":" 的 " },
+        { "e":"a", "t":"AJAX", "href":"https://zh.wikipedia.org/zh-tw/AJAX" },
+        { "e":"span", "t":" 去取得試算表上的經緯度資訊，再呈現到 " },
+        { "e":"a", "t":"Google Maps", "href":"https://maps.google.com.tw/" },
+        { "e":"span", "t":" 上。" }
+      ]
+    },
+    { "e":"h2", "t":"實作說明" },
+    {
+      "e":"ul",
+      "s":[
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"使用 " },
+            { "e":"a", "t":"PTT PokeMon", "href":"https://www.ptt.cc/bbs/PokeMon/index.html" },
+            { "e":"span", "t":" 版文章 － " },
+            { "e":"a", "t":"菜鳥致新手: CP、等級、IV、...", "href":"https://www.ptt.cc/bbs/PokeMon/M.1470508630.A.DF6.html" },
+            { "e":"span", "t":" 提及的公式演算。" }
+          ]
+        },
+        { "e":"li", "t":"CP 公式：(種族攻擊力 + 個體攻擊力) ×(種族防禦值 + 個體防禦值)^0.5 × (種族體力值 + 個體體力值)^0.5 × (等級換算值)^2 ÷ 10。" },
+        { "e":"li", "t":"由於網頁版不能知曉個體數值，故利用最小 0，與最大 15 計算。" },
+        { "e":"li", "t":"估算方式是藉由比率計算，故等級換算值會被互相約分除去，所以有無等級換算值不影響結果。" },
+        { "e":"li", "t":"因不知道個體數值，所以只能推算大約結果，而數值也僅供參考喔！不過藉由我自己實測結果，都有落在範圍值內。" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"範圍公式：(進化前CP " },
+            { "e":"em", "t":" 進化前最小CP) / 進化前最小CP 與 (進化前CP " },
+            { "e":"span", "t":" 進化前最大CP) / 進化前最大CP。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"a", "t":"巢穴地圖", "href":"https://works.ioa.tw/evolution/maps.html" },
+            { "e":"span", "t":" 是使用各位網友回報的數據實作的，所以不是 100% 會出現的，一切僅供參考。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"a", "t":"巢穴地圖", "href":"https://works.ioa.tw/evolution/maps.html" },
+            { "e":"span", "t":" 的數據目前放置在 " },
+            { "e":"a", "t":"Google 文件", "href":"https://docs.google.com/spreadsheets/d/1fMYgcbQV0haZcoKTdUYZaoorKaFCl8cFIF0aD4KDpHM/edit#gid=0" },
+            { "e":"span", "t":" 上，藉由 Pokémon Go 同好玩家們共同編輯。" }
+          ]
+        },
+        {
+          "e":"li",
+          "s":[
+            { "e":"span", "t":"若想共同編輯" },
+            { "e":"a", "t":"巢穴地圖 Google 文件", "href":"https://docs.google.com/spreadsheets/d/1fMYgcbQV0haZcoKTdUYZaoorKaFCl8cFIF0aD4KDpHM/edit#gid=0" },
+            { "e":"span", "t":" 的話，歡迎與" },
+            { "e":"a", "t":"我", "href":"http://www.ioa.tw/" },
+            { "e":"span", "t":"聯絡，亦或者發 " },
+            { "e":"a", "t":"E-Mail", "href":"mailto:oawu.tw@gmail.com" },
+            { "e":"span", "t":" 給他！" }
+          ]
+        },
+        { "e":"li", "t":"網頁上的查詢都是 HTML、JavaScript 前端檔案處理，所以後端並不會存取任何使用者的查詢資料喔！" },
+        {
+          "e":"li",
+          "s":[
+            { "e":"a", "t":"補給站、道館分佈地圖", "href":"https://works.ioa.tw/evolution/stops.html" },
+            { "e":"span", "t":"，是我、小編們踏遍全台灣收集校正的！若是各位大大們想引用的話，請標註出處 " },
+            { "e":"a", "t":"Go Evolution！", "href":"https://works.ioa.tw/evolution/index.html" }
+          ]
+        }
+      ]
+    }
+  ],
+  "references":[
+    { "text": "Live Demo", "href":"https://works.ioa.tw/evolution/index.html" },
+    { "text": "GitHub 原始碼", "href":"https://github.com/oawu/evolution/" },
+    { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1470650059.A.EC4.html" },
+    { "text": "PTT PokeMon", "href":"https://www.ptt.cc/bbs/PokeMon/M.1472793302.A.9F0.html" },
+    { "text": "PTT PokeMonGo 1", "href":"https://www.ptt.cc/bbs/PokemonGO/M.1472805252.A.2A0.html" },
+    { "text": "PTT PokeMonGo 2", "href":"https://www.ptt.cc/bbs/PokemonGO/M.1475147103.A.B01.html" },
+    { "text": "PTT PokeMonGo 3", "href":"https://www.ptt.cc/bbs/PokemonGO/M.1475738122.A.064.html" },
+    { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/1064416303595734/" },
+    { "text": "藍色小惡魔 - 抓寶人生: 大家找寶貝失..", "href":"https://pokeimp.blogspot.tw/2016/10/blog-post.html" }
+  ],
+  "tags":[
+    "Pokémon",
+    "Google Maps",
+    "jQuery"
+  ]
+}

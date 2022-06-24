@@ -1,0 +1,35 @@
+{
+  "key": "license",
+  "title": "授權聲明",
+  "at": "2021-08-05",
+  "type":"article",
+  "blocks": [
+    {
+      "e": "blockquote",
+      "s": [
+        { "e": "p", "t": "部落格內有很多資源都也是取之於網路的，所以秉持分享的理念，取之於網路回饋於網路！" }
+      ]
+    },
+    {
+      "e": "p",
+      "t":"歡迎大家來一起討論，如果文章內容有錯誤、有更好的做法、想要引用，都可以在底下留言喔，然後以下簡單列一下聲明："
+    },
+    {
+      "e": "ul",
+      "s": [
+        { "e": "li", "s": [
+          {"e": "span", "t": "本網站版型、前端程式皆採姓名標示-非商業性-禁止改作 3.0 台灣（CC BY-NC-ND 3.0 TW）授權，詳見 " },
+          {"e": "a", "t": "https://creativecommons.org/licenses/by-nc-nd/3.0/tw/", "href": "https://creativecommons.org/licenses/by-nc-nd/3.0/tw/" },
+          {"e": "span", "t": "。" }
+        ] },
+        { "e": "li", "s": [
+          {"e": "span", "t": "部落格文章中的內容若錯誤或者觀念不正確的話，請留言或者聯絡" },
+          {"e": "a", "t": "吳政賢", "href": "https://www.facebook.com/oawu.tw" },
+          {"e": "span", "t": "本人！" }
+        ] }
+      ]
+    }
+  ],
+  "references": [],
+  "tags": []
+}
