@@ -31,6 +31,11 @@ module.exports = {
     ignoreDirs: ['icon'], // 不監聽的目錄
   },
 
+  loaders: [ // 檔案需放在 cmd 目錄內
+    // { title: '標題', file: 'tool.js' }, // 開始時先執行
+    // { title: '標題', ext: '.json', file: 'tool.js' }, // 當 ext 檔案改變時會執行
+  ],
+
   server: {
     domain: '127.0.0.1',
 
