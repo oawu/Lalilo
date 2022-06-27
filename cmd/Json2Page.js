@@ -40,11 +40,11 @@ lines.push("  ),")
 lines.push("  body()")
 lines.push(")->lang('zh-Hant');")
 
-// FileSystem.writeFile(dirPage + json.key + '.php', lines.join("\n"), { encoding: 'utf8' }, error => {
+FileSystem.writeFile(dirPage + json.key + '.php', lines.join("\n"), { encoding: 'utf8' }, error => {
 
-// })
+})
 
-// console.error(dirPage);
+console.error(dirPage);
 
 
 

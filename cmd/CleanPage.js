@@ -13,7 +13,7 @@ const dirRoot = argv(['-E', '--dir'])
 const dirEntry = argv(['-E', '--entry'])
 const dirSrc = dirEntry + (Config.dir.html !== '' ? Config.dir.html + Path.sep : '')
 const dirApi = dirEntry + 'api' + Path.sep
-const dirArticles = dirEntry + 'articles' + Path.sep
+const dirArticles = dirRoot + 'articles' + Path.sep
 
 const errorHandler = error => {
   println(error instanceof Error ? error.message : error)
