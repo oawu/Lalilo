@@ -15,7 +15,7 @@ module.exports = {
     baseURL: null,
   },
 
-  autoOpenBrowser: true, // 啟動自動開網頁
+  autoOpenBrowser: false, // 啟動自動開網頁
   
   dir: { // 目錄
     icon: 'icon', // 圖示
@@ -33,7 +33,7 @@ module.exports = {
 
   loaders: [ // 檔案需放在 cmd 目錄內
     // { title: '清除 Page', file: 'CleanPage.js' }, // 開始時先執行
-    // { title: '編譯 Json', ext: '.json', file: 'Json2Page.js' }, // 當 ext 檔案改變時會執行
+    // { title: '編譯 Json', ext: '.json', dir: '/articles', file: 'Json2Page.js' }, // 當 ext 檔案改變時會執行
   ],
 
   server: {
