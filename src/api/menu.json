@@ -1,83 +1,56 @@
 [
   {
-    "index": 1,
     "key": "index",
-    "text": "個人簡介.json",
-    "name": "001_|_index_|_個人簡介.json",
-    "isDir": false,
-    "path": "/Users/oa/www/Lalilo/articles/001_|_index_|_個人簡介.json",
-    "count": 0
+    "text": "個人簡介",
+    "count": 0,
+    "isDir": false
   },
   {
-    "index": 2,
-    "key": "dev",
+    "key": "Develop",
     "text": "開發心得",
-    "name": "002_|_dev_|_開發心得",
-    "isDir": true,
-    "path": "/Users/oa/www/Lalilo/articles/002_|_dev_|_開發心得/",
-    "count": 54
+    "count": 54,
+    "isDir": true
   },
   {
-    "index": 3,
-    "key": "mac",
+    "key": "macOS",
     "text": "蘋果環境",
-    "name": "003_|_mac_|_蘋果環境",
-    "isDir": true,
-    "path": "/Users/oa/www/Lalilo/articles/003_|_mac_|_蘋果環境/",
-    "count": 23
+    "count": 23,
+    "isDir": true
   },
   {
-    "index": 4,
-    "key": "aws",
+    "key": "AWS",
     "text": "AWS筆記",
-    "name": "004_|_aws_|_AWS筆記",
-    "isDir": true,
-    "path": "/Users/oa/www/Lalilo/articles/004_|_aws_|_AWS筆記/",
-    "count": 9
+    "count": 9,
+    "isDir": true
   },
   {
-    "index": 5,
-    "key": "rpi",
+    "key": "RaspberryPi",
     "text": "樹莓派",
-    "name": "005_|_rpi_|_樹莓派",
-    "isDir": true,
-    "path": "/Users/oa/www/Lalilo/articles/005_|_rpi_|_樹莓派/",
-    "count": 6
+    "count": 6,
+    "isDir": true
   },
   {
-    "index": 6,
     "key": "note",
     "text": "隨筆雜記",
-    "name": "006_|_note_|_隨筆雜記",
-    "isDir": true,
-    "path": "/Users/oa/www/Lalilo/articles/006_|_note_|_隨筆雜記/",
-    "count": 1
+    "count": 1,
+    "isDir": true
   },
   {
-    "index": 7,
-    "key": "mazu",
+    "key": "Mazu",
     "text": "鄉土北港",
-    "name": "007_|_mazu_|_鄉土北港",
-    "isDir": true,
-    "path": "/Users/oa/www/Lalilo/articles/007_|_mazu_|_鄉土北港/",
-    "count": 34
+    "count": 34,
+    "isDir": true
   },
   {
-    "index": 8,
-    "key": "unbox",
+    "key": "Unboxing",
     "text": "開箱文章",
-    "name": "008_|_unbox_|_開箱文章",
-    "isDir": true,
-    "path": "/Users/oa/www/Lalilo/articles/008_|_unbox_|_開箱文章/",
-    "count": 9
+    "count": 9,
+    "isDir": true
   },
   {
-    "index": 9,
     "key": "license",
-    "text": "授權聲明.json",
-    "name": "009_|_license_|_授權聲明.json",
-    "isDir": false,
-    "path": "/Users/oa/www/Lalilo/articles/009_|_license_|_授權聲明.json",
-    "count": 0
+    "text": "授權聲明",
+    "count": 0,
+    "isDir": false
   }
 ]

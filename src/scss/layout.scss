@@ -405,6 +405,7 @@
       line-height: 48px;
       color: var(--ui-color-link);
       z-index: 2;
+      @extend %-user-select-none;
       
       &:after {
         content: '';
