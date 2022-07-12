@@ -69,7 +69,7 @@ Queue()
     // console.error(articles.slice(63, 64)[0].title);
     // process.exit()
     
-    Promise.all(articles.map(article => new Promise(writeArticle.bind(null, article))))
+    Promise.all(articles.slice(1,2).map(article => new Promise(writeArticle.bind(null, article))))
     .catch(errorHandler)
     .then(files => next({ menu, pages, articles }, files))
   })
