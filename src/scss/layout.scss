@@ -1120,8 +1120,24 @@
   margin: 0;
 
   margin-top: 48px;
-  border: 1px solid rgba(255, 0, 0, .3);
-  
+
+  > div {
+    display: block;
+    width: 100%;
+
+    &:empty {
+      &:before {
+        content: '請稍候，內容載入中..';
+        display: inline-block;
+        width: 100%;
+
+        padding: 16px 0;
+
+        text-align: center;
+        color: rgba(180, 180, 180, 1);
+      }
+    }
+  }
 
 }
 
