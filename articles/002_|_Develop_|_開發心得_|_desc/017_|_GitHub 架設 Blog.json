@@ -78,7 +78,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/blog" },
     { "text": "Youtube 影片", "href": "https://www.youtube.com/watch?v=pUBWKUEb7Do" },
     { "text": "PTT Soft_Job", "href": "https://www.ptt.cc/bbs/Soft_Job/M.1419438051.A.B58.html" }

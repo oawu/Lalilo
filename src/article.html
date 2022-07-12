@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta http-equiv="Content-Language" content="zh-tw">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+
+    <title>Lalilo！</title>
+
+    <link rel="stylesheet" type="text/css" href="css/icon.css">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+
+    <script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/index.js"></script>
+  </head>
+  <body>
+
+    <div id="app">
+      <aside id="menu">
+        <a class="active">
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+        <a>
+          <span count="10">{{ text }}</span>
+        </a>
+      </aside>
+
+      <div id="cover"></div>
+      
+      <header id="header">
+        <label id="hamburger"></label>
+        <b>OA Wu's Blog</b>
+      </header>
+
+      <div id="main">
+        
+        <article id="article">
+          <header>
+            <h1>EC2 被鎖住不能使用 SSH 登入 怎麼辦？</h1>
+            <span>不小心弄錯設定，造成 root 權限的 ubuntu 無法 SSH 登入了，怎辦？有辦法搶救嗎？</span>
+          </header>
+
+          <section><blockquote><p>先寫別人會寫而不想寫的程式，以後才可以寫別人想寫而寫不出來的程式。</p></blockquote><p><span>我叫吳政賢，就叫我 OA 吧！我是個愛寫程式又愛鄉土藝術活動的工程師，也是個道地的雲林北港囝仔。因為</span><a href="https://www.tku.edu.tw/" target="_blank">大學</a><span>時主修資訊工程，所以踏進了資訊這個行業，這個領域內我很喜歡嘗試的做些創新、有趣、實用的程式作品，對我來說程式設計是種可以創作出不同的玩具與工具！</span></p><p><span>這個部落格裡將會把我的開發經驗心得、生活點滴、各類性質的資訊通通紀錄在這裡，如果各位對內容有興趣的話非常歡迎</span><a href="mailto:comdan66@gmail.com?subject=OA's%20Blog&amp;amp;body=Hi%20OA%20%E6%82%A8%E5%A5%BD%2C%0A%0A%E6%88%91%E6%9C%89%E4%BA%9B%E9%97%9C%E6%96%BC%E6%82%A8%E9%83%A8%E8%90%BD%E6%A0%BC%E6%96%87%E7%AB%A0%E7%9A%84%E5%95%8F%E9%A1%8C%E6%83%B3%E8%88%87%E6%82%A8%E8%A8%8E%E8%AB%96…">來信</a><span>與我討論，而在文章中若有錯誤或爭議也歡迎指教喔。</span></p><p>部落格內收錄了我各個時期的作品，其中包含大學時寫的 C、Java、PHP、MySQL.. 等多項各種程式語言實作，也包括了畢業後職場生涯的經驗與相關技術知識的紀錄。或許是因為在文化古鎮長大，所以除了程式的興趣以外，我也很喜愛參與各個台灣本土的文化活動，例如：北港迎媽祖、淡水清水祖師.. 等，每次對於參與的文化活動我也喜歡背著相機逐步的跟隨，記錄著我認為美的鄉土影像。</p><p><span>資源取之於網路，所以要回饋於網路。我習慣分享程式作品與原始碼，將目前有紀錄保存的作品盡可能的都放至 </span><a href="https://github.com/comdan66" target="_blank">GitHub</a><span> 上，而近期也在</span><a href="https://www.facebook.com/LiveCoding.tw" target="_blank">臉書</a><span>與 </span><a href="https://www.youtube.com/c/LiveCodingTw" target="_blank">Youtube</a><span> 上經營 </span><a href="https://www.livecoding.tw/" target="_blank">LiveCoding.tw</a><span> 線上直播寫程式，歡迎大家來粉絲頁按讚與訂閱 Yotutbe 頻道喔！最後，若文章或作品有榮幸被引用的話，希望您可以來信或臉書告知一下讓我有小小的喜悅與驚喜喔。</span></p><!----></section>
+          
+
+<!-- 
+          <section>
+            <h2>假設</h2>
+            <ul>
+              <li>
+                <p>以下操作先做假設</p>
+                <ul>
+                  <li>
+                    <span>Elastic IPs：</span>
+                    <code>123.456.789</code>
+                  </li>
+                  <li>
+                    <span>下載的 .pem 檔案名稱：</span>
+                    <code>test.pem</code>
+                  </li>
+                  <li>
+                    <code>test.pem</code>
+                    <span> 位置：</span>
+                    <code>/User/oa/test.pem</code>
+                  </li>
+                  <li>
+                    <span>網址(domain)：</span>
+                    <code>your.url.tw</code>
+                  </li>
+                  <li>
+                    <span>E-Mail：</span>
+                    <code>your.email@gmail.com</code>
+                  </li>
+                  <li>
+                    <span>以下編輯器主要是使用 </span>
+                    <code>nano</code>
+                    <span>，請自行斟酌是否使用 </span>
+                    <code>vi</code>
+                    <span> 或 </span>
+                    <code>vim</code>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <blockquote>
+              <span>記得去你的 DNS(Domain Name Server) 設定，新增 </span>
+              <code>A</code>
+              <span> 紀錄 </span>
+              <code>your.url.tw</code>
+              <span>，指向 IP </span>
+              <code>123.456.789</code>
+            </blockquote>
+
+            <h2>安裝 Apache</h2>
+            <ul>
+              <li>
+                <span>更新 apt，指令：</span>
+                <code copy="true">sudo apt update</code>
+              </li>
+              <li>
+                <span>安裝 Apache，指令：</span>
+                <code copy="true">sudo apt -y install apache2</code>
+              </li>
+              <li>
+                <span>打開 rewrite mode，指令輸入 </span>
+                <code copy="true">sudo a2enmod rewrite</code>
+              </li>
+            </ul>
+
+            <h2>建立 WWW 目錄</h2>
+            <p>方法有兩種，自己選擇</p>
+            <ul>
+              <li>
+                <span>快速指令 </span>
+                <code copy="true">點我複製</code>
+              </li>
+              <li>
+                <p>一步一步</p>
+                <ul>
+                  <li>
+                    <span>預設目錄在 </span>
+                    <code>/var/www</code>
+                    <span>，先將其權限做調整，輸入指令：</span>
+                    <code copy="true">sudo chmod -R 777 /var/www</code>
+                  </li>
+                  <li>
+                    <span>進入預設 www 目錄，輸入指令：</span>
+                    <code copy="true">cd /var/www</code>
+                  </li>
+                  <li>
+                    <span>移除 </span>
+                    <code>html</code>
+                    <span> 目錄，指令：</span>
+                    <code copy="true">rm -rf html</code>
+                  </li>
+                  <li>
+                    <span>新增 index.html，編輯檔案，輸入指令：</span>
+                    <code copy="true">nano index.html</code>
+                    <span>，簡單的輸入 </span>
+                    <code copy="true">Hello World</code>
+                    <span> 後儲存離開。</span>
+                  </li>
+                  <li>
+                    <span>在 Home 下建立捷徑，指令 </span>
+                    <code copy="true">ln -s /var/www ~/www</code>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <h2>設定 Apache</h2><h3>第一次使用</h3><p>方法有兩種，自己選擇</p><ul><li><span>快速指令 </span><code copy="true">點我複製</code></li><li><p>一步一步</p><ul><li><span>複製一份 vhost 檔案，指令 </span><code copy="true">sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my.conf</code></li><li><span>啟用 </span><code>my.conf</code><span>，指令：</span><code copy="true">sudo a2ensite my.conf</code></li><li><span>關閉 </span><code>000-default.conf</code><span>，指令 </span><code copy="true">sudo a2dissite 000-default.conf</code><span>，注意喔，指令是 </span><code>a2dissite</code></li><li><span>重新載入 Apache 設定，指令：</span><code copy="true">sudo systemctl reload apache2</code></li></ul></li></ul><h3>編輯 VirtualHost</h3><p><span>編輯 </span><code copy="true">my.conf</code><span>，加入 </span><code copy="true">VirtualHost</code><span>，然後 </span><code copy="true">重啟 Apache</code><span> 即可，範例：</span></p>
+
+            <pre class="lines"><label></label><div><div><span class="red">&lt;VirtualHost</span><span> </span><span class="yellow">*:80</span><span class="red">&gt;</span></div><div class="gray">    # 你的 Domain</div><div><span>    </span><span class="blue">ServerName</span><span> your.url.tw</span></div><div><span>    </span><span class="blue">ServerAlias</span><span> your.url.tw</span></div><div> </div><div class="gray">    # 你的 E-Mail</div><div><span>    </span><span class="blue">ServerAdmin</span><span> your.email@gmail.com</span></div><div> </div><div class="gray">    # 你的專案目錄</div><div><span>    </span><span class="blue">DocumentRoot</span><span> /var/www</span></div><div> </div><div class="gray">    # Log 的儲存位置</div><div><span>    </span><span class="blue">ErrorLog</span><span> ${APACHE_LOG_DIR}/error.log</span></div><div><span>    </span><span class="blue">CustomLog</span><span> ${APACHE_LOG_DIR}/access.log combined</span></div><div> </div><div class="gray">    # 記得也要是你的專案目錄</div><div><span>    </span><span class="red">&lt;Directory</span><span> </span><span class="yellow">/var/www</span><span class="red">&gt;</span></div><div><span>        </span><span class="blue">Options</span><span> FollowSymLinks MultiViews</span></div><div><span>        </span><span class="blue">AllowOverride</span><span> All</span></div><div><span>        </span><span class="blue">Order</span><span> allow,deny</span></div><div><span>        </span><span class="blue">Allow</span><span> from all</span></div><div><span>    </span><span class="red">&lt;/Directory&gt;</span></div><div><span class="red">&lt;/VirtualHost&gt;</span></div></div></pre><h2>指令筆記</h2><ul><li><span>啟動：</span><code copy="true">sudo service apache2 start</code></li><li><span>停止：</span><code copy="true">sudo service apache2 stop</code></li><li><span>重啟：</span><code copy="true">sudo service apache2 restart</code></li></ul><h2>相關參考</h2><ul><li><a href="http://comdan66.github.io/configs/book/mds/ec2-ubuntu/apache.html" target="_blank">http://comdan66.github.io/configs/book/mds/ec2-ubuntu/apache.html</a></li><li><a href="https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/" target="_blank">https://note.artchiu.org/2016/06/17/lets-encrypt-%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E-%E9%9D%9E%E5%AE%98%E6%96%B9/</a></li></ul></section>
+ -->
+          <!-- <section>
+            <h2>緣起</h2>
+            <h3>緣起</h3>
+            <p><span>為了限制 AWS EC2 上某個 user 僅能使用 </span><b>SFTP</b><span> 在自己的 </span><b>家目錄</b><span> 內運作，於是我更改 Server 的 </span><code copy='a'>sshd_config</code><span>，加入了對該 </span><b>user</b><span> 的 </span><code class='red'>ChrootDirectory</code><span>、</span><code class='green'>ForceCommand</code><span> 與 </span><code>AllowTcpForwarding</code><span> 設定。</span></p>
+            <p><a href="/index.html?k=aws&amp;id=EC2-Ubuntu" target="_blank">此篇</a><span>但手殘卻不小心把 </span><code>Match User</code><span> 註解了…</span></p>
+            <p><span>如此一來會造成所有 User 皆只能使用 SFTP 連上 Server，並且根目錄僅能在自己的 </span><b>家目錄</b><span> 內，而且 </span><b>不能往上層移動</b><span> 😢</span></p>
+            <h2>處理過程</h2><p>以下是我試圖搶救的過程，不是一個最佳的方式，如要了解最適合的方法可以直接看下方結論～</p>
+            <p><span>首先 root 權限的 ubuntu 因為 </span><code>sshd_config</code><span> 的設定值關係所以無法 SSH 上 server</span></p>
+            <p><span>每當使用 SSH 連線時，就會有錯誤訊息：</span><code>This service allows sftp connections only.</code></p>
+            <p>所以 SSH 這條路算是封死了…</p>
+            <p><span>那試著 </span><code>SFTP</code><span> 上去看能不能修改與更新 </span><code>sshd_config</code><span>，然後 </span><b>重啟</b><span> 上系統自動 </span><code>ssh reload</code></p>
+            <p><span>但是由於 </span><b>不能往上層移動</b><span> 的限制，自然的也就無法變更到 </span><code>sshd_config</code><span> 😫</span></p>
+            <p><span>萬念俱灰之下還嘗試了將 Server build 出 </span><code>image</code><span>，想藉由 image launch 新的 EC2 instance</span></p>
+            <p><span>結果當然失敗，因為既然是 image…，所以設定值一模一樣，SSH 上這台新的 instance 也是一樣的錯誤訊息 </span><code>This service allows sftp connections only.</code></p>
+            <p>所以 image 方式也是失敗…</p>
+            <h2>備份資料</h2><p>既然無法進去 Server，那換個角度，至少要想辦法備份資料吧？</p>
+            <p>雖然程式碼都有上 git，但是很多 config 都是被 gitignore 的，如果遺失勢必麻煩…</p>
+            <p>此時我想起 AWS EC2 的服務是拆成</p>
+            <ol><li>運算</li><li>儲存</li></ol><p>所以收費時有三個收費項目</p>
+            <ol>
+              <li>運算</li>
+              <li>儲存</li>
+              <li>流量</li>
+            </ol>
+            <p><span>那代表儲存是獨立切開的，而且資料是儲存在 EC2 的硬碟上的，也就是 </span><b>Volume</b><span>，那就把腦筋動到 Volume 上吧！</span></p>
+            <pre>a</pre>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><h2>複製 Volume</h2><p><span>以我這台主要的 EC2 </span><code>i-xxx</code><span> 的機器來說，所搭配的硬碟是 </span><code>vol-xxx</code><span>，如下圖 </span><b>1</b><span> 代表的就是發生問題的 EC2 instance，而標示 </span><b>3</b><span> 則是這台 EC2 所掛載的 Volume </span><code>vol-xxx</code></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>點擊標示 3 的 </span><code>vol-xxx</code><span> ID 後會跳至 Volumes 頁面，檢視其細節，如下圖可以得知當初我並未對硬碟座加密，所以看來是有機會的可以讀出內容</span></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>方法就是將此 </span><code>vol-xxx</code><span> 的 volume clone 一份出來，並且開啟另一台 EC2 instance </span><code>i-ooo</code><span> 然後掛載上去！</span></p>
+            <p><span>首先對這個 </span><code>vol-xxx</code><span> 右鍵選擇 </span><code>Create Snapshot</code><span>，建立一份此 Volume 的 </span><b>快照</b></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p>然後點擊去 Snapshots 頁面上看所產生的 Volume Snapshot</p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>如下圖就是 </span><code>vol-xxx</code><span> 所產生的快照 </span><code>snap-xxx</code></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>然後對著 </span><code>snap-xxx</code><span> 右鍵選擇 </span><code>Create Volume</code><span>，建立一份與原本一樣的 Volume</span></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>回到 Volumes 頁面，可以看到多出一顆新的 Volume，如下圖的綠框 </span><code>vol-ooo</code></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p>以上流程就是 Volume1 ➜ Snapshot ➜ Volume2，所以 Volume1 內容 == Volume2 內容</p>
+            <h2>掛載 Volume 至新的 EC2</h2><p><span>接著開一台新的 EC2 instance </span><code>i-ooo</code><span>，方法可以參考 </span><a href="/index.html?k=aws&amp;id=EC2-Ubuntu" target="_blank">此篇</a></p>
+            <p><span>如下圖，開好後在 Instances 頁面看到多出一台全新的 EC2 實例，紅框為原本的 EC2 instance </span><code>i-xxx</code><span>，綠框為新的 EC2 instance </span><code>i-ooo</code></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p>當然新的 EC2 一開始會有一顆預載的 8G 硬碟，所以回到 Volumes 頁面看，也會看到多出來的那顆硬碟</p>
+            <p><span>如下圖紅色為原本舊 EC2 instance </span><code>i-xxx</code><span> 的 volume </span><code>vol-xxx</code><span>，綠色是 clone 出來的 volume </span><code>vol-ooo</code><span>，藍色就是新開啟的 EC2 instance </span><code>i-ooo</code><span> 所使用的預設的 volume </span><code>vol-aaa</code></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>接著掛載 </span><code>vol-ooo</code><span> 到剛剛開啟的 </span><code>i-ooo</code><span> instance 上，直接點選 </span><code>vol-ooo</code><span> 右鍵選擇 </span><code>Attach Volume</code></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>將 </span><code>vol-ooo</code><span> 掛載到 </span><code>i-ooo</code><span> instance 上，並且要注意一下 Device 此硬碟的編號（綠框）</span><code>sdf</code><span>，掛載好之後回到 Instances 頁面上，將 </span><code>i-ooo</code><span> 的 EC2 instance 做 </span><b>Reboot</b></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><h2>讀取掛載的 Volume</h2><p><span>馬上使用 SSH 到 </span><code>i-ooo</code><span> 的 EC2 instance 上，並且切換身份至 root，所以輸入指令 </span><code>sudo -s</code></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>切換好身份後，輸入指令 </span><code>lsblk</code><span> 列出此機器上有多少顆硬碟</span></p>
+            <p><span>紅框代表預載的 8G volume </span><code>vol-aaa</code><span>，而綠框則舊是那刻 20G 的 </span><code>vol-ooo</code><span> volume</span></p>
+            <p><code>xvda</code><span> 代表磁碟 </span><code>xvda1</code><span> 則是第一個磁區，而 </span><code>xvdf</code><span> 則就是 </span><code>vol-ooo</code><span> 那顆磁碟，而 </span><code>xvdf1</code><span> 就是他裡面的第一個磁區</span></p>
+            <p><code>xvdf</code><span> 與在掛載時 Device 所標示的 </span><code>sdf</code><span> 尾數應該會是一樣的 </span><code>f</code><span>，所以掛載多顆硬碟時要注意一下才不會認錯顆</span></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>接著依然採用 root 身份，在 </span><code>/</code><span> </span><b>根目錄</b><span> 下建立一個 </span><code>test</code><span> 目錄</span></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>建立好 </span><code>/test</code><span> 目錄後，就要設定將 </span><code>xvdf1</code><span> 磁區連結到 </span><code>/test</code><span> 目錄，所以使用指令 </span><code>mount /dev/xvdf1 /test</code></p>
+            <p><span>接著再用指令 </span><code>lsblk</code><span> 列出此機器上有多少顆硬碟</span></p>
+            <p><span>如下圖可以看到 </span><code>xvda1</code><span> 磁區 mount 到 </span><code>/</code><span> 根目錄，而 </span><code>xvdaf</code><span> 磁區 mount 到 </span><code>/test</code><span> 目錄，那就代表完成了</span></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><p><span>太好了！直接進入 </span><code>/test</code><span> 目錄吧！</span></p>
+            <p><span>列出 </span><code>/test</code><span> 目錄內的內容，完全的可以讀出資料就代表完成了！！！！😂</span></p>
+            <figure src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"><img src="https://test.ioa.tw/img/dev/AWS-EC2-Lock-SSH/84e4057829dd65edc3f322a6c8f48b52.jpg"></figure><h2>結論</h2><p>上述的過程是我自己的處理經驗流程，但是事後經由我自己的不斷再次嘗試，其實有更好的處理方式，方法總結如下：</p>
+            <ol><li><span>關閉舊的 EC2 instance </span><code>i-xxx</code></li><li><span>將舊的 Volume </span><code>vol-xxx</code><span> </span><b>Detach</b><span>(卸下)</span></li><li><span>Launch 一台新的 EC2 instance </span><code>i-ooo</code></li><li><span>將卸下的 Volume </span><code>vol-xxx</code><span> </span><b>Attach</b><span>(掛載)到新的 EC2 instance </span><code>i-ooo</code><span>，並 </span><b>Reboot</b><span>(重啟) </span><code>i-ooo</code></li><li><span>SSH 上新的 EC2 instance </span><code>i-ooo</code><span> 上，直接使用 </span><b>sudo</b><span> 權限 </span><b>mount</b><span> </span><code>vol-xxx</code><span> 的磁區到 </span><code>/test</code><span> 目錄</span></li><li><span>使用 </span><b>sudo</b><span> 權限修正 </span><code>/test/etc/ssh/sshd_config</code><span> 儲存</span></li><li><b>Stop</b><span>(關閉) EC2 instance </span><code>i-ooo</code></li><li><span>將 Volume </span><code>vol-xxx</code><span> 從 EC2 instance </span><code>i-ooo</code><span> 上 </span><b>Detach</b><span>(卸下)</span></li><li><span>將Volume </span><code>vol-xxx</code><span> </span><b>Attach</b><span>(掛載)到原本的 EC2 instance </span><code>i-xxx</code><span>，並 </span><b>Reboot</b><span>(重啟) </span><code>i-ooo</code></li><li><span>就可以成功的 SSH 上原本的 EC2 instance </span><code>i-xxx</code></li></ol><p>以上是濃縮再濃縮、提鍊再提煉的處理步驟了，雖然前面走了很多冤旺路，但是也獲得了很多寶貴的技術知識 😳</p>
+
+            <h2>相關參考</h2><ul><li><a href="https://docs.aws.amazon.com/zh_tw/AWSEC2/latest/UserGuide/ebs-using-volumes.html" target="_blank">使 Amazon EBS 磁碟區可供在 Linux 上使用 - Amazon Elastic Compute Cloud</a></li><li><a href="https://unix.stackexchange.com/questions/143925/locked-myself-out-of-amazon-ec2-ssh-this-service-allows-sftp-connections-only" target="_blank">Locked myself out of Amazon EC2 SSH - This service allows sftp connections only</a></li><li><a href="https://www.cnblogs.com/pu20065226/p/10962906.html" target="_blank">This service allows sftp connections only - pu20065226 - 博客园</a></li></ul>
+          </section> -->
+
+        </article>
+
+        <div id='tags'>
+          <a href="">弄錯</a>
+          <a href="">弄錯錯</a>
+          <a href="">弄錯</a>
+          <a href="">弄錯弄錯</a>
+          <a href="">弄錯</a>
+          <a href="">弄錯錯</a>
+          <a href="">弄錯</a>
+          <a href="">弄錯弄錯</a>
+          <a href="">弄錯</a>
+          <a href="">弄錯錯</a>
+          <a href="">弄錯</a>
+          <a href="">弄錯弄錯</a>
+        </div>
+
+        <div id=refs>
+          <h2>相關參考</h2>
+          <ul><li><a href="https://cocoapods.org/" target="_blank">CocoaPods.org</a></li><li><a href="https://medium.com/practical-code-labs/how-to-create-private-cocoapods-in-swift-3cc199976a18" target="_blank">https://medium.com/practical-code-labs/how-to-create-private-cocoapods-in-swift-3cc199976a18</a></li><li><a href="https://www.jianshu.com/p/4b63dfbd8be7" target="_blank">https://www.jianshu.com/p/4b63dfbd8be7</a></li></ul>
+        </div>
+
+        <div id="prev-next" class="n2">
+          <a href="/index.html?k=dev&amp;id=AWS-EC2-Lock-SSH" class="icon-a prev">
+            <span>上一篇</span>
+            <b>EC2 被鎖住不能使用 SSH 登入 怎麼辦？</b>
+          </a>
+          <a href="/index.html?k=dev&amp;id=FullStack-2019-Baishatun-GPS" class="icon-b next">
+            <span>下一篇</span>
+            <b>2019 白沙屯媽祖南下進香 GPS 系統</b>
+          </a>
+        </div>
+
+        <footer id="footer"><time datetime="2019-08-12 00:00:00">2 年前</time></footer>
+
+      </div>
+
+    </div>
+
+  </body>
+</html>

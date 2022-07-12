@@ -140,7 +140,7 @@
     { "e":"p", "t":"最後！既然做成 S3 架構也有了 API 服務，既然取之於網路，那就一樣分享於網路，所幸我就連 apiDoc 一起建立，如此一來大家就可以一起使用我的資源，在我還沒有關閉我的服務之前，大家都可以使用喔！" },
     { "e":"img", "alt":"將整理過後的 Json 一起上傳 S3，變成公開的 API，同時也提供 apiDoc，如此一來大家就可以一起使用我的資源，取之於網路 分享於網路，所以在我還沒有關閉我的服務之前，大家都可以使用喔", "src":"/img/dev/026/07.png" }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/weather/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/weather" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1438158895.A.071.html" },

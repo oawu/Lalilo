@@ -54,7 +54,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/junior-java-plurker" },
     { "text": "Youtube 影片", "href": "https://www.youtube.com/watch?v=12P3aX6LQac" }
   ],

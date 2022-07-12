@@ -1,0 +1,17 @@
+<% if (prev || next) { %>
+<!-- 其他文章 -->
+<div id="prev-next" class="n<%= prev && next ? 2 : 1 %>">
+<% if (prev) { -%>
+  <a href="<%= prev.$.href %>" class="icon-a prev">
+    <span>上一篇</span>
+    <b><%= prev.title %></b>
+  </a>
+<% }
+   if (next) { -%>
+  <a href="<%= next.$.href %>" class="icon-b next">
+    <span>下一篇</span>
+    <b><%= next.title %></b>
+  </a>
+<% } -%>
+</div>
+<% } %>

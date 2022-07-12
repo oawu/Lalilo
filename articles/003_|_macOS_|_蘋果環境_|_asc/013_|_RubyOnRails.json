@@ -180,7 +180,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=sQ5WyNwGhuE" },
     { "text": "Rails 101", "href": "https://readmoo.com/book/210010467000101" },
     { "text": "五樓專業團隊", "href": "http://pm.5fpro.com/projects/public-wiki/wiki/MaxOS_-_Ruby_on_Rails" }

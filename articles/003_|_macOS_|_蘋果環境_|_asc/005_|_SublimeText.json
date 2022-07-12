@@ -284,7 +284,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=nPlPOmX1aME" },
     { "text": "[備份] Sublime Text 3、2 安裝設定", "href": "/?k=mac&id=Backup-SublimeText" },
     { "text": "https://gist.github.com/barnes7td/3804534", "href": "https://gist.github.com/barnes7td/3804534" },

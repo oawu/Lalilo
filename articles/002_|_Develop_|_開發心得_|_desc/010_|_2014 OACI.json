@@ -107,7 +107,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Youtube 影片", "href": "https://www.youtube.com/watch?&amp;v=svomGfqxZvg" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/oaci" },
     { "text": "PHP ActiveRecord", "href": "http://www.phpactiverecord.org/" },

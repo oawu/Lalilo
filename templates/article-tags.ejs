@@ -1,0 +1,8 @@
+<% if (tags.length) { %>
+<!-- 標籤 -->
+<div id='tags'>
+<% for (const tag of tags) { -%>
+  <a href="<%= tag %>" target="_blank"><%= tag %></a>
+<% } -%>
+</div>
+<% } %>

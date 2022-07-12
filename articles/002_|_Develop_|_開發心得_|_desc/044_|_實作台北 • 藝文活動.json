@@ -76,7 +76,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/taipei_activities" },
     { "text": "新北市政府資料開放平台", "href":"http://data.ntpc.gov.tw/" },
     { "text": "新北市政府文化局藝文活動", "href":"http://data.ntpc.gov.tw/od/detail?oid=781B822E-214A-4B9A-B4DB-32C9F4626D98" },

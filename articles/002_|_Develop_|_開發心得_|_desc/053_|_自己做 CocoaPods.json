@@ -15,7 +15,9 @@
       "s":[
         { "e":"span", "t":"以下會用 " },
         { "e":"code", "t":"OAPodTest" },
-        { "e":"span", "t":" 當作套件名稱範例，各位要做自己的套件請用自己的名稱捏！\n由於 pod 套件可與 " },
+        { "e":"span", "t":" 當作套件名稱範例，各位要做自己的套件請用自己的名稱捏！" },
+        { "e":"br" },
+        { "e":"span", "t":"由於 pod 套件可與 " },
         { "e":"a",    "t":"GitHub", "href":"https://github.com/" },
         { "e":"span", "t":" 綁定，讓他自動去抓上面的原始碼，所以請先開一個 GitHub repository！" }
       ]
@@ -434,7 +436,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "CocoaPods.org", "href": "https://cocoapods.org/" },
     { "text": "https://medium.com/practical-code-labs/how-to-create-private-cocoapods-in-swift-3cc199976a18", "href": "https://medium.com/practical-code-labs/how-to-create-private-cocoapods-in-swift-3cc199976a18" },
     { "text": "https://www.jianshu.com/p/4b63dfbd8be7", "href": "https://www.jianshu.com/p/4b63dfbd8be7" }

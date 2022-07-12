@@ -79,7 +79,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "https://cocoapods.org/", "href": "https://cocoapods.org/" }
   ],
   "tags":[

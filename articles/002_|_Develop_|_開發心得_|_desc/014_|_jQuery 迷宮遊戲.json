@@ -50,7 +50,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href": "https://works.ioa.tw/OA-maze/index.html" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/OA-maze" }
   ],

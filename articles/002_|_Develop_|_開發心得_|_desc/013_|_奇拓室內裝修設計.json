@@ -33,7 +33,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href": "https://www.chitorch.com/" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/chitorch" }
   ],

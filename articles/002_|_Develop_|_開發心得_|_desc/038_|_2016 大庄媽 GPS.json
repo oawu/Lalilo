@@ -40,7 +40,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"http://www.haotien.org.tw/GPS/HaotienGPS.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/haotien" }
   ],

@@ -57,7 +57,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "https://stackoverflow.com/questions/62931232/attempting-to-install-nodejs-14-installs-nodejs-8-instead", "href": "https://stackoverflow.com/questions/62931232/attempting-to-install-nodejs-14-installs-nodejs-8-instead" }
   ],
   "tags":[

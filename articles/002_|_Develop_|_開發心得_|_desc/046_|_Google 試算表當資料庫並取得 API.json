@@ -92,7 +92,7 @@
     { "e":"img", "alt":"以 Postman 呼叫完後的 json 結果", "src":"/img/dev/046/06.png" },
     { "e":"img", "alt":"在使用 cells 方式回傳後，可以發現取得到對應表格的 row 與 col 的值", "src":"/img/dev/046/07.png" }
   ],
-  "references":[
+  "refs":[
     { "text": "Simple example of retrieving JSON feeds from Spreadsheets Data API..", "href":"https://developers.google.com/gdata/samples/spreadsheet_sample" },
     { "text": "拉普菲斯: jQuery | 利用 Google Spreadsheet 作資料庫", "href":"http://www.kamira.co.vu/2012/11/jquery-google-spreadsheet.html" },
     { "text": "利用 Google 問卷(試算表)當小型資料庫…", "href":"http://www.wfublog.com/2011/11/google-spreadsheet-as-micro-database-1.html" }

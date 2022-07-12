@@ -169,7 +169,7 @@
     { "e":"img", "alt":"在各陣頭上放置此 App 即可在固定的時間區間回傳最新的定位資訊，App 並且可以鎖定以防止工作人員誤觸的風險。活動當天是使用 iPhone 4s 在香案車上使用充電器以保持穩定電量", "src":"/img/dev/039/12.jpg" },
     { "e":"img", "alt":"活動當天管理人員必然會在外面忙碌，所以有關電腦的相關設定或者 GPS Tracker 狀態管理、聊天室的狀況，都做成手機 App，以達到有效的管理", "src":"/img/dev/039/13.jpg" }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/mazu" },
     { "text": "PTT Yunlin", "href":"https://www.ptt.cc/bbs/Yunlin/M.1460567509.A.8BE.html" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1460607450.A.36A.html" },

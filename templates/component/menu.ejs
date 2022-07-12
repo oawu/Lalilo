@@ -1,0 +1,18 @@
+<% if (items.length) { %>
+<aside id="menu">
+<% for (const item of items) {
+     if (item.active) { -%>
+  <a href="<%= item.href %>" class="active">-%>
+<%   } else { -%>
+  <a href="<%= item.href %>">-%>
+<%   }
+
+     if (item.count) {-%>
+    <%_ %><span count="<%= item.count %>"><%= item.text %></span>-%>
+<%   } else { -%>
+    <%_ %><span><%= item.text %></span>-%>
+<%   } -%>
+  <%_ %></a>
+<% } -%>
+</aside>
+<% } %>

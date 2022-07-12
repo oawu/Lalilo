@@ -104,7 +104,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/OA-ElasticaSearch/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-ElasticaSearch" },
     { "text": "PTT PHP", "href":"https://www.ptt.cc/bbs/PHP/M.1440735206.A.FC7.html" },

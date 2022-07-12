@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2022, LaliloCore
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+namespace HTML;
+
+echo html(
+  head(
+    meta()->attr('http-equiv', 'Content-Language')->content('zh-tw'),
+    meta()->attr('http-equiv', 'Content-type')->content('text/html; charset=utf-8'),
+    meta()->name('viewport')->content('width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui'),
+
+    title(TITLE),
+
+    asset()
+      ->css('icon.css')
+      ->css('public.css')
+      ->css('layout.css')
+      ->js('https://code.jquery.com/jquery-1.12.4.min.js')
+      ->js('index.js')
+  ),
+  body(
+    div(
+      <%- menu %>,
+      
+      <%- cover %>,
+
+      div(
+        article(
+          header(
+            h1('開發心得')
+          )-%>
+          <%_ if (articles || pages) { %>,<% } %>
+      
+          <%- articles -%><%_ if (pages) { %>,<% } %>
+
+          <%- pages -%>
+
+        )->id('articles')
+      )->id('main')
+    )->id('app')
+  )
+)->lang('zh-Hant');

@@ -47,7 +47,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"http://www.hogaoptical.com.tw/" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/hoga" }
   ],

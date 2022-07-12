@@ -69,7 +69,7 @@
     },
     { "e":"img", "alt":"CatMap 功能全畫面", "src":"/img/dev/024/03.jpg" }
   ],
-  "references":[
+  "refs":[
     { "text": "Youtube 影片", "href":"https://www.youtube.com/watch?&amp;v=HTgfTjmS2UI" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/catmap_ios" },
     { "text": "WEB GitHub 原始碼", "href":"https://github.com/oawu/catmap_php" },

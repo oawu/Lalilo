@@ -283,7 +283,7 @@
       ]
     }
   ],
-  "references": [
+  "refs": [
     { "text": "樹莓派Raspberry Pi關閉休眠、螢幕長亮", "href": "https://blog.twtnn.com/2021/02/raspberry-pi.html" }
   ]
 }

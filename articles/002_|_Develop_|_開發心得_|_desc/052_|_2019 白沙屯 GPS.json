@@ -721,7 +721,7 @@
     { "e":"h2", "t":"小結論" },
     { "e":"p", "t":"以上很趕，短短一個月，所以還有很多東西沒做到完美，例如：效能、有效的 Debug，以後若有開發更進階的有趣的 App 我也會再分享，文章中若有錯誤觀念或者寫法，再麻煩指正，感謝 >\"<" }
   ],
-  "references":[
+  "refs":[
     { "text": "https://gps.godmaps.tw/", "href":"https://gps.godmaps.tw/" },
     { "text": "https://www.appcoda.com.tw/ios-app-submission/", "href":"https://www.appcoda.com.tw/ios-app-submission/" },
     { "text": "https://www.appcoda.com.tw/intermediate-swift-tips/", "href":"https://www.appcoda.com.tw/intermediate-swift-tips/" },

@@ -117,7 +117,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Install Memcached on Mac OS X", "href": "https://www.hacksparrow.com/install-memcached-on-mac-os-x.html" }
   ],
   "tags":[

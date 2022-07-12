@@ -64,7 +64,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/OA-mobileScrollView/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-mobileScrollView" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1457948370.A.BE9.html" },

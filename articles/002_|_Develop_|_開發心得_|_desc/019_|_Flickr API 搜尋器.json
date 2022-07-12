@@ -54,7 +54,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href": "https://works.ioa.tw/flickr/index.html" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/flickr" }
   ],

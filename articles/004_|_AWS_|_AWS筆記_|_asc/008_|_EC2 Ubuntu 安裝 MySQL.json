@@ -55,7 +55,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html", "href": "http://oawu.github.io/configs/book/mds/ec2-ubuntu/apache.html" }
   ],
   "tags":[

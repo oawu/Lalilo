@@ -129,7 +129,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Redis | OA's 常用設定", "href": "https://oawu.github.io/configs/book/mds/mac/redis.html" },
     { "text": "補充", "href": "https://blog.miniasp.com/post/2018/09/26/Redis-Desktop-Manager-for-Windows-Build-from-Source.aspx" },
     { "text": "UI", "href": "https://redisdesktop.com/" }

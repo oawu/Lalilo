@@ -97,7 +97,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/evolution/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/evolution/" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1470650059.A.EC4.html" },

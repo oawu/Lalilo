@@ -30,7 +30,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"http://www.vgmold.com.tw/" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/vg" }
   ],

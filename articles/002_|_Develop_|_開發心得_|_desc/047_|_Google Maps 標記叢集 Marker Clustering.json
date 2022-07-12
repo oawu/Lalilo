@@ -60,7 +60,7 @@
     },
     { "e":"p", "t":"Type moveRun 當地圖移動時，會重新針對範圍內做計算再合併出 集合 Marker，所以會移除舊的在上新的，整體初始速度較快，但當地圖移動時會有閃娑狀況，反之 runAll 因為開始先算出所有不同 zoom 時要顯示的結果，所以當地圖移動(平滑非放大)時，因為不用移除舊的，所以不會有閃爍狀況發生，但初始速度較慢。" }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/OA-markerClustering/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-markerClustering/" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1475629747.A.CC8.html" },

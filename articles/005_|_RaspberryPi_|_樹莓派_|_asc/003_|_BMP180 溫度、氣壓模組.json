@@ -308,7 +308,7 @@
       ]
     }
   ],
-  "references": [
+  "refs": [
     { "text": "Raspberry Pi使用BMP180取得大氣壓力及溫度", "href": "https://kingfff.blogspot.com/2018/05/raspberry-pi-3-model-bmp180.html" }
   ],
   "tags": []

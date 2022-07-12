@@ -58,7 +58,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/c-comic-book" }
   ],
   "tags":[

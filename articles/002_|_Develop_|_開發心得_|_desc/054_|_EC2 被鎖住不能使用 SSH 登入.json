@@ -521,7 +521,7 @@
     },
     { "e":"p", "t":"以上是濃縮再濃縮、提鍊再提煉的處理步驟了，雖然前面走了很多冤旺路，但是也獲得了很多寶貴的技術知識 😳" }
   ],
-  "references":[
+  "refs":[
     { "text": "使 Amazon EBS 磁碟區可供在 Linux 上使用 - Amazon Elastic Compute Cloud", "href": "https://docs.aws.amazon.com/zh_tw/AWSEC2/latest/UserGuide/ebs-using-volumes.html" },
     { "text": "Locked myself out of Amazon EC2 SSH - This service allows sftp connections only", "href": "https://unix.stackexchange.com/questions/143925/locked-myself-out-of-amazon-ec2-ssh-this-service-allows-sftp-connections-only" },
     { "text": "This service allows sftp connections only - pu20065226 - 博客园", "href": "https://www.cnblogs.com/pu20065226/p/10962906.html" }

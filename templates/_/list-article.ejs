@@ -1,0 +1,37 @@
+<%_ if (articles.length) { %>
+    <%_ for (let i = 0, l = articles.length; i < l; i++) {
+          const article = articles[i] %>
+          div(
+            div(
+              a(
+                b('<%= article.title %>')-%>
+                <%_ if (article.subtitle.length) { -%>,
+                p('<%= article.subtitle %>')-%>
+                <%_ } %>
+              )->href('/Develop/AWS-EC2-Lock-SSH'),
+              
+              div(
+                div(
+                  a('AWS')->href(''),
+                  a('EC2')->href(''),
+                  a('Volume')->href(''),
+                  a('Snapshot')->href(''),
+                  a('SSH')->href(''),
+                  a('SFTP')->href('')
+                )->class('tags'),
+                time('2020-10-28')
+              )->class('meta')
+
+            )->class('info'),
+            a(
+              figure(
+                img()->src('/img/dev/054.png')
+              )->style("background-image: url('/img/dev/054.png');")
+            )->href('/Develop/AWS-EC2-Lock-SSH')
+          )->class('article')
+
+    <%_ if (i + 1 < l) { -%>
+              <%_ %>,-%>
+        <%_ } -%>
+    <%_ } %>
+<%_ } -%>

@@ -36,7 +36,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href": "http://www.harmonizedesign.com/" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/harmonize" },
     { "text": "The history of aeronautics", "href": "http://jonathannicol.com/projects/parallax-scrolling/" }

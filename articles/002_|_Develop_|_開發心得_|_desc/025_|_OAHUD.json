@@ -41,7 +41,7 @@
     { "e":"img", "alt":"多樣的樣式設定", "src":"/img/dev/025/03.jpg" },
     { "e":"p", "t":"不過使用起來沒有想像中的頓，於是先這樣使用啦！中間旋轉的部分是使用兩張 view，第一層的 view 加上 CAGradientLayer 的彩色圖層以及 CABasicAnimation 來達到選轉效果，然後第二層的 view 使用與底層一樣的顏色，並且縮小一點點將第一層蓋住，這樣就可以做出類似旋轉的彩色圈圈！" }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://github.com/oawu/OAHUD/blob/master/OAHUD.gif" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OAHUD" },
     { "text": "PTT MacDev", "href":"https://www.ptt.cc/bbs/MacDev/M.1436456012.A.ACC.html" },

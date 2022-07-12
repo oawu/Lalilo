@@ -30,7 +30,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href": "https://works.ioa.tw/u2/index.html" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/u2" },
     { "text": "PTT Soft_Job", "href": "https://www.ptt.cc/bbs/Soft_Job/M.1419871812.A.813.html" },

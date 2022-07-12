@@ -24,7 +24,7 @@
       "src":"/img/dev/040/01.jpg"
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"http://map.godroad.tw/E160522/" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/LiuFangMazu" }
   ],

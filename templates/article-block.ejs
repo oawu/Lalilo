@@ -1,0 +1,20 @@
+<% if (blocks.length) {
+    if (el == 'pre') { -%>
+<<%- el %><%- attr %>><label></label><div><% for (const block of blocks) { %><%_ %><%- block%>-%><% } %></div></<%- el %>>
+<%  } else if (format) { -%>
+<<%- el %><%- attr %>>-%>
+<% for (const block of blocks) { %>
+<%= ' '.repeat((index + 1) * 2) %><%- block%>-%>
+<% } %>
+<%= ' '.repeat(index * 2) %></<%- el %>>
+<%  } else { -%>
+<<%- el %><%- attr %>><% for (const block of blocks) { %><%- block%>-%><% } %></<%- el %>>
+<%  }-%>
+
+<% } else {
+    if (el == 'pre') { -%>
+<<%- el %><%- attr %>><label></label><div><%= text %></div></<%- el %>>
+<%  } else { -%>
+<<%- el %><%- attr %>><%= text %></<%- el %>>
+<%  } -%>
+<% } -%>

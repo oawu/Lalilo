@@ -1,0 +1,27 @@
+<%_
+  if (pages.length) { %>
+          footer(-%>
+<%_ for (let i = 0, l = pages.length; i < l; i++) {
+      const page = pages[i] %>
+            a(-%>
+  <%_ if (page.type) { -%>
+              <%_ %>i()->class('<%= page.type %>')-%>
+  <%_ } else { -%>
+              <%_ %>'<%= page.index + 1 %>'-%>
+  <%_ } -%>
+      <%_ %>)-%>
+  <%_ -%>
+  <%_ -%>
+  <%_ -%>
+  <%_ if (page.active) { -%>
+              <%_ %>->class('active')-%>
+  <%_ } else { -%>
+              <%_ %>->href('<%= page.href.replace("'", "\\'") %>')-%>
+  <%_ } 
+      if (i + 1 < l) { -%>
+              <%_ %>,-%>
+  <%_ }
+    } %>
+          )
+<%_
+  } -%>

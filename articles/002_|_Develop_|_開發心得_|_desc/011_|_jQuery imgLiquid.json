@@ -38,7 +38,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/OA-imgLiquid/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-imgLiquid" }
   ],

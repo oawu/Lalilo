@@ -25,7 +25,7 @@
     },
     { "e":"img", "alt":"Java Assembler", "src":"/img/dev/004/01.jpg" }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/sophomore-java-assembler" }
   ],
   "tags":[

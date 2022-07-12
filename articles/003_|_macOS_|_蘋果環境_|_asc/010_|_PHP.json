@@ -471,7 +471,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=AV_6pXd-Crk" },
     { "text": "macOS 11.0 Big Sur Apache Setup: Multiple PHP Versions | Grav CMS", "href": "https://getgrav.org/blog/macos-bigsur-apache-multiple-php-versions" }
   ],

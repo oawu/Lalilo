@@ -105,7 +105,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/ThetaS/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/ThetaS" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1450408446.A.009.html" },

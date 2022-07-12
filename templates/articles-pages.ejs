@@ -1,0 +1,17 @@
+<% if (pages.length) { %>
+<footer>
+<% for (const page of pages) {
+     if (page.type == 'active') { -%>
+  <a class="active">-%>
+<%   } else { -%>
+  <a href="<%= page.href %>">-%>
+<%   }
+     if (['first', 'prev', 'next', 'last'].includes(page.type)) {-%>
+    <%_ %><i class="<%= page.type %>"></i>-%>
+<%   } else { -%>
+    <%_ %><%= page.text %>-%>
+<%   } -%>
+  <%_ %></a>
+<% } -%>
+</footer>
+<% } %>

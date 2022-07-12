@@ -21,7 +21,7 @@
     },
     { "e":"img", "alt":"用 Java 實作小畫家", "src":"/img/dev/001/01.jpg" }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/freshman-java-painter" }
   ],
   "tags":[

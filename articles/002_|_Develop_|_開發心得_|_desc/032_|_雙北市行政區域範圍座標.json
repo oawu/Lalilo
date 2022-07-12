@@ -19,7 +19,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/TaipeiTowns/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/TaipeiTowns" },
     { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/916800425023990/" },

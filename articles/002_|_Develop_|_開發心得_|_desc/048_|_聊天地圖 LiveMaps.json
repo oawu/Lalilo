@@ -91,7 +91,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://livemaps.ioa.tw/" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/livemaps" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1476670339.A.9A0.html" },

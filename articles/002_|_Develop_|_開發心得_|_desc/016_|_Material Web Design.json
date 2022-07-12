@@ -56,7 +56,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/OA-material/index.html" },
     { "text": "https://works.ioa.tw/OA-material/index.html", "href":"https://works.ioa.tw/OA-material/index.html" },
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/OA-material" },

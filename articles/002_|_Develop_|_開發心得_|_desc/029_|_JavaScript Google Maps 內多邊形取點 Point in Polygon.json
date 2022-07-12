@@ -82,7 +82,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href":"https://github.com/oawu/point-in-polygon" },
     { "text": "PTT Soft_Job", "href":"https://www.ptt.cc/bbs/Soft_Job/M.1448600173.A.F75.html" },
     { "text": "Facebook Front-End Developers Taiwan", "href":"https://www.facebook.com/groups/f2e.tw/permalink/912091015494931/" }

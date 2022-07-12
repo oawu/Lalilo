@@ -1,0 +1,18 @@
+<%_ if (items.length) { %>
+      aside(-%>
+    <%_ for (let i = 0, l = items.length; i < l; i++) {
+          const item = items[i] %>
+        a(span('<%=item.text%>')-%>
+        <%_ if (item.count > 0) { -%>
+          <%_ %>->count(<%=item.count%>)-%>
+        <%_ } -%>
+          <%_ %>)->href('<%=item.href%>')-%>
+        <%_ if (item.isActive) { -%>
+          <%_ %>->class('active')-%>
+        <%_ } -%>
+        <%_ if (i + 1 < l) { -%>
+              <%_ %>,-%>
+        <%_ } -%>
+    <%_ } %>
+      )->id('menu')
+<%_ } -%>

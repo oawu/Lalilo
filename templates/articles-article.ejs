@@ -1,0 +1,37 @@
+<% if (articles.length) { %>
+<% for (const article of articles) { -%>
+
+<!-- 文章 <%= article.key %> -->
+<div class="article">
+  <div class="info">
+    <a href="<%= article.$.href %>">
+      <b><%= article.title %></b>
+<%_ if (article.subtitle && article.subtitle.length) { -%>
+      <span><%= article.subtitle %></span>
+<%_ } -%>
+    </a>
+<%_ if ((article.tags && article.tags.length) || article.at) { -%>
+    <div class="meta">
+<%_ if (article.tags && article.tags.length) { -%>
+      <div class="tags">
+<%  for (const tag of article.tags) { -%>
+        <a href=""><%= tag %></a>
+<%  } -%>
+      </div>
+<%_ } -%>
+<%_ if (article.at) { -%>
+      <time><%= article.at %></time>
+<%_ } -%>
+    </div>
+<%_ } -%>
+  </div>
+<%_ if (article.cover) { -%>
+  <a href="<%= article.$.href %>">
+    <figure style="background-image: url(<%= article.cover %>)">
+      <img src="<%= article.cover %>">
+    </figure>
+  </a>
+<%_ } -%>
+</div>
+<% } -%>
+<% } %>

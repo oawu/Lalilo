@@ -44,7 +44,7 @@
     { "e":"p", "t":"因為要針對不同區段的 Polyline 監聽 Event，所以必須使用特別的方式去畫出 Polyline，目前我所使用的方法是將 Markers 之間用單個 Polyline 做連接，所以地圖上 Polyline 的數量會是 Marker 的 n-1 個，如此一來就可以對每段 Polyline 監聽 Event 了！" },
     { "e":"p", "t":"當插入節點時，便可以取出該 Polyline 是位於哪兩個 Markers 之間，這時候再針對陣列去做橋接，重組後的 Markers 陣列再重新繪製一次 Polyline 即可！" }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href": "https://works.ioa.tw/OA-googleMapsMenu/index.html" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/OA-googleMapsMenu" }
   ],

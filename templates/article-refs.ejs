@@ -1,0 +1,13 @@
+<% if (refs.length) { %>
+<!-- 相關參考 -->
+<div id="refs">
+  <h2>相關參考</h2>
+  <ul>
+<% for (const ref of refs) { -%>
+    <li>
+      <a href="<%= ref.href %>" target="_blank"><%= ref.text %></a>
+    </li>
+<% } -%>
+  </ul>
+</div>
+<% } %>

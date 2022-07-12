@@ -22,7 +22,7 @@
     { "e":"img", "alt":"2010年 新銳展翅創意競賽 參賽證", "src":"/img/dev/005/03.jpg" },
     { "e":"img", "alt":"2010年 新銳展翅創意競賽 佳作獎狀證明", "src":"/img/dev/005/04.jpg" }
   ],
-  "references":[],
+  "refs":[],
   "tags":[
     "Arduino",
     "XBee"

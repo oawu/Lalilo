@@ -74,7 +74,7 @@
     },
     { "e":"p", "t":"此專案目前沒開啟 Live Demo，主要原因是目前活動已經結束，另外則是 GPS 數據來源網站目前未授權，所以這部分大家若有興趣，可以直接到我 GitHub 上去了解程式碼部分。" }
   ],
-  "references":[
+  "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/baishatun" }
   ],
   "tags":[

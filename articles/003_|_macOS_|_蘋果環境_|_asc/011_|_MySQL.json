@@ -232,7 +232,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Youtube 影音教學版", "href": "https://www.youtube.com/watch?v=xRyxQ1qmj2c" },
     { "text": "[備份] macOS 上安裝 MySQL 5.6", "href": "/?k=mac&id=Backup-MySQL" },
     { "text": "http://stackoverflow.com/questions/6474775/setting-the-mysql-root-user-password-on-osx", "href": "http://stackoverflow.com/questions/6474775/setting-the-mysql-root-user-password-on-osx" }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta http-equiv="Content-Language" content="zh-tw">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="/css/public.css">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+
+    <script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/index.js"></script>
+  </head>
+  <body>
+    <div id="app">
+
+      <%- menu.replace(/(\n)/g, '$1' + ' '.repeat(6)) %>
+
+      <%- cover.replace(/(\n)/g, '$1' + ' '.repeat(6)) %>
+
+      <div id="main">
+
+        <article id="article">
+          <header>
+            <h1><%= article.title %></h1>
+<% if (article.subtitle) { -%>
+            <span><%= article.subtitle %></span>
+<% } -%>
+          </header>
+
+<% if (blocks) { -%>
+          <section>
+<% for (const block of blocks) { %>
+            <%- block %>
+<% } -%>
+          </section>
+<% } -%>
+        </article>
+
+        <%- tags.replace(/(\n)/g, '$1' + ' '.repeat(8)) %>
+
+        <%- refs.replace(/(\n)/g, '$1' + ' '.repeat(8)) %>
+
+        <%- prevNext.replace(/(\n)/g, '$1' + ' '.repeat(8)) %>
+
+        <%- footer.replace(/(\n)/g, '$1' + ' '.repeat(8)) %>
+
+      </div>
+
+    </div>
+  </body>
+</html>

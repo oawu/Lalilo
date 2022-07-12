@@ -45,7 +45,7 @@
       ]
     }
   ],
-  "references":[
+  "refs":[
     { "text": "Live Demo", "href": "https://works.ioa.tw/OA-richman/index.html" },
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/OA-richman" },
     { "text": "PTT Soft_Job", "href": "https://www.ptt.cc/bbs/Soft_Job/M.1431526940.A.7B1.html" },
