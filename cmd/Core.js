@@ -164,12 +164,12 @@ const readArticles = (baseURL, EXT, dirPage, dirArticles) => {
         get href () { return baseURL + article.key + EXT },
         get path () { return this.dir + article.key + '.html' },
         get next () {
-          const index = rootArticles.indexOf(article) + 1
-          return index >= 1 && index < rootArticles.length ? rootArticles[index] : null
+          // const index = rootArticles.indexOf(article) + 1
+          // return index >= 1 && index < rootArticles.length ? rootArticles[index] : null
         },
         get prev () {
-          const index = rootArticles.indexOf(article) - 1
-          return index >= 0 && index < rootArticles.length ? rootArticles[index] : null
+          // const index = rootArticles.indexOf(article) - 1
+          // return index >= 0 && index < rootArticles.length ? rootArticles[index] : null
         }
       }
 

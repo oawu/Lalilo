@@ -23,9 +23,12 @@
 
       <div id="main">
         <article id="articles">
+<% if (header) { -%>
           <header>
-            <h1>開發心得</h1>
+            <h1><%= header.text %></h1>
+            <span>共有 <%= header.count %> 篇文章</span>
           </header>
+<% } -%>
 
           <%- articles.replace(/(\n)/g, '$1' + ' '.repeat(10)) %>
 

@@ -32,11 +32,13 @@ const writePage = (page, resolve, reject) => {
       new Promise((resolve, reject) => ejs.renderFile(dirTemplates + 'articles-pages.ejs', { pages: page.pages }, (error, str) => error ? resolve(error) : resolve(str.trim()))),
     ])
     .catch(reject)
-    .then(([menu = '', cover = '', articles = '', pages = '']) => ejs.renderFile(dirTemplates + 'articles.ejs', { menu, cover, articles, pages }, (error, str) => error
+    .then(([menu = '', cover = '', articles = '', pages = '']) => {
+      ejs.renderFile(dirTemplates + 'articles.ejs', { menu, cover, articles, pages, header: page.menu.filter(({ active }) => active).shift() }, (error, str) => error
       ? reject(error)
       : FileSystem.writeFile(page.path, str.trim(), { encoding: 'utf8' }, error => error
         ? reject(error)
-        : resolve(page.path))))
+        : resolve(page.path)))
+    })
     : reject(new Error('無法建立目錄：' + page.dir))
 }
 
@@ -63,7 +65,10 @@ Queue()
   .enqueue((next, { menu, pages, articles }, files) => {
     // console.error(articles.slice(93)[0].$.prev);
     // process.exit()
-    // .slice(3, 4)
+    
+    // console.error(articles.slice(63, 64)[0].title);
+    // process.exit()
+    
     Promise.all(articles.map(article => new Promise(writeArticle.bind(null, article))))
     .catch(errorHandler)
     .then(files => next({ menu, pages, articles }, files))
@@ -87,15 +92,14 @@ const writeBlock = (block, index, format, resolve, reject) => {
         ? Promise.all(block.s.map(block => new Promise(writeBlock.bind(null, block, index + 1, format && block.e != 'pre'))))
             .catch(reject)
             .then(blocks => ejs.renderFile(dirTemplates + 'article-block.ejs', {
-              el: block.e, attr, format,
-              index,
+              el: block.e, attr, format, index, copy: block.copy || null,
               blocks: blocks.map(block => block.trim()),
               text: ''
             }, (error, str) => error
               ? resolve(error)
               : resolve(str.trim())))
           : ejs.renderFile(dirTemplates + 'article-block.ejs', {
-              el: block.e, attr, format,
+              el: block.e, attr, format, index, copy: block.copy || null,
               blocks: [],
               text: block.t || ''
             }, (error, str) => error

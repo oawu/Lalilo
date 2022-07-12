@@ -1,6 +1,15 @@
-<% if (blocks.length) {
+<%
+  if (['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'].includes(el)) {
+    if (el == 'img') { -%>
+<figure<%- attr %>>
+<%= ' '.repeat((index + 1) * 2) %><<%- el %><%- attr %>>
+<%= ' '.repeat(index * 2) %></figure>
+<%  } else {-%>
+<<%- el %><%- attr %>>
+<%  }
+  } else if (blocks.length) {
     if (el == 'pre') { -%>
-<<%- el %><%- attr %>><label></label><div><% for (const block of blocks) { %><%_ %><%- block%>-%><% } %></div></<%- el %>>
+<<%- el %><%- attr %>><% if (copy) { %><label copy="<%= copy %>"></label><% }%><div><% for (const block of blocks) { %><%_ %><%- block%>-%><% } %></div></<%- el %>>
 <%  } else if (format) { -%>
 <<%- el %><%- attr %>>-%>
 <% for (const block of blocks) { %>
@@ -13,8 +22,8 @@
 
 <% } else {
     if (el == 'pre') { -%>
-<<%- el %><%- attr %>><label></label><div><%= text %></div></<%- el %>>
+<<%- el %><%- attr %>><% if (copy) { %><label copy="<%= copy %>"></label><% }%><div><%= text %></div></<%- el %>>
 <%  } else { -%>
-<<%- el %><%- attr %>><%= text %></<%- el %>>
+<<%- el %><%- attr %><% if (copy) { %> copy="<%= copy %>" copy<% } %>><%= text %></<%- el %>>
 <%  } -%>
 <% } -%>
