@@ -1,6 +1,6 @@
 {
   "key": "GoogleMaps-Marker-Clustering",
-  "cover": "/img/dev/047.jpg",
+  "cover": "/img/Develop/047.jpg",
   "title":"Google Maps 標記叢集 Marker Clustering",
   "subtitle":"各位 Google 地圖 玩家都應該有過當 Marker 太多時，視角一拉遠後全部 Marker 擠在一起的困擾吧！沒錯 OA's Marker Clustering 就是要來處理這個困擾！",
   "at":"2016-10-03",
@@ -41,9 +41,9 @@
         { "e":"span", "t":"，而這些 Marker 用來代表著是多數 Marker 集合。如下圖 1 是 zoom 為 16 時的狀況圖，地圖上分別有 A、B 以及 C 三個點，而圖 2 代表在 zoom 為 13 時，因為地圖視角拉遠了，所以造成 A 與 B 互相太靠近，所以必須隱藏 B 只顯示 A，所以作法如圖 3，產生一個 集合 Marker 放置在 A 的位置，並且記錄著數量為 2。" }
       ]
     },
-    { "e":"img", "alt":"zoom 為 16 時的狀況圖，地圖上分別有 A、B 以及 C 三個點", "src":"/img/dev/047/01.png" },
-    { "e":"img", "alt":"地圖視角 zoom 為 13 時，因為視角拉遠所以造成 A 與 B 互相太靠近", "src":"/img/dev/047/02.png" },
-    { "e":"img", "alt":"因靠太近，故隱藏 B 只顯示 A，產生一個 集合 Marker 放置在 A 的位置，並且記錄著數量為 2", "src":"/img/dev/047/03.png" },
+    { "e":"img", "alt":"zoom 為 16 時的狀況圖，地圖上分別有 A、B 以及 C 三個點", "src":"/img/Develop/047/01.png" },
+    { "e":"img", "alt":"地圖視角 zoom 為 13 時，因為視角拉遠所以造成 A 與 B 互相太靠近", "src":"/img/Develop/047/02.png" },
+    { "e":"img", "alt":"因靠太近，故隱藏 B 只顯示 A，產生一個 集合 Marker 放置在 A 的位置，並且記錄著數量為 2", "src":"/img/Develop/047/03.png" },
     {
       "e":"p",
       "s":[

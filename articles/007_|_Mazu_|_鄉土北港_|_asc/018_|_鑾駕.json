@@ -1,6 +1,6 @@
 {
   "key": "Escort",
-  "cover": "/img/mazu/018.jpg",
+  "cover": "/img/Mazu/018.jpg",
   "title":"鑾駕",
   "at":"2017-04-16",
   "type":"article",
@@ -24,7 +24,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/018/01.jpg",
+      "src":"/img/Mazu/018/01.jpg",
       "alt":"近年來人手不夠的七十二隊（Monkeyy Dai 攝）"
     }
   ],

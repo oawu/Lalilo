@@ -1,6 +1,6 @@
 {
   "key": "Java-Painter",
-  "cover": "/img/dev/001.jpg",
+  "cover": "/img/Develop/001.jpg",
   "title":"用 Java 實作小畫家",
   "at":"2008-05-01",
   "type":"article",
@@ -19,7 +19,7 @@
         { "e":"span", "t":"實作出我理想中的作品，並且可以以封裝成 .jar 的方式與朋友分享。" }
       ]
     },
-    { "e":"img", "alt":"用 Java 實作小畫家", "src":"/img/dev/001/01.jpg" }
+    { "e":"img", "alt":"用 Java 實作小畫家", "src":"/img/Develop/001/01.jpg" }
   ],
   "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/freshman-java-painter" }

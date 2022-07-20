@@ -1,6 +1,6 @@
 {
   "key": "GoogleSheets-API",
-  "cover": "/img/dev/046.jpg",
+  "cover": "/img/Develop/046.jpg",
   "title":"Google 試算表當資料庫並取得 API",
   "subtitle":"Google 試算表其實不只提供了 Excel 的表格功能試算外，其實也可以使用 API 取得文件內容… 等功能。",
   "at":"2016-09-06",
@@ -39,9 +39,9 @@
         { "e":"span", "t":"吧！" }
       ]
     },
-    { "e":"img", "alt":"點擊左上角檔案進行設定此試算表", "src":"/img/dev/046/01.png" },
-    { "e":"img", "alt":"點擊發佈到網路", "src":"/img/dev/046/02.png" },
-    { "e":"img", "alt":"設定要發佈的工作表以及類型", "src":"/img/dev/046/03.png" },
+    { "e":"img", "alt":"點擊左上角檔案進行設定此試算表", "src":"/img/Develop/046/01.png" },
+    { "e":"img", "alt":"點擊發佈到網路", "src":"/img/Develop/046/02.png" },
+    { "e":"img", "alt":"設定要發佈的工作表以及類型", "src":"/img/Develop/046/03.png" },
     {
       "e":"p",
       "s":[
@@ -50,7 +50,7 @@
         { "e":"span", "t":"，這串字串很重要，要取得文件內容都得靠它！" }
       ]
     },
-    { "e":"img", "alt":"完成發佈後，會得到一串網址，基本上我們最需要的是檔案的 key，而 key 值就在那串網址之中，這串字串很重要，要取得文件內容都得靠它", "src":"/img/dev/046/04.png" },
+    { "e":"img", "alt":"完成發佈後，會得到一串網址，基本上我們最需要的是檔案的 key，而 key 值就在那串網址之中，這串字串很重要，要取得文件內容都得靠它", "src":"/img/Develop/046/04.png" },
     {
       "e":"p",
       "s":[
@@ -88,9 +88,9 @@
         { "e":"a", "t":"https://spreadsheets.google.com/feeds/cells/1SDK0D9UqZUpGt80BDaeC31_aTTACGthcH-KOImK42BA/1/public/values?alt=json", "href":"https://spreadsheets.google.com/feeds/cells/1SDK0D9UqZUpGt80BDaeC31_aTTACGthcH-KOImK42BA/1/public/values?alt=json" }
       ]
     },
-    { "e":"img", "alt":"此網站的試算表內容", "src":"/img/dev/046/05.png" },
-    { "e":"img", "alt":"以 Postman 呼叫完後的 json 結果", "src":"/img/dev/046/06.png" },
-    { "e":"img", "alt":"在使用 cells 方式回傳後，可以發現取得到對應表格的 row 與 col 的值", "src":"/img/dev/046/07.png" }
+    { "e":"img", "alt":"此網站的試算表內容", "src":"/img/Develop/046/05.png" },
+    { "e":"img", "alt":"以 Postman 呼叫完後的 json 結果", "src":"/img/Develop/046/06.png" },
+    { "e":"img", "alt":"在使用 cells 方式回傳後，可以發現取得到對應表格的 row 與 col 的值", "src":"/img/Develop/046/07.png" }
   ],
   "refs":[
     { "text": "Simple example of retrieving JSON feeds from Spreadsheets Data API..", "href":"https://developers.google.com/gdata/samples/spreadsheet_sample" },

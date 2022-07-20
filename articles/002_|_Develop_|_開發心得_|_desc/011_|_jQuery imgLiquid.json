@@ -1,6 +1,6 @@
 {
   "key": "jQuery-imgLiquid-extend",
-  "cover": "/img/dev/011.jpg",
+  "cover": "/img/Develop/011.jpg",
   "title":"實作 jQuery imgLiquid 套件",
   "at":"2014-11-28",
   "type":"article",
@@ -15,8 +15,8 @@
         { "e":"span", "t":"，但其架構與做法不大相同。" }
       ]
     },
-    { "e":"img", "alt":"垂直置中(藍色為父層、黃色為 img 元素)", "src":"/img/dev/011/01.jpg" },
-    { "e":"img", "alt":"水平置中(藍色為父層、黃色為 img 元素)", "src":"/img/dev/011/02.jpg" },
+    { "e":"img", "alt":"垂直置中(藍色為父層、黃色為 img 元素)", "src":"/img/Develop/011/01.jpg" },
+    { "e":"img", "alt":"水平置中(藍色為父層、黃色為 img 元素)", "src":"/img/Develop/011/02.jpg" },
     { "e":"p", "t":"此作品雖然與 imgLiquid 功能一樣，但是做法不同，前者將  設定成隱藏，在取出其圖片網址後設定在該  父元素的 Style，而我的這次要實作的雖然目的相同，但做法則不一樣。" },
     { "e":"p", "t":"首先需要幾個先決條件：" },
     {

@@ -1,6 +1,6 @@
 {
   "key": "jQuery-Maze-Game",
-  "cover": "/img/dev/014.jpg",
+  "cover": "/img/Develop/014.jpg",
   "title":"用 jQuery 做迷宮遊戲",
   "at":"2014-12-03",
   "type":"article",
@@ -15,7 +15,7 @@
         { "e":"span", "t":"，所以可利用搖晃手機達到操作方向的簡單體感遊戲。" }
       ]
     },
-    { "e":"img", "alt":"迷宮還有另外一項隱藏視角，就是當 Git 切換到 3D Branch 時，即可檢視 3D 介面的迷宮模式，此項是利用 css 的旋轉(transform、rotateX、rotateY、translateZ)，將原本的每個節點元素各自新增出六個元素充當六個面，再分別調整每個元素內的各個面旋轉、位移角度", "src":"/img/dev/014/01.jpg" },
+    { "e":"img", "alt":"迷宮還有另外一項隱藏視角，就是當 Git 切換到 3D Branch 時，即可檢視 3D 介面的迷宮模式，此項是利用 css 的旋轉(transform、rotateX、rotateY、translateZ)，將原本的每個節點元素各自新增出六個元素充當六個面，再分別調整每個元素內的各個面旋轉、位移角度", "src":"/img/Develop/014/01.jpg" },
     {
       "e":"p",
       "s":[
@@ -38,7 +38,7 @@
         { "e":"span", "t":" 的按鍵以實作上、下、左、右的反應。" }
       ]
     },
-    { "e":"img", "alt":"二維陣列製作的迷宮，參考老鼠走迷宮，在網頁上更可以利用 JavaScript 去監聽鍵盤 keydown 的按鍵以實作上、下、左、右的反應", "src":"/img/dev/014/02.jpg" },
+    { "e":"img", "alt":"二維陣列製作的迷宮，參考老鼠走迷宮，在網頁上更可以利用 JavaScript 去監聽鍵盤 keydown 的按鍵以實作上、下、左、右的反應", "src":"/img/Develop/014/02.jpg" },
     {
       "e":"p",
       "s":[

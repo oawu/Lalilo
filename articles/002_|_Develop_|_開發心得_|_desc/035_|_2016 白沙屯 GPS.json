@@ -1,6 +1,6 @@
 {
   "key": "FullStack-2016-Baishatun-GPS",
-  "cover": "/img/dev/035.jpg",
+  "cover": "/img/Develop/035.jpg",
   "title":"2016 白沙屯媽祖南下進香 GPS 系統",
   "at":"2016-03-15",
   "type":"article",
@@ -40,7 +40,7 @@
         { "e":"span", "t":" 免費版本，能撐到這樣的流量已經算不錯了，但為了讓網頁能夠更加暢通，於是就做了部分架構更動。" }
       ]
     },
-    { "e":"img", "alt":"GA 紀錄即時線上人數高達 1,900 人", "src":"/img/dev/035/01.jpg" },
+    { "e":"img", "alt":"GA 紀錄即時線上人數高達 1,900 人", "src":"/img/Develop/035/01.jpg" },
     {
       "e":"p",
       "s":[
@@ -63,7 +63,7 @@
         { "e":"span", "t":" 設定 TTL(Time To Live)。" }
       ]
     },
-    { "e":"img", "alt":"Google Maps 的 Heatmaps 應用", "src":"/img/dev/035/02.jpg" },
+    { "e":"img", "alt":"Google Maps 的 Heatmaps 應用", "src":"/img/Develop/035/02.jpg" },
     {
       "e":"p",
       "s":[

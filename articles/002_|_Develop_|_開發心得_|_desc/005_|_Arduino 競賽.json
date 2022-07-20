@@ -1,6 +1,6 @@
 {
   "key": "Arduino-Competition",
-  "cover": "/img/dev/005.jpg",
+  "cover": "/img/Develop/005.jpg",
   "title":"Arduino 新銳展翅創意競賽",
   "at":"2010-04-17",
   "type":"article",
@@ -17,10 +17,10 @@
         { "e":"span", "t":" 實作。" }
       ]
     },
-    { "e":"img", "alt":"搭載各種感應器，簡單以紙箱示意腳踏車，實作智慧型腳踏車的概念模型", "src":"/img/dev/005/01.jpg" },
-    { "e":"img", "alt":"2010年 新銳展翅創意競賽會場", "src":"/img/dev/005/02.jpg" },
-    { "e":"img", "alt":"2010年 新銳展翅創意競賽 參賽證", "src":"/img/dev/005/03.jpg" },
-    { "e":"img", "alt":"2010年 新銳展翅創意競賽 佳作獎狀證明", "src":"/img/dev/005/04.jpg" }
+    { "e":"img", "alt":"搭載各種感應器，簡單以紙箱示意腳踏車，實作智慧型腳踏車的概念模型", "src":"/img/Develop/005/01.jpg" },
+    { "e":"img", "alt":"2010年 新銳展翅創意競賽會場", "src":"/img/Develop/005/02.jpg" },
+    { "e":"img", "alt":"2010年 新銳展翅創意競賽 參賽證", "src":"/img/Develop/005/03.jpg" },
+    { "e":"img", "alt":"2010年 新銳展翅創意競賽 佳作獎狀證明", "src":"/img/Develop/005/04.jpg" }
   ],
   "refs":[],
   "tags":[

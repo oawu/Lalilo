@@ -1,6 +1,6 @@
 {
   "key": "FullStack-2016-LiuFangMazu-GPS",
-  "cover": "/img/dev/040.jpg",
+  "cover": "/img/Develop/040.jpg",
   "title":"2016 六房媽祖過爐 GPS 系統",
   "at":"2016-05-01",
   "type":"article",
@@ -21,7 +21,7 @@
     {
       "e":"img",
       "alt":"選擇多個 GPS 點",
-      "src":"/img/dev/040/01.jpg"
+      "src":"/img/Develop/040/01.jpg"
     }
   ],
   "refs":[

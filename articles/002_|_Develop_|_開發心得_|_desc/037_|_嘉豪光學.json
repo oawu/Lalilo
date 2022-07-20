@@ -1,6 +1,6 @@
 {
   "key": "case-Hoga",
-  "cover": "/img/dev/037.jpg",
+  "cover": "/img/Develop/037.jpg",
   "title":"嘉豪光學",
   "at":"2016-03-21",
   "type":"article",
@@ -13,8 +13,8 @@
         { "e":"span", "t":"，嘉豪光學有限公司為多國外知名品牌之總代理。於2007成立至今，憑著經營團隊專業的知識領域和熱誠的服務態度，產品銷售已涵蓋全台眼鏡商圈。" }
       ]
     },
-    { "e":"img", "src":"/img/dev/037/01.jpg" },
-    { "e":"img", "alt":"基本上稿功能的官網", "src":"/img/dev/037/02.jpg" },
+    { "e":"img", "src":"/img/Develop/037/01.jpg" },
+    { "e":"img", "alt":"基本上稿功能的官網", "src":"/img/Develop/037/02.jpg" },
     {
       "e":"p",
       "s":[
@@ -35,9 +35,9 @@
         { "e":"span", "t":" 加強前端管理。" }
       ]
     },
-    { "e":"img", "alt":"嘉豪光學後台系統", "src":"/img/dev/037/03.jpg" },
-    { "e":"img", "alt":"文章編輯器的後台", "src":"/img/dev/037/04.jpg" },
-    { "e":"img", "alt":"網站使用 SCSS 撰寫", "src":"/img/dev/037/05.jpg" },
+    { "e":"img", "alt":"嘉豪光學後台系統", "src":"/img/Develop/037/03.jpg" },
+    { "e":"img", "alt":"文章編輯器的後台", "src":"/img/Develop/037/04.jpg" },
+    { "e":"img", "alt":"網站使用 SCSS 撰寫", "src":"/img/Develop/037/05.jpg" },
     {
       "e":"p",
       "s":[

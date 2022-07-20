@@ -1,6 +1,6 @@
 {
   "key": "SublimeText",
-  "cover": "/img/mac/005.png",
+  "cover": "/img/macOS/005.png",
   "title":"macOS 上安裝 Sublime Text 文字編輯器",
   "at":"2021-06-02",
   "type":"article",
@@ -44,7 +44,7 @@
             { "e":"p", "s": [
               { "e":"span", "t":"畫面切換到 " }, { "e":"b", "t":"Sublime Text" }, { "e":"span", "t":" 點選左上角 " }, { "e":"code", "t":"Sublime Text" }, { "e":"span", "t":" > " }, { "e":"code", "t":"Preferences" }, { "e":"span", "t":" > " }, { "e":"code", "t":"Browser Packages…" }
             ] },
-            { "e":"img", "src":"/img/mac/005/01.jpg" }
+            { "e":"img", "src":"/img/macOS/005/01.jpg" }
           ]
         },
         {
@@ -53,7 +53,7 @@
             { "e":"p", "s": [
               { "e":"span", "t":"選擇與 " }, { "e":"b", "t":" Packages " }, { "e":"span", "t":" 同一層的 " }, { "e":"code", "t":"Installed Packages" }, { "e":"span", "t":" 並將剛剛下載的 " }, { "e":"code", "t":"Swift.sublime-package" }, { "e":"span", "t":" 複製到 " }, { "e":"code", "t":"Installed Packages" }, { "e":"span", "t":" 目錄內即可，如下圖：" }
             ] },
-            { "e":"img", "src":"/img/mac/005/02.jpg" }
+            { "e":"img", "src":"/img/macOS/005/02.jpg" }
           ]
         },
         {
@@ -91,7 +91,7 @@
             {"e":"p", "s": [
               { "e":"span", "t":"將剛剛下載的 " }, { "e":"code", "t":"Default (OSX).sublime-keymap" }, { "e":"span", "t":" 複製至 " }, { "e":"code", "t":"User" }, { "e":"span", "t":" 目錄內即可，如下圖：" }
             ]},
-            { "e":"img", "src":"/img/mac/005/03.jpg" }]
+            { "e":"img", "src":"/img/macOS/005/03.jpg" }]
         }
       ]
     },
@@ -113,7 +113,7 @@
                   {"e": "p", "s": [
                     { "e":"span", "t":"將剛剛解開壓縮的 " }, { "e":"code", "t":"OA Theme.zip" }, { "e":"span", "t":" 目錄複製至 " }, { "e":"code", "t":"Packages" }, { "e":"span", "t":" 目錄內即可，如下圖：" }
                   ]},
-                  { "e":"img", "src":"/img/mac/005/04.png" }
+                  { "e":"img", "src":"/img/macOS/005/04.png" }
                 ] }
               ]
             }
@@ -131,7 +131,7 @@
                 { "e":"li", "s":[{ "e":"span", "t":"一樣先將畫面切換到 " }, { "e":"b", "t":"Sublime Text" }, { "e":"span", "t":" 點選左上角 " }, { "e":"code", "t":"Sublime Text" }, { "e":"span", "t":" > " }, { "e":"code", "t":"Preferences" }, { "e":"span", "t":" > " }, { "e":"code", "t":"Browser Packages…" }] },
                 { "e":"li", "s":[
                   {"e": "p", "s": [{ "e":"span", "t":"選擇與 " }, { "e":"b", "t":" Packages " }, { "e":"span", "t":" 同一層的 " }, { "e":"code", "t":"Installed Packages" }, { "e":"span", "t":" 並將剛剛下載的 " }, { "e":"code", "t":"OA Theme.sublime-package" }, { "e":"span", "t":" 複製到 " }, { "e":"code", "t":"Installed Packages" }, { "e":"span", "t":" 目錄內即可，如下圖：" }]},
-                  { "e":"img", "src":"/img/mac/005/05.png" }
+                  { "e":"img", "src":"/img/macOS/005/05.png" }
                 ] }
               ]
             }
@@ -240,7 +240,7 @@
           "e":"li",
           "s":[
             {"e": "p", "s": [{ "e":"span", "t":"將剛剛下載的 " }, { "e":"code", "t":"Preferences.sublime-settings" }, { "e":"span", "t":" 複製至 " }, { "e":"code", "t":"User" }, { "e":"span", "t":" 目錄內，將原本的 " }, { "e":"code", "t":"Preferences.sublime-settings" }, { "e":"span", "t":" 取代" }, { "e":"span", "t":" 目錄內即可，如下圖：" }]},
-            { "e":"img", "src":"/img/mac/005/06.jpg" }
+            { "e":"img", "src":"/img/macOS/005/06.jpg" }
           ]
         }
       ]

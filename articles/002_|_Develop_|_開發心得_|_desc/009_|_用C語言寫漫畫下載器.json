@@ -1,6 +1,6 @@
 {
   "key": "C-language-ComicBook",
-  "cover": "/img/dev/009.jpg",
+  "cover": "/img/Develop/009.jpg",
   "title":"用C語言寫漫畫下載器",
   "at":"2012-11-17",
   "type":"article",
@@ -26,8 +26,8 @@
         { "e":"span", "t":" 方式開啟。" }
       ]
     },
-    { "e":"img", "alt":"此實作是使用 C語言 Console 界面繪出模擬 BBS 版型", "src":"/img/dev/009/01.jpg" },
-    { "e":"img", "alt":"並且利用 wget 將知名網站 8comic 上的原始碼轉譯出漫畫並下載，簡單說就是使用 C語言 製作一個爬蟲，並且以 Console 的方式模擬 BBS 介面的排版", "src":"/img/dev/009/02.jpg" },
+    { "e":"img", "alt":"此實作是使用 C語言 Console 界面繪出模擬 BBS 版型", "src":"/img/Develop/009/01.jpg" },
+    { "e":"img", "alt":"並且利用 wget 將知名網站 8comic 上的原始碼轉譯出漫畫並下載，簡單說就是使用 C語言 製作一個爬蟲，並且以 Console 的方式模擬 BBS 介面的排版", "src":"/img/Develop/009/02.jpg" },
     {
       "e":"p",
       "s":[
@@ -44,9 +44,9 @@
         { "e":"span", "t":"可以正常下載漫畫。" }
       ]
     },
-    { "e":"img", "alt":"並且利用 wget 將知名網站 8comic 上的原始碼轉譯出漫畫並下載", "src":"/img/dev/009/03.jpg" },
-    { "e":"img", "alt":"聲明、介紹與使用方式", "src":"/img/dev/009/04.jpg" },
-    { "e":"img", "alt":"下載完後會儲存於 Download 目錄下", "src":"/img/dev/009/05.jpg" },
+    { "e":"img", "alt":"並且利用 wget 將知名網站 8comic 上的原始碼轉譯出漫畫並下載", "src":"/img/Develop/009/03.jpg" },
+    { "e":"img", "alt":"聲明、介紹與使用方式", "src":"/img/Develop/009/04.jpg" },
+    { "e":"img", "alt":"下載完後會儲存於 Download 目錄下", "src":"/img/Develop/009/05.jpg" },
     {
       "e":"p",
       "s":[

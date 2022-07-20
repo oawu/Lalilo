@@ -1,6 +1,6 @@
 {
   "key": "FullStack-Taipei-Activities",
-  "cover": "/img/dev/044.jpg",
+  "cover": "/img/Develop/044.jpg",
   "title":"實作台北 • 藝文活動",
   "at":"2016-06-27",
   "type":"article",
@@ -45,7 +45,7 @@
         { "e":"li", "t":"針對差異做更新、刪除、上傳" }
       ]
     },
-    { "e":"img", "alt":"使用 php 將 API 資料取下來後編輯成 HTML 頁面，並且放置到 Amazon S3。放置部署過程中同時將頁面所需的 css、JavaScript，並且一起上傳至 S3", "src":"/img/dev/044/01.jpg" },
+    { "e":"img", "alt":"使用 php 將 API 資料取下來後編輯成 HTML 頁面，並且放置到 Amazon S3。放置部署過程中同時將頁面所需的 css、JavaScript，並且一起上傳至 S3", "src":"/img/Develop/044/01.jpg" },
     {
       "e":"p",
       "s":[

@@ -1,6 +1,6 @@
 {
   "key": "F2E-Number-Flipping-Counter",
-  "cover": "/img/dev/042.jpg",
+  "cover": "/img/Develop/042.jpg",
   "title":"數字翻轉計數器",
   "at":"2016-06-12",
   "type":"article",
@@ -25,8 +25,8 @@
       "e":"p",
       "t":"首先建立要用的 HTML 結構，基本上就是 span 代表一個位數，裡面的 i 代表 10 個數字。"
     },
-    { "e":"img", "alt":"基本上就是 span 代表一個位數，裡面的 i 代表 10 個數字", "src":"/img/dev/042/01.png" },
-    { "e":"img", "alt":"瀏覽器畫面", "src":"/img/dev/042/02.png" },
+    { "e":"img", "alt":"基本上就是 span 代表一個位數，裡面的 i 代表 10 個數字", "src":"/img/Develop/042/01.png" },
+    { "e":"img", "alt":"瀏覽器畫面", "src":"/img/Develop/042/02.png" },
     {
       "e":"p",
       "s":[
@@ -37,8 +37,8 @@
         { "e":"span", "t":"，此時看到瀏覽器畫面 span 內的 i 都疊在一起了。" }
       ]
     },
-    { "e":"img", "alt":"設定 scss(css)，將 span 給予 position: relative; 的屬性，然後針對子元素 i 設定 position: absolute", "src":"/img/dev/042/03.png" },
-    { "e":"img", "alt":"瀏覽器畫面 span 內的 i 都疊在一起了", "src":"/img/dev/042/04.png" },
+    { "e":"img", "alt":"設定 scss(css)，將 span 給予 position: relative; 的屬性，然後針對子元素 i 設定 position: absolute", "src":"/img/Develop/042/03.png" },
+    { "e":"img", "alt":"瀏覽器畫面 span 內的 i 都疊在一起了", "src":"/img/Develop/042/04.png" },
     {
       "e":"p",
       "s":[
@@ -51,15 +51,15 @@
         { "e":"span", "t":" 的位置。瀏覽器使用開發者檢視，可以發現每個 i 都因為 for 迴圈加上使用 calc，所以有不同的設定值。" }
       ]
     },
-    { "e":"img", "alt":"利用 scss 的 for 迴圈，針對 nth-child 設定 top 的位置", "src":"/img/dev/042/05.png" },
-    { "e":"img", "alt":"瀏覽器畫面", "src":"/img/dev/042/06.png" },
-    { "e":"img", "alt":"使用開發者檢視，可以發現每個 i 都因為 for 迴圈加上使用 calc，所以有不同的設定值", "src":"/img/dev/042/07.png" },
+    { "e":"img", "alt":"利用 scss 的 for 迴圈，針對 nth-child 設定 top 的位置", "src":"/img/Develop/042/05.png" },
+    { "e":"img", "alt":"瀏覽器畫面", "src":"/img/Develop/042/06.png" },
+    { "e":"img", "alt":"使用開發者檢視，可以發現每個 i 都因為 for 迴圈加上使用 calc，所以有不同的設定值", "src":"/img/Develop/042/07.png" },
     {
       "e":"p",
       "t":"接著改變一下 HTML，將每個 span 加上 n5 的 class，並且修改 scss，將原本的 for 迴圈移除，改在 span 設定，使用雙層迴圈，分別針對 n0~n9 去設定 i 的不同位置。開啟瀏覽器，可以發現 i 被移到指定的 5。"
     },
-    { "e":"img", "alt":"接著改變一下 HTML，將每個 span 加上 n5 的 class，並且修改 scss，將原本的 for 迴圈移除，改在 span 設定，使用雙層迴圈，分別針對 n0~n9 去設定 i 的不同位置", "src":"/img/dev/042/08.png" },
-    { "e":"img", "alt":"開啟瀏覽器，可以發現 i 被移到指定的 5", "src":"/img/dev/042/09.png" },
+    { "e":"img", "alt":"接著改變一下 HTML，將每個 span 加上 n5 的 class，並且修改 scss，將原本的 for 迴圈移除，改在 span 設定，使用雙層迴圈，分別針對 n0~n9 去設定 i 的不同位置", "src":"/img/Develop/042/08.png" },
+    { "e":"img", "alt":"開啟瀏覽器，可以發現 i 被移到指定的 5", "src":"/img/Develop/042/09.png" },
     {
       "e":"p",
       "s":[
@@ -68,15 +68,15 @@
         { "e":"span", "t":" 來取得指定的 span。" }
       ]
     },
-    { "e":"img", "alt":"使用 JavaScript 輔助，使用簡單的數學運算(/、%、pow)，切割出各個位數，並且利用 jQuery 的 eq 來取得指定的 span", "src":"/img/dev/042/10.png" },
-    { "e":"img", "alt":"瀏覽器畫面，可以看到已經可以跑到指定的位置了", "src":"/img/dev/042/11.png" },
+    { "e":"img", "alt":"使用 JavaScript 輔助，使用簡單的數學運算(/、%、pow)，切割出各個位數，並且利用 jQuery 的 eq 來取得指定的 span", "src":"/img/Develop/042/10.png" },
+    { "e":"img", "alt":"瀏覽器畫面，可以看到已經可以跑到指定的位置了", "src":"/img/Develop/042/11.png" },
     {
       "e":"p",
       "t":"加上個 input，並且修改一下 JavaScript，讓使用者輸入數字時改變計數器。"
     },
-    { "e":"img", "alt":"加上個 input，並且修改一下 JavaScript，讓使用者輸入數字時改變計數器", "src":"/img/dev/042/12.png" },
-    { "e":"img", "alt":"修改一下 JavaScript，讓使用者輸入數字時改變計數器", "src":"/img/dev/042/13.png" },
-    { "e":"img", "alt":"瀏覽器畫面，可以讓使用者輸入數字時改變計數器", "src":"/img/dev/042/14.png" },
+    { "e":"img", "alt":"加上個 input，並且修改一下 JavaScript，讓使用者輸入數字時改變計數器", "src":"/img/Develop/042/12.png" },
+    { "e":"img", "alt":"修改一下 JavaScript，讓使用者輸入數字時改變計數器", "src":"/img/Develop/042/13.png" },
+    { "e":"img", "alt":"瀏覽器畫面，可以讓使用者輸入數字時改變計數器", "src":"/img/Develop/042/14.png" },
     {
       "e":"p",
       "s":[
@@ -85,9 +85,9 @@
         { "e":"span", "t":"，如此就可以將不再位置內的 i 隱藏囉！同時 i 加上 transition 優化 top 移動的效果！" }
       ]
     },
-    { "e":"img", "alt":"最後在 span 上加入 overflow: hidden;，如此就可以將不再位置內的 i 隱藏囉", "src":"/img/dev/042/15.png" },
-    { "e":"img", "alt":"隱藏其他的數字", "src":"/img/dev/042/16.png" },
-    { "e":"img", "alt":"加上 transition 優化 top 移動的效果", "src":"/img/dev/042/17.png" }
+    { "e":"img", "alt":"最後在 span 上加入 overflow: hidden;，如此就可以將不再位置內的 i 隱藏囉", "src":"/img/Develop/042/15.png" },
+    { "e":"img", "alt":"隱藏其他的數字", "src":"/img/Develop/042/16.png" },
+    { "e":"img", "alt":"加上 transition 優化 top 移動的效果", "src":"/img/Develop/042/17.png" }
   ],
   "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/number_flipping_counter/index.html" },

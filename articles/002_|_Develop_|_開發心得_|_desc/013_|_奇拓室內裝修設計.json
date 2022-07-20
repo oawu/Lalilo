@@ -1,6 +1,6 @@
 {
   "key": "case-Chitorch",
-  "cover": "/img/dev/013.jpg",
+  "cover": "/img/Develop/013.jpg",
   "title":"奇拓室內裝修設計",
   "at":"2014-12-03",
   "type":"article",
@@ -15,9 +15,9 @@
         { "e":"span", "t":"承接的網站外包案，不過這專案我並非為全端作業，而是只實作後端與系統的部分，前端刻板則由宙思設計所製作。" }
       ]
     },
-    { "e":"img", "src":"/img/dev/013/01.jpg" },
-    { "e":"img", "alt":"列表頁包含了多樣的查詢方式", "src":"/img/dev/013/02.jpg" },
-    { "e":"img", "alt":"響應式網頁設計", "src":"/img/dev/013/03.jpg" },
+    { "e":"img", "src":"/img/Develop/013/01.jpg" },
+    { "e":"img", "alt":"列表頁包含了多樣的查詢方式", "src":"/img/Develop/013/02.jpg" },
+    { "e":"img", "alt":"響應式網頁設計", "src":"/img/Develop/013/03.jpg" },
     {
       "e":"p",
       "s":[

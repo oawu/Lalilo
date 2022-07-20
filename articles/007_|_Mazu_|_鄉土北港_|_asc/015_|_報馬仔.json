@@ -1,6 +1,6 @@
 {
   "key": "Notifier",
-  "cover": "/img/mazu/015.jpg",
+  "cover": "/img/Mazu/015.jpg",
   "title":"報馬仔",
   "at":"2017-04-19",
   "type":"article",
@@ -11,7 +11,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/015/01.jpg",
+      "src":"/img/Mazu/015/01.jpg",
       "alt":"2013年 報馬仔（吳政賢 攝）"
     },
     {
@@ -46,7 +46,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/015/02.jpg",
+      "src":"/img/Mazu/015/02.jpg",
       "alt":"2016年 報馬仔（吳政賢 攝）"
     },
     {
@@ -80,7 +80,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/015/03.jpg",
+      "src":"/img/Mazu/015/03.jpg",
       "alt":"2015年 報馬仔 - 李天賜（吳政賢 攝）"
     },
     {
@@ -89,12 +89,12 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/015/04.jpg",
+      "src":"/img/Mazu/015/04.jpg",
       "alt":"2014年 小小報馬仔（吳政賢 攝）"
     },
     {
       "e":"img",
-      "src":"/img/mazu/015/05.jpg",
+      "src":"/img/Mazu/015/05.jpg",
       "alt":"2014年 小小報馬仔（吳政賢 攝）"
     },
     {
@@ -160,7 +160,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/015/06.jpg",
+      "src":"/img/Mazu/015/06.jpg",
       "alt":"豬足、兩傘、韭菜、錫壺（吳政賢 攝）"
     },
     {
@@ -169,7 +169,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/015/07.jpg",
+      "src":"/img/Mazu/015/07.jpg",
       "alt":"地不同的報馬仔造型（引自 中時電子報）"
     }
   ],

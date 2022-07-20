@@ -1,6 +1,6 @@
 {
   "key": "FullStack-Browser-Console-QRcode",
-  "cover": "/img/dev/041.jpg",
+  "cover": "/img/Develop/041.jpg",
   "title":"瀏覽器 Console 上畫 QR Code",
   "subtitle":"來用瀏覽器除錯器畫一個屬於個人的彩蛋吧！",
   "at":"2016-06-04",
@@ -133,11 +133,11 @@
         }
       ]
     },
-    { "e":"img", "alt":"程式碼在 js/browser_console_qrcode.js 內，程式碼有簡易註解，主要利用 Console.log 的方式去印出，其中使用基本 css 語法修飾，會使用 text-shadow 主要是要掩飾換行的行距空白，line-height 不能設太小，所以利用 text-shadow 掩飾空白處", "src":"/img/dev/041/01.png" },
-    { "e":"img", "alt":"瀏覽器 Console 介面內的 QR Code 樣式", "src":"/img/dev/041/02.png" },
-    { "e":"img", "alt":"滑鼠按右鍵，開啟 「檢視」 後選擇 「Console」，即可看到 QR Code", "src":"/img/dev/041/03.png" },
-    { "e":"img", "alt":"若使用 Google Chrome 則可以使用 Chrome 快捷鍵，Mac Chrome 電腦鍵盤快捷鍵 Cmd + Option + j，Windows、Linux Chrome 電腦鍵盤快捷鍵 Ctrl + Shift + j", "src":"/img/dev/041/04.png" },
-    { "e":"img", "alt":"若各位大大覺得有趣或不錯的話，請幫我在 GitHub 上按個喜歡吧！若想引用的話，按喜歡後全部授權給你喲", "src":"/img/dev/041/05.png" }
+    { "e":"img", "alt":"程式碼在 js/browser_console_qrcode.js 內，程式碼有簡易註解，主要利用 Console.log 的方式去印出，其中使用基本 css 語法修飾，會使用 text-shadow 主要是要掩飾換行的行距空白，line-height 不能設太小，所以利用 text-shadow 掩飾空白處", "src":"/img/Develop/041/01.png" },
+    { "e":"img", "alt":"瀏覽器 Console 介面內的 QR Code 樣式", "src":"/img/Develop/041/02.png" },
+    { "e":"img", "alt":"滑鼠按右鍵，開啟 「檢視」 後選擇 「Console」，即可看到 QR Code", "src":"/img/Develop/041/03.png" },
+    { "e":"img", "alt":"若使用 Google Chrome 則可以使用 Chrome 快捷鍵，Mac Chrome 電腦鍵盤快捷鍵 Cmd + Option + j，Windows、Linux Chrome 電腦鍵盤快捷鍵 Ctrl + Shift + j", "src":"/img/Develop/041/04.png" },
+    { "e":"img", "alt":"若各位大大覺得有趣或不錯的話，請幫我在 GitHub 上按個喜歡吧！若想引用的話，按喜歡後全部授權給你喲", "src":"/img/Develop/041/05.png" }
   ],
   "refs":[
     { "text": "Live Demo", "href":"https://works.ioa.tw/browser_console_qrcode/index.html" },

@@ -1,6 +1,6 @@
 {
   "key": "GoogleMaps-Point-in-Polygon",
-  "cover": "/img/dev/029.jpg",
+  "cover": "/img/Develop/029.jpg",
   "title":"在 Google Maps 內多邊形取點 Point in Polygon",
   "at":"2015-11-26",
   "type":"article",
@@ -11,7 +11,7 @@
       "t":"目前已將 Live Demo 關閉並且不維護囉，請大家先參考 GitHub 的原始碼吧！"
     },
     { "e":"p", "t":"這是項個人開發的工具，而且需要前後端配合一起弄的作品，主要目的是撈出藉由不規則多邊形範圍內的點座標。" },
-    { "e":"img", "alt":"Demo 動畫", "src":"/img/dev/029/01.gif" },
+    { "e":"img", "alt":"Demo 動畫", "src":"/img/Develop/029/01.gif" },
     { "e":"h2", "t":"前端" },
     {
       "e":"p",

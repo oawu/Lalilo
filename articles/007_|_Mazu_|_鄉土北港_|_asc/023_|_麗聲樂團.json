@@ -1,6 +1,6 @@
 {
   "key": "Melody-Band",
-  "cover": "/img/mazu/023.jpg",
+  "cover": "/img/Mazu/023.jpg",
   "title":"麗聲樂團",
   "at":"2017-04-11",
   "type":"article",
@@ -28,7 +28,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/023/01.jpg",
+      "src":"/img/Mazu/023/01.jpg",
       "alt":"麗聲樂團（引自 從笨港到北港）"
     },
     {

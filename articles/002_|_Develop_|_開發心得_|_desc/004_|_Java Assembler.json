@@ -1,6 +1,6 @@
 {
   "key": "Java-Assembler",
-  "cover": "/img/dev/004.jpg",
+  "cover": "/img/Develop/004.jpg",
   "title":"用 Java 實作 Assembler",
   "at":"2009-05-01",
   "type":"article",
@@ -23,7 +23,7 @@
         { "e":"span", "t":" 介面更容易表現出理想的操作介面，更可以讓使用者更加方便轉換組合語言。" }
       ]
     },
-    { "e":"img", "alt":"Java Assembler", "src":"/img/dev/004/01.jpg" }
+    { "e":"img", "alt":"Java Assembler", "src":"/img/Develop/004/01.jpg" }
   ],
   "refs":[
     { "text": "GitHub 原始碼", "href": "https://github.com/oawu/sophomore-java-assembler" }

@@ -1,6 +1,6 @@
 {
   "key": "iOS-create-CocoaPods",
-  "cover": "/img/dev/053.png",
+  "cover": "/img/Develop/053.png",
   "title":"自己做自己的 CocoaPods",
   "subtitle":"寫到一定程度之後，總會有幾個自己愛用語熟悉的 Lib，那就自己做一下屬於自己的 pod 套件吧！",
   "at":"2019-08-12",
@@ -332,7 +332,7 @@
                       { "e":"code", "t":"pod trunk info OAPodTest" },
                       { "e":"span", "t":" 檢查是否有存在以及其線上相關版號資訊！" }
                     ] },
-                    { "e":"img", "alt":"成功資訊", "src":"/img/dev/053/01.png" }
+                    { "e":"img", "alt":"成功資訊", "src":"/img/Develop/053/01.png" }
                   ]
                 }
               ]

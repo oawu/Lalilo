@@ -1,6 +1,6 @@
 {
   "key": "Maps-Lantern",
-  "cover": "/img/mazu/019.jpg",
+  "cover": "/img/Mazu/019.jpg",
   "title":"路關牌 爐主燈",
   "at":"2017-04-15",
   "type":"article",
@@ -20,7 +20,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/019/01.jpg",
+      "src":"/img/Mazu/019/01.jpg",
       "alt":"路關牌（吳政賢 攝）"
     },
     {
@@ -29,7 +29,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/019/02.jpg",
+      "src":"/img/Mazu/019/02.jpg",
       "alt":"走在隊伍最前面的路關牌（吳政賢 攝）"
     },
     {
@@ -55,7 +55,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/019/03.jpg",
+      "src":"/img/Mazu/019/03.jpg",
       "alt":"各神明會的爐主燈（吳政賢 攝）"
     },
     {
@@ -153,7 +153,7 @@
     },
     {
       "e":"img",
-      "src":"/img/mazu/019/04.jpg",
+      "src":"/img/Mazu/019/04.jpg",
       "alt":"各團體的燈號（黃偉強 攝）"
     }
   ],
