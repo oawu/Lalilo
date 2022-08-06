@@ -1,6 +1,5 @@
 { 
   "key": "AWS-EC2-Lock-SSH",
-  "cover": "/img/Develop/054.png",
   "title":"EC2 被鎖住不能使用 SSH 登入 怎麼辦？",
   "subtitle":"不小心弄錯設定，造成 root 權限的 ubuntu 無法 SSH 登入了，怎辦？有辦法搶救嗎？",
   "at":"2020-10-28",

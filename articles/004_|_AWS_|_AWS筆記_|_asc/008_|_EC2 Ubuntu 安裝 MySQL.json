@@ -1,6 +1,5 @@
 {
   "key": "EC2-Ubuntu-MySQL",
-  "cover": "/img/AWS/008.png",
   "title":"EC2 Ubuntu 安裝 MySQL",
   "at":"2020-03-17",
   "type":"article",

@@ -1,6 +1,5 @@
 {
   "key": "EC2-Ubuntu-LetsEncrypt",
-  "cover": "/img/AWS/006.png",
   "title":"EC2 Ubuntu 安裝 Let's Encrypt",
   "at":"2020-03-17",
   "type":"article",

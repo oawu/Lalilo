@@ -1,6 +1,5 @@
 {
   "key": "GoogleMaps-Marker-Clustering",
-  "cover": "/img/Develop/047.jpg",
   "title":"Google Maps 標記叢集 Marker Clustering",
   "subtitle":"各位 Google 地圖 玩家都應該有過當 Marker 太多時，視角一拉遠後全部 Marker 擠在一起的困擾吧！沒錯 OA's Marker Clustering 就是要來處理這個困擾！",
   "at":"2016-10-03",

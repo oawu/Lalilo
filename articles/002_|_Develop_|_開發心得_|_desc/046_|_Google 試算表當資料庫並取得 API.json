@@ -1,6 +1,5 @@
 {
   "key": "GoogleSheets-API",
-  "cover": "/img/Develop/046.jpg",
   "title":"Google 試算表當資料庫並取得 API",
   "subtitle":"Google 試算表其實不只提供了 Excel 的表格功能試算外，其實也可以使用 API 取得文件內容… 等功能。",
   "at":"2016-09-06",

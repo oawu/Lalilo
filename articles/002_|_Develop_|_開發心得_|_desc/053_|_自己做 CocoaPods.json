@@ -1,6 +1,5 @@
 {
   "key": "iOS-create-CocoaPods",
-  "cover": "/img/Develop/053.png",
   "title":"自己做自己的 CocoaPods",
   "subtitle":"寫到一定程度之後，總會有幾個自己愛用語熟悉的 Lib，那就自己做一下屬於自己的 pod 套件吧！",
   "at":"2019-08-12",
