@@ -25,10 +25,10 @@
     </div>
 <%_ } -%>
   </div>
-<%_ if (article.cover) { -%>
+<%_ if (article.$.iconURL) { -%>
   <a href="<%= article.$.href %>">
-    <figure style="background-image: url(<%= article.cover %>)">
-      <img src="<%= article.cover %>">
+    <figure style="background-image: url(<%= article.$.iconURL %>)">
+      <img src="<%= article.$.iconURL %>">
     </figure>
   </a>
 <%_ } -%>

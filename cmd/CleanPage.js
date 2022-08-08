@@ -41,7 +41,7 @@ const writePage = (page, resolve, reject) => {
     })
     : reject(new Error('無法建立目錄：' + page.dir))
 }
-
+// errorHandler(1)
 Queue()
   .enqueue(
     next => Process.exec('rm -rf ' + dirPage + '*', error => error
@@ -56,27 +56,23 @@ Queue()
             ? errorHandler(error)
             : next())))
   
-  .enqueue(next => next(readArticles(baseURL, EXT, dirPage, dirArticles)))
+  .enqueue(next => next(readArticles(baseURL, EXT, dirPage, dirArticles, dirEntry)))
 
-  .enqueue((next, { menu, pages, articles }) => Promise.all(pages.map(page => new Promise(writePage.bind(null, page))))
+  .enqueue((next, { menu, pages, articles }) => {
+    Promise.all(pages.map(page => new Promise(writePage.bind(null, page))))
     .catch(errorHandler)
-    .then(files => next({ menu, pages, articles }, files)))
+    .then(files => next({ menu, pages, articles }, files))
+  })
   
   .enqueue((next, { menu, pages, articles }, files) => {
-    // console.error(articles.slice(93)[0].$.prev);
-    // process.exit()
-    
-    // console.error(articles.slice(63, 64)[0].title);
-    // process.exit()
-    
     Promise.all(articles.slice(1,2).map(article => new Promise(writeArticle.bind(null, article))))
     .catch(errorHandler)
     .then(files => next({ menu, pages, articles }, files))
   })
   .enqueue((next, { menu, pages, articles }, files) => {
     console.error(files);
-    
   })
+
 const attrs = el => [
   el.class && { key: 'class', val: el.class },
   el.href && { key: 'href', val: el.href },

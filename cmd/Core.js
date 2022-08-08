@@ -58,7 +58,8 @@ const pagination = (pages, limit = 3) => {
   return p1
 }
 
-const readArticles = (baseURL, EXT, dirPage, dirArticles) => {
+const fill0 = (num, zero = '0', limit = 3) => (num = '' + num, limit = limit - num.length, limit > 0 ? `${zero.repeat(limit)}${num}` : num)
+const readArticles = (baseURL, EXT, dirPage, dirArticles, dirEntry) => {
   const menuItems = []
   const allArticles = []
   const allPages = []
@@ -101,9 +102,24 @@ const readArticles = (baseURL, EXT, dirPage, dirArticles) => {
         if (!match)
           continue
 
+        const baseDir = dirEntry + 'img' + Path.sep + menu.key + Path.sep + fill0(match.index) + Path.sep
+        let icon = null, cover = null
+
+        for (let e of ['jpg', 'jpeg', 'png', 'gif']) {
+          if (exists(baseDir + 'cover.' + e) && access(baseDir + 'cover.' + e)) cover = e
+          if (exists(baseDir + 'icon.' + e) && access(baseDir + 'icon.' + e)) icon = e
+        }
+
         const article = require(articlePath)
+
         article.$ = {
           dir: dirPage + menu.key + Path.sep,
+          iconURL: icon ? baseURL + 'img/' + menu.key + '/' + fill0(match.index) + '/icon.' + icon : null,
+          cover: cover ? {
+            ext: cover,
+            url: baseURL + 'img/' + menu.key + '/' + fill0(match.index) + '/cover.' + cover
+          } : null,
+
           get menu () { return menuItems.map(item => ({ ...item, active: item == menu })) },
           get href () { return baseURL + menu.key + '/' + article.key + EXT },
           get path () { return this.dir + article.key + '.html' },
@@ -119,7 +135,6 @@ const readArticles = (baseURL, EXT, dirPage, dirArticles) => {
 
         articles.push({ index: match.index, article })
       }
-      
 
       articles = articles
         .sort(({ index: a }, { index: b }) => menu.order === 'ASC' ? a - b : b - a)
@@ -152,6 +167,15 @@ const readArticles = (baseURL, EXT, dirPage, dirArticles) => {
       allPages.push(...pages)
     } else {
       const article = require(path)
+
+      const baseDir = dirEntry + 'img' + Path.sep + article.key + Path.sep
+        let icon = null, cover = null
+
+        for (let e of ['jpg', 'jpeg', 'png', 'gif']) {
+          if (exists(baseDir + '.cover' + e) && access(baseDir + '.cover' + e)) cover = e
+          if (exists(baseDir + '.icon' + e) && access(baseDir + '.icon' + e)) icon = e
+        }
+
       const tmp = {
         key: article.key,
         text: article.title,
@@ -160,6 +184,11 @@ const readArticles = (baseURL, EXT, dirPage, dirArticles) => {
       }
       article.$ = {
         dir: dirPage,
+        iconURL: icon ? baseURL + 'img/' + article.key + '/icon.' + icon : null,
+        cover: cover ? {
+          ext: cover,
+          url: baseURL + 'img/' + article.key + '/cover.' + cover
+        } : null,
         get menu () { return menuItems.map(item => ({ ...item, active: item == tmp })) },
         get href () { return baseURL + article.key + EXT },
         get path () { return this.dir + article.key + '.html' },

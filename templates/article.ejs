@@ -4,8 +4,37 @@
     <meta http-equiv="Content-Language" content="zh-tw">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+    <meta name="google-site-verification" content="oP5AjoCz_SS0W6OeLiynUxpE7hnFdhWVZ6zDxRiJQqY">
+    <meta name="robots" content="index,follow">
+<% if (article.tags.length) { -%>
+    <meta name="keywords" content="<%- article.tags.join(',') %>">
+<% }
+   if (article.description) { -%>
+    <meta name="description" content="<%- article.description %>">
+<% } -%>
+    <meta property="og:url" content="<%= article.$.href %>">
+    <meta property="og:title" content="<%= article.title %> – OA Wu">
+<% if (article.description) { -%>
+    <meta property="og:description" content="<%- article.description %>">
+<% } -%>
+    <meta property="og:site_name" content="OA Wu">
+    <meta property="fb:admins" content="100000100541088">
+    <meta property="fb:app_id" content="1033322433418965">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:type" content="article">
+    <meta property="article:author" content="https://www.facebook.com/oawu.tw">
+    <meta property="article:publisher" content="https://www.facebook.com/oawu.tw">
+<% if (article.$.cover) { -%>
+    <meta property="og:image" content="<%= article.$.cover.url %>">
+    <meta property="og:image:type" content="image/<%= article.$.cover.ext %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+<% } -%>
 
     <title><%= article.title %> – OA Wu</title>
+
+    <link rel="canonical" href="<%= article.$.href %>"/>
+    <link rel="alternate" href="<%= article.$.href %>" hreflang="zh-Hant"/>
 
     <link rel="stylesheet" type="text/css" href="/css/icon.css">
     <link rel="stylesheet" type="text/css" href="/css/public.css">
