@@ -80,5 +80,25 @@ const El = {
 // Load
 const Load = {
   mount (option) { return document.body.appendChild(new Vue(option).$mount().$el) },
-  init (option) { return typeof option == 'function' ? option() : $(_ => this.mount(option)) }
+  init (option) { return $(_ => {
+    option = typeof option == 'function' ? option() : option
+    
+    if (typeof option.template != 'undefined') {
+      if (typeof option.template == 'string')
+        option.template = El.render(option.template)
+      if (typeof option.template == 'object')
+        option.template = option.template.toString()
+    }
+    this.mount(option)
+  }) },
+  view (identifier, option) {
+    if (typeof option.template != 'undefined') {
+      if (typeof option.template == 'string')
+        option.template = El.render(option.template)
+      if (typeof option.template == 'object')
+        option.template = option.template.toString()
+    }
+
+    return Vue.component(identifier, option)
+  },
 }
