@@ -32,6 +32,7 @@ const Data = {
 
     try {
       key = JSON.parse(key)
+      key = key.val
     } catch (_) {
       key = undefined
     }
