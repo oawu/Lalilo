@@ -161,6 +161,6 @@ const Load = {
       return opt
     }
   },
-  Vue: opt => $(_ => Load._.mount(opt))
+  Vue: opt => $(_ => Load._.mount(opt)),
   VueComponent: (identifier, opt) => Vue.component(identifier, Load._.option(opt))
 }
