@@ -88,7 +88,6 @@ const El3 = function(str) {
     tmp[line.space] = line
   }
   tmp = null
-  delete tmp
 }
 El3.prototype.toString = function() { return this.els.join('') }
 El3._ = {
