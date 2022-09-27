@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-Load.init({
+Load.Vue({
   data: {
     style: {
       color: 'rgba(120, 120, 120, 1.00);'
@@ -28,15 +28,14 @@ Load.init({
         .replace('s', pad0(date.getSeconds()))
     }
   },
-  template: El.render(`
-    main#app.a
-      h1 => *text='你好，世界！'
-      div => :style=style
-        span => *text='這是 '
-        b    => *text='Lalilo'
-        span => *text='，你目前版本是 '
-        b    => *text=version
-      br
-      span => *text=date('Y-m-d H:i:s')
-      `)
+  template: `
+  main#app.a
+    h1 => *text='你好，世界！'
+    div => :style=style
+      span => *text='這是 '
+      b    => *text='Lalilo'
+      span => *text='，你目前版本是 '
+      b    => *text=version
+    br
+    span => *text=date('Y-m-d H:i:s')`
 })

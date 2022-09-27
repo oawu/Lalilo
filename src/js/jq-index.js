@@ -5,6 +5,6 @@
  * @link        https://www.ioa.tw/
  */
 
-$(function() {
+$(_ => {
 
 })
