@@ -5,30 +5,5 @@
 // @link        https://www.ioa.tw/
 //
 
-@import "_libs";
+@import "_/_Lib";
 @import "Lalilo";
-
-* {
-  &, &:after, &:before {
-    vertical-align: top;
-    @include box-sizing(border-box);
-    @include font-smoothing(subpixel-antialiased);
-  }
-}
-
-body {
-  position: relative;
-
-  display: inline-block;
-  width: 100%;
-
-  margin: 0;
-  padding: 0;
-  color: rgba(0, 0, 0, 1.00);
-
-  font-size: medium;
-  text-align: center;
-  font-family: $font-family;
-  
-  background-color: rgba(255, 255, 255, 1.00);
-}

@@ -19,11 +19,12 @@ echo html(
 
     asset()
       ->css('icon.css')
+      ->css('_/Core.css')
       ->css('index.css')
       ->js('https://code.jquery.com/jquery-1.12.4.min.js')
       ->js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
-      ->js('core.js')
-      ->js('vue-index.js')
+      ->js('_/Core.js')
+      ->js('index.js')
   ),
   body()
 )->lang('zh-Hant');

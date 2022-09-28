@@ -1,0 +1,111 @@
+//
+// @author      OA Wu <oawu.tw@gmail.com>
+// @copyright   Copyright (c) 2015 - 2022, Lalilo
+// @license     http://opensource.org/licenses/MIT  MIT License
+// @link        https://www.ioa.tw/
+//
+
+@import "@/CSS3/Appearance";
+@import "_Var";
+@import "_Lib";
+@import "Lalilo";
+
+* {
+  &, &:after, &:before {
+    vertical-align: top;
+    @include box-sizing(border-box);
+    @include font-smoothing(subpixel-antialiased);
+  }
+}
+
+:root {
+  @each $env, $colors in $ui-color {
+    @each $name, $color in $colors {
+      --ui-color-#{$env}-#{$name}: #{map-get($color, light)};
+    }
+  }
+}
+
+@include dark {
+  :root {
+    @each $env, $colors in $ui-color {
+      @each $name, $color in $colors {
+        --ui-color-#{$env}-#{$name}: #{map-get($color, dark)};
+      }
+    }
+  }
+};
+
+body {
+  position: relative;
+
+  display: inline-block;
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 1.00);
+
+  font-size: medium;
+  text-align: center;
+  font-family: $font-family;
+  
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
+}
+
+input, textarea {
+  font-size: large;
+  font-family: $font-family;
+
+  margin: 0;
+  padding: 0;
+  
+  color: var(--ui-color-iOS-label);
+  border: 1px solid var(--ui-color-iOS-separator);
+  background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+  
+  @include appearance(none);
+  @include border-radius(6px);
+  @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+  @include input-placeholder {
+    font-size: small;
+    color: var(--ui-color-iOS-secondaryLabel);
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:not([readonly]):focus {
+    border-color: var(--ui-color-iOS-link);
+    @include box-shadow(0 0 0 3px var(--ui-color-macOS-keyboardFocusIndicatorColor));
+
+    // @include box-shadow(0 0 0 3px rgba(  0, 103, 244, 0.3));
+    // @include dark {
+    //   @include box-shadow(0 0 0 3px rgba(26, 169, 255, 0.4));
+    // }
+  }
+
+  &[readonly] {
+    cursor: not-allowed;
+    color: var(--ui-color-iOS-tertiaryLabel);
+    @include box-shadow(none);
+    background-color: var(--ui-color-iOS-quaternarySystemFill);
+  }
+}
+
+textarea {
+  resize: vertical;
+
+  &[readonly] {
+    resize: none;
+  }
+}
+
+.__copy_str {
+  @include opacity(0);
+  position: fixed;
+  left: -1000px;
+  top: -1000px;
+  z-index: -9999;
+}
