@@ -27,11 +27,11 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@oawu/core": "git+https://github.com/oawu/LaliloCore.git",
     "@oawu/cli-progress": "^1.0.15",
+    "@oawu/core": "git+https://github.com/oawu/LaliloCore.git",
     "@oawu/helper": "^1.0.5",
     "@oawu/queue": "^1.0.11",
-    "@oawu/scss": "^1.0.23",
+    "@oawu/scss": "^1.0.24",
     "@oawu/uploader": "^1.0.12",
     "@oawu/xterm": "^1.0.7",
     "babel-preset-minify": "^0.5.1",
@@ -42,6 +42,6 @@
     "mime": "^2.5.0",
     "node-notifier": "^9.0.0",
     "open": "^7.3.1",
-    "socket.io": "^3.1.0"
+    "socket.io": "^4.5.3"
   }
 }

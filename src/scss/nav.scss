@@ -9,9 +9,11 @@
 @import "Lalilo";
 
 .btn {
-  // @extend %-button;
   display: inline-block;
-  width: 100px;
-  height: 44px;
-  line-height: 44px;
+  padding: 12px 16px;
+  z-index: 1;
+  margin: 90px;
+
+
+  @extend %-btn;
 }

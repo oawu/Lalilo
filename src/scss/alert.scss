@@ -8,10 +8,11 @@
 @import "_/_Lib";
 @import "Lalilo";
 
-.btn {
-  // @extend %-button;
+label {
   display: inline-block;
-  width: 100px;
-  height: 44px;
-  line-height: 44px;
+  padding: 12px 16px;
+  z-index: 1;
+  margin: 10px;
+
+  @extend %-btn;
 }
