@@ -2,7 +2,7 @@
 
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2022, LaliloCore
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -20,19 +20,13 @@ echo html(
     asset()
       ->css('icon.css')
       ->css('_/Core.css')
-      ->css('_/Alert.css')
-      ->css('_/Toastr.css')
       ->css('_/Nav.css')
-      ->css('_/Component/Segmented.css')
-      ->css('index.css')
+      ->css('nav.css')
       ->js('https://code.jquery.com/jquery-1.12.4.min.js')
       ->js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
       ->js('_/Core.js')
-      ->js('_/Alert.js')
-      ->js('_/Toastr.js')
       ->js('_/Nav.js')
-      ->js('_/Component/Segmented.js')
-      ->js('index.js')
+      ->js('nav.js')
   ),
   body()
 )->lang('zh-Hant');

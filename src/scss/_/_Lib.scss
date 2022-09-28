@@ -5,19 +5,8 @@
 // @link        https://www.ioa.tw/
 //
 
+@import "_Var";
 @import "Lalilo";
-
-@mixin dark() {
-  @media (prefers-color-scheme: dark) {
-    @content;
-  }
-}
-
-@mixin hover() {
-  @media (hover: hover) and (pointer: fine) {
-    @content;
-  }
-}
 
 %-icon {
   font-family: "icon";
@@ -36,4 +25,67 @@
   background-position: center center;
   background-repeat: no-repeat;
   overflow: hidden;
+}
+
+%-btn {
+  position: relative;
+  cursor: pointer;
+  @extend %-user-select-none;
+
+  --btn-border-width: 3px;
+  --btn-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+  --btn-border-color: var(--ui-color-iOS-quaternarySystemFill);
+  --btn-radius: 12px;
+  --btn-color-hover: var(--ui-color-iOS-secondarySystemFill);
+  --btn-color-active: var(--ui-color-iOS-tertiarySystemFill);
+  --btn-scale: 1;
+  --btn-scale-active: 1.05;
+  --btn-before-width: var(--btn-border-width);
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    display: inline-block;
+  }
+
+  &:before {
+    top: 50%;
+    left: 50%;
+    width: calc(100% - var(--btn-border-width) * 2);
+    height: calc(100% - var(--btn-border-width) * 2);
+    z-index: -2;
+
+    background-color: transparent;
+    border: var(--btn-before-width) solid var(--btn-border-color);
+    @include box-sizing(content-box);
+    @include transform(translate(-50%, -50%));
+    @include border-radius(calc(var(--btn-radius) + var(--btn-before-width)));
+    @include transition(border-color .44s, border-width .36s, border-radius .36s);
+  }
+  &:after {
+    top: var(--btn-border-width);
+    bottom: var(--btn-border-width);
+    left: var(--btn-border-width);
+    right: var(--btn-border-width);
+    z-index: -1;
+
+    background-color: var(--btn-color);
+    @include border-radius(var(--btn-radius));
+    @include transform(scale(var(--btn-scale)));
+    @include transition(background-color .64s, transform .44s cubic-bezier(0.385, 1.260, 0.595, 0.975));
+  }
+  @include hover {
+    &:hover {
+      --btn-border-color: transparent;
+      --btn-color: var(--btn-color-hover);
+      --btn-before-width: 0px;
+    }
+  }
+
+  &:active {
+    --btn-border-color: transparent;
+    --btn-before-width: 0px;
+    --btn-scale: var(--btn-scale-active);
+    --btn-color: var(--btn-color-active);
+  }
 }

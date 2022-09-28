@@ -1,6 +1,6 @@
 //
 // @author      OA Wu <oawu.tw@gmail.com>
-// @copyright   Copyright (c) 2015 - 2024, Lalilo
+// @copyright   Copyright (c) 2015 - 2022, Lalilo
 // @license     http://opensource.org/licenses/MIT  MIT License
 // @link        https://www.ioa.tw/
 //
@@ -8,10 +8,11 @@
 @import "_/_Lib";
 @import "Lalilo";
 
-.btn {
-  // @extend %-button;
+label {
   display: inline-block;
-  width: 100px;
-  height: 44px;
-  line-height: 44px;
+  padding: 12px 16px;
+  z-index: 1;
+  margin: 10px;
+
+  @extend %-btn;
 }

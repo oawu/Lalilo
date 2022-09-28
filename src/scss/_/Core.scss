@@ -109,3 +109,9 @@ textarea {
   top: -1000px;
   z-index: -9999;
 }
+
+@include keyframes(loading-rotate) {
+  0% { background-color: var(--loading-color-1); }
+  5% { background-color: var(--loading-color-2); }
+  100% { background-color: var(--loading-color-1); }
+}

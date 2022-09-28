@@ -126,12 +126,42 @@ El3._ = {
     : null
 }
 El3._.Line.prototype.toString = function() {
-  return this.header[0] !== '|'
-    ? El3._.singles.indexOf(this.header) != -1
-      ? `<${this.header + this.attr} />`
-      : `<${this.header + this.attr}>${this.children.join('')}</${this.header}>`
-    : this.header.substr(1).trim()
+  let tmp = this.header.slice(0, 2)
+
+  return (tmp !== '>>' && tmp !== '||')
+    ? (this.header[0] !== '>' && this.header[0] !== '|')
+      ? El3._.singles.indexOf(this.header) != -1
+        ? `<${this.header + this.attr} />`
+        : `<${this.header + this.attr}>${this.children.join('')}</${this.header}>`
+      : this.header.substr(1).trim()
+    : `{{ ${this.header.substr(2)} }}`
 }
+// Flash
+const Flash = function(key, message) {
+  if (!(this instanceof Flash)) return new Flash(key, message)
+  const data = Data.get(Flash.key) || {}
+  if (Array.isArray(data[key])) data[key].push(message)
+  else data[key] = [message]
+  Data.set(Flash.key, data)
+}
+Flash.key = '_flashes'
+
+Flash.Toastr = {
+  key: '_toastr',
+  failure (message) { return Flash(this.key, { type: 'failure', message }) },
+  success (message) { return Flash(this.key, { type: 'success', message }) },
+  warning (message) { return Flash(this.key, { type: 'warning', message }) },
+  info (message) { return Flash(this.key, { type: 'info', message }) },
+}
+
+Object.defineProperty(Flash, 'toastr', { get () {
+  const data = Data.get(Flash.key) || {}
+  const toastrs = []
+  Array.isArray(data[Flash.Toastr.key]) && toastrs.push(...data[Flash.Toastr.key])
+  data[Flash.Toastr.key] = []
+  Data.set(Flash.key, data)
+  return toastrs
+} })
 
 // Load
 const Load = {
@@ -161,8 +191,12 @@ const Load = {
       return opt
     }
   },
-  Vue: opt => $(_ => Load._.mount(opt)),
-  VueComponent: (identifier, opt) => Vue.component(identifier, Load._.option(opt))
+  Vue: opt => $(_ => {
+    typeof Toastr == 'undefined' || Flash.toastr.forEach(({ type, message }) => Toastr[type] !== undefined && Toastr[type](message))
+    Load._.mount(opt)
+  }),
+  VueComponent: (identifier, opt) => Vue.component(identifier, Load._.option(opt)),
+  Auth: option => Auth() ? Load.Vue(option) : Auth.logout(_ => Change('login', Flash.Toastr.failure('請重新登入！')))
 }
 
 // Param
@@ -282,6 +316,42 @@ const Reload = (url) => {
   throw new Error('頁面重新導向中…')
 }
 
+// Auth
+const Auth = function() {
+  if (Auth._.user && Auth._.user instanceof Auth) return Auth._.user;
+
+  const obj = Data.get(Auth._.key);
+
+  if (obj === undefined || obj === null)
+    return Auth.logout()._.user;
+
+  const { time = null, data = {}, token = '' } = obj;
+
+  if (!time || Date.now() > time)
+    return Auth.logout()._.user;
+  
+  return Auth._.user = ((data, token) => {
+    const auth = {}
+    for (let key in data)
+      Object.defineProperty(auth, key, { get () { return data[key] } })
+    auth.toString = _ => token
+    return auth
+  })(data, token)
+}
+Auth._ = { key: '_auth', user: null }
+
+Auth.login = (data, token, time = false) => {
+  time = Date.now() + 1000 * (time ? 86400 * 30 * 3 : 86400)
+  Data.set(Auth._.key, { data, token, time })
+  return Auth
+}
+Auth.logout = func => {
+  Data.set(Auth._.key, null)
+  delete Auth._.user
+  typeof func == 'function' && func()
+  return Auth
+}
+
 // API
 const API = function(url) {
   if (!(this instanceof API))
@@ -310,7 +380,6 @@ API.prototype.url = function(url) {
     this._url = url
   return this
 }
-
 API.prototype.query = function(key, val = null) {
   if (typeof key == 'object' && key !== null && !Array.isArray(key)) {
     this._query = key
@@ -368,7 +437,7 @@ API.prototype.done = function(done) { return typeof done == 'function' && this._
 API.prototype.fail = function(fail) { return typeof fail == 'function' && this._fails.push(fail), this }
 API.prototype.after = function(after) { return typeof after == 'function' && this._afters.push(after), this }
 API.prototype.progress = function(progress) { return typeof progress == 'function' && this._progresses.push(progress), this }
-API.prototype.auth = function(token) { return this.header('Authorization', `Bearer ${token || ''}`) }
+API.prototype.auth = function(token) { return this.header('Authorization', `Bearer ${token || Auth() || ''}`) }
 
 API.prototype.send = function() {
   let method = this._method.toUpperCase()
@@ -429,6 +498,8 @@ API.prototype.send = function() {
   $.ajax(option)
   .done((...datas) => this._dones.forEach(done => done(...datas)))
   .fail(({ status: code, responseJSON = {} }) => {
+    if (code === 401)
+      return Auth.logout(_ => Change('login', Flash.Toastr.failure('權限不足！')))
     let messages = responseJSON.messages || [`${code}  錯誤！`, '請工程師排查此狀況！']
     this._fails.forEach(fail => fail(messages, code))
   })
