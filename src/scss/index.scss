@@ -16,15 +16,19 @@
 }
 
 // :root {
-//   @each $name, $values in $ui-color {
-//     --ui-color-#{$name}: #{map-get($values, light)};
+//   @each $env, $colors in $ui-color {
+//     @each $name, $color in $colors {
+//       --ui-color-#{$env}-#{$name}: #{map-get($color, light)};
+//     }
 //   }
 // }
 
 // @include dark {
 //   :root {
-//     @each $name, $values in $ui-color {
-//       --ui-color-#{$name}: #{map-get($values, dark)};
+//     @each $env, $colors in $ui-color {
+//       @each $name, $color in $colors {
+//         --ui-color-#{$env}-#{$name}: #{map-get($color, dark)};
+//       }
 //     }
 //   }
 // };
@@ -37,7 +41,7 @@ body {
 
   margin: 0;
   padding: 0;
-  color: rgba(90, 90, 90, 1.00);
+  color: rgba(0, 0, 0, 1.00);
 
   font-size: medium;
   text-align: center;
