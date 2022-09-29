@@ -5,6 +5,7 @@
 // @link        https://www.ioa.tw/
 //
 
+@import "_libs";
 @import "Lalilo";
 
 * {
@@ -14,24 +15,6 @@
     @include font-smoothing(subpixel-antialiased);
   }
 }
-
-// :root {
-//   @each $env, $colors in $ui-color {
-//     @each $name, $color in $colors {
-//       --ui-color-#{$env}-#{$name}: #{map-get($color, light)};
-//     }
-//   }
-// }
-
-// @include dark {
-//   :root {
-//     @each $env, $colors in $ui-color {
-//       @each $name, $color in $colors {
-//         --ui-color-#{$env}-#{$name}: #{map-get($color, dark)};
-//       }
-//     }
-//   }
-// };
 
 body {
   position: relative;
@@ -45,7 +28,7 @@ body {
 
   font-size: medium;
   text-align: center;
-  font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-family: $font-family;
   
   background-color: rgba(255, 255, 255, 1.00);
 }
