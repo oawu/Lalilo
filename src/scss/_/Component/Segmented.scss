@@ -1,0 +1,124 @@
+//
+// @author      OA Wu <oawu.tw@gmail.com>
+// @copyright   Copyright (c) 2015 - 2022, Lalilo
+// @license     http://opensource.org/licenses/MIT  MIT License
+// @link        https://www.ioa.tw/
+//
+
+@use "sass:math";
+@import "../_Lib";
+
+._segmented {
+  $h: 40px;
+  position: relative;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: var(--ui-color-iOS-tertiarySystemFill);
+  @include border-radius(8px);
+
+  label {
+    @extend %-user-select-none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    font-size: medium;
+    text-align: center;
+    padding: 0 16px;
+    z-index: 2;
+    height: $h;
+    line-height: $h;
+    
+    @include transition(opacity .3s);
+    span, i {
+      position: relative;
+      z-index: 1;
+    }
+    span {
+      color: var(--ui-color-iOS-label);
+      @include transition(color .3s);
+    }
+    i {
+      display: inline-block;
+      padding: 0 6px;
+      height: 16px;
+      line-height: 16px;
+      margin-top: math.div(($h - 16px), 2);
+      margin-left: 4px;
+
+      font-weight: bold;
+      font-size: x-small;
+      font-style: normal;
+      color: var(--ui-color-iOS-label);
+      background-color: var(--ui-color-iOS-tertiaryLabel);
+      
+      @include opacity(.7);
+      @include border-radius(math.div(16px, 2));
+      @include transition(opacity .3s, background-color .3s, color .3s);
+    }
+    &:active {
+      span {
+        color: var(--ui-color-iOS-secondaryLabel);
+      }
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      display: inline-block;
+      width: 1px;
+      background-color: var(--ui-color-iOS-systemFill);
+      @include opacity(0);
+      @include transition(opacity .3s);
+      
+    }
+    + label {
+      &:before {
+        @include opacity(1);
+      }
+    }
+  } 
+
+  > span {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 1;
+    background-color: var(--ui-color-macOS-controlColor);
+    @include border-radius(6px);
+    @include opacity(0);
+    @include box-shadow(0 0 4px var(--ui-color-iOS-secondarySystemFill));
+    &.show {
+      @include opacity(1);
+    }
+    &.ani {
+      @include transition(opacity 0.3s, top 0.3s, left 0.3s, width 0.3s, height 0.3s);
+      will-change: opacity, top, left, width, height;
+    }
+  }
+
+  @for $i from 1 through 10 {
+    &[i='#{$i - 1}'] {
+      label:nth-child(#{$i}) {
+        &:active {
+          span {
+            color: var(--ui-color-iOS-label);
+          }
+        }
+
+        &:before {
+          @include opacity(0);
+        }
+        + label {
+          &:before {
+            @include opacity(0);
+          }
+        } 
+      }
+    }
+  }
+}

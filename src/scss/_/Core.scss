@@ -43,7 +43,7 @@ body {
 
   margin: 0;
   padding: 0;
-  color: rgba(0, 0, 0, 1.00);
+  color: var(--ui-color-iOS-label);
 
   font-size: medium;
   text-align: center;
@@ -52,7 +52,7 @@ body {
   background-color: var(--ui-color-iOS-systemGroupedBackground);
 }
 
-input {
+input, textarea {
   font-size: large;
   font-family: $font-family;
   margin: 0;
@@ -90,70 +90,9 @@ input {
     @include box-shadow(none);
   }
 }
-
-
-._messages {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  margin: 0;
-  padding: 8px 16px;
-  padding-left: 12px;
-  text-align: left;
-  overflow: hidden;
-  @extend %-user-select-none;
-  
-  &.__warning {
-    &:after {
-      background-color: var(--ui-color-iOS-systemRed);
-    }
-  }
-  
-  &.__info {
-    &:after {
-      background-color: var(--ui-color-iOS-systemGreen);
-    }
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    @include opacity(.95);
-    @include border-radius(12px);
-  }
-
-  li {
-    position: relative;
-    z-index: 3;
-    display: inline-block;
-    width: 100%;
-    font-size: small;
-    padding-left: 12px;
-    color: white;
-    
-    &:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: calc(50% - 6px / 2);
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      @include border-radius(50%);
-      background-color: white;
-      @include opacity(.75);
-    }
-
-    + li {
-      margin-top: 2px;
-    }
+textarea {
+  resize: vertical;
+  &[readonly] {
+    resize: none;
   }
 }

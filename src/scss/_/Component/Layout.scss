@@ -1,0 +1,313 @@
+//
+// @author      OA Wu <oawu.tw@gmail.com>
+// @copyright   Copyright (c) 2015 - 2022, Lalilo
+// @license     http://opensource.org/licenses/MIT  MIT License
+// @link        https://www.ioa.tw/
+//
+
+@import "../_Lib";
+
+#app {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-height: 100vh;
+}
+%-right-separator {
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 1px;
+    border-right: 1px solid var(--ui-color-iOS-separator);
+    @include opacity(.5);
+  }
+}
+#menu {
+  @extend %-right-separator;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: inline-block;
+  height: 100%;
+  overflow: hidden;
+  z-index: 9;
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+  // @include box-shadow(0 0 3px 0.1px var(--ui-color-iOS-separator));
+}
+#menu-items {
+  position: relative;
+  
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  z-index: 1;
+  
+  label {
+    @extend %-user-select-none;
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    cursor: pointer;
+
+    padding: 16px;
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+    }
+    &:before {
+      z-index: 1;
+      top: 6px;
+      bottom: 6px;
+      left: 0;
+      right: 0;
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+      @include transition(background-color .35s, transform .3s);
+      @include border-radius(12px);
+    }
+    &:after {
+      z-index: 2;
+      right: 16px;
+      top: 50%;
+
+      border-top: 2px solid var(--ui-color-iOS-systemFill);
+      border-right: 2px solid var(--ui-color-iOS-systemFill);
+      @include transform(translateY(-50%) rotate(45deg));
+    }
+    
+
+    &:hover {
+      &:before {
+        background-color: var(--ui-color-iOS-secondarySystemFill);
+      }
+    }
+    &.active {
+      &:before {
+        background-color: var(--ui-color-iOS-systemFill);
+      }
+    }
+    &:active {
+      &:before {
+        @include transform(scale(.975));
+      }
+    }
+    i {
+      position: absolute;
+      top: 50%;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      color: var(--ui-color-iOS-secondaryLabel);
+      
+      @include transform(translateY(-50%));
+      &:before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        @include transform(translate(-50%, -50%));
+        @extend %-icon;
+      }
+      &.index {
+        &:before {
+          content: '\f0003';
+        }
+      }
+      &.albums {
+        &:before {
+          content: '\f0013';
+        }
+      }
+      &.tags {
+        &:before {
+          content: '\f0014';
+        }
+      }
+      &.logout {
+        &:before {
+          content: '\f0004';
+        }
+      }
+    }
+    &._desc_y {
+      padding-right: 16px + 12px + 4px;
+      &:after {
+        width: 12px;
+        height: 12px;
+      }
+    }
+    &._desc_n {
+      padding-right: 16px + 8px + 4px;
+      &:after {
+        width: 8px;
+        height: 8px;
+      }
+    }
+    &._icon_n {
+      padding-left: 16px;
+    }
+    &._icon_y {
+      &._desc_y {
+        i {
+          left: 16px;
+          width: 28px;
+          height: 28px;
+          font-size: 28px;
+        }
+        padding-left: 16px + 28px + 16px - 4px;
+      }
+      &._desc_n {
+        i {
+          left: 12px;
+          width: 24px;
+          height: 24px;
+          font-size: 24px;
+        }
+        padding-left: 12px + 24px + 12px - 4px;
+      }
+    }
+
+    b, span {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      text-align: left;
+      color: var(--ui-color-iOS-label);
+      z-index: 2;
+      font-weight: normal;
+    }
+    span {
+      color: var(--ui-color-iOS-secondaryLabel);
+      font-size: small;
+    }
+  }
+}
+#main {
+  display: inline-block;
+  width: 100%;
+  z-index: 8;
+
+  > header {
+    display: inline-block;
+  }
+}
+#menu-header {
+  @extend %-right-separator;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 11;
+
+  display: inline-block;
+  // @include box-shadow(none);
+  span {
+    display: inline-block;
+    width: 100%;
+  }
+}
+#main-header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: inline-block;
+  width: 100%;
+  background-color: rgba(255, 255, 255, .85);
+  @include backdrop-filter(blur(15px));
+  @include box-shadow(0 0 3px 0.1px var(--ui-color-iOS-separator));
+
+  @include dark {
+    background-color: rgba(28, 28, 30, .85);
+    @include box-shadow(0 0 1px 1px var(--ui-color-iOS-separator));
+  };
+}
+#main-nav {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  
+  > * {
+    display: inline-block;
+    margin: 0;
+  }
+  ._lefts {
+    flex-shrink: 0;
+    
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    
+    label {
+      @extend %-button;
+      padding: 6px 12px;
+      &:after {
+        @include border-radius(6px);
+      }
+
+      + label {
+        margin-left: 12px;
+      }
+    }
+  }
+  ._title {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 12px;
+    font-size: medium;
+    @extend %-user-select-none;
+  }
+  ._rights {
+    flex-shrink: 0;
+  }
+}
+#main-container {
+  padding: 12px;
+}
+// =======================
+
+$menuWidth: 320px;
+$headerHeight: 44px;
+#menu {
+  width: $menuWidth;
+}
+#menu-header {
+  width: $menuWidth;
+  height: $headerHeight;
+  span {
+    height: $headerHeight;
+    line-height: $headerHeight;
+  }
+}
+#menu-items {
+  padding-top: $headerHeight + 16px;
+}
+#main {
+  padding-left: $menuWidth;
+}
+#main-header {
+  height: $headerHeight;
+  padding-left: $menuWidth;
+}
+#main-container {
+  padding: 12px;
+  padding-top: $headerHeight + 12px;
+}

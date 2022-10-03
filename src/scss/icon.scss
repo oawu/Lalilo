@@ -6,3 +6,34 @@
 //
 
 @import "Lalilo";
+
+@font-face { font-family: "icon"; src: url("../icon/icomoon/fonts/icomoon.eot?t=1664898414057") format("embedded-opentype"), url("../icon/icomoon/fonts/icomoon.woff?t=1664898414057") format("woff"), url("../icon/icomoon/fonts/icomoon.ttf?t=1664898414057") format("truetype"), url("../icon/icomoon/fonts/icomoon.svg?t=1664898414057") format("svg"); }
+
+*[class^="icon-"]:before, *[class*=" icon-"]:before {
+  font-family: "icon";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+}
+
+.icon-f0001:before { content: "\f0001"; }
+.icon-f0002:before { content: "\f0002"; }
+.icon-f0003:before { content: "\f0003"; }
+.icon-f0004:before { content: "\f0004"; }
+.icon-f0005:before { content: "\f0005"; }
+.icon-f0006:before { content: "\f0006"; }
+.icon-f0007:before { content: "\f0007"; }
+.icon-f0008:before { content: "\f0008"; }
+.icon-f0009:before { content: "\f0009"; }
+.icon-f000a:before { content: "\f000a"; }
+.icon-f000b:before { content: "\f000b"; }
+.icon-f000c:before { content: "\f000c"; }
+.icon-f000d:before { content: "\f000d"; }
+.icon-f000e:before { content: "\f000e"; }
+.icon-f000f:before { content: "\f000f"; }
+.icon-f0010:before { content: "\f0010"; }
+.icon-f0011:before { content: "\f0011"; }
+.icon-f0012:before { content: "\f0012"; }
+.icon-f0013:before { content: "\f0013"; }
+.icon-f0014:before { content: "\f0014"; }

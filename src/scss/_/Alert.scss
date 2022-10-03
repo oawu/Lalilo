@@ -1,0 +1,316 @@
+//
+// @author      OA Wu <oawu.tw@gmail.com>
+// @copyright   Copyright (c) 2015 - 2022, Lalilo
+// @license     http://opensource.org/licenses/MIT  MIT License
+// @link        https://www.ioa.tw/
+//
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+@import "_Lib";
+
+@include keyframes(alert-rotate) {
+  0% { @include transform(translate(0, -50%) rotate(0)); }
+  100% { @include transform(translate(0, -50%) rotate(360deg)); }
+}
+
+#alert {
+  position: fixed;
+  z-index: 999999;
+  text-align: center;
+
+  &, &:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &:before {
+    position: absolute;
+    content: '';
+    z-index: 1;
+    background-color: rgba(32, 33, 36, 0.6);
+    will-change: backdrop-filter;
+    @include backdrop-filter(none);
+    @include opacity(0);
+    @include transition(opacity .3s, backdrop-filter .3s);
+  }
+
+  &.__presented:before {
+    @include backdrop-filter(blur(5px));
+    @include opacity(1);
+  }
+
+
+  &.__presented ._content {
+    @include opacity(1);
+    @include transform(translate(-50%, -50%) scale(1));
+  }
+
+  ._content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+
+    display: inline-block;
+    height: auto;
+    min-width: 280px;
+    max-width: 320px;
+    overflow: hidden;
+    
+    background-color: var(--ui-color-iOS-tertiarySystemGroupedBackground);
+
+    @include range-width(0, 350px) {
+      width: 100%;
+      max-width: calc(100% - #{(16px * 2)});
+      &.__loading {
+        width: auto;
+      }
+    };
+
+    @include opacity(0);
+    @include border-radius(13px);
+    @include box-shadow(0 4px 10px 1px rgba(0, 0, 0, .26));
+    @include transform(translate(-50%, -50%) scale(0.5));
+    @include transition(transform .3s, opacity cubic-bezier(0.4, 0.0, 0.2, 1) .33s);
+
+    &.__loading {
+      min-width: auto;
+    }
+
+    > div {
+      position: relative;
+      display: inline-flex;
+      width: 100%;
+      flex-direction: column;
+      justify-content: flex-start;
+
+
+      &[n="1"] {
+        flex-direction: row;
+        button {
+        }
+      }
+      &[n="2"] {
+        flex-direction: row-reverse;
+        button {
+          width: 50%;
+         
+          &:first-child:after {
+            content: '';
+          }
+        }
+      }
+    }
+  }
+
+  b {
+    @extend %-user-select-none;
+    display: inline-block;
+    width: 100%;
+    font-size: medium;
+    color: var(--ui-color-iOS-label);
+    
+    + span, + i {
+      margin-top: 6px;
+    }
+    + input {
+      margin-top: 10px;
+    }
+    + div {
+      margin-top: 13px;
+    }
+    &:first-child {
+      margin-top: 12px;
+    }
+    &:last-child {
+      margin-bottom: 12px;
+    }
+  }
+
+  span, i {
+    @extend %-user-select-none;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-size: medium;
+    color: var(--ui-color-iOS-label);
+
+    + div {
+      margin-top: 13px;
+    }
+    + input {
+      margin-top: 10px;
+    }
+    &:first-child {
+      margin-top: 12px;
+    }
+    &:last-child {
+      margin-bottom: 12px;
+    }
+  }
+  span {
+    padding: 0 12px;
+  }
+  i {
+    font-style: normal;
+    width: auto;
+    padding: 0 32px;
+    padding-left: 24px + 8px + 20px;
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      @include border-radius(50%);
+      
+    }
+
+    &:before {
+      left: 20px;
+      top: 50%;
+      width: 24px;
+      height: 24px;
+
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNiZjM5YyIvPjxzdG9wIG9mZnNldD0iMzMlIiBzdG9wLWNvbG9yPSIjMzNlMGFmIi8+PHN0b3Agb2Zmc2V0PSI2NyUiIHN0b3AtY29sb3I9IiMyYWNhYzgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMmI1ZTQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=');
+      background-size: 100%;
+      background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3bf39c), color-stop(33%, #33e0af), color-stop(67%, #2acac8), color-stop(100%, #22b5e4));
+      background-image: -moz-linear-gradient(#3bf39c 0%, #33e0af 33%, #2acac8 67%, #22b5e4 100%);
+      background-image: -webkit-linear-gradient(#3bf39c 0%, #33e0af 33%, #2acac8 67%, #22b5e4 100%);
+      background-image: linear-gradient(#3bf39c 0%, #33e0af 33%, #2acac8 67%, #22b5e4 100%);
+      
+      @include animation(alert-rotate 1s linear infinite);
+      @include box-shadow(inset 0 0 1px rgba(0, 0, 0, .1));
+    }
+
+    &:after {
+      top: 50%;
+      left: 20px + 4px;
+      width: 24px - 4px * 2;
+      height: 24px - 4px * 2;
+      background-color: rgba(242, 242, 247, 1);
+      @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+      @include transform(translate(0, -50%));
+    }
+    
+  }
+  input {
+    display: inline-block;
+    max-width: calc(100% - #{12px * 2});
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    + div {
+      margin-top: 13px;
+    }
+    + input {
+      margin-top: 10px;
+    }
+    &:first-child {
+      margin-top: 12px;
+    }
+    &:last-child {
+      margin-bottom: 12px;
+    }
+
+    font-size: large;
+    color: var(--ui-color-iOS-label);
+    font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+    border: 1px solid var(--ui-color-iOS-separator);;
+    padding: 0 12px;
+    margin: 0 auto;
+    background-color: var(--ui-color-iOS-systemBackground);
+
+    @include appearance(none);
+    @include border-radius(6px);
+    @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+
+    @include input-placeholder {
+      font-size: small;
+      color: var(--ui-color-iOS-secondaryLabel);
+    }
+
+    &:focus {
+      outline: 0;
+    }
+    &:not([readonly]):focus {
+      border-color: rgba(0, 122, 255, .65);
+      @include box-shadow(0 0 0 3px rgba(0, 122, 255, .3));
+    }
+
+    &[readonly] {
+      cursor: not-allowed;
+      color: var(--ui-color-iOS-tertiaryLabel);
+      background-color: var(--ui-color-iOS-quaternaryLabel);
+      border-color: transparent;
+      @include box-shadow(none);
+    }
+  }
+
+  button {
+    @extend %-user-select-none;
+    flex-shrink: 0;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    cursor: pointer;
+    font-size: medium;
+    color: var(--ui-color-iOS-link);
+    background-color: var(--ui-color-iOS-tertiarySystemGroupedBackground);
+    @include transition(background-color .3s);
+    &, &:focus {
+      outline: 0;
+      border: 0;
+    }
+    &:focus {
+      font-weight: bold;
+    }
+    &.preferred { font-weight: bold; }
+    &.is-red { color: var(--ui-color-iOS-systemRed); }
+
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      content: '';
+      display: inline-block;
+      width: 100%;
+      height: 1px;
+      border-top: 1px solid var(--ui-color-iOS-separator);
+      @include opacity(.55);
+    }
+    &:after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      display: inline-block;
+      height: 100%;
+      width: 1px;
+      border-left: 1px solid var(--ui-color-iOS-separator);
+      @include opacity(.55);
+    }
+
+    &:hover {
+      background-color: rgb(237, 237, 242);
+      @include dark {
+        background-color: rgba(60, 60, 67, 0.6);
+      }
+    }
+
+    &:active {
+      background-color: rgba(235, 235, 245, 1);
+      @include dark {
+        background-color: rgba(60, 60, 67, 0.6);
+      }
+    }
+  }
+}

@@ -13,6 +13,19 @@ Load.Vue({
     version: '1.0.0'
   },
   mounted () {
+    Layout.shared.headerLeft('text', _ => {
+        console.error(111);
+      })
+    // setTimeout(_ => {
+    //   Layout.shared.menu = 'index'
+    //   Layout.shared.headerLeft('text', _ => {
+    //     console.error(111);
+    //   })
+
+    //   // setTimeout(_ => {
+    //   //   Layout.shared.headerReset()
+    //   // }, 1000)
+    // }, 1000)
   },
   computed: {
   },
@@ -29,13 +42,27 @@ Load.Vue({
     }
   },
   template: `
-  main#app.a
-    h1 => *text='你好，世界！'
-    div => :style=style
-      span => *text='這是 '
-      b    => *text='Lalilo'
-      span => *text='，你目前版本是 '
-      b    => *text=version
-    br
-    span => *text=date('Y-m-d H:i:s')`
+  layout
+    template => :slot:header
+      span => *text='asd'
+
+    template => :slot:main
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+      div => *text='as'
+  `
 })
