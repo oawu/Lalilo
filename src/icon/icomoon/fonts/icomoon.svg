@@ -7,4 +7,5 @@
 <font-face units-per-em="1024" ascent="960" descent="-64" />
 <missing-glyph horiz-adv-x="1024" />
 <glyph unicode="&#x20;" horiz-adv-x="512" d="" />
+<glyph unicode="&#xe900;" glyph-name="01" d="M598 426.667h234l-234 234v-234zM640 724.667l256-256v-426q0-34-26-60t-60-26h-470q-34 0-59 26t-25 60v598q0 34 26 59t60 25h298zM682 896.667v-86h-512v-598h-84v598q0 34 25 60t59 26h512z" />
 </font></defs></svg>

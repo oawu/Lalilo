@@ -1,0 +1,522 @@
+
+@use "sass:math";
+@import "Lalilo";
+@import "../_/_Lib";
+
+#app {
+  display: inline-block;
+  text-align: center;
+  overflow: auto;
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba(242, 242, 247, 1);
+}
+.group {
+  display: inline-block;
+  width: 1200px;
+  max-width: calc(100% - 8px * 2);
+  background-color: rgba(255, 255, 255, 1);
+  margin: 12px auto;
+  padding: 12px 0;
+  overflow: hidden;
+  @include border-radius(4px);
+  @include box-shadow(0 0 2px rgba(60, 60, 67, 0.2));
+  &.pure {
+    padding: 0;
+  }
+  &.n2 {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    @include range-width(0, 800px) {
+      flex-direction: column;
+    }
+  }
+}
+.sn, .row {
+  &:before {
+    color: rgba(60, 60, 67, 0.6);
+    content: attr(text) '：';
+  }
+  button {
+    display: inline-block;
+    padding: 0 8px;
+    height: 26px;
+    line-height: 26px;
+    margin-left: 8px;
+    cursor: pointer;
+    background-color: rgba(0, 122, 255, 1);
+    color: white;
+    @include border-radius(4px);
+    @include transition(background-color .3s);
+
+    &, &:focus {
+      outline: 0;
+      border: 0;
+    }
+    &:hover {
+      background-color: adjust-lightness(rgba(0, 122, 255, 1), 10%);
+    }
+    &:active {
+      background-color: adjust-lightness(rgba(0, 122, 255, 1), -8%);
+    }
+    &.cpy {
+      background-color: rgba(52, 199, 89, 1);
+      &:hover {
+        background-color: adjust-lightness(rgba(52, 199, 89, 1), 10%);
+      }
+      &:active {
+        background-color: adjust-lightness(rgba(52, 199, 89, 1), -8%);
+      }
+    }
+  }
+
+  label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 12px;
+    height: 28px;
+    line-height: 28px;
+    @include border-radius(6px);
+    
+    color: rgba(0, 122, 255, 1);
+    background-color: rgba(120, 120, 128, 0.16);
+    @include border-radius(6px);
+
+    @include transition(background-color .3s);
+
+    &:hover {
+      background-color: rgba(120, 120, 128, 0.24);
+    }
+
+    &:active {
+      background-color: rgba(120, 120, 128, 0.32);
+    }
+  }
+}
+.sn {
+  text-align: left;
+
+  display: inline-flex;
+  font-size: 20px;
+  
+  width: 100%;
+  height: 44px;
+  vertical-align: baseline;
+  line-height: 44px;
+  margin: 0;
+  padding: 0 24px;
+  
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  button {
+    // margin-top: math.div((44px - 26px), 2);
+  }
+  label {
+    // margin-top: math.div((44px - 28px), 2);
+  }
+}
+.column {
+  flex-shrink: 0;
+  display: inline-block;
+  width: calc(50% - 20px / 2);
+  // border: 1px solid rgba(255, 0, 0, .3);
+  @include range-width(0, 800px) {
+    width: 100%;
+    +.column {
+
+      .row {
+        margin-top: 4px;
+        padding-top: 4px;
+
+        &:after {
+          content: '';
+        }
+      }
+    }
+  }
+  @include range-width(800px) {
+    +.column {
+      margin-left: 20px;
+    }
+  }
+}
+.row {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+
+  margin: 0;
+  padding: 0 24px;
+
+  text-align: left;
+  @extend %-user-select-none;
+  &.muti {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &:after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 16px;
+    display: inline-block;
+    width: calc(100% - 16px);
+    height: 1px;
+    border-top: 1px solid rgba(60, 60, 67, 0.29);
+  }
+  &:not(:first-child) {
+    margin-top: 4px;
+    padding-top: 4px;
+
+    &:after {
+      content: '';
+    }
+  }
+  label {
+    margin-top: math.div((36px - 28px), 2);
+  }
+  button {
+    margin-top: math.div((36px - 26px), 2);
+  }
+}
+.mins-scroll {
+  display: inline-block;
+  width: calc(100% - 10px * 2);
+  overflow: auto;
+  margin-top: 16px;
+}
+$yWidth: 18px;
+$xHeight: 24px;
+
+$minW: 19px;
+$minH: 32px;
+$infoH: 36px;
+
+.box {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: $yWidth + $minW * 60 + 2px;
+  height: $minH * 24 + 2px + 4px;
+  padding-top: 4px;
+}
+.mins-x {
+  display: inline-block;
+  width: $yWidth + $minW * 60 + 2px;
+  height: $xHeight;
+  border: 1px solid rgba(0, 0, 0, 0);
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: $yWidth;
+  
+  * {
+    position: relative;
+    display: inline-block;
+    width: $minW;
+    height: $xHeight;
+    line-height: $xHeight;
+    font-size: 10px;
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      display: inline-block;
+      width: 1px;
+      height: 100%;
+      border-left: 1px solid rgba(60, 60, 67, 0.29);
+      
+    }
+    + * {
+      &:before {
+        content: '';
+      }
+    }
+  }
+}
+.mins-y {
+  width: $yWidth;
+  height: $minH * 24 + 2px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid rgba(0, 0, 0, 0);
+  * {
+    position: relative;
+    display: inline-block;
+    width: $yWidth;
+    height: $minH;
+    line-height: $minH;
+    font-size: 10px;
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      display: inline-block;
+      width: 100%;
+      height: 1px;
+      border-top: 1px solid rgba(60, 60, 67, 0.29);
+      
+    }
+    
+    + * {
+      &:before {
+        content: '';
+      }
+      
+
+    }
+  }
+}
+
+.mins {
+  position: relative;
+  display: inline-flex;
+  width: $minW * 60 + 2px;
+  height: $minH * 24 + 2px;
+  margin: 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0);
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.min {
+  position: absolute;
+
+  @for $i from 0 through 23 {
+    &.t#{$i} {
+      top: $minH * $i;
+    }
+  }
+  @for $i from 0 through 59 {
+    &.l#{$i} {
+      left: $minW * $i;
+    }
+  }
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  width: $minW;
+  height: $minH;
+  border: 1px solid rgba(0, 0, 0, .075);
+  background-color: rgba(100, 210, 255, .1);
+  @include transition(background-color .3s, transform .3s);
+  z-index: 1;
+  
+  &.h1 {
+    background-color: rgba(100, 210, 255, .6);
+  }
+
+  &:hover {
+    z-index: 2;
+    background-color: rgba(100, 210, 255, .3);
+    &.h1 {
+      background-color: rgba(59, 180, 229, 1);
+    }
+    @include transform(scale(1.3));
+  }
+  i {
+    display: inline-block;
+    width: 12px;
+    height: 4px;
+    + i {
+      margin-top: 1px;
+    }
+    @include border-radius(2px);
+    &.s8 { background-color: rgba(255, 204, 0, 1); }
+    &.s1 { background-color: rgba(52, 199, 89, 1); }
+    &.s3 { background-color: rgba(255, 59, 48, 1); }
+    &.s9 { background-color: rgba(88, 86, 214, 1); }
+  }
+}
+.info {
+  position: relative;
+  display: inline-block;
+  width: $yWidth + $minW * 60 + 2px;
+  padding-left: $yWidth;
+
+  height: $infoH;
+  text-align: left;
+  
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  
+  span {
+    position: relative;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 32px;
+
+    + span {
+      margin-left: 16px;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 6px + 2px;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(0, 0, 0, 0);
+      border: 1px solid rgba(0, 0, 0, .075);
+      @include border-radius(3px);
+    }
+  }
+  .h0:before {
+    background-color: rgba(100, 210, 255, .1);
+  }
+  .h1:before {
+    background-color: rgba(100, 210, 255, .6);
+  }
+  .s8:before {
+    background-color: rgba(255, 204, 0, 1);
+  }
+  .s1:before {
+    background-color: rgba(52, 199, 89, 1);
+  }
+  .s3:before {
+    background-color: rgba(255, 59, 48, 1);
+  }
+  .s9:before {
+    background-color: rgba(88, 86, 214, 1);
+  }
+}
+.tip-x, .tip-y {
+  position: absolute;
+  display: inline-block;
+  // border: 2px solid rgba(0, 0, 0, .1);
+  background-color: rgba(0, 0, 10, .1);
+  @include border-radius(4px);
+  @include transition(transform .3s);
+
+}
+.tip-x {
+  left: -$yWidth - 4px;
+  right: 4px;
+  width: calc(100% + #{$yWidth} + 4px * 2);
+  height: $minH + 4px * 2;
+  top: -4px;
+  
+  @for $i from 0 through 23 {
+    &.t#{$i} {
+      @include transform(translateY($minH * $i));
+    }
+  }
+}
+.tip-y {
+  top: -4px;
+  bottom: 4px;
+  width: $minW + 4px * 2;
+  height: calc(100% + #{$xHeight} + 4px * 2);
+  left: -4px;
+  
+  @for $i from 0 through 59 {
+    &.l#{$i} {
+      @include transform(translateX($minW * $i));
+    }
+  }
+}
+.tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 60px;
+  height: 23px;
+  line-height: 23px;
+  @for $i from 0 through 23 {
+    &.t#{$i} {
+      @if $i <= 11 {
+        top: $minH * $i + $minH + 12px;
+      } @else {
+        top: $minH * $i - 23px - 12px;
+      }
+    }
+  }
+  $u: math.div(60px + $minW, 59);
+  @for $i from 0 through 59 {
+    &.l#{$i} {
+      left: $minW * $i + $minW - $u * $i;
+    }
+  }
+  // @for $i from 30 through 59 {
+  //   &.l#{$i} {
+  //     right: $minW * (59 - $i) + $minW;
+  //   }
+  // }
+  // @include transform(translate(-100%, -50%));
+
+  // padding: 1px 8px;
+  background-color: rgba(44, 44, 46, 1);
+  color: white;
+  font-style: normal;
+  display: inline-block;
+  @include border-radius(3px);
+  @include transition(top .3s, left .3s);
+  z-index: 2;
+}
+
+.copy {
+  @include opacity(0);
+  position: fixed;
+  left: -1000px;
+  top: -1000px;
+  z-index: -9999;
+}
+.back {
+  @extend %-user-select-none;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  height: 44px;
+  line-height: 44px;
+  text-decoration: none;
+  font-size: large;
+  color: rgba(0, 122, 255, 1);
+  cursor: pointer;
+  text-align: left;
+  padding-left: 36px;
+  @include transition(background-color .3s);
+  &:before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 3px solid rgba(0, 122, 255, 1);
+    border-right: transparent;
+    border-bottom: transparent;
+    @include transform(translateY(calc(-50%)) rotate(-45deg))
+  }
+  
+  &:hover {
+    background-color: rgba(200, 200, 200, 0.08);
+  }
+}

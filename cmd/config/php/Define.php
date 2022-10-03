@@ -7,7 +7,7 @@
  * @link        https://www.ioa.tw/
  */
 
-define('TITLE', 'Lalilo');
+define('TITLE', 'iDrip');
 define('KEYWORD', '');
 define('DESCRIPTION', '');
 define('SEPARATE', ' - ');

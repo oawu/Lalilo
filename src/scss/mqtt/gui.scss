@@ -1,0 +1,1524 @@
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+@import "Lalilo";
+@import "../_/_Lib";
+
+
+#app {
+  display: inline-block;
+  text-align: center;
+  overflow: auto;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
+}
+
+textarea, input {
+  display: inline-block;
+  width: 100%;
+
+  height: 40px;
+  line-height: 40px;
+
+  font-size: large;
+  color: rgba(0, 0, 0, 1);
+  font-family: Hack, "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+  border: 1px solid rgba(60, 60, 67, 0.29);
+  padding: 0 12px;
+  
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 1);
+  @include appearance(none);
+  @include border-radius(6px);
+  @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+  @include input-placeholder {
+    font-size: small;
+    color: var(--ui-color-iOS-secondaryLabel);
+  }
+
+  &:focus {
+    outline: 0;
+  }
+  &:not([readonly]):focus {
+    border-color: rgba(0, 122, 255, .65);
+    @include box-shadow(0 0 0 3px rgba(0, 122, 255, .3));
+  }
+
+  &[readonly] {
+    cursor: not-allowed;
+    color: var(--ui-color-iOS-tertiaryLabel);
+    background-color: var(--ui-color-iOS-quaternaryLabel);
+    border-color: transparent;
+    @include box-shadow(none);
+  }
+}
+textarea {
+  padding: 8px 12px;
+  resize: vertical;
+  line-height: 23px;
+  height: auto;
+  min-height: 23px * 5;
+  &[readonly] {
+    resize: none;
+  }
+}
+#tabs {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  display: inline-block;
+
+  z-index: 3;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    z-index: 2;
+    background-color: var(--ui-color-iOS-separator);
+    @include opacity(.5);
+  }
+  div {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+  }
+  label {
+    @extend %-user-select-none;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    
+    cursor: pointer;
+    padding: 10px 0;
+    color: var(--ui-color-iOS-link);
+
+    @include border-radius(8px);
+    @include transition(width .3s, height .3s, line-height .3s, padding .3s, box-shadow .3s);
+    @include transition(background-color .3s);
+    
+    &.focus {
+      font-weight: bold;
+    }
+  }
+}
+#home, #tree, #logs, #cmd {
+  position: absolute;
+  top: 0;
+  display: inline-block;
+  overflow-y: auto;
+  z-index: 2;
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
+}
+#tree {
+  padding: 12px;
+}
+#buttons {
+  
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  height: 40px;
+  label {
+    @extend %-user-select-none;
+    display: inline-block;
+    padding: 0 16px;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    font-size: small;
+    color: var(--ui-color-iOS-link);
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    @include border-radius(8px);
+    @include box-shadow(0 0 2px var(--ui-color-iOS-systemFill));
+    @include transition(background-color .3s);
+    
+
+    + label {
+      margin-left: 12px;
+    }
+    &:hover {
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+    }
+    
+  }
+}
+#nodes {
+  display: inline-block;
+  width: 100%;
+  margin-top: 12px;
+  
+  .node {
+    $p: 24px;
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+    &.show {
+      > label {
+        &:before {
+          @include transform(translateY(calc(-50% - 1px)) rotate(135deg));
+        }
+      }
+      > .nodes {
+        display: inline-block;
+      }
+      + .node {
+      }
+    }
+    &.shine {
+      > label {
+        background-color: rgba(52, 199, 89, .3);
+      }
+    }
+    &.sub {
+      > label {
+        width: 100%;
+        margin-left: 0;
+        padding-left: $p;
+        &:before {
+          @include opacity(1);
+        }
+      }
+    }
+    &.focus {
+      > label {
+        background-color: rgba(90, 200, 250, .3);
+        &:after {
+          border-color: var(--ui-color-iOS-systemTeal) !important;
+        }
+      }
+    }
+
+    label {
+      cursor: pointer;
+      position: relative;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 2px;
+      padding-bottom: 2px;
+
+      width: calc(100% - ($p - 4px));
+      margin-left: ($p - 4px);
+      padding-left: 4px;
+      padding-right: 4px;
+      @include border-radius(3px);
+      
+      &:after {
+        content: '';
+        position: absolute;
+        left: -2px;
+        top: -2px;
+        right: -2px;
+        bottom: -2px;
+        display: inline-block;
+        background-color: transparent;
+        border: 2px solid transparent;
+        @include border-radius(4px);
+        @include transition(border-color .3s, background-color .3s);
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: math.div(($p - 8px), 2);
+        top: 50%;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid var(--ui-color-iOS-secondaryLabel);
+        border-top: 2px solid var(--ui-color-iOS-secondaryLabel);
+        @include opacity(0);
+        @include transform(translateY(-50%) rotate(45deg));
+        @include transition(transform .3s, opacity .3s);
+      }
+      
+      &:hover {
+        &:after {
+          border-color: var(--ui-color-iOS-systemGreen);
+        }
+      }
+
+      b {
+        @extend %-user-select-none;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+        text-align: left;
+        color: var(--ui-color-iOS-label);
+        padding: 0;
+        font-size: medium;
+        // font-family: Hack, "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+      }
+      span {
+        @extend %-user-select-none;
+        flex-grow: 1;
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+        text-align: left;
+        padding-left: 16px;
+        font-size: small;
+        color: var(--ui-color-iOS-secondaryLabel);
+        // font-family: Hack, "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+        @include overflow-docx3();
+        
+        &:before {
+          content: '=';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          line-height: 16px;
+          text-align: center;
+          color: var(--ui-color-iOS-tertiaryLabel);
+          font-size: small;
+          
+          @include transform(translateY(-50%));
+        }
+      }
+    }
+
+    .nodes {
+      display: none;
+      width: 100%;
+    }
+
+    .node {
+      padding-left: math.div($p, 2);
+    }
+  }
+
+  > .node {
+    padding: 8px 8px;
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    @include border-radius(4px);
+    @include box-shadow(0 0 2px rgba(60, 60, 67, 0.2));
+    + .node {
+      margin-top: 8px;
+    }
+  }
+}
+#logs {
+  padding: 12px 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  .filter {
+    flex-shrink: 0;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+    ._text {
+      position: relative;
+      display: inline-block;
+      z-index: 2;
+      width: 100%;
+      height: 40px;
+      text-align: left;
+      z-index: 1;
+      @include transition(padding-left .3s);
+    }
+    ._clear {
+      position: absolute;
+      z-index: 3;
+      right: 16px;
+      display: inline-block;
+      color: var(--ui-color-iOS-link);
+      font-size: small;
+      @include opacity(.5);
+      @include transition(opacity .3s);
+      @extend %-user-select-none;
+
+      &:after {
+        position: absolute;
+        content: '';
+        left: -8px;
+        top: -2px;
+        right: -8px;
+        bottom: -2px;
+        display: inline-block;
+        background-color: var(--ui-color-iOS-tertiarySystemFill);
+        @include border-radius(3px);
+        @include opacity(0);
+        @include transition(opacity .3s);
+      }
+      &.enable {
+        cursor: pointer;
+        @include opacity(1);
+        &:hover {
+          &:after {
+            @include opacity(1);
+          }
+        }
+      }
+    }
+  }
+  .clear {
+    @extend %-user-select-none;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    display: inline-block;
+    padding: 8px 16px;
+    @include border-radius(12px);
+    background-color: rgba(255, 255, 255, .1);
+    color: rgba(255, 255, 255, .5);
+    z-index: 2;
+    cursor: pointer;
+    @include opacity(0);
+    @include transition(opacity .3s, background-color .3s, color .3s);
+    @include backdrop-filter(blur(5px));
+    &:hover {
+      background-color: rgba(255, 255, 255, .3);
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+  .logs {
+    position: relative;
+    flex-grow: 1;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: 100%;
+    overflow-y: auto;
+    margin-top: 12px;
+    background-color: rgba(16, 16, 20, 1.00);
+    padding: 8px;
+    @include border-radius(4px);
+    @include box-shadow(inset 1px 1px 5px rgba(0, 0, 0, 1));
+    &:hover {
+      .clear {
+        @include opacity(1);
+      }
+    }
+  }
+  .log {
+    flex-shrink: 0;
+    width: 100%;
+    position: relative;
+    display: inline-flex;
+    // height: 20px;
+    // line-height: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2px 4px;
+    overflow: hidden;
+    @include transition(border-radius .3s);
+    text-align: left;
+    z-index: 1;
+    
+    
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      @include transition(background-color .3s);
+      z-index: 1;
+      @include opacity(.75);
+    }
+    &:before {
+      z-index: 2;
+      @include opacity(1);
+    }
+    &:hover {
+      @include border-radius(6px);
+      &:before {
+        background-color: rgba(100, 100, 100, .75);
+      }
+    }
+    &.shine {
+      &:after {
+        background-color: rgba(100, 100, 100, .5);
+      }
+    }
+    &.focus {
+      padding: 8px 4px;
+      @include border-radius(6px);
+      &:before {
+        background-color: rgba(255, 255, 255, .85);
+      }
+      .time {
+        color: rgba(40, 40, 40, 1.00);
+      }
+      .topic {
+        color: rgba(0, 0, 0, .9);
+        span:before {
+          background-color: rgba(0, 0, 0, .80);
+        }
+      }
+      .val {
+        color: rgba(0, 0, 0, .70);
+      }
+    }
+
+    .type, .time, .topic, .val  {
+      @extend %-user-select-none;
+      position: relative;
+      z-index: 3;
+      display: inline-block;
+      height: 20px;
+      line-height: 20px;
+      padding: 0 2px;
+      font-family: Hack, "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+    }
+    .type, .time, .topic {
+      flex-shrink: 0;
+    }
+    .topic, .val {
+      padding-left: 11px;
+      // &:before {
+      //   content: '';
+      //   position: absolute;
+      //   left: 2px;
+      //   top: 50%;
+      //   display: inline-block;
+      //   width: 6px;
+      //   height: 1px;
+      //   border-bottom: 1px solid rgba(70, 70, 70, 1.00);
+      // }
+    }
+    .type {
+      position: relative;
+      width: 12px;
+      height: 16px;
+      text-align: center;
+      &:after, &:before {
+        display: inline-block;
+        position: absolute;
+        content: '';
+        left: 50%;
+
+      }
+
+      &:after {
+        width: 7px;
+        height: 7px;
+        @include transform(translateX(-50%) rotate(-45deg));
+        border-top: 2px solid transparent;
+        border-right: 2px solid transparent;
+      }
+      &:before {
+        top: 1px;
+        bottom: 1px;
+        width: 2px;
+        background-color: transparent;
+        @include border-radius(2px);
+        @include transform(translateX(-50%));
+      }
+      &.r {
+        &:after {
+          bottom: 2px;
+          @include transform(translateX(-50%) rotate(180deg - 45deg));
+          border-color: var(--ui-color-iOS-systemGreen);
+        }
+        &:before {
+          top: 3px;
+          background-color: var(--ui-color-iOS-systemGreen);
+        }
+      }
+      &.w {
+        &:after {
+          top: 2px;
+          @include transform(translateX(-50%) rotate(-45deg));
+          border-color: var(--ui-color-iOS-systemRed);
+        }
+        &:before {
+          bottom: 3px;
+          background-color: var(--ui-color-iOS-systemRed);
+        }
+      }
+    }
+    .time {
+      padding-left: 6px;
+      font-size: small;
+      color: rgba(90, 90, 90, 1.00);
+    }
+    .topic {
+      // color: var(--ui-color-iOS-label);
+      color: rgba(255, 255, 255, .9);
+
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      
+      span {
+        position: relative;
+        display: inline-block;
+        
+        + span {
+          padding-left: 3px;
+          margin-left: 3px;
+          &:before {
+            content: '';
+          }
+        }
+        &:before {
+          position: absolute;
+          left: 0;
+          top: 50%;
+          display: inline-block;
+          width: 1px;
+          height: 12px;
+          font-size: small;
+          background-color: rgba(150, 150, 150, 1.00);
+          
+          // @include opacity(.5);
+          @include transform(translateY(-50%) rotate(20deg));
+        }
+      }
+    }
+    .val {
+      color: rgba(160, 160, 160, 1.00);
+      @include overflow-docx3();
+    }
+  }
+}
+#panel {
+  position: fixed;
+  display: inline-block;
+  z-index: 10;
+  @include opacity(0);
+  @include transition(transform .3s, opacity .3s);
+
+  &.presented {
+    @include opacity(1);
+  }
+
+  ._panel, ._close {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+  }
+  ._panel {
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    overflow: hidden;
+    // background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+    background-color: rgba(242, 242, 247, .9);
+    @include backdrop-filter(blur(5px));
+    @include box-shadow(0 4px 10px 1px rgba(0, 0, 0, .26));
+  }
+  ._close {
+    top: 20px;
+    width: 44px;
+    height: 44px;
+
+    background-color: rgba(242, 242, 247, 1.00);
+    z-index: 1;
+    cursor: pointer;
+    @include transform(translateX(-22px));
+    @include transition(transform .3s);
+    @include border-left-radius(5px);
+    @include box-shadow(0 4px 10px 1px rgba(0, 0, 0, .26));
+
+    &:hover {
+      @include transform(translateX(-44px));
+    }
+    
+    &:before, &:after {
+      position: absolute;
+      left: calc(50% - 24px / 2);
+      top: calc(50% - 4px / 2);
+      display: inline-block;
+      width: 24px;
+      height: 4px;
+      background-color: var(--ui-color-iOS-link);
+      content: '';
+      @include border-radius(3px);
+    }
+    &:before {
+      @include transform(rotate(-45deg));
+    }
+    &:after {
+      @include transform(rotate(45deg));
+    }
+  }
+  ._header {
+    $h: 48px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 100%;
+    height: $h;
+    padding: 0 72px;
+    @include box-shadow(0 0 4px var(--ui-color-iOS-secondarySystemFill));
+    z-index: 2;
+    background-color: rgba(255, 255, 255, .75);
+    @include backdrop-filter(blur(5px));
+    + * {
+      margin-top: $h;
+    }
+    
+    b {
+      @extend %-user-select-none;
+      display: inline-block;
+      width: 100%;
+      height: $h;
+      line-height: $h;
+    }
+    label {
+      @extend %-user-select-none;
+      position: absolute;
+      top: 0;
+      display: inline-block;
+      line-height: $h;
+      height: $h;
+      width: 72px;
+      color: var(--ui-color-iOS-link);
+      cursor: pointer;
+
+      &:first-child {
+        left: 0;
+      }
+      &:last-child {
+        right: 0;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        right: 5px;
+        bottom: 5px;
+        display: inline-block;
+        background-color: var(--ui-color-iOS-tertiarySystemFill);
+        @include border-radius(10px);
+        @include opacity(0);
+        @include transition(opacity .3s);
+      }
+      &:hover {
+        &:after {
+          @include opacity(1);
+        }
+      }
+    }
+  }
+
+}
+._group {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  z-index: 1;
+
+  + ._group {
+    margin-top: 20px;
+  }
+  
+  .header {
+    @extend %-user-select-none;
+    display: inline-block;
+    width: 100%;
+    padding-left: 6px;
+    margin-bottom: 4px;
+    color: var(--ui-color-iOS-secondaryLabel);
+    font-size: small;
+    @include overflow-docx3();
+  }
+  .box {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    
+    overflow: hidden;
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    @include border-radius(10px);
+    @include box-shadow(0 0 4px var(--ui-color-iOS-secondarySystemFill));
+    &.pure {
+      @include box-shadow(none);
+    }
+  }
+
+  .btn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    color: var(--ui-color-iOS-link);
+    @extend %-user-select-none;
+    cursor: pointer;
+  }
+  %-row {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 8px 16px;
+    min-height: 44px;
+    
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    + %-row {
+      &:before {
+        content: '';
+      }
+    }
+    &:before {
+      position: absolute;
+      left: 16px;
+      right: 0;
+      top: 0;
+      display: inline-block;
+      height: 1px;
+      border-top: 1px solid var(--ui-color-iOS-separator);
+      @include opacity(.5);
+    }
+  }
+  label.row {
+    cursor: pointer;
+  }
+  .row {
+    @extend %-row;
+
+    b {
+      @extend %-user-select-none;
+      display: inline-block;
+      flex-shrink: 0;
+      + span {
+        text-align: right;
+      }
+    }
+    
+    span {
+      @extend %-user-select-none;
+      flex-grow: 1;
+      display: inline-block;
+      line-height: 22px;
+      z-index: 2;
+      @include word-break(break-all);
+    }
+    .copy {
+      @extend %-user-select-none;
+      flex-shrink: 0;
+      position: relative;
+      display: inline-block;
+      margin-left: 16px;
+      color: var(--ui-color-iOS-link);
+      cursor: pointer;
+      font-size: small;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: -2px;
+        bottom: -2px;
+        right: -6px;
+        display: inline-block;
+        @include border-radius(4px);
+        background-color: var(--ui-color-iOS-tertiarySystemFill);
+        @include opacity(0);
+        @include transition(opacity .3s);
+      }
+      &:hover {
+        &:after {
+          @include opacity(1);
+        }
+      }
+    }
+    .arrow {
+      flex-shrink: 0;
+      position: relative;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-left: 4px;
+      cursor: pointer;
+      font-size: small;
+      &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        border-top: 2px solid var(--ui-color-iOS-separator);
+        border-right: 2px solid var(--ui-color-iOS-separator);
+        
+        @include transform(translate(-50%, -50%) rotate(45deg));
+      }
+      
+    }
+    pre {
+      @extend %-user-select-none;
+      flex-grow: 1;
+      margin: 4px 0;
+      display: inline-block;
+      overflow-x: auto;
+      
+      font-size: medium;
+      font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+
+      .number {
+        color: rgba(32, 143, 101, 1.00);
+      }
+      .key {
+        color: rgba(168, 37, 35, 1.00);
+        // font-weight: bold;
+        &:after {
+          display: inline-block;
+          margin-left: 4px;
+          font-weight: normal;
+          content: ':';
+          color: rgba(100, 100, 100, 1.00);
+        }
+      }
+      .string {
+        color: rgba(7, 82, 165, 1.00);
+      }
+      .boolean {
+        color: rgba(22, 91, 170, 1.00);
+      }
+      .null {
+        color: rgba(22, 91, 170, 1.00);
+      }
+    }
+    &.fix {
+      padding: 0;
+      min-height: auto;
+    }
+    &.textarea {
+      min-height: 23px * 5;
+    }
+    input {
+      height: 44px;
+      line-height: 44px;
+    }
+    textarea, input {
+      @include border-radius(10px);
+    }
+  }
+  .row-check {
+    @extend %-row;
+    @extend %-user-select-none;
+    cursor: pointer;
+    height: 44px;
+    line-height: 44px;
+    padding-left: 12px + 20px + 12px;
+    &:before {
+      left: 12px + 20px + 12px - 2px;
+    }
+
+    i {
+      position: absolute;
+      left: 12px - 2px;
+      top: 50%;
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--ui-color-iOS-quaternaryLabel);
+      @include transform(translateY(-50%));
+      @include border-radius(50%);
+      &:before {
+        content: '';
+        position: absolute;
+        left: 1px;
+        top: 1px;
+        bottom: 1px;
+        right: 1px;
+        @include border-radius(50%);
+        display: inline-block;
+        background-color: var(--ui-color-iOS-quaternaryLabel);
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        top: calc(50% - 1px);
+        left: 50%;
+        display: inline-block;
+        width: 6px;
+        height: 10px;
+        border-right: 2px solid var(--ui-color-iOS-secondarySystemGroupedBackground);
+        border-bottom: 2px solid var(--ui-color-iOS-secondarySystemGroupedBackground);
+        @include transform(translate(-50%, -50%) rotate(45deg));
+      }
+    }
+    &.checked {
+      i {
+        border-color: var(--ui-color-iOS-link);
+        &:before {
+          background-color: var(--ui-color-iOS-link);
+        }
+        
+      }
+    }
+  }
+} 
+#panel .log {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 12px 16px;
+}
+#panel .node {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 12px 16px;
+}
+
+#cmds {
+  position: fixed;
+  bottom: 0;
+  z-index: 15;
+  right: 0;
+  display: inline-block;
+  
+  display: inline-flex;
+  flex-direction: row-reverse;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  $h: 36px;
+  
+  .cmd {
+    position: relative;
+    display: inline-block;
+    width: 320px;
+    height: 400px;
+    margin-right: 16px;
+    
+    overflow: hidden;
+    @include border-top-radius(12px);
+    @include backdrop-filter(blur(5px));
+    @include box-shadow(0 4px 10px 1px rgba(0, 0, 0, .26));
+
+    &.mini {
+      width: 130px;
+      height: $h;
+      .bodys {
+        height: 0;
+        @include opacity(0);
+      }
+      header {
+        label {
+          display: none;
+        }
+        b {
+          margin-right: 0;
+          cursor: pointer;
+        }
+      }
+      // header {
+      //   label {
+      //     &.close {
+      //       display: none;
+      //     }
+      //     &.resize {
+      //       margin-left: 0;
+      //       background-color: var(--ui-color-iOS-systemGreen);
+      //       &:before, &:after {
+      //         content: '';
+      //         background-color: rgba(41, 149, 64, 1.00);
+      //       }
+      //       &:after {
+      //         @include transform(rotate(90deg));
+      //       }
+      //     }
+      //   }
+      // }
+    }
+  }
+  header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+
+    flex-shrink: 0;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: $h;
+    line-height: $h;
+    @include box-shadow(0 0 4px var(--ui-color-iOS-secondarySystemFill));
+    z-index: 2;
+    padding: 0 12px;
+    background-color: rgba(255, 255, 255, .9);
+    @include backdrop-filter(blur(5px));
+    > * {
+      + * {
+        margin-right: 8px;
+      }
+    }
+    label {
+      flex-shrink: 0;
+      position: relative;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      @include border-radius(50%);
+      color: white;
+      cursor: pointer;
+      @include box-shadow(inset -1px -1px 3px rgba(0, 0, 0, .1), inset 1px 1px 1px rgba(255, 255, 255, .2));
+      @include transition(box-shadow .3s);
+      
+      &:hover {
+        @include box-shadow(none);
+      }
+      &:before, &:after {
+        position: absolute;
+        top: calc(50% - 2px / 2);
+        left: calc(50% - 12px / 2);
+        // @include transform(translate(-50%, -50%));
+        display: inline-block;
+        width: 12px;
+        height: 2px;
+        @include border-radius(1px);
+      }
+      &.close {
+        background-color: var(--ui-color-iOS-systemRed);
+        &:before, &:after {
+          background-color: rgba(161, 36, 29, 1.00);
+        }
+        &:after {
+          content: '';
+          @include transform(rotate(45deg));
+        }
+        &:before {
+          content: '';
+          @include transform(rotate(-45deg));
+        }
+      }
+      &.resize {
+        background-color: var(--ui-color-iOS-systemOrange);
+        &:before, &:after {
+          background-color: rgba(190, 112, 2, 1.00);
+        }
+        &:after {
+          content: '';
+        }
+      }
+    }
+    b {
+      @extend %-user-select-none;
+      flex-grow: 1;
+      display: inline-block;
+      text-align: left;
+      font-size: small;
+      @include overflow-docx3();
+    }
+  }
+  .bodys {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 100%;
+    height: calc(100% - #{$h});
+    margin-top: $h;
+    background-color: rgba(242, 242, 247, .9);
+    
+    &.b1 {
+      .b1 {
+        @include opacity(1);
+        @include transform(translateX(0));
+      }
+      .b2 {
+        @include opacity(0);
+        @include transform(translateX(100%));
+      }
+      .b3 {
+        @include opacity(0);
+        @include transform(translateX(100%));
+      }
+    }
+    &.b2 {
+      .b1 {
+        @include opacity(0);
+        @include transform(translateX(-30%));
+      }
+      .b2 {
+        @include opacity(1);
+        @include transform(translateX(0));
+      }
+      .b3 {
+        @include opacity(0);
+        @include transform(translateX(100%));
+      }
+    }
+    &.b3 {
+      .b1 {
+        @include opacity(0);
+        @include transform(translateX(-30%));
+      }
+      .b2 {
+        @include opacity(0);
+        @include transform(translateX(100%));
+      }
+      .b3 {
+        @include opacity(1);
+        @include transform(translateX(0));
+      }
+    }
+  }
+
+  .body {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    overflow-y: auto;
+    @include box-shadow(0 4px 10px 1px rgba(0, 0, 0, .26));
+    @include transition(transform .35s, opacity .35s);
+  }
+
+  textarea, input {
+    font-size: small;
+  }
+}
+
+@include range-width(0, 650px) {
+  #logs {
+    .log {
+      flex-wrap: wrap;
+      .time {
+        color: rgba(150, 150, 150, 1.00);
+      }
+      .topic {
+        flex-shrink: 0;
+        width: 100%;
+        padding-left: 0;
+        @include overflow-docx3();
+      }
+      .val {
+        flex-shrink: 0;
+        width: 100%;
+        padding-left: 0;
+      }
+  
+      + .log {
+        margin-top: 8px;
+      }
+      &:after {
+        background-color: rgba(100, 100, 100, .5);
+        @include border-radius(4px);
+      }
+      &.shine {
+        &:after {
+          background-color: rgba(100, 100, 100, 1);
+        }
+      }
+    }
+  }
+};
+@include range-width(650px) {
+  #logs {
+    .log {
+      .val {
+        flex-grow: 1;
+        width: 100%;
+      }
+    }
+  }
+};
+
+@include range-width(0, 900px) {
+  #logs {
+    .filter {
+      flex-direction: column-reverse;
+
+      ._segmented {
+        width: 100%;
+        margin-top: 10px;
+        flex-shrink: 0;
+      }
+      ._text {
+        flex-shrink: 0;
+      }
+      ._clear {
+        top: 0;
+        @include transform(translateY(math.div(40px, 4)));
+      }
+    }
+  }
+};
+@include range-width(900px) {
+  #logs {
+    .filter {
+      height: 40px;
+      flex-direction: row;
+
+      ._segmented {
+        flex-shrink: 0;
+        + ._text {
+          margin-left: 12px;
+        }
+      }
+      ._text {
+        flex-grow: 1;
+      }
+      ._clear {
+        top: 50%;
+        @include transform(translateY(-50%));
+      }
+    }
+  }
+};
+
+@include range-width(0, 630px) {
+  #tabs {
+    bottom: 0;
+    height: 56px;
+    width: 100%;
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    padding: 0;
+    &:before {
+      left: 0;
+      width: 100%;
+      height: 1px;
+    }
+    div {
+      flex-direction: row;
+    }
+    label {
+      text-align: center;
+      + label {
+        &:after {
+          content: '';
+        }
+      }
+      &.focus {
+        &:before {
+          @include opacity(1);
+        }
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        display: inline-block;
+        left: 8px;
+        right: 8px;
+        top: 3px;
+        bottom: 3px;
+        background-color: rgba(120, 120, 128, 0.1);
+        @include border-radius(10px);
+        @include opacity(0);
+        @include transition(opacity .3s);
+        
+      }
+      
+      &:after {
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        top: 10px;
+        bottom: 10px;
+        width: 1px;
+        border-left: 1px solid var(--ui-color-iOS-separator);
+      }
+    }
+  }
+  #home, #tree, #logs, #cmd {
+    left: 0;
+    width: 100%;
+    height: calc(100% - 56px);
+  }
+};
+@include range-width(630px) {
+  #tabs {
+    top: 0;
+    height: 100%;
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+    padding: 12px 16px;
+    &:before {
+      bottom: 0;
+      width: 1px;
+      height: 100%;
+    }
+    div {
+      flex-direction: column;
+    }
+    label {
+      background-color: rgba(120, 120, 128, 0.1);
+      text-align: left;
+      padding-left: 16px;
+      padding-right: 8px + 16px;
+
+      &:hover {
+        background-color: rgba(120, 120, 128, 0.2);
+      }
+      &.focus {
+        background-color: rgba(120, 120, 128, 0.3);
+      }
+      + label {
+        margin-top: 8px;
+      }
+      &:after {
+        position: absolute;
+        display: inline-block;
+        content: '';
+        right: 12px;
+        top: 50%;
+        width: 9px;
+        height: 9px;
+        @include transform(translateY(-50%) rotate(45deg));
+        border-top: 2px solid var(--ui-color-iOS-separator);
+        border-right: 2px solid var(--ui-color-iOS-separator);
+      }
+    }
+  }
+  #home, #tree, #logs, #cmd {
+    height: 100%;
+  }
+};
+@include range-width(630px, 750px) {
+  $leftWidth: 180px;
+  #tabs {
+    width: $leftWidth;
+  }
+  #home, #tree, #logs, #cmd {
+    left: $leftWidth;
+    width: calc(100% - #{$leftWidth});
+  }
+};
+@include range-width(750px, 950px) {
+  $leftWidth: 220px;
+  #tabs {
+    width: $leftWidth;
+  }
+  #home, #tree, #logs, #cmd {
+    left: $leftWidth;
+    width: calc(100% - #{$leftWidth});
+  }
+};
+@include range-width(950px, 1250px) {
+  $leftWidth: 260px;
+  #tabs {
+    width: $leftWidth;
+  }
+  #home, #tree, #logs, #cmd {
+    left: $leftWidth;
+    width: calc(100% - #{$leftWidth});
+  }
+};
+@include range-width(1250px) {
+  $leftWidth: 300px;
+  #tabs {
+    width: $leftWidth;
+  }
+  #home, #tree, #logs, #cmd {
+    left: $leftWidth;
+    width: calc(100% - #{$leftWidth});
+  }
+}
+
+@include range-width(0, 450px) {
+  #panel {  
+    top: 0;
+    left: 0;
+    width: 100%;
+    @include transform(translateY(100%));
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    &.presented {
+      @include transform(translateY(0));
+    }
+  }
+};
+@include range-width(450px) {
+  #panel {
+    right: 0;
+    top: 6px;
+    bottom: 6px;
+    height: calc(100% - #{6px + 6px});
+    &.presented {
+      @include transform(translateX(0));
+    }
+    ._panel {
+      @include border-left-radius(12px);
+    }
+  }
+}
+@include range-width(450px, 900px) {
+  #panel {  
+    width: 320px;
+    @include transform(translateX(320px));
+  }
+};
+
+@include range-width(900px, 1100px) {
+  #panel {  
+    width: 360px;
+    @include transform(translateX(360px));
+  }
+};
+
+@include range-width(1100px, 1300px) {
+  #panel {  
+    width: 400px;
+    @include transform(translateX(400px));
+  }
+};
+
+@include range-width(1300px, 1400px) {
+  #panel {  
+    width: 450px;
+    @include transform(translateX(450px));
+  }
+};
+@include range-width(1400px) {
+  #panel {  
+    width: 500px;
+    @include transform(translateX(500px));
+  }
+};

@@ -1,1 +1,2 @@
 @charset "UTF-8";
+@font-face{font-family:"icon";src:url("../icon/icomoon/fonts/icomoon.eot?t=1664780624379") format("embedded-opentype"),url("../icon/icomoon/fonts/icomoon.woff?t=1664780624379") format("woff"),url("../icon/icomoon/fonts/icomoon.ttf?t=1664780624379") format("truetype"),url("../icon/icomoon/fonts/icomoon.svg?t=1664780624379") format("svg")}*[class^=icon-]:before,*[class*=" icon-"]:before{font-family:"icon";speak:none;font-style:normal;font-weight:normal;font-variant:normal}.icon-01:before{content:""}

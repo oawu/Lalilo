@@ -1,9 +1,3 @@
-/**
- * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2022, Lalilo
- * @license     http://opensource.org/licenses/MIT  MIT License
- * @link        https://www.ioa.tw/
- */
 
 // Local Storage
 const Data = {
@@ -280,4 +274,33 @@ const Change = (url, query = null, hash = null) => {
 const Reload = (url) => {
   location.reload(true)
   throw new Error('頁面重新導向中…')
+}
+
+// API
+const API = function(url, data, option = {}) { if (!(this instanceof API)) return new API(url, data, option); else this.option = { ...option }, this.event = { done: null, fail: null, after: null }, this.url(url), this.method('get'), this.data(data) }
+API.prototype.url    = function(url) { return this.option.url = url, this }
+API.prototype.data   = function(data) { return this.option.data = data || {}, this }
+API.prototype.method = function(method) { return typeof method == 'string' && (method = method.toLowerCase()) && ['get', 'post', 'put', 'delete'].includes(method) && (this.option.type = method.toUpperCase()), this }
+API.prototype.header = function(header) { return this.option.headers = header, this }
+API.prototype.before = function(before) { return typeof before == 'function' && (this.option.beforeSend = before), this }
+API.prototype.done   = function(done) { return typeof done == 'function' && (this.event.done = done), this }
+API.prototype.fail   = function(fail) { return typeof fail == 'function' && (this.event.fail = fail), this }
+API.prototype.after  = function(after) { return typeof after == 'function' && (this.event.after = after), this }
+API.prototype.auth   = function(type, token) { return this.header({ UserAgent: `web/${type}`, Authorization: 'Bearer ' + (token || ((window.bridge.user && window.bridge.user.token) || '')) }) }
+API.prototype.send   = function() {
+  return $.ajax(this.option)
+    .done(this.event.done)
+    .fail(({ status: code, responseJSON = {} }) => this.event.fail && this.event.fail(responseJSON.message || '不明錯誤！', code))
+    .complete(this.event.after), this
+}
+API.GET    = (url, data, option = {}) => API(API_URL + url.replace(/^\/+|\/+$/gm,''), data, option).method('get')
+API.POST   = (url, data, option = {}) => API(API_URL + url.replace(/^\/+|\/+$/gm,''), data, option).method('post')
+API.PUT    = (url, data, option = {}) => API(API_URL + url.replace(/^\/+|\/+$/gm,''), data, option).method('put')
+API.DELETE = (url, data, option = {}) => API(API_URL + url.replace(/^\/+|\/+$/gm,''), data, option).method('delete')
+
+const numFormat = (n, d = 3) => {
+  const w = []
+  for (let i = 0, a = ('' + n).split('').reverse(); i < a.length; i++)
+    !i || (i % d) ? w.push(a[i]) : w.push(',', a[i])
+  return w.reverse().join('')
 }

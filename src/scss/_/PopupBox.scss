@@ -1,0 +1,650 @@
+
+@use "sass:math";
+
+@import "@/CSS3/Appearance";
+@import "Lalilo";
+@import "_Lib";
+
+#popup-box {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: inline-block;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 105;
+  will-change: backdrop-filter;
+  backdrop-filter: blur(5px);
+  @include transition(background-color .3s);
+
+  ._cover {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+  }
+  ._box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    overflow: hidden;
+    background-color: transparent;
+    z-index: 2;
+
+    @include opacity(0);
+    @include box-shadow(0 0 10px 1px rgba(60, 60, 67, 0.29));
+    @include transform(translate(-50%, -50%) scale(.5));
+    @include transition(transform .3s, opacity .3s);
+    @include border-radius(10px);
+  }
+
+  &.__present {
+    background-color: rgba(0, 0, 0, .5);
+    ._box {
+      @include opacity(1);
+      @include transform(translate(-50%, -50%) scale(1));
+    }
+  }
+}
+
+.calendar {
+  padding: 0; 
+  padding-top: 12px;
+  padding-bottom: 20px;
+  margin: 0 auto;
+
+  background-color: rgba(255, 255, 255, 1);
+  
+  ._title {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    
+    position: relative;
+    z-index: 2;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 12px;
+
+    span {
+      flex-grow: 1;
+      color: rgba(0, 0, 0, 1);
+      &:before {
+        content: attr(year) "年 · " attr(month) "月";
+      }
+    }
+    label {
+      flex-shrink: 0;
+      @extend %-user-select-none;
+      cursor: pointer;
+      position: relative;
+
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+
+      font-size: medium;
+      @include border-radius(50%);
+      @include transition(background-color .3s);
+      
+      &:before {
+        content: '';
+        position: absolute;
+        top: calc(50% - 10px / 2 + 1px);
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-top: 3px solid rgba(60, 60, 67, 0.6);
+        border-right: 3px solid rgba(60, 60, 67, 0.6);
+        @include transition(border-color .3s);
+      }
+      &:first-child:before {
+        left: calc(50% - 10px / 2 + 1px);
+        @include rotate(-135deg);
+      }
+      &:last-child:before {
+        left: calc(50% - 10px / 2 - 1px);
+        @include rotate(45deg);
+      }
+
+      background-color: transparent;
+      &:active {
+        background-color: rgba(242, 242, 247, 1);
+        &:before {
+          border-color: rgba(60, 60, 67, 0.9);
+        }
+      }
+      @include dark {
+        &:before {
+          border-color: rgba(235, 235, 245, 0.6);
+        }
+        &:active {
+          background-color: rgba(28, 28, 30, 1);
+          &:before {
+            border-color: rgba(235, 235, 245, 0.9);
+          }
+        }
+      }
+    }
+  } 
+   
+  ._month {
+    z-index: 2;
+    position: relative;
+    display: inline-block;
+    
+    margin-top: 4px;
+  }
+
+  ._week {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    border-bottom: 1px solid rgba(60, 60, 67, 0.29);
+  }
+
+  ._wd {
+    flex-shrink: 0;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+
+    &:first-child, &:last-child {
+      color: rgba(255, 59, 48, 1)
+    }
+
+    &:before {
+      content: attr(title);
+    }
+  }
+
+  ._days {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    &:nth-child(2) {
+      ._dd.__not {
+        @for $i from 1 through 6 {
+          &:nth-child(#{$i}) {
+            @include opacity(.2 + (($i - 1) * 0.05));
+          }
+        }
+      }
+    }
+    &:last-child {
+      ._dd.__not {
+        @for $i from 1 through 6 {
+          &:nth-last-child(#{$i}) {
+            @include opacity(.2 + (($i - 1) * 0.05));
+          }
+        }
+      }
+    }
+  }
+
+  ._dd {
+    @extend %-user-select-none;
+
+    @include border-radius(50%);
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 1);
+    @include transition(background-color .3s);
+    &:active {
+      background-color: rgba(242, 242, 247, 1);
+    }
+
+    &:not(.__not) {
+      cursor: pointer;
+    }
+    &:before, &:after {
+      display: inline-block;
+      width: 100%;
+      height: 20px;
+      line-height: 20px;
+    }
+    &:before {
+      height: 14px;
+      line-height: 14px;
+      content: attr(day);
+      font-size: 15px;
+    }
+    &:after {
+      height: 15px;
+      line-height: 15px;
+      content: attr(china-day);
+      font-size: 10px;
+      @include opacity(.65);
+    }
+
+    &:first-child, &:last-child {
+      color: rgba(255, 59, 48, 1); 
+    }
+    &.__today {
+      background-color: rgba(255, 59, 48, 1) !important;
+      color: rgba(255, 255, 255, 1) !important;
+      i {
+        left: -3px;
+        top: -3px;
+        bottom: -3px;
+        right: -3px;
+      }
+    }
+
+    &.__select {
+      i {
+        @include opacity(1);
+      }
+    }
+    i {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      @include border-radius(50%);
+      border: 2px solid rgba(255, 59, 48, 1);
+      @include opacity(0);
+      @include transition(opacity .3s);
+    }
+  }
+
+  @include range-width(0, 376px) {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    border-left: 0;
+    border-right: 0;
+    @include border-left-radius(0);
+    @include border-right-radius(0);
+
+    $unitSize: 47px;
+    ._title, ._month, ._week {
+      width: $unitSize * 7;
+    }
+    ._wd, ._dd {
+      width: $unitSize;
+    }
+    ._dd {
+      height: $unitSize;
+    }
+  };
+  @include range-width(0, 350px) {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    border-left: 0;
+    border-right: 0;
+    @include border-left-radius(0);
+    @include border-right-radius(0);
+
+    $unitSize: 43px;
+    ._title, ._month, ._week {
+      width: $unitSize * 7;
+    }
+    ._wd, ._dd {
+      width: $unitSize;
+    }
+    ._dd {
+      height: $unitSize;
+    }
+  };
+  @include range-width(376px) {
+    $unitSize: 50px;
+    width: $unitSize * 7 + 20px;
+    ._title, ._month, ._week {
+      width: $unitSize * 7;
+    }
+    ._wd, ._dd {
+      width: $unitSize;
+    }
+    ._dd {
+      height: $unitSize;
+    }
+  };
+}
+.timepick {
+  display: inline-block;
+  width: 240px;
+  padding-top: 12px;
+  background-color: rgba(255, 255, 255, 1);
+
+  > * {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  $width: 50px;
+  $height: 40px;
+  $space: 20px;
+
+  .top, .bottom {
+    label {
+      @extend %-user-select-none;
+      cursor: pointer;
+      position: relative;
+      width: $width;
+      height: 40px;
+      
+      + label {
+        margin-left: $space;
+      }
+
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        display: inline-block;
+        cursor: pointer;
+      }
+      &:before {
+        z-index: 2;
+        top: calc(50% - 14px / 2 + 4px);
+        left: calc(50% - 14px / 2);
+        width: 14px;
+        height: 14px;
+        border-top: 3px solid rgba(60, 60, 67, 0.6);
+        border-right: 3px solid rgba(60, 60, 67, 0.6);
+        @include border-radius(3px);
+        @include transition(border-color .3s);
+
+        @include rotate(-45deg);
+      }
+      &:after {
+        z-index: 1;
+        top: calc(50% - 32px / 2);
+        left: calc(50% - 40px / 2);
+        width: 40px;
+        height: 32px;
+        background-color: transparent;
+        @include transition(background-color .3s);
+        @include border-radius(6px);
+      }
+    }
+  }
+  .bottom {
+    label {
+      &:before {
+        top: calc(50% - 14px / 2 - 4px);
+        @include rotate(135deg);
+      }
+    }
+  }
+  .middle {
+    * {
+      width: $width;
+      height: $height;
+      line-height: $height;
+      font-size: 22px;
+      @extend %-user-select-none;
+    }
+    select {
+      outline: 0;
+      border: 0;
+      color: rgba(0, 0, 0, 1);
+      background-color: rgba(242, 242, 247, 1);
+      @include border-radius(6px);
+      @include appearance(none);
+      text-align-last:center;
+    }
+    i {
+      position: relative;
+      width: $space;
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        left: calc(50% - 4px / 2);
+        top: 10px;
+        display: inline-block;
+        width: 4px;
+        height: 4px;
+        background-color: rgba(60, 60, 67, 0.6);
+        @include border-radius(50%);
+      }
+      &:after {
+        top: auto;
+        bottom: 10px;
+      }
+    }
+  }
+  .button {
+    @extend %-user-select-none;
+    display: inline-block;
+    width: calc(100% - 12px * 2);
+    margin: 12px;
+    height: 36px;
+    line-height: 36px;
+    cursor: pointer;
+
+    color: white;
+    background-color: rgba(0, 122, 255, 1);
+    @include border-radius(8px);
+    @include opacity(.9);
+    @include transition(opacity .3s);
+    
+    &:active {
+      @include opacity(1);
+    }
+  }
+  .middle select {
+      @include box-shadow(inset 1px 1px 2px rgba(0, 0, 0, .1), inset 0 0 1px 1px rgba(0, 0, 0, .1));
+  }
+  .top, .bottom {
+    label {
+      &:before {
+      }
+      &:active {
+        &:after {
+          background-color: rgba(242, 242, 247, 1);
+        }
+
+        &:before {
+          border-color: rgba(60, 60, 67, 0.9);
+        }
+      }
+    }
+  }
+
+  @include dark {
+    .middle select {
+        @include box-shadow(inset 0 0 2px rgba(0, 0, 0, .1));
+    }
+    .top, .bottom {
+      label {
+        &:before {
+          border-color: rgba(235, 235, 245, 0.6);
+        }
+
+        &:active {
+          &:after {
+            background-color: rgba(28, 28, 30, 1);
+          }
+
+          &:before {
+            border-color: rgba(235, 235, 245, 0.9);
+          }
+        }
+      }
+    }
+  }
+}
+.calculator {
+  display: inline-block;
+  $w: 56px;
+  $h: 56px;
+  $s: 8px;
+  width: 300px;
+  padding: 0 16px;
+  padding-bottom: 12px;
+  background-color: rgba(0, 0, 0, 1);
+
+  .value {
+    width: $w * 4 + $s * 3;
+    margin-top: 20px;
+    padding: 0;
+    text-align: right;
+    color: white;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    
+    * {
+      display: inline-block;
+    }
+    span {
+      height: 44px;
+      line-height: 44px;
+      font-size: 32px;
+    }
+
+    i {
+      display: inline-block;
+      width: 24px;
+      height: 32px;
+      line-height: 32px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, .65);
+      text-align: center;
+
+      &:after { @extend %-icon; }
+    }
+    i[operator='+']:after { content: '\f00a1'; }
+    i[operator='-']:after { content: '\f00a2'; }
+    i[operator='*']:after { content: '\f00a3'; }
+    i[operator='/']:after { content: '\f00a4'; }
+  }
+
+  label {
+    @extend %-user-select-none;
+    width: $w;
+    height: $h;
+    line-height: $h;
+    color: white;
+    cursor: pointer;
+    @include opacity(.9);
+    @include transition(opacity .3s);
+    
+    
+    &:before {
+      @extend %-icon;
+    }
+    &.back:before {
+      content: '\f00a6';
+      font-size: 26px;
+    }
+    &.add:before { content: '\f00a1'; }
+    &.sub:before { content: '\f00a2'; }
+    &.multiply:before { content: '\f00a3'; }
+    &.divide:before { content: '\f00a4'; }
+    &.equal:before { content: '\f00a5'; }
+    &.num {
+      font-size: 20px;
+    }
+    &.ac {
+      background-color: rgba(255, 159, 10, 1) !important;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    &:active {
+      @include opacity(1);
+    }
+  }
+  .operator {
+    display: inline-block;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: $s;
+    margin-top: 12px;
+
+    label {
+      @include border-radius(math.div($w, 2));
+      background-color: rgba(235, 235, 245, 0.87);
+      color: rgba(0, 0, 0, 1);
+      + label {
+        margin-left: $s;
+      }
+    }
+  }
+  .other {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: $s;
+  }
+  .operant {
+    flex-shrink: 0;
+    
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    width: $w * 3 + $s * 2;
+
+    label {
+      background-color: rgba(54, 54, 56, 1);
+      @include border-radius(math.div($w, 2));
+      &:nth-child(3n + 2) {
+        margin-left: $s;
+        margin-right: $s;
+      }
+      &:nth-child(n + 4) {
+        margin-top: $s;
+      }
+      &:last-child {
+        width: $w * 2 + $s;
+        margin-right: 0;
+      }
+    }
+  }
+  .button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: $s;
+
+    label {
+      height: math.div($h * 4 + $s * 3 - $s, 2);
+      line-height: math.div($h * 4 + $s * 3 - $s, 2);
+      background-color: rgba(255, 159, 10, 1);
+      @include border-radius(math.div($w, 2));
+
+      + label {
+        margin-top: $s;
+      }
+    }
+  }
+}

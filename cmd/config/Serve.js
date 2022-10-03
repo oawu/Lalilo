@@ -15,7 +15,7 @@ module.exports = {
     baseURL: null,
   },
 
-  autoOpenBrowser: true, // 啟動自動開網頁
+  autoOpenBrowser: false, // 啟動自動開網頁
   
   dir: { // 目錄
     icon: 'icon', // 圖示

@@ -1,41 +1,21 @@
-/**
- * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2022, Lalilo
- * @license     http://opensource.org/licenses/MIT  MIT License
- * @link        https://www.ioa.tw/
- */
 
 Load.Vue({
   data: {
-    style: {
-      color: 'rgba(120, 120, 120, 1.00);'
-    },
-    version: '1.0.0'
+    items: [
+      { cover: `${BASE}img/cover/heatmap/status8139.png`, path: `heatmap/status8139`, title: '沖煮熱點圖' },
+      { cover: `${BASE}img/cover/heartbeat/devices.png`, path: `heartbeat/devices`, title: '各個咖啡機的 heartbeat 紀錄' },
+      { cover: `${BASE}img/cover/mqtt/gui.png`, path: `mqtt/gui`, title: 'MQTT GUI 工具' },
+    ]
   },
   mounted () {
   },
-  computed: {
-  },
   methods: {
-    date (format) {
-      const pad0 = t => (t < 10 ? '0' : '') + t
-      const date = new Date()
-      return format.replace('Y', date.getFullYear())
-        .replace('m', pad0(date.getMonth() + 1))
-        .replace('d', pad0(date.getDate()))
-        .replace('H', pad0(date.getHours()))
-        .replace('i', pad0(date.getMinutes()))
-        .replace('s', pad0(date.getSeconds()))
-    }
   },
   template: `
-  main#app.a
-    h1 => *text='你好，世界！'
-    div => :style=style
-      span => *text='這是 '
-      b    => *text='Lalilo'
-      span => *text='，你目前版本是 '
-      b    => *text=version
-    br
-    span => *text=date('Y-m-d H:i:s')`
+    main#app
+      h1 => *text='iDrip 開發小工具！'
+      div.items
+        label => *for=(item, i) in items   :key=i   @click=Redirect(item.path)
+          figure => :style={backgroundImage: 'url(' + item.cover + ')'}
+          b => *text=item.title`
 })
