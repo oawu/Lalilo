@@ -5,5 +5,157 @@
 // @link        https://www.ioa.tw/
 //
 
+@use "sass:math";
 @import "_/_Lib";
 @import "Lalilo";
+
+#albums {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 8px;
+
+  
+  .album {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    z-index: 1;
+    
+    width: 240px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    // margin-top: 8px;
+    // margin-left: 8px;
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    // overflow: hidden;
+    @include border-radius(8px);
+    @include box-shadow(0 0 12px var(--ui-color-iOS-systemFill));
+    @include transition(box-shadow .3s, transform .36s cubic-bezier(0.385, 1.260, 0.595, 0.975));
+    @include transform(scale(1));
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      display: inline-block;
+      // width: 100%;
+      // height: 100%;
+      border: 3px solid var(--ui-color-iOS-link);
+
+      z-index: 2;
+      @include opacity(0);
+      @include border-radius(10px);
+      @include transition(opacity .3s);
+    }
+    
+    &:hover {
+      z-index: 2;
+      @include box-shadow(0 4px 24px 10px var(--ui-color-iOS-systemFill));
+      @include transform(scale(1.01));
+    }
+    &:active, &.active {
+      z-index: 3;
+      @include transform(scale(0.99));
+    }
+    &.active {
+      @include box-shadow(0 4px 24px 10px var(--ui-color-iOS-systemFill));
+      @include transform(scale(1.03));
+      &:after {
+        @include opacity(1);
+      }
+    }
+    .box {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      @include border-radius(8px);
+      overflow: hidden;
+      z-index: 1;
+    }
+    figure {
+      @extend %-cover;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      height: auto;
+      z-index: 1;
+      
+      margin: 0;
+      padding: 0;
+      padding-bottom: 100% * math.div(3, 4); 
+      flex-shrink: 0;
+      &:before {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: inline-block;
+        width: 100%;
+        height: 1px;
+        border-bottom: 1px solid var(--ui-color-iOS-separator);
+        content: '';
+      }
+    }
+    .info {
+      display: inline-block;
+      width: 100%;
+      line-height: 22px;
+      padding: 16px 20px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+    b {
+      width: 100%;
+      height: 45px;
+      
+      font-weight: normal;
+      @extend %-user-select-none;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+    span {
+      display: inline-block;
+      width: 100%;
+      height: 24px;
+      line-height: 24px;
+      margin-top: 8px;
+      color: var(--ui-color-iOS-secondaryLabel);
+      border-top: 1px solid var(--ui-color-iOS-separator);
+      padding-top: 4px;
+      font-size: small;
+      text-align: left;
+    }
+    i {
+      @extend %-user-select-none;
+      position: absolute;
+      z-index: 2;
+      right: 8px;
+      top: 8px;
+      background-color: var(--ui-color-macOS-placeholderTextColor);
+      @include backdrop-filter(blur(5px));
+      padding: 4px 12px;
+      color: white;
+      font-style: normal;
+      font-size: small;
+      
+      @include text-shadow(0 0 1px rgba(0, 0, 0, .5));
+      @include border-radius(12px);
+    }
+  }
+}

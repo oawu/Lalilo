@@ -83,6 +83,7 @@ Load.VueComponent('layout', {
     layout: Layout.shared = Layout(),
     menuItems: [
       { page: 'index', text: '首頁',    icon: 'index' },
+      { page: 'members', text: '人員管理', icon: 'members' },
       { page: 'albums', text: '相簿管理', icon: 'albums' },
       { page: 'tags', text: '標籤管理', icon: 'tags' },
       { page: 'logout', text: '登出',   icon: 'logout', click: _ => Alert.shared.reset('確定要登出？').button('取消', alert => alert.dismiss()).button('確定', alert => alert.loading(_ => Change('login', Flash.Toastr.success('登出成功！')))).present() },

@@ -128,6 +128,11 @@
           content: '\f0003';
         }
       }
+      &.members {
+        &:before {
+          content: '\f0018';
+        }
+      }
       &.albums {
         &:before {
           content: '\f0013';
