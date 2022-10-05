@@ -133,6 +133,33 @@ El3._.Line.prototype.toString = function() {
     : this.header.substr(1).trim()
 }
 
+// Flash
+const Flash = function(key, message) {
+  if (!(this instanceof Flash)) return new Flash(key, message)
+  const data = Data.get(Flash.key) || {}
+  if (Array.isArray(data[key])) data[key].push(message)
+  else data[key] = [message]
+  Data.set(Flash.key, data)
+}
+Flash.key = '_flashes'
+
+Flash.Toastr = {
+  key: '_toastr',
+  failure (message) { return Flash(this.key, { type: 'failure', message }) },
+  success (message) { return Flash(this.key, { type: 'success', message }) },
+  warning (message) { return Flash(this.key, { type: 'warning', message }) },
+  info (message) { return Flash(this.key, { type: 'info', message }) },
+}
+
+Object.defineProperty(Flash, 'toastr', { get () {
+  const data = Data.get(Flash.key) || {}
+  const toastrs = []
+  Array.isArray(data[Flash.Toastr.key]) && toastrs.push(...data[Flash.Toastr.key])
+  data[Flash.Toastr.key] = []
+  Data.set(Flash.key, data)
+  return toastrs
+} })
+
 // Load
 const Load = {
   _: {
@@ -161,7 +188,10 @@ const Load = {
       return opt
     }
   },
-  Vue: opt => $(_ => Load._.mount(opt)),
+  Vue: opt => $(_ => {
+    typeof Toastr == 'undefined' || Flash.toastr.forEach(({ type, message }) => Toastr[type] !== undefined && Toastr[type](message))
+    Load._.mount(opt)
+  }),
   VueComponent: (identifier, opt) => Vue.component(identifier, Load._.option(opt))
 }
 

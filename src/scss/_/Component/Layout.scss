@@ -75,7 +75,8 @@
       bottom: 6px;
       left: 0;
       right: 0;
-      background-color: var(--ui-color-iOS-quaternarySystemFill);
+      // background-color: var(--ui-color-iOS-quaternarySystemFill);
+      background-color: transparent;
       @include transition(background-color .35s, transform .3s);
       @include border-radius(12px);
     }
@@ -93,6 +94,7 @@
     &:hover {
       &:before {
         background-color: var(--ui-color-iOS-secondarySystemFill);
+        @include transform(scale(1.025));
       }
     }
     &.active {
@@ -248,14 +250,14 @@
     display: inline-block;
     margin: 0;
   }
-  ._lefts {
+  ._lefts, ._rights {
     flex-shrink: 0;
-    
+
     display: inline-flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    
+
     label {
       @extend %-button;
       padding: 6px 12px;
@@ -266,17 +268,49 @@
       + label {
         margin-left: 12px;
       }
+      &:before {
+        @extend %-icon;
+      }
+      &._iy {
+        &._ty {
+          padding-left: 8px + 16px + 4px;
+          &:before {
+            font-size: 16px;
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            margin-right: 4px;
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            @include transform(translateY(-50%));
+          }
+        }
+        &._tn {
+          &:before {
+            font-size: 20px;
+          }
+        }
+      }
+      &._in {
+        padding-left: 12px;
+      }
     }
+  }
+  ._lefts {
+    margin-right: 12px;
+  }
+  ._rights {
   }
   ._title {
     flex-grow: 1;
     text-align: left;
-    margin-left: 12px;
     font-size: medium;
     @extend %-user-select-none;
-  }
-  ._rights {
-    flex-shrink: 0;
+    &._only {
+      text-align: center;
+    }
   }
 }
 #main-container {

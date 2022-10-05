@@ -21,7 +21,7 @@ Load.Vue({
     date (format) {
     },
     login (account, password) {
-      Alert.shared.loading('登入中…').present(alert => setTimeout(_ => alert.dismiss(_ => Toastr.success('登入成功！')), 2000))
+      Alert.shared.loading('登入中…').present(alert => setTimeout(_ => alert.dismiss(_ => Change('index', Flash.Toastr.success('登入成功！'))), 2000))
     },
     submit () {
       if (!this.errors.length)
@@ -47,6 +47,6 @@ Load.Vue({
 
       form_message => :messages=errors
 
-      button => *text='登入'
+      button._scalc => type=submit   *text='登入'
     footer => *text='© 2021 - 2022 ioa.tw'`
 })
