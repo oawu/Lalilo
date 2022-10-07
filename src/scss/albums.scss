@@ -159,3 +159,66 @@
     }
   }
 }
+.album-info {
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 20px;
+  
+  .title {
+    min-height: 52px;
+    height: auto;
+
+    ._val {
+      @include word-break(break-all);
+      white-space: normal !important;
+      line-height: 22px;
+      padding: 12px 0;
+    }
+  }
+  .pics {
+    @extend %-row;
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+  .pic {
+    @extend %-cover;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    width: calc((100% - 8px * 2) / 3);
+    height: auto;
+    padding-bottom: calc(((100% - 8px * 2) / 3) * #{math.div(1, 1)});
+    cursor: pointer;
+    @include transform(scale(1));
+    @include transition(transform .36s cubic-bezier(0.385, 1.260, 0.595, 0.975));
+      
+    &:nth-child(3n + 2) {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    &:nth-child(n + 4) {
+      margin-top: 8px;
+    }
+    @include border-radius(6px);
+  
+    &:before {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--ui-color-iOS-systemFill);
+      content: '';
+      @include border-radius(6px);
+    }
+    &:hover {
+      @include transform(scale(1.075));
+      z-index: 1;
+    }
+    &:active {
+      @include transform(scale(.975));
+    }
+  }
+}

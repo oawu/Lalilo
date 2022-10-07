@@ -62,13 +62,13 @@ const Alert = function(title = '', message = '', buttons = [], inputs = []) {
 }
 
 Alert.prototype.present = function(completion = null, animated = true) {
-  if (typeof completion == 'bool') animated = completion
+  if (typeof completion == 'boolean') animated = completion
   if (typeof animated == 'function') completion = animated
 
   return this._vue.present(typeof completion == 'function' && completion.bind(this, this), animated), this
 }
 Alert.prototype.dismiss = function(completion = null, animated = true) {
-  if (typeof completion == 'bool') animated = completion
+  if (typeof completion == 'boolean') animated = completion
   if (typeof animated == 'function') completion = animated
   return this.reset()._vue.dismiss(typeof completion == 'function' && completion.bind(this, this), animated), this
 }

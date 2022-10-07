@@ -22,19 +22,32 @@ Layout.prototype.headerReset = function() { return this._header = Layout.Header(
 Layout.Header = function(title = null, left = null, right = null) {
   if (!(this instanceof Layout.Header))
     return new Layout.Header(title, left, right);
-  this._title = ''
+  this._titles = []
   this._lefts = []
   this._rights = []
+  this._enable = false
   this.title(title).left(left).right(right)
 }
 Object.defineProperty(Layout.Header.prototype, 'lefts', { get () { return this._lefts } })
 Object.defineProperty(Layout.Header.prototype, 'rights', { get () { return this._rights } })
-Object.defineProperty(Layout.Header.prototype, 'enable', { get () { return this._lefts.length || this._rights.length || this._title !== '' } })
-Layout.Header.prototype.title = function(title = null) {
-  if (title === null)
+Object.defineProperty(Layout.Header.prototype, 'enable', { get () { return this._enable } })
+Layout.Header.prototype.title = function(...titles) {
+  if (titles.length == 1 && titles[0] === null)
     return this
-  if (typeof title == 'string')
-    this._title = title
+
+  this._enable = true
+
+  titles = titles.map(title => {
+    if (typeof title == 'string' && title !== '') return { is: 'b', text: title }
+    if (typeof title == 'object' && title !== null && !Array.isArray(title) && typeof title.text == 'string' && title.text !== '' && typeof title.href == 'string' && title.href !== '') return { is: 'a', text: title.text, href: title.href }
+    return null
+  }).filter(t => t !== null)
+
+  if (!titles.length)
+    return this
+  
+  this._titles = titles.reduce((a, b) => a.concat([b, { is: 'i', text: '' }]), []).slice(0, -1)
+
   return this
 }
 Layout.Header.prototype.left = function(text = null, icon = null, click = null) {
@@ -585,7 +598,8 @@ Load.VueComponent('layout', {
         div._lefts => *if=lefts.length
           label._scalc => *for=(btn, i) in lefts   :key=i   *text=btn._text   :class=[...btn._icon ? [btn._icon, '_iy'] : ['_in'], btn._text === '' ? '_tn' : '_ty']   @click=e=>click(e, btn)
 
-        h1._title => *text=header._title   :class=[!lefts.length && !rights.length ? '_only' : '']
+        div._title => :class={__center: header._titles.length == 1}   *if=header._titles.length
+          component => *for=(title, i) in header._titles   :key=i   *text=title.text   :href=title.href   :is=title.is
 
         div._rights => *if=rights.length
           label._scalc => *for=(btn, i) in rights   :key=i   *text=btn._text   :class=[...btn._icon ? [btn._icon, '_iy'] : ['_in'], btn._text === '' ? '_tn' : '_ty']   @click=e=>click(e, btn)

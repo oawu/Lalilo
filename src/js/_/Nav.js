@@ -329,6 +329,8 @@ Nav.prototype.update = function(view = null, completion = null, animated = true)
 Nav.prototype.flash = function(view = null, completion = null, animated = true) { return this._vue.flash(view, completion, animated), this }
 Nav.prototype.loading = function(loading = '讀取中，請稍候…') { return this.viewLoading(loading) }
 Nav.prototype.viewLoading = function(loading = '讀取中，請稍候…') { return this.view && this.view.loading(loading), this }
+Nav.prototype.props = function(props) { return this.viewProps(props) }
+Nav.prototype.viewProps = function(props) { return this.view && this.view.props(props), this }
 Nav.prototype.title = function(title = null) { return this.viewHeaderTitle(title) }
 Nav.prototype.right = function(text = null, icon = null, click = null) { return this.viewHeaderRight(text, icon, click) }
 Nav.prototype.left = function(text = null, icon = null, click = null) { return this.viewHeaderLeft(text, icon, click) }

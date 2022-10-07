@@ -25,7 +25,7 @@ echo html(
       ->css('_/Toastr.css')
       ->css('_/Component/Layout.css')
       ->css('_/Component/TableView.css')
-      ->css('albums.css')
+      ->css('album.css')
       ->js('https://code.jquery.com/jquery-1.12.4.min.js')
       ->js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
       ->js('_/Core.js')
@@ -33,7 +33,7 @@ echo html(
       ->js('_/Nav.js')
       ->js('_/Toastr.js')
       ->js('_/Component/Layout.js')
-      ->js('albums.js')
+      ->js('album.js')
   ),
   body()
 )->lang('zh-Hant');

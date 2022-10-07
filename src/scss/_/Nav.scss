@@ -135,7 +135,7 @@
 #nav {
   position: fixed;
   display: inline-block;
-  z-index: 99999;
+  z-index: 9999;
 
   @include range-width(0, 550px) {
     @include panel-position(0, 0, 0);
@@ -159,12 +159,28 @@
       @include panel-position(400px, 10px, 10px);
     }
   };
-  @include range-width(1000px) {
+  @include range-width(1000px, 1200px) {
     @include range-height(0, 850px) {
-      @include panel-position(440px, 0, 0);
+      @include panel-position(480px, 0, 0);
     }
     @include range-height(850px) {
-      @include panel-position(440px, 10px, 10px);
+      @include panel-position(480px, 10px, 10px);
+    }
+  };
+  @include range-width(1200px, 1500px) {
+    @include range-height(0, 850px) {
+      @include panel-position(520px, 0, 0);
+    }
+    @include range-height(850px) {
+      @include panel-position(520px, 10px, 10px);
+    }
+  };
+  @include range-width(1500px) {
+    @include range-height(0, 850px) {
+      @include panel-position(560px, 0, 0);
+    }
+    @include range-height(850px) {
+      @include panel-position(560px, 10px, 10px);
     }
   };
 

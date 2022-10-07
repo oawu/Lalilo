@@ -249,6 +249,19 @@
             @include transform(translateY(-50%));
           }
         }
+
+        &.__back {
+          padding-left: 2px + 12px + 12px;
+          &:before {
+            width: 8px;
+            height: 8px;
+            left: 2px + 12px;
+            content: '';
+            border-top: 2px solid var(--ui-color-iOS-link);
+            border-left: 2px solid var(--ui-color-iOS-link);
+            @include transform(translateY(-50%) rotate(-45deg));
+          }
+        }
         &._tn {
           &:before {
             font-size: 20px;
@@ -269,10 +282,41 @@
     flex-grow: 1;
     text-align: left;
     font-size: medium;
-    @extend %-user-select-none;
-    &._only {
-      text-align: center;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    &.__center {
+      justify-content: center;
     }
+    > * {
+      flex-shrink: 0;
+      display: inline-block;
+      @extend %-user-select-none;
+    }
+    span {
+    }
+    a {
+      text-decoration: none;
+      color: var(--ui-color-iOS-link);
+      &:hover {
+        text-decoration: underline;
+        color: var(--ui-color-macOS-selectedContentBackgroundColor);
+      }
+    }
+    i {
+      width: 1px;
+      height: 12px;
+      margin-right: 4px;
+      margin-left: 5px;
+      @include rotate(20deg);
+
+      border-right: 1px solid var(--ui-color-iOS-secondaryLabel);
+      &:last-child {
+        display: none;
+      }
+    }
+    // }
   }
 }
 #main-container {
