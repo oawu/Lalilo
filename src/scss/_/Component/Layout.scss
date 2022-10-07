@@ -5,6 +5,7 @@
 // @link        https://www.ioa.tw/
 //
 
+@use "sass:math";
 @import "../_Lib";
 
 #app {
@@ -13,33 +14,7 @@
   width: 100%;
   min-height: 100vh;
 }
-%-right-separator {
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: inline-block;
-    width: 1px;
-    border-right: 1px solid var(--ui-color-iOS-separator);
-    @include opacity(.5);
-  }
-}
-#menu {
-  @extend %-right-separator;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  display: inline-block;
-  height: 100%;
-  overflow: hidden;
-  z-index: 9;
-  background-color: var(--ui-color-iOS-systemGroupedBackground);
 
-  // @include box-shadow(0 0 3px 0.1px var(--ui-color-iOS-separator));
-}
 #menu-items {
   position: relative;
   
@@ -48,10 +23,8 @@
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
   padding: 16px;
-  z-index: 1;
+  padding-top: 8px;
   
   label {
     @extend %-user-select-none;
@@ -75,7 +48,6 @@
       bottom: 6px;
       left: 0;
       right: 0;
-      // background-color: var(--ui-color-iOS-quaternarySystemFill);
       background-color: transparent;
       @include transition(background-color .35s, transform .3s);
       @include border-radius(12px);
@@ -211,21 +183,6 @@
     display: inline-block;
   }
 }
-#menu-header {
-  @extend %-right-separator;
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  z-index: 11;
-
-  display: inline-block;
-  // @include box-shadow(none);
-  span {
-    display: inline-block;
-    width: 100%;
-  }
-}
 #main-header {
   position: fixed;
   left: 0;
@@ -319,32 +276,342 @@
   }
 }
 #main-container {
+  display: inline-block;
+  width: 100%;
   padding: 12px;
 }
-// =======================
+%-layout-aside {
+  position: fixed;
+  top: 0;
+  display: inline-block;
+  height: 100%;
+  z-index: 11;
+  overflow: hidden;
+  @include opacity(0);
 
-$menuWidth: 320px;
-$headerHeight: 44px;
-#menu {
-  width: $menuWidth;
-}
-#menu-header {
-  width: $menuWidth;
-  height: $headerHeight;
-  span {
-    height: $headerHeight;
-    line-height: $headerHeight;
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    content: '';
+    z-index: 3;
+  }
+  @include transition(transform .36s ease-in-out, opacity .3s);
+  &.__present {
+    @include opacity(1);
+    @include transform(translateX(0));
+  }
+  ._view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+    @include transform(translateX(calc(100% + 32px)));
+    @include box-shadow(none);
+    &.__animated {
+      @include transition(transform .35s ease-out);
+    }
+    &.__appear {
+      @include transform(translateX(100%));
+      @include box-shadow(0 0 8px var(--ui-color-iOS-systemFill));
+    }
+    &.__push {
+      @include transform(translateX(0));
+    }
+    &.__pushed {
+      @include box-shadow(none);
+    }
+    &.__forward {
+      @include transform(translateX(-35%));
+    }
+    &.__hide {
+      @include opacity(0);
+    }
+  }
+  
+  $_headerHeight: 44px;
+  ._header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 100%;
+    height: $_headerHeight;
+    z-index: 10;
+    $ls: 90px;
+    background-color: rgba(255, 255, 255, .85);
+    @include backdrop-filter(blur(15px));
+    @include box-shadow(0 0 3px 0.1px var(--ui-color-iOS-separator));
+    
+    @include dark {
+      background-color: rgba(28, 28, 30, .85);
+      @include box-shadow(0 0 1px 1px var(--ui-color-iOS-separator));
+    };
+    
+    label {
+      @extend %-user-select-none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      display: inline-block;
+      max-width: $ls;
+      height: $_headerHeight;
+      line-height: $_headerHeight;
+      padding: 0 16px;
+      font-size: small;
+      @include overflow-docx3();
+
+      cursor: pointer;
+      color: var(--ui-color-iOS-link);
+
+      &.__left {
+        left: 0;
+      }
+      &.__right {
+        right: 0;
+      }
+      &:before {
+        @extend %-icon;
+        position: absolute;
+        top: 50%;
+        display: inline-block;
+        z-index: 2;
+      }
+      &.__iy {
+        &.__ty {
+          $_s: $_headerHeight - 24px;
+          padding-left: 6px + 4px + $_s + 2px;
+          &:before {
+            width: $_s;
+            height: $_s;
+            line-height: $_s + 1px;
+            left: 6px + 4px;
+            font-size: $_s - 6px;
+            @include transform(translateY(-50%));
+          }
+
+          &.__back {
+            padding-left: 6px + 4px + $_s;
+            &:before {
+              width: 8px;
+              height: 8px;
+              left: 6px + 12px;
+              content: '';
+              border-top: 2px solid var(--ui-color-iOS-link);
+              border-left: 2px solid var(--ui-color-iOS-link);
+              @include transform(translateY(-50%) rotate(-45deg));
+            }
+          }
+        }
+        &.__tn {
+          $_s: $_headerHeight - 16px;
+          width: $_headerHeight + 4px * 2;
+          &:before {
+            width: $_s;
+            height: $_s;
+            line-height: $_s;
+            font-size: $_s - 8px;
+            left: 50%;
+            @include transform(translate(-50%, -50%));
+          }
+        }
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        right: 6px;
+        top: 6px;
+        bottom: 6px;
+        z-index: 1;
+        display: inline-block;
+        width: calc(100% - #{6px * 2});
+        height: calc(100% - #{6px * 2});
+        @include border-radius(6px);
+        @include transition(transform .36s cubic-bezier(0.385, 1.260, 0.595, 0.975), background-color .3s);
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+      }
+      &:hover {
+        &:after {
+          background-color: var(--ui-color-iOS-tertiarySystemFill);
+          @include transform(scale(1.025));
+        }
+      }
+      &:active {
+        &:after {
+          background-color: var(--ui-color-iOS-secondarySystemFill);
+          @include transform(scale(0.975));
+        }
+      }
+    }
+    span {
+      display: inline-block;
+      width: 100%;
+      height: $_headerHeight;
+      line-height: $_headerHeight;
+      @extend %-user-select-none;
+      @include overflow-docx3();
+      padding: 0 $ls;
+      &.__only {
+        padding: 0 12px;
+      }
+    }
+    ~ ._body {
+      padding-top: $_headerHeight;
+    }
+  }
+
+  ._loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 15;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: small;
+    font-style: italic;
+    text-align: center;
+    color: var(--ui-color-iOS-secondaryLabel);
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+    ._container {
+      width: 100%;
+      height: 40px;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      
+      div {
+        position: relative;
+        display: inline-block;
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        
+        i {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          display: inline-block;
+          width: 2px;
+          height: 6px;
+          @include border-radius(math.div(2px, 2));
+          background-color: var(--ui-color-iOS-secondarySystemFill);
+          @include transform(translate(-50%, -50%));
+          $cnt: 12;
+          $deg: 360deg / $cnt;
+          $r: 9px;
+          @for $i from 0 through $cnt - 1 {
+            &.__i#{$i} {
+              @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
+              @include animation-delay($i * .1s);
+            }
+          }
+          @include animation(layout-rotate $cnt * .1s linear infinite);
+        }
+      }
+      span {
+        @extend %-user-select-none;
+        display: inline-block;
+        flex-shrink: 0;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 8px;
+      }
+    }
+  }
+  ._body {
+    position: relative;
+    z-index: 5;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
-#menu-items {
-  padding-top: $headerHeight + 16px;
+#left {
+  @extend %-layout-aside;
+  &:before {
+    right: 0;
+    border-right: 1px solid var(--ui-color-iOS-separator);
+  }
 }
+#right {
+  @extend %-layout-aside;
+  &:before {
+    left: 0;
+    border-left: 1px solid var(--ui-color-iOS-separator);
+  }
+}
+
+
+@include keyframes(layout-rotate) {
+  0% { background-color: var(--ui-color-iOS-secondarySystemFill); }
+  5% { background-color: var(--ui-color-iOS-systemGray); }
+  100% { background-color: var(--ui-color-iOS-secondarySystemFill); }
+}
+// =======================
+$asideWidth: (
+  left: 300px,
+  right: 450px,
+);
+$headerHeight: 44px;
+#left {
+  left: 0;
+  width: map-get($asideWidth, left);
+  @include transform(translateX(0 - map-get($asideWidth, left)));
+  &.__present {
+    ~ #main {
+      padding-left: map-get($asideWidth, left);
+    }
+    ~ #main-header {
+      padding-left: map-get($asideWidth, left);
+    }
+  }
+}
+#right {
+  left: calc(100% - #{map-get($asideWidth, right)});
+  width: map-get($asideWidth, right);
+  @include transform(translateX(map-get($asideWidth, right)));
+  &.__present {
+    ~ #main {
+      padding-right: map-get($asideWidth, right);
+    }
+    ~ #main-header {
+      padding-right: map-get($asideWidth, right);
+    }
+  }
+}
+
 #main {
-  padding-left: $menuWidth;
+  padding-left: 0;
+  padding-right: 0;
+  @include transition(padding-left .36s ease-in-out, padding-right .36s ease-in-out);
 }
 #main-header {
+  padding-left: 0;
+  padding-right: 0;
   height: $headerHeight;
-  padding-left: $menuWidth;
+  @include transition(padding-left .36s ease-in-out, padding-right .36s ease-in-out);
 }
 #main-container {
   padding: 12px;

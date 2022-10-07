@@ -7,8 +7,9 @@
 
 Load.Vue({
   mounted () {
-    Layout.shared.menu.title = '首頁'
-    Layout.shared.menu.page = 'index'
+    Layout.shared.left.title('首頁')
+    Layout.shared.left.data.page = 'index'
+    
   },
   computed: {
   },

@@ -5,10 +5,22 @@
  * @link        https://www.ioa.tw/
  */
 
-const RightPanel = function(root) {
-  if (!(this instanceof RightPanel))
-    return new RightPanel(root)
-}
+Load.VueComponent('id', {
+  props: {
+    nav: { type: Nav },
+    view: { type: Nav.View },
+    header: { type: Nav.View.Header },
+  },
+  template: '<div>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/>123<br/></div>'
+})
+Load.VueComponent('id2', {
+  props: {
+    nav: { type: Nav },
+    view: { type: Nav.View },
+    header: { type: Nav.View.Header },
+  },
+  template: '<div>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/>456<br/></div>'
+})
 
 Load.Vue({
   data () {
@@ -60,8 +72,38 @@ Load.Vue({
     }
   },
   mounted () {
-    Layout.shared.menu.title = '相簿管理'
-    Layout.shared.menu.page = 'albums'
+    Layout.shared.left.title('相簿管理')
+    Layout.shared.left.data.page = 'albums'
+    
+    // Layout.shared.right.present(Layout.View('id')
+    //   .loading(false)
+    //   .title('1')
+    //   .right('a', (_, n) => {
+    //     n.push(Layout.View('id2')
+    //       .loading(false)
+    //       .title('2')
+    //       .right('b', (_, n) => {
+    //         n.push(Layout.View('id')
+    //           .loading(false)
+    //           .title('3')
+    //           .right('c', (_, n) => {
+    //             n.root()
+    //           }))
+    //       }))
+    //   }))
+
+    Layout.shared.header.left('as')
+    Layout.shared.header.right('as')
+    Layout.shared.header.title('as')
+
+    // Nav.shared.type('right').present(Nav.View('id', {
+    //   album: 1
+    // }).title('a'), p => {
+    //   setTimeout(_ => {
+    //     p.loading(false)
+    //     console.error(p.data);
+    //   }, 100)
+    // })
   },
   computed: {
   },
@@ -74,12 +116,34 @@ Load.Vue({
     },
     click (album) {
       this.albums.forEach(album => album.active = false)
-      album.active = true
       
-      RightPanel.shared.push(RightPanel.View('id', {
-        data: 1
-      }))
+      
+      // ====
+      Layout.shared.right.update(Layout.View('id', {
+        album
+      }).title(album.title).left('關閉', (_, n) => {
+        album.active = false
+        n.dismiss()
+      }), (_, n) => {
+        album.active = true
+        setTimeout(_ => {
+          n.loading(false)
+        }, 100)
+      })
 
+      // Nav.shared.type('right').update(Nav.View('id', {
+      //   album
+      // }).left('關閉', p => {
+      //   album.active = false
+      //   p.dismiss()
+      // }).title(album.title), p => {
+      //   album.active = true
+
+      //   setTimeout(_ => {
+      //     p.loading(false)
+      //     console.error(p.data);
+      //   }, 100)
+      // })
     }
   },
   template: `

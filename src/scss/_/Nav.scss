@@ -1,0 +1,442 @@
+//
+// @author      OA Wu <oawu.tw@gmail.com>
+// @copyright   Copyright (c) 2015 - 2022, Lalilo
+// @license     http://opensource.org/licenses/MIT  MIT License
+// @link        https://www.ioa.tw/
+//
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+@import "_Lib";
+
+@mixin panel-position($w, $s, $r) {
+  $x: 4px;
+  @if $s > 0 {
+    $x: $s + $x;
+  }
+  @if $w <= 0 {
+    top: $s;
+    left: $s;
+
+    @if $s <= 0 {
+      width: 100%;
+      height: 100%;
+    } @else {
+      width: calc(100% - #{$s * 2});
+      height: calc(100% - #{$s * 2});
+    }
+    &.__tl {
+      ._views {
+        @if $x <= 0 {
+          @include transform(translateX(-100%));
+        } @else {
+          @include transform(translateX(calc(-100% - #{$x})));
+        }
+      }
+    }
+    &.__tr {
+      ._views {
+        @if $x <= 0 {
+          @include transform(translateX(100%));
+        } @else {
+          @include transform(translateX(calc(100% + #{$x})));
+        }
+      }
+    }
+
+  } @else {
+    width: $w;
+    @if $s <= 0 {
+      height: 100%;
+    } @else {
+      height: calc(100% - #{$s * 2});
+    }
+    &.__tr, &.__tl, &.__tc {
+      top: $s;
+    }
+    &.__tt, &.__tb, &.__tc {
+      left: calc(50% - #{math.div($w, 2)});
+    }
+    &.__tr { right: $s; }
+    &.__tl { left: $s; }
+    &.__tt { top: $s; }
+    &.__tb { bottom: $s; }
+
+    &.__tl {
+      ._views {
+        @include transform(translateX(-($w + $x)));
+      }
+    }
+    &.__tr {
+      ._views {
+        @include transform(translateX($w + $x));
+      }
+    }
+  }
+  ._views {
+    @include border-radius($r);
+  }
+  &.__tl, &.__tr, &.__tt, &.__tb, &.__tc {
+    ._views {
+      top: 0;
+      left: 0;
+      @if $s <= 0 {
+        @include transition(transform .36s ease-in-out, opacity .3s);
+      } @else {
+        @include transition(transform .36s cubic-bezier(0.385, 1.260, 0.595, 0.975), opacity .3s);
+      }
+    }
+  }
+  &.__tt {
+    ._views {
+      @if $x <= 0 {
+        @include transform(translateY(-100%));
+      } @else {
+        @include transform(translateY(calc(-100% - #{$x})));
+      }
+    }
+  }
+  &.__tb {
+    ._views {
+      @if $x <= 0 {
+        @include transform(translateY(100%));
+      } @else {
+        @include transform(translateY(calc(100% + #{$x})));
+      }
+    }
+  }
+  &.__tc {
+    ._views {
+      @include transform(scale(0.75));
+    }
+  }
+  &.__present {
+    ._views {
+      @include opacity(1);
+    }
+    &.__tl, &.__tr {
+      ._views {
+        @include transform(translateX(0));
+      }
+    }
+    &.__tt, &.__tb {
+      ._views {
+        @include transform(translateY(0));
+      }
+    }
+    &.__tc {
+      ._views {
+        @include transform(scale(1));
+      }
+    }
+  }
+}
+
+#nav {
+  position: fixed;
+  display: inline-block;
+  z-index: 99999;
+
+  @include range-width(0, 550px) {
+    @include panel-position(0, 0, 0);
+  };
+  @include range-width(550px, 700px) {
+    @include panel-position(0, 10px, 10px);
+  };
+  @include range-width(700px, 800px) {
+    @include range-height(0, 850px) {
+      @include panel-position(360px, 0, 0);
+    }
+    @include range-height(850px) {
+      @include panel-position(360px, 10px, 10px);
+    }
+  };
+  @include range-width(800px, 1000px) {
+    @include range-height(0, 850px) {
+      @include panel-position(400px, 0, 0);
+    }
+    @include range-height(850px) {
+      @include panel-position(400px, 10px, 10px);
+    }
+  };
+  @include range-width(1000px) {
+    @include range-height(0, 850px) {
+      @include panel-position(440px, 0, 0);
+    }
+    @include range-height(850px) {
+      @include panel-position(440px, 10px, 10px);
+    }
+  };
+
+  $_headerHeight: 44px;
+  ._views {
+    position: absolute;
+
+    z-index: 2;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+    
+    @include opacity(0);
+    @include box-shadow(0 0 24px 4px var(--ui-color-iOS-systemFill));
+  }
+  ._view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+    @include transform(translateX(calc(100% + 32px)));
+    @include box-shadow(none);
+    &.__animated {
+      @include transition(transform .35s ease-out);
+    }
+    &.__appear {
+      @include transform(translateX(100%));
+      @include box-shadow(0 0 8px var(--ui-color-iOS-systemFill));
+    }
+    &.__push {
+      @include transform(translateX(0));
+    }
+    &.__pushed {
+      @include box-shadow(none);
+    }
+    &.__forward {
+      @include transform(translateX(-35%));
+    }
+    &.__hide {
+      @include opacity(0);
+    }
+  }
+  ._header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 100%;
+    height: $_headerHeight;
+    // background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    // @include box-shadow(0 0 3px var(--ui-color-iOS-separator));
+    z-index: 10;
+    $ls: 90px;
+
+    background-color: rgba(255, 255, 255, .85);
+    @include backdrop-filter(blur(15px));
+    @include box-shadow(0 0 3px 0.1px var(--ui-color-iOS-separator));
+    
+    @include dark {
+      background-color: rgba(28, 28, 30, .85);
+      @include box-shadow(0 0 1px 1px var(--ui-color-iOS-separator));
+    };
+    
+    label {
+      @extend %-user-select-none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      display: inline-block;
+      max-width: $ls;
+      height: $_headerHeight;
+      line-height: $_headerHeight;
+      padding: 0 16px;
+      font-size: small;
+      @include overflow-docx3();
+
+      cursor: pointer;
+      color: var(--ui-color-iOS-link);
+
+      &.__left {
+        left: 0;
+      }
+      &.__right {
+        right: 0;
+      }
+      &:before {
+        @extend %-icon;
+        position: absolute;
+        top: 50%;
+        display: inline-block;
+        z-index: 2;
+      }
+      &.__iy {
+        &.__ty {
+          $_s: $_headerHeight - 24px;
+          padding-left: 6px + 4px + $_s + 2px;
+          &:before {
+            width: $_s;
+            height: $_s;
+            line-height: $_s + 1px;
+            left: 6px + 4px;
+            font-size: $_s - 6px;
+            @include transform(translateY(-50%));
+          }
+
+          &.__back {
+            padding-left: 6px + 4px + $_s;
+            &:before {
+              width: 8px;
+              height: 8px;
+              left: 6px + 12px;
+              content: '';
+              border-top: 2px solid var(--ui-color-iOS-link);
+              border-left: 2px solid var(--ui-color-iOS-link);
+              @include transform(translateY(-50%) rotate(-45deg));
+            }
+          }
+        }
+        &.__tn {
+          $_s: $_headerHeight - 16px;
+          width: $_headerHeight + 4px * 2;
+          &:before {
+            width: $_s;
+            height: $_s;
+            line-height: $_s;
+            font-size: $_s - 8px;
+            left: 50%;
+            @include transform(translate(-50%, -50%));
+          }
+        }
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        right: 6px;
+        top: 6px;
+        bottom: 6px;
+        z-index: 1;
+        display: inline-block;
+        width: calc(100% - #{6px * 2});
+        height: calc(100% - #{6px * 2});
+        @include border-radius(6px);
+        @include transition(transform .36s cubic-bezier(0.385, 1.260, 0.595, 0.975), background-color .3s);
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+      }
+      // &:after {
+      //   color: var(--ui-color-iOS-link);
+      //   content: attr(text);
+      //   left: 50%;
+      //   top: 50%;
+      //   @include transform(translate(-50%, -50%));
+      // }
+      &:hover {
+        &:after {
+          background-color: var(--ui-color-iOS-tertiarySystemFill);
+          @include transform(scale(1.025));
+        }
+      }
+      &:active {
+        &:after {
+          background-color: var(--ui-color-iOS-secondarySystemFill);
+          @include transform(scale(0.975));
+        }
+      }
+    }
+    span {
+      display: inline-block;
+      width: 100%;
+      height: $_headerHeight;
+      line-height: $_headerHeight;
+      @extend %-user-select-none;
+      @include overflow-docx3();
+      padding: 0 $ls;
+      &.__only {
+        padding: 0 12px;
+      }
+    }
+    ~ ._body {
+      padding-top: $_headerHeight;
+      // height: calc(100% - #{$_headerHeight});
+    }
+  }
+  ._loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 15;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: small;
+    font-style: italic;
+    text-align: center;
+    color: var(--ui-color-iOS-secondaryLabel);
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+    ._container {
+      width: 100%;
+      height: 40px;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      
+      div {
+        position: relative;
+        display: inline-block;
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        
+        i {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          display: inline-block;
+          width: 2px;
+          height: 6px;
+          @include border-radius(math.div(2px, 2));
+          background-color: var(--ui-color-iOS-secondarySystemFill);
+          @include transform(translate(-50%, -50%));
+          $cnt: 12;
+          $deg: 360deg / $cnt;
+          $r: 9px;
+          @for $i from 0 through $cnt - 1 {
+            &.__i#{$i} {
+              @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
+              @include animation-delay($i * .1s);
+            }
+          }
+          @include animation(nav-rotate $cnt * .1s linear infinite);
+        }
+      }
+      span {
+        @extend %-user-select-none;
+        display: inline-block;
+        flex-shrink: 0;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 8px;
+      }
+    }
+  }
+  ._body {
+    position: relative;
+    z-index: 5;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@include keyframes(nav-rotate) {
+  0% { background-color: var(--ui-color-iOS-secondarySystemFill); }
+  5% { background-color: var(--ui-color-iOS-systemGray); }
+  100% { background-color: var(--ui-color-iOS-secondarySystemFill); }
+}
