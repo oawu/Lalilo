@@ -63,7 +63,7 @@ Load.Vue({
       return w.reverse().join('')
     },
     click (album) {
-      Nav.shared.type('right').update(Nav.View('album-info').left('關閉', nav => nav.dismiss(_ => this.active = null)), nav => $.get(`/json/album/${album.id}.json`).done(album => {
+      Nav.shared.type('right').update(Nav.View('album-info').left('關閉', nav => nav.dismiss(_ => this.activeId = 0)), nav => $.get(`/json/album/${album.id}.json`).done(album => {
         this.activeId = album.id
         nav.title(album.title).props({ album }).loading(false)
       }).fail(_ => Nav.shared.dismiss(_ => {
