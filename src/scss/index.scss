@@ -31,4 +31,15 @@ body {
   font-family: $font-family;
   
   background-color: rgba(255, 255, 255, 1.00);
+  @include transition(top .3s);
+  
+}
+
+.section {
+  display: inline-block;
+  width: 100%;
+  height: 100vh;
+  line-height: 100vh;
+  font-size: 100px;
+  border: 1px solid rgba(255, 0, 0, .3);
 }
