@@ -13,6 +13,12 @@
   }
 }
 
+@mixin hover() {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
 %-icon {
   font-family: "icon";
   speak: none;
