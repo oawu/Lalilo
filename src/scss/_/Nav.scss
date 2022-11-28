@@ -185,6 +185,82 @@
           @include opacity(0);
         }
 
+        > ._loading {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+
+          z-index: 15;
+          
+
+          display: inline-flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          
+          font-size: small;
+          font-style: italic;
+          text-align: center;
+          color: var(--view-loading-font-color);
+          @include border-top-left-radius(var(--nv-radius-top-left));
+          @include border-top-right-radius(var(--nv-radius-top-right));
+          @include border-bottom-left-radius(var(--nv-radius-bottom-left));
+          @include border-bottom-right-radius(var(--nv-radius-bottom-right));
+
+          > div {
+            width: 100%;
+            height: 40px;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            
+            div {
+              position: relative;
+              display: inline-block;
+              flex-shrink: 0;
+              width: 28px;
+              height: 28px;
+              
+              i {
+                --loading-color-1: var(--view-loading-color-1);
+                --loading-color-2: var(--view-loading-color-2);
+                position: absolute;
+                left: 50%;
+                top: 50%;
+
+                display: inline-block;
+                width: 2px;
+                height: 6px;
+
+                background-color: var(--view-loading-color-1);
+
+                @include border-radius(math.div(2px, 2));
+                @include transform(translate(-50%, -50%));
+                $cnt: 12;
+                $deg: math.div(360deg, $cnt);
+                $r: 9px;
+                @for $i from 0 through $cnt - 1 {
+                  &.__i#{$i} {
+                    @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
+                    @include animation-delay($i * .1s);
+                  }
+                }
+                @include animation(loading-rotate $cnt * .1s linear infinite);
+              }
+            }
+            span {
+              @extend %-user-select-none;
+              display: inline-block;
+              flex-shrink: 0;
+              height: 40px;
+              line-height: 40px;
+              padding-left: 8px;
+            }
+          }
+        }
         > ._header {
           position: absolute;
           left: 0;
@@ -285,82 +361,6 @@
             background-color: var(--view-header-light-color);
             @include backdrop-filter(blur(var(--view-header-blur)));
             @include box-shadow(var(--view-header-shadow));
-          }
-        }
-        > ._loading {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-
-          z-index: 15;
-          
-
-          display: inline-flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          
-          font-size: small;
-          font-style: italic;
-          text-align: center;
-          color: var(--view-loading-font-color);
-          @include border-top-left-radius(var(--nv-radius-top-left));
-          @include border-top-right-radius(var(--nv-radius-top-right));
-          @include border-bottom-left-radius(var(--nv-radius-bottom-left));
-          @include border-bottom-right-radius(var(--nv-radius-bottom-right));
-
-          > div {
-            width: 100%;
-            height: 40px;
-            display: inline-flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            
-            div {
-              position: relative;
-              display: inline-block;
-              flex-shrink: 0;
-              width: 28px;
-              height: 28px;
-              
-              i {
-                --loading-color-1: var(--view-loading-color-1);
-                --loading-color-2: var(--view-loading-color-2);
-                position: absolute;
-                left: 50%;
-                top: 50%;
-
-                display: inline-block;
-                width: 2px;
-                height: 6px;
-
-                background-color: var(--view-loading-color-1);
-
-                @include border-radius(math.div(2px, 2));
-                @include transform(translate(-50%, -50%));
-                $cnt: 12;
-                $deg: math.div(360deg, $cnt);
-                $r: 9px;
-                @for $i from 0 through $cnt - 1 {
-                  &.__i#{$i} {
-                    @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
-                    @include animation-delay($i * .1s);
-                  }
-                }
-                @include animation(loading-rotate $cnt * .1s linear infinite);
-              }
-            }
-            span {
-              @extend %-user-select-none;
-              display: inline-block;
-              flex-shrink: 0;
-              height: 40px;
-              line-height: 40px;
-              padding-left: 8px;
-            }
           }
         }
         > ._body {

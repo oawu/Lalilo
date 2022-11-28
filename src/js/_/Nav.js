@@ -76,7 +76,16 @@ const Nav = function(root, type = 'center') {
         this.$refs.body.scrollTo({top: 0, behavior: 'smooth'})
       }
     },
-    template: `<div :class="className"><_loading v-if="view._loading" :view="view"></_loading><template v-else><_header @dblclick="dblclick" :class="{__show: headerShow}" :header="view.header" @click="(e, b) => b._click.call(nav, view, nav, e, view.header, b)"></_header><div class="_body" @scroll="e=>scroll(e.target.scrollTop)" :ref="'body'"><component :is="view.identifier" :nav="nav" :view="view" :header="view.header" v-bind="view._props"></component></div></template></div>`
+    template: `
+    <div :class="className">
+      <_loading v-if="view._loading" :view="view"></_loading>
+      <template v-if="view._isLoaded">
+        <_header @dblclick="dblclick" :class="{__show: headerShow}" :header="view.header" @click="(e, b) => b._click.call(nav, view, nav, e, view.header, b)"></_header>
+        <div class="_body" @scroll="e=>scroll(e.target.scrollTop)" :ref="'body'">
+          <component :is="view.identifier" :nav="nav" :view="view" :header="view.header" v-bind="view._props"></component>
+        </div>
+      </template>
+    </div>`
   }
 
   this._vue = new Vue({
@@ -229,9 +238,9 @@ const Nav = function(root, type = 'center') {
               view._('n3', true)
               prev && prev._('f3', true)
               typeof completion == 'function' && completion.call(this.nav, this.view, this.nav)
-            }, this.sec.display, view._('n2', true)._('a', false)._('ing', false), prev && prev._('f2', true)._('a', false)._('ing', false), this.ing = false), this.sec.push - 1, view._('n1', true), prev && prev._('f1', true)), this.sec.display, view._('n0', true), prev && prev._('f0', true)), this.sec.display, view._('a', true), prev && prev._('a', true))
+            }, this.sec.display, view._('n2', true)._('a', false)._('ing', false)._('load', true), prev && prev._('f2', true)._('a', false)._('ing', false), this.ing = false), this.sec.push - 1, view._('n1', true), prev && prev._('f1', true)), this.sec.display, view._('n0', true), prev && prev._('f0', true)), this.sec.display, view._('a', true), prev && prev._('a', true))
           : (_ => {
-              view._('a', false)._('n0', true)._('n1', true)._('n2', true)._('n3', true)._('ing', false)
+              view._('a', false)._('n0', true)._('n1', true)._('n2', true)._('n3', true)._('ing', false)._('load', true)
               prev && prev._('a', false)._('f0', true)._('f1', true)._('f2', true)._('f3', true)._('ing', false)
               this.ing = false
               typeof completion == 'function' && completion.call(this.nav, this.view, this.nav)
@@ -580,6 +589,7 @@ Nav.View = function(identifier, title = '', props = null) {
   this._header = Nav.Header()
   this._nav = null
   this._ing = false
+  this._isLoaded = false
   this._status = { a: false, h: false, n0: false, n1: false, n2: false, n3: false, f0: false, f1: false, f2: false, f3: false }
   
   if (typeof title == 'object')
@@ -608,6 +618,9 @@ Nav.View = function(identifier, title = '', props = null) {
 
     if (key === 'ing')
       return this._ing = val, this
+
+    if (key === 'load')
+      return this._isLoaded = val, this
 
     if (this._status[key] === undefined)
       return this

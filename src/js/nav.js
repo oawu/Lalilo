@@ -21,11 +21,24 @@ Nav.Component('demo1', {
       label => *text='click'   @click=click
       `
 })
+Nav.Component('demo2', {
+  props: {
+    view: { type: Nav.View },
+  },
+  mounted () {
+  },
+  methods: {
+  },
+  template: `
+    div.xx
+      `
+})
 
 Load.Vue({
   data: {
   },
   mounted () {
+
   },
   computed: {
   },
@@ -46,10 +59,16 @@ Load.Vue({
           })  
         })
       })
+    },
+    demo2() {
+      Nav.View('demo2').headerTitle('a').presentTo(Nav.shared, v => {
+      })
+
     }
   },
   template: `
     div
       label.btn => *text='測試 1'   @click=test1
+      label.btn => *text='測試 2'   @click=demo2
   `
 })
