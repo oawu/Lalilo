@@ -148,21 +148,6 @@ const GoogleMap = {
             default: this.map.get('draggable')
           }
 
-          // this.getDiv.addListener('click', a => {
-          //   console.error(a);
-            
-          // })
-          // this.$el.addEventListener('click', a => {
-          //   console.error(a);
-            
-          // })
-          // setTimeout(_ => {
-          //   this._vue.$el.addEventListener('click', a => {
-          //     console.error(a.stopPropagation());
-          //   })
-
-          // }, 100)
-          
           this._vue.events.mousedown = e => {
             if (!this.map)
               return

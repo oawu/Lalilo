@@ -76,16 +76,7 @@ const Nav = function(root, type = 'center') {
         this.$refs.body.scrollTo({top: 0, behavior: 'smooth'})
       }
     },
-    template: `
-    <div :class="className">
-      <_loading v-if="view._loading" :view="view"></_loading>
-      <template v-if="view._isLoaded">
-        <_header @dblclick="dblclick" :class="{__show: headerShow}" :header="view.header" @click="(e, b) => b._click.call(nav, view, nav, e, view.header, b)"></_header>
-        <div class="_body" @scroll="e=>scroll(e.target.scrollTop)" :ref="'body'">
-          <component :is="view.identifier" :nav="nav" :view="view" :header="view.header" v-bind="view._props"></component>
-        </div>
-      </template>
-    </div>`
+    template: `<div :class="className"><_loading v-if="view._loading" :view="view"></_loading><template v-if="view._isLoaded"><_header @dblclick="dblclick" :class="{__show: headerShow}" :header="view.header" @click="(e, b) => b._click.call(nav, view, nav, e, view.header, b)"></_header><div class="_body" @scroll="e=>scroll(e.target.scrollTop)" :ref="'body'"><component :is="view.identifier" :nav="nav" :view="view" :header="view.header" v-bind="view._props"></component></div></template></div>`
   }
 
   this._vue = new Vue({
