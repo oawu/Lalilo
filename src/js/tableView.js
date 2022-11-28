@@ -11,7 +11,7 @@ Nav.Component('test01', {
   },
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :title='Header'   :arrowUI=true   @click=view.push(Nav.View('test01-1').title('Header').loading(false))
         Cell => :title='Footer'   :arrowUI=true   @click=view.push(Nav.View('test01-2').title('Footer').loading(false))
@@ -21,7 +21,7 @@ Nav.Component('test01', {
   Nav.Component('test01-1', {
     components: TableView,
     template: `
-      Tableview
+      TableView
         Section => :header='123'
           Cell => :title='預設 Header'
         
@@ -45,7 +45,7 @@ Nav.Component('test01', {
   Nav.Component('test01-2', {
     components: TableView,
     template: `
-      Tableview
+      TableView
         Section => :footer='123'
           Cell => :title='預設 Footer'
         
@@ -69,7 +69,7 @@ Nav.Component('test01', {
   Nav.Component('test01-3', {
     components: TableView,
     template: `
-      Tableview
+      TableView
         Section => :header='123'   :footer='456'
           Cell => :title='預設 Header、Footer'
         
@@ -103,7 +103,7 @@ Nav.Component('test02-1', {
   },
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :arrowUI=true   :title='標題'
         Cell => :arrowUI=true   :title='標題'   :subtitle='副標題'
@@ -122,7 +122,7 @@ Nav.Component('test02-2', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :switchUI=true   :title='標題'
         Cell => :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -141,7 +141,7 @@ Nav.Component('test02-3', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :radioUI=true   :title='標題'
         Cell => :radioUI=true   :title='標題'   :subtitle='副標題'
@@ -160,7 +160,7 @@ Nav.Component('test02-4', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :arrowUI=true   :switchUI=true   :title='標題'
         Cell => :arrowUI=true   :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -179,7 +179,7 @@ Nav.Component('test02-5', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :arrowUI=true   :radioUI=true   :title='標題'
         Cell => :arrowUI=true   :radioUI=true   :title='標題'   :subtitle='副標題'
@@ -199,7 +199,7 @@ Nav.Component('test02-6', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :radioUI=true   :arrowUI=true   :switchUI=true   :title='標題'
         Cell => :radioUI=true   :arrowUI=true   :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -217,7 +217,7 @@ Nav.Component('test02-7', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section => :header='純圖片'
         Cell => :imageUI='/img/icon.png'   :title='標題'
         Cell => :imageUI='/img/icon.png'   :title='標題'   :subtitle='副標題'
@@ -240,7 +240,7 @@ Nav.Component('test02-8', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :arrowUI=true   :imageUI='/img/icon.png'   :title='標題'
         Cell => :arrowUI=true   :imageUI='/img/icon.png'   :title='標題'   :subtitle='副標題'
@@ -260,7 +260,7 @@ Nav.Component('test02-9', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :radioUI=true   :switchUI=true   :title='標題'
         Cell => :radioUI=true   :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -280,7 +280,7 @@ Nav.Component('test02-10', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :imageUI='/img/icon.png'   :switchUI=true   :title='標題'
         Cell => :imageUI='/img/icon.png'   :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -298,7 +298,7 @@ Nav.Component('test02-11', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :imageUI='/img/icon.png'   :radioUI=true   :title='標題'
         Cell => :imageUI='/img/icon.png'   :radioUI=true   :title='標題'   :subtitle='副標題'
@@ -317,7 +317,7 @@ Nav.Component('test02-12', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :imageUI='/img/icon.png'   :arrowUI=true   :switchUI=true   :title='標題'
         Cell => :imageUI='/img/icon.png'   :arrowUI=true   :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -336,7 +336,7 @@ Nav.Component('test02-13', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :imageUI='/img/icon.png'   :arrowUI=true   :radioUI=true   :title='標題'
         Cell => :imageUI='/img/icon.png'   :arrowUI=true   :radioUI=true   :title='標題'   :subtitle='副標題'
@@ -356,7 +356,7 @@ Nav.Component('test02-14', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :imageUI='/img/icon.png'   :radioUI=true   :switchUI=true   :title='標題'
         Cell => :imageUI='/img/icon.png'   :radioUI=true   :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -377,7 +377,7 @@ Nav.Component('test02-15', {
   }),
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :imageUI='/img/icon.png'   :radioUI=true   :arrowUI=true   :switchUI=true   :title='標題'
         Cell => :imageUI='/img/icon.png'   :radioUI=true   :arrowUI=true   :switchUI=true   :title='標題'   :subtitle='副標題'
@@ -411,7 +411,7 @@ Nav.Component('test02', {
     test02_15 () { this.view.push(Nav.View('test02-15').title('箭頭 + 開關 + 按鈕 + 圖片 測試').loading(false)) },
   },
   template: `
-    Tableview
+    TableView
       Section
         Cell => :title='箭頭 測試'   :arrowUI=true   @click=test02_1
         Cell => :title='開關 測試'   :arrowUI=true   @click=test02_2
@@ -443,7 +443,7 @@ Nav.Component('test03', {
   methods: {
   },
   template: `
-    Tableview
+    TableView
       Section => :header='標題 位置'
         Cell => :title='標題 - 左（預設）'   :subtitle='副標題'   :value='值'   :titleAlign='left'
         Cell => :title='標題 - 中'   :subtitle='副標題'   :value='值'   :titleAlign='center'
@@ -464,7 +464,7 @@ Nav.Component('test04', {
   },
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section => :header='標題'
         Cell => :title='標題 - 黑（預設）'   :titleColor='black'   :subtitle='副標題'   :value='值'
         Cell => :title='標題 - 灰'          :titleColor='gray'   :subtitle='副標題'   :value='值'
@@ -505,7 +505,7 @@ Nav.Component('test05', {
   },
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section => :header='預設'
         CellEmpty
       Section => :header='客製化內容'
@@ -518,7 +518,7 @@ Nav.Component('test06', {
   },
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :title='標題 標題 標題 標題 標題 標題 標題 標題 標題 標題 標題 標題 標題'
         Cell => :subtitle='副標題 副標題 副標題 副標題 副標題 副標題 副標題 副標題 副標題'
@@ -538,7 +538,7 @@ Nav.Component('test07', {
   },
   components: TableView,
   template: `
-    Tableview
+    TableView
       Section
         Cell => :title='標題 標題 標題 標題 標題 標題 標題 標題 標題 標題 標題 標題 標題'   :titleWrap=true
         Cell => :subtitle='副標題 副標題 副標題 副標題 副標題 副標題 副標題 副標題 副標題'   :subtitleWrap=true
@@ -567,7 +567,7 @@ Nav.Component('demo1', {
     test07 () { this.view.push(Nav.View('test07').title('單行文').loading(false)) },
   },
   template: `
-    Tableview
+    TableView
       Section => :isGroup=false
         Cell => :title='Header、Footer 測試'   :arrowUI=true   @click=test01
         Cell => :title='箭頭、開關、按鈕、圖片 測試'   :arrowUI=true   @click=test02
