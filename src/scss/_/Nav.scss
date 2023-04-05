@@ -204,6 +204,9 @@
           font-style: italic;
           text-align: center;
           color: var(--view-loading-font-color);
+          
+          background-color: var(--view-color);
+
           @include border-top-left-radius(var(--nv-radius-top-left));
           @include border-top-right-radius(var(--nv-radius-top-right));
           @include border-bottom-left-radius(var(--nv-radius-bottom-left));

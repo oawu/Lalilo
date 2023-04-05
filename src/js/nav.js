@@ -30,7 +30,7 @@ Nav.Component('demo2', {
   methods: {
   },
   template: `
-    div.xx
+    div.xx => *text='a'
       `
 })
 
