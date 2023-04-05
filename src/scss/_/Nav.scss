@@ -437,6 +437,7 @@
     
     &.__type_from_bottom {
       --nv-y: calc(100% - var(--nv-buffer));
+      --nv-padding-bottom: 0;
       --nv-transition: transform var(--sec-present) ease-in-out, opacity .3s;
       --nv-transition: transform var(--sec-present) cubic-bezier(0.385, 1.260, 0.595, 0.975), opacity .3s;
 
