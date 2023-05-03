@@ -120,7 +120,7 @@ const Nav = function(root, type = 'center') {
         items.push(`__type_to_${this.status.type.to}`)
         items.push(`__type_from_${this.status.type.from}`)
         items.push(`__type_height_${this.status.type.height !== null ? 'y' : 'n'}`)
-        items.push(`__cover_${(((this.status.type.to == 'center' && this.status.type.from == 'bottom') || (this.status.type.to == 'bottom')) && this.status.isCover === null) || this.status.isCover ? 'y' : 'n'}`)
+        items.push(`__cover_${(((this.status.type.to == 'center') || (this.status.type.to == 'bottom')) && this.status.isCover === null) || this.status.isCover ? 'y' : 'n'}`)
         this.status.p0 && items.push('__p0')
         this.status.p1 && items.push('__p1')
         return items
