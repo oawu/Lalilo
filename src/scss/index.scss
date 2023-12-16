@@ -5,13 +5,394 @@
 // @link        https://www.ioa.tw/
 //
 
+@import "@/CSS3/Appearance";
 @import "_/_Lib";
 @import "Lalilo";
 
-.btn {
-  // @extend %-button;
+#app {
   display: inline-block;
-  width: 100px;
-  height: 44px;
-  line-height: 44px;
+  
+  max-width: 440px;
+  width: calc(100% - 16px);
+
+  
+}
+
+h1 {
+  color: var(--ui-color-iOS-label);
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  margin-top: 32px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--ui-color-iOS-systemGreen);
+  font-size: x-large;
+}
+
+h2 {
+  font-size: large;
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  margin-top: 44px;
+  color: var(--ui-color-iOS-label);
+
+}
+h3 {
+  display: inline-block;
+  width: 100%;
+  
+  margin: 0;
+  padding: 0;
+  color: var(--ui-color-iOS-label);
+}
+
+#me {
+  display: inline-block;
+  width: 100%;
+  p {
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 0 12px;
+    margin-top: 44px;
+    color: var(--ui-color-iOS-label);
+    font-size: medium;
+
+    + p {
+      margin-top: 8px;
+      color: var(--ui-color-iOS-secondaryLabel);
+    }
+  }
+
+  label {
+    margin-top: 44px;
+    display: inline-block;
+    width: 100%;
+    
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 12px;
+      top: calc(50% - 2px);
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      @include border-radius(2px);
+      border-bottom: 4px solid var(--ui-color-iOS-systemFill);
+      border-right: 4px solid var(--ui-color-iOS-systemFill);
+      @include transform(translate(0%, -50%) rotate(45deg));
+    }
+    
+  }
+
+  select {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 20px;
+    @include border-radius(8px);
+
+
+    font-size: large;
+    font-family: $font-family;
+
+    margin: 0;
+
+    color: var(--ui-color-iOS-label);
+    border: 1px solid var(--ui-color-iOS-separator);
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+
+    @include appearance(none);
+    @include border-radius(6px);
+    @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+
+
+    &:focus {
+      outline: 0;
+    }
+
+    &:not([readonly]):focus {
+      border-color: var(--ui-color-iOS-link);
+      @include box-shadow(0 0 0 3px var(--ui-color-macOS-keyboardFocusIndicatorColor));
+    }
+
+    &[readonly] {
+      cursor: not-allowed;
+      color: var(--ui-color-iOS-tertiaryLabel);
+      @include box-shadow(none);
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+    }
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}
+
+
+
+#ready {
+  
+  display: inline-block;
+  width: 100%;
+
+  ol {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    margin-top: 28px;
+    color: var(--ui-color-iOS-label);
+    li {
+      + li {
+        margin-top: 4px;
+      }
+    }
+  }
+
+  label {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    margin-top: 44px;
+    
+    position: relative;
+    padding: 8px 0;
+    padding-left: 32px;
+    position: relative;
+    cursor: pointer;
+    color: var(--ui-color-iOS-label);
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 6px + 3px;
+      top: 50%;
+      display: inline-block;
+      width: 20px - 3px * 2;
+      height: 20px - 3px * 2;
+      @include border-radius(50%);
+      background-color: var(--ui-color-iOS-link);
+      @include transform(translate(0%, -50%));
+      @include opacity(0);
+      @include transition(opacity .3s);
+      
+    }
+    
+    &:before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--ui-color-iOS-systemFill);
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+      @include transform(translate(0%, -50%));
+      @include border-radius(50%);
+      @include transition(border-color .3s);
+      
+    }
+
+    &.active {
+      &:before {
+        border-color: var(--ui-color-iOS-link);
+      }
+      &:after {
+        @include opacity(1);
+      }
+    }
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}
+
+button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 16px;
+  font-size: medium;
+  color: white;
+  background-color: var(--ui-color-iOS-link);
+  border: 0;
+  @include border-radius(3px);
+  cursor: pointer;
+  &[disabled] {
+    @include opacity(.5);
+    cursor: not-allowed;
+  }
+}
+
+#pick {
+
+  display: inline-block;
+  width: 100%;
+  
+  
+}
+
+#loading {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 44px;
+  margin-bottom: 44px;
+
+  span {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    // 
+    flex-shrink: 0;
+    // @include border-radius(50%);
+    // @include animation(rotate 1s linear infinite);
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      // background-color: linear-gradient(45deg, red 50%, black 50%);;
+
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNiZjM5YyIvPjxzdG9wIG9mZnNldD0iMzMlIiBzdG9wLWNvbG9yPSIjMzNlMGFmIi8+PHN0b3Agb2Zmc2V0PSI2NyUiIHN0b3AtY29sb3I9IiMyYWNhYzgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMmI1ZTQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=');
+      background-size: 100%;
+      background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3bf39c), color-stop(33%, #33e0af), color-stop(67%, #2acac8), color-stop(100%, #22b5e4));
+      background-image: -moz-linear-gradient(#3bf39c 0%, #33e0af 33%, #2acac8 67%, #22b5e4 100%);
+      background-image: -webkit-linear-gradient(#3bf39c 0%, #33e0af 33%, #2acac8 67%, #22b5e4 100%);
+      background-image: linear-gradient(#3bf39c 0%, #33e0af 33%, #2acac8 67%, #22b5e4 100%);
+
+      @include border-radius(50%);
+      // linear-gradient(red, yellow, red);
+
+      
+      @include animation(rotate 1s linear infinite);
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px - 4px * 2;
+      height: 20px - 4px * 2;
+      @include border-radius(50%);
+      // linear-gradient(red, yellow, red);
+      // background-color: rgba(0, 0, 255, 0.2);
+      background-color: var(--ui-color-iOS-systemGroupedBackground);
+    }
+    
+    
+    
+
+  }
+  label {
+    display: inline-block;
+    flex-grow: 1;
+    
+    margin-left: 4px;
+    color: var(--ui-color-iOS-secondaryLabel);
+  }
+  
+  
+}
+
+#result {
+  width: 100%;
+  margin-top: 44px;
+  margin-bottom: 72px;
+  
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  
+    
+  .c1 {
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    // display: inline-block;
+    width: 100%;
+    margin-top: 20px;
+    color: var(--ui-color-iOS-label);
+
+    // line-height: 32px;
+
+    b {
+      font-size: x-large;
+      margin-left: 4px;
+      margin-right: 4px;
+      color: var(--ui-color-iOS-systemBlue);
+    }
+  }
+
+  > b {
+    display: inline-block;
+    margin-top: 44px;
+    padding: 5px 20px;
+    font-size: small;
+    @include border-radius(10px);
+    color: var(--ui-color-iOS-secondaryLabel);
+    background-color: var(--ui-color-iOS-systemFill);
+  }
+  .c2 {
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    border-top: 1px solid var(--ui-color-iOS-separator);
+    margin-top: 20px;
+    padding: 0 12px;
+    
+    p {
+      display: inline-block;
+      width: 100%;
+      margin: 0;
+      text-align: left;
+      margin-top: 12px;
+      + p {
+        margin-top: 4px;
+      }
+      line-height: 22px;
+      color: var(--ui-color-iOS-secondaryLabel);
+      font-size: small;
+      b {
+        margin-left: 1px;
+        margin-right: 1px;
+        color: var(--ui-color-iOS-label);
+      }
+    }
+
+  }
+
+}
+
+
+@include keyframes(rotate) {
+  0% {
+    @include transform(rotate(0));
+  }
+  100% {
+    @include transform(rotate(360deg));
+  }
+  // 0% { background-color: var(--loading-color-1); }
+  // 5% { background-color: var(--loading-color-2); }
+  // 100% { background-color: var(--loading-color-1); }
 }
