@@ -70,12 +70,13 @@ Load.Vue({
               div#result => *else
                 h3 => *text='結果出爐！'
                 div.c1
-                  span => *text='您的禮物要送給… 「'
+                  span => *text=me.name
+                  span => *text='，您要將禮物要送給… 「'
                   b => *text=to.name
                   span => *text='」！'
                 b => *text='您可以截圖下來，以免忘記！'
                 div.c2
-                  p => *text='※ 請務必記下你要送的對象！'
+                  p => *text='※ 為了遊戲趣味性，要送給誰禮物千萬不能跟別人說喔！'
                   p
                     span => *text='※ 他的禮物條件是「'
                     b => *text=to.tip
@@ -83,7 +84,11 @@ Load.Vue({
                   p
                     span => *text='※ 然後他希望寄送到「'
                     b => *text=to.address
-                    span => *text='」。'
+                    span => *text='」，如果該地點無法配送請自己改選附近店家或超商取貨。'
+                  p
+                    span => *text='※ 記得要「'
+                    b => *text='先付款'
+                    span => *text='」喔，千萬別選取貨付款捏…'
                   p
                     span => *text='※ 禮物價格請斟酌在「'
                     b => *text='$500'

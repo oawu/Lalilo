@@ -10,5 +10,5 @@
 return [
   \HTML\Script("window.ENV = '" . ENVIRONMENT . "';")->type('text/javascript'),
   \HTML\Script("window.EXT = '" . (ENVIRONMENT == 'Development' ? '.php' : '.html') . "';")->type('text/javascript'),
-  \HTML\Script("window.API_BASE_URL = '" . (ENVIRONMENT == 'Development' ? 'http://xmas-dev.ioa.tw/' : 'http://xmas.ioa.tw/') . "';")->type('text/javascript'),
+  \HTML\Script("window.API_BASE_URL = '" . (ENVIRONMENT == 'Development' ? 'http://xmas-dev.ioa.tw/' : 'https://xmas.ioa.tw/') . "';")->type('text/javascript'),
 ];
