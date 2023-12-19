@@ -18,6 +18,7 @@ Load.Vue({
   mounted () {
     API.GET('/api/users')
       .done(users => this.users = users)
+      .fail(errors => Alert('錯誤！', errors.join('')).button('了解', alert => alert.dismiss(_ => Reload())).present())
       .send()
   },
   computed: {
@@ -39,6 +40,7 @@ Load.Vue({
         h1 => *text='🎄 2023 聖誕節線上交換禮物 🎄'
 
         div#me => *if=!choMe || me === null
+          p => *text='哈利路亞～ 你～沒刷牙！！'
           p => *text='嘿，聖誕禮物交換開始囉！準備好了嗎？'
           p => *text='讓我們掀起禮物浪潮，把愛和笑容一起擠進禮物盒裡，來場最瘋狂的聖誕交換！'
           label
@@ -85,6 +87,10 @@ Load.Vue({
                     span => *text='※ 然後他希望寄送到「'
                     b => *text=to.address
                     span => *text='」，如果該地點無法配送請自己改選附近店家或超商取貨。'
+                  p
+                    span => *text='※ 他的電話是「'
+                    b => *text=to.phone
+                    span => *text='」。'
                   p
                     span => *text='※ 記得要「'
                     b => *text='先付款'

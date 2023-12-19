@@ -7,7 +7,7 @@
  * @link        https://www.ioa.tw/
  */
 
-define('TITLE', 'Lalilo');
+define('TITLE', '2023 聖誕節線上交換禮物');
 define('KEYWORD', '');
-define('DESCRIPTION', '');
+define('DESCRIPTION', '哈利路亞～ 你～沒刷牙！！');
 define('SEPARATE', ' - ');
