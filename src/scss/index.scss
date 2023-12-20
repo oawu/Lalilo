@@ -8,10 +8,358 @@
 @import "_/_Lib";
 @import "Lalilo";
 
-.btn {
-  // @extend %-button;
+#app {
+  position: relative;
   display: inline-block;
-  width: 100px;
-  height: 44px;
-  line-height: 44px;
+  width: 100%;
+  min-height: 100vh;
+  
+}
+#main {
+  display: inline-block;
+  width: 100%;
+  z-index: 8;
+  
+  
+
+  > header {
+    display: inline-block;
+  }
+}
+
+#main-container {
+  display: inline-block;
+  width: 100%;
+  height: 100vh;
+  padding: 12px;
+  overflow: visible;
+}
+$main-lebel1-width: 100px;
+$main-lebel2-width: 360px;
+
+#main-lebel1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  width: $main-lebel1-width;
+  height: 100%;
+
+  z-index: 11;
+  overflow: hidden;
+  
+  ~ #main {
+    padding-left: $main-lebel1-width;
+  }
+  ~ #main-header {
+    padding-left: $main-lebel1-width;
+  }
+
+
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    content: '';
+    z-index: 3;
+    right: 0;
+    border-right: 1px solid var(--ui-color-iOS-separator);
+  }
+
+  label {
+    
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: calc(100% - 12px * 2);
+    height: 72px;
+    margin-top: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+    cursor: pointer;
+    @include border-radius(8px);
+    @include transition(background-color .3s, color .3s);
+    color: var(--ui-color-iOS-secondaryLabel);
+
+
+    + label {
+      margin-top: 12px;
+    }
+    figure {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      
+      flex-grow: 1;
+      &:before {
+        @extend %-icon;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        @include transform(translate(-50%, -50%) scale(1));
+        font-size: 28px;
+      }
+
+      &._icon-apis {
+        &:before {
+          content: '\f0001';
+        }
+      }
+      &._icon-stories {
+        &:before {
+          content: '\f0003';
+        }
+      }
+      &._icon-envs {
+        &:before {
+          content: '\f0005';
+        }
+      }
+      
+    }
+    span {
+      display: inline-block;
+      width: 100%;
+      height: 24px;
+      line-height: 24px;
+      flex-shrink: 0;
+      font-size: small;
+      @extend %-user-select-none;
+    }
+
+    
+    &:hover {
+      background-color: var(--ui-color-iOS-tertiarySystemFill);
+      color: var(--ui-color-iOS-label);
+    }
+    &._active {
+      background-color: var(--ui-color-iOS-systemFill);
+      color: var(--ui-color-iOS-label);
+      
+      figure {
+
+        &._icon-apis:before {
+          content: '\f0002';
+        }
+        &._icon-stories:before {
+          content: '\f0004';
+        }
+        &._icon-envs:before {
+          content: '\f0006';
+        }
+      }
+    }
+  }
+
+}
+
+#main-lebel2 {
+  
+  position: fixed;
+  top: 0;
+  left: $main-lebel1-width;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  width: $main-lebel2-width;
+  height: 100%;
+  overflow: auto;
+
+  z-index: 11;
+  
+  ~ #main {
+    --left-padding: calc(var(--left) + var(--width));
+    padding-left: $main-lebel1-width + $main-lebel2-width;
+  }
+  ~ #main-header {
+    --left-padding: calc(var(--left) + var(--width));
+    padding-left: $main-lebel1-width + $main-lebel2-width;
+  }
+
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    content: '';
+    z-index: 3;
+    right: 0;
+    border-right: 1px solid var(--ui-color-iOS-separator);
+  }
+}
+
+
+#api {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  
+  width: 100%;
+
+  .api-title {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+
+    
+  }
+  .send {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 16px;
+    
+    .submit {
+      display: inline-block;
+      padding: 8px 16px;
+      flex-shrink: 0;
+      margin-left: 16px;
+      background-color: var(--ui-color-iOS-link);
+      color: white;
+      @include border-radius(4px);
+      @extend %-user-select-none;
+      cursor: pointer;
+      // background-color: adjust-lightness(var(--ui-color-iOS-link), -5%);
+    }
+  }
+  .url {
+    flex-grow: 1;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: 100%;
+    padding: 8px 6px;
+    padding-left: 4px;
+    @include border-radius(3px);
+    border: 1px solid var(--ui-color-iOS-separator);
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+
+    .method {
+      position: relative;
+      display: inline-block;
+      padding: 4px 12px;
+      padding-right: 20px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      @extend %-user-select-none;
+      color: var(--ui-color-iOS-systemGreen);
+      
+      &:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: 4px;
+        top: 4px;
+        display: inline-block;
+        width: 1px;
+        background-color: var(--ui-color-iOS-separator);
+        
+      }
+      
+    }
+    .path {
+      flex-grow: 1;
+      
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      margin-left: 8px;
+      @include overflow-docx3();
+      
+      * {
+        display: inline-block;
+        @extend %-user-select-none;
+      }
+      label {
+        background-color: var(--ui-color-iOS-secondarySystemFill);
+        padding: 2px 8px;
+        @include border-radius(3px);
+        color: var(--ui-color-iOS-link);
+        cursor: pointer;
+        @include transition(background-color .3s);
+        
+        &:hover {
+          background-color: var(--ui-color-iOS-systemFill);
+        }
+      }
+      i {
+        display: inline-block;
+        width: 2px;
+        height: 14px;
+        background-color: var(--ui-color-iOS-separator);
+        margin-left: 6px;
+        margin-right: 6px;
+        
+        @include transform(rotate(18deg));
+      }
+      u {
+        display: inline-block;
+        text-decoration: none;
+        color: var(--ui-color-iOS-secondaryLabel);
+        margin-left: 2px;
+        margin-right: 2px;
+      }
+      div {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        b {
+          font-weight: normal;
+          position: relative;
+          &:after {
+            content: '=';
+            color: var(--ui-color-iOS-secondaryLabel);
+          }
+          
+        }
+        span {
+
+        }
+      }
+    }
+
+  }
+  .params {
+    // width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: 100%;
+
+    margin-top: 20px;
+  }
+  .queries {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid rgba(255, 0, 0, .3);
+    margin-top: 20px;
+  }
 }

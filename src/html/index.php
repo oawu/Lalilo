@@ -20,6 +20,7 @@ echo html(
     asset()
       ->css('icon.css')
       ->css('_/Core.css')
+      ->css('_api.css')
       ->css('_/Alert.css')
       ->css('_/Toastr.css')
       ->css('_/Nav.css')
@@ -28,6 +29,12 @@ echo html(
       ->js('https://code.jquery.com/jquery-1.12.4.min.js')
       ->js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
       ->js('_/Core.js')
+      
+      ->js('_api.js')
+      ->js('_api-folder.js')
+      ->js('_api-request.js')
+      ->js('_api-sample.js')
+
       ->js('_/Alert.js')
       ->js('_/Toastr.js')
       ->js('_/Nav.js')
