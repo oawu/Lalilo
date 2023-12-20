@@ -6,50 +6,9 @@
  */
 
 
-Load.VueComponent('layout', {
-  props: {
-  },
-  data: _ => ({
-    apis: Api.shared()
-  }),
-  mounted () {
-  },
-  methods: {
-  },
-  computed: {
-  },
-  template: `
-  main#app
-    aside#main-lebel1
-      label._active
-        figure._icon-apis
-        span => *text='API'
-
-      label
-        figure._icon-stories
-        span => *text='故事'
-
-      label
-        figure._icon-envs
-        span => *text='環境'
-    
-    aside#main-lebel2
-      tree-api-folder => *for=(folder,i) in apis   :key=i   :obj=folder
-
-    div#main => :style={'--left-padding': null, '--right-padding': null}
-      div#main-container
-        slot => name=main
-
-    header#main-header => :style={'--left-padding': null, '--right-padding': null}
-      nav#main-nav
-      slot => *else   name=header
-  `
-})
-
 
 Load.Vue({
   data: {
-    param: 0
   },
   mounted () {
   },
@@ -60,43 +19,93 @@ Load.Vue({
   template: `
     layout
       template => slot=main
-        #api
-          b.api-title => *text='02 | 登入'
-          .send
-            .url
-              b.method => *text='post'
-              div.path
-                label => *text='BaseURL'
-                i
-                span => *text='order'
-                i
-                label => *text='3'
-                i
-                span => *text='pick'
-                i
-                label => *text='0'
-                i
-                span => *text='items'
+        #story
+          #unit-roles
+            .unit-roles
+              .role-units
+                b => *text='用戶前台'
+              .role-units
+                b => *text='管理後台'
+            .unit-roles
+              .role-units
+                .role-unit
+                  header
+                    b => *text='登入前台'
+                .role-unit
+                  header
+                    b => *text='清除購物車'
+                .role-unit
+                  header
+                    b => *text='加入購物車'
+                .role-unit
+                  header
+                    b => *text='取得付款憑證'
+                .role-unit
+                  header
+                    b => *text='付款'
+              .role-units
+            
+            .unit-roles
+              .role-units
+              .role-units
+                .role-unit
+                  header
+                    b => *text='登入後台'
+                .role-unit
+                  header
+                    b => *text='排程過 12 小時'
+                .role-unit
+                  header
+                    b => *text='登入後台'
+                .role-unit
+                  header
+                    b => *text='檢視訂單-取的項目'
+                .role-unit
+                  header
+                    b => *text='建立出貨單'
+                .role-unit
+                  header
+                    b => *text='檢視訂單-取得出貨單'
+                .role-unit
+                  header
+                    b => *text='送達'
+            
+            .unit-roles
+              .role-units
+                .role-unit
+                  header
+                    b => *text='登入前台'
+                .role-unit
+                  header
+                    b => *text='檢視訂單'
+                .role-unit
+                  header
+                    b => *text='檢查是否可被申請退貨'
+                .role-unit
+                  header
+                    b => *text='申請退貨'
+              .role-units
+            
+            .unit-roles
+              .role-units
+              .role-units
+                .role-unit
+                  header
+                    b => *text='登入後台'
+                .role-unit
+                  header
+                    b => *text='允許退貨'
+                
+            .unit-roles
+              .role-units
+              .role-units
+                .unit
+                  .role-unit
+                    header
+                      b => *text='登入後台'
+                  .role-unit
+                    header
+                      b => *text='退款'
 
-                u => *text='?'
-
-                div
-                  b => *text='limit'
-                  span => *text='10'
-                u => *text='&'
-                div
-                  b => *text='nextId'
-                  span => *text='0'
-                u => *text='&'
-                div
-                  b => *text='name'
-                  label => *text='隨機名字'
-
-            .submit => *text='送出'
-          .params
-            segmented => :items=['Queries', 'Headers', 'Payload', 'Test']   :index=param   @click=i=>param=i
-
-          .queries => *if=param == 0
-            div => *text='a'
       `
 })

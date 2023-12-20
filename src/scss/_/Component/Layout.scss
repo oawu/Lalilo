@@ -1,0 +1,207 @@
+//
+// @author      OA Wu <oawu.tw@gmail.com>
+// @copyright   Copyright (c) 2015 - 2022, Lalilo
+// @license     http://opensource.org/licenses/MIT  MIT License
+// @link        https://www.ioa.tw/
+//
+
+@import "../_Lib";
+
+#app {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-height: 100vh;
+  
+}
+#main {
+  display: inline-block;
+  width: 100%;
+  z-index: 8;
+  
+  
+
+  > header {
+    display: inline-block;
+  }
+}
+
+#main-container {
+  display: inline-block;
+  width: 100%;
+  height: 100vh;
+  padding: 12px;
+  overflow: visible;
+}
+$main-lebel1-width: 100px;
+$main-lebel2-width: 360px;
+
+#main-lebel1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  width: $main-lebel1-width;
+  height: 100%;
+
+  z-index: 11;
+  overflow: hidden;
+  
+  ~ #main {
+    padding-left: $main-lebel1-width;
+  }
+  ~ #main-header {
+    padding-left: $main-lebel1-width;
+  }
+
+
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    content: '';
+    z-index: 3;
+    right: 0;
+    border-right: 1px solid var(--ui-color-iOS-separator);
+  }
+
+  label {
+    
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: calc(100% - 12px * 2);
+    height: 72px;
+    margin-top: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+    cursor: pointer;
+    @include border-radius(8px);
+    @include transition(background-color .3s, color .3s);
+    color: var(--ui-color-iOS-secondaryLabel);
+
+
+    + label {
+      margin-top: 12px;
+    }
+    figure {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      
+      flex-grow: 1;
+      &:before {
+        @extend %-icon;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        @include transform(translate(-50%, -50%) scale(1));
+        font-size: 28px;
+      }
+
+      &._icon-apis {
+        &:before {
+          content: '\f0001';
+        }
+      }
+      &._icon-stories {
+        &:before {
+          content: '\f0003';
+        }
+      }
+      &._icon-envs {
+        &:before {
+          content: '\f0005';
+        }
+      }
+      
+    }
+    span {
+      display: inline-block;
+      width: 100%;
+      height: 24px;
+      line-height: 24px;
+      flex-shrink: 0;
+      font-size: small;
+      @extend %-user-select-none;
+    }
+
+    
+    &:hover {
+      background-color: var(--ui-color-iOS-tertiarySystemFill);
+      color: var(--ui-color-iOS-label);
+    }
+    &._active {
+      background-color: var(--ui-color-iOS-systemFill);
+      color: var(--ui-color-iOS-label);
+      
+      figure {
+
+        &._icon-apis:before {
+          content: '\f0002';
+        }
+        &._icon-stories:before {
+          content: '\f0004';
+        }
+        &._icon-envs:before {
+          content: '\f0006';
+        }
+      }
+    }
+  }
+
+}
+
+#main-lebel2 {
+  
+  position: fixed;
+  top: 0;
+  left: $main-lebel1-width;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  width: $main-lebel2-width;
+  height: 100%;
+  overflow: auto;
+
+  z-index: 11;
+  
+  ~ #main {
+    --left-padding: calc(var(--left) + var(--width));
+    padding-left: $main-lebel1-width + $main-lebel2-width;
+  }
+  ~ #main-header {
+    --left-padding: calc(var(--left) + var(--width));
+    padding-left: $main-lebel1-width + $main-lebel2-width;
+  }
+
+  &:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    content: '';
+    z-index: 3;
+    right: 0;
+    border-right: 1px solid var(--ui-color-iOS-separator);
+  }
+}
+
