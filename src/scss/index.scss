@@ -41,6 +41,7 @@
     align-items: center;
     justify-content: flex-start;
     width: 50%;
+    // max-width: 440px;
     border: 1px solid rgba(255, 0, 0, .3);
     padding: 20px 20px;
   }
@@ -54,6 +55,7 @@
     width: 100%;
     @include box-shadow(0 0 10px var(--ui-color-iOS-tertiarySystemFill));
     @include border-radius(10px);
+    overflow: hidden;
     + .role-unit {
       margin-top: 20px;
     }
@@ -173,16 +175,11 @@
           &:after {
             @include transform(translate(-50%, calc(-50% - 1px)) rotate(45deg));
           }
-        } 
-        ~ .body {
-          &.api {
-            display: inline-flex;
-          }
         }
       }
     }
     .body {
-      display: none;
+      display: inline-block;
       width: 100%;
       // padding: 4px 16px;
       // padding-left: 16px + 24px + 8px;
@@ -204,6 +201,7 @@
       }
 
       &.api {
+        display: inline-flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
@@ -217,7 +215,7 @@
           justify-content: flex-start;
           width: 100%;
         }
-        .header {
+        .header, .payload, .testing {
           display: inline-flex;
           flex-direction: column;
           align-items: center;
@@ -235,22 +233,64 @@
             border-top: 1px solid var(--ui-color-iOS-separator);
           }
         }
+        .header {
+          
+        }
         .payload {
-          display: inline-flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          width: 100%;
-          position: relative;
-          &:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
+          
+        }
+        .testing-description {
+          // border: 1px solid rgba(255, 0, 0, .3);
+          font-size: small;
+          span {
             display: inline-block;
-            height: 1px;
-            border-top: 1px solid var(--ui-color-iOS-separator);
+            width: 100%;
+            @extend %-user-select-none;
+            word-wrap: break-word;
+            // border: 1px solid rgba(255, 0, 0, .3);
+          }
+          ul {
+            display: inline-block;
+            width: calc(100% - 0px);
+            margin-left: 0px;
+            margin-right: 0;
+            margin-top: 4px;
+            margin-bottom: 0;
+            padding-top: 4px;
+            padding-right: 4px;
+            padding-bottom: 4px;
+            padding-left: 8px + 8px;
+            list-style: none;
+            background-color: var(--ui-color-iOS-tertiarySystemFill);
+            @include border-radius(4px);
+            border: 1px solid var(--ui-color-iOS-systemFill);
+          }
+          li {
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            &:before {
+              content: '';
+              position: absolute;
+              left: -8px + 1px;
+              top: 5px;
+              display: inline-block;
+              width: 6px;
+              height: 6px;
+              @include border-radius(50%);
+              background-color: var(--ui-color-iOS-separator);
+              // @include transform(translate(0, -50%));
+            }
+            
+            + li {
+              margin-top: 4px;
+            }
+          }
+          .testing-description {
+            ul {
+              width: calc(100% - 16px);
+              margin-left: 16px;
+            }
           }
         }
 
@@ -274,9 +314,8 @@
             @extend %-user-select-none;
           }
         }
-
         .kvs {
-          display: none;
+          display: inline-flex;
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
@@ -295,7 +334,6 @@
             border-top: 1px solid var(--ui-color-iOS-separator);
           }
         }
-
         .kv {
           display: inline-flex;
           flex-direction: row;
@@ -325,10 +363,11 @@
             position: relative;
             display: inline-block;
             padding: 12px;
-            // border: 1px solid rgba(255, 0, 0, .3);
-            @include overflow-docx3();
             z-index: 1;
             cursor: pointer;
+            @include overflow-docx3();
+            @extend %-user-select-none;
+
             &:before {
               content: '';
               position: absolute;
@@ -348,7 +387,6 @@
                 @include opacity(1);
               }
             }
-            
             
             &:first-child {
               width: 30%;
@@ -385,15 +423,56 @@
           }
         }
 
+        .text {
+          display: inline-block;
+          width: 100%;
+          padding: 12px;
+
+          position: relative;
+          z-index: 1;
+          word-wrap: break-word;
+
+          &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            display: inline-block;
+            height: 1px;
+            border-top: 1px solid var(--ui-color-iOS-separator);
+          }
+          &:after {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: var(--ui-color-iOS-tertiarySystemFill);
+            z-index: -1;
+            @include opacity(0);
+            @include border-radius(6px);
+            @include transition(opacity .3s);
+          }
+        }
+
+        label.text {
+          padding: 12px + 6px;
+          cursor: pointer;
+          &:hover {
+            &:after {
+              @include opacity(1);
+            }
+          }
+        }
+
         label.row {
           position: relative;
           cursor: pointer;
           padding: 12px 12px;
           padding-right: 12px + 12px + 12px;
           z-index: 1;
-          ~.kvs {
-            display: none;
-          }
 
           &:before {
             position: absolute;
@@ -438,16 +517,11 @@
             &:after {
               @include transform(translate(0, calc(-50% - 1px)) rotate(45deg));
             }
-            ~ .kvs {
-              display: inline-flex;
-            }
           }
         }
       }
-      
     }
   }
-  
 }
 
 // #roles {
