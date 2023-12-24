@@ -5,46 +5,229 @@
  * @link        https://www.ioa.tw/
  */
 
+const Helper = {
+  Type: {
+    isObject: obj => typeof obj === 'object' && obj !== null && !Array.isArray(obj)
+  }
+}
+
 const Request = function(obj) {
   if (!(this instanceof Request))
     return new Request(obj)
 
-  this._method = Request.Method(obj.method)
-  this._header = Request.Header(obj.header)
-  this._payload = Request.Payload.Form(obj.payload)
-  this._testing = Request.Testing(obj.testing)
-  this._display = obj.display
+  const isObj = Helper.Type.isObject(obj)
+
+  this._display = isObj && typeof obj.display == 'boolean' ? obj.display : false
+  this._displayVar = isObj && typeof obj.displayVar == 'boolean' ? obj.displayVar : false
+
+
+  this._url = Request.Url(
+    isObj && Helper.Type.isObject(obj.url) && Array.isArray(obj.url.paths)
+      ? obj.url.paths
+      : [])
+
+  this._method = Request.Method(
+    isObj && typeof obj.method == 'string' && ['get', 'post', 'put', 'delete'].includes(obj.method.toLowerCase())
+      ? obj.method
+      : 'get')
+
+  this._header = Request.Header(
+    isObj && Helper.Type.isObject(obj.header) && typeof obj.header.display == 'boolean'
+      ? obj.header.display
+      : false,
+    isObj && Helper.Type.isObject(obj.header) && Array.isArray(obj.header.data)
+      ? obj.header.data
+      : []
+  )
+
+  this._payload = Request.Payload.dispatch(isObj
+    ? obj.payload
+    : null)
+
+  this._testRule = Request.TestRule(
+    isObj && Helper.Type.isObject(obj.testRule) && typeof obj.testRule.display == 'boolean'
+      ? obj.testRule.display
+      : false,
+    isObj && Helper.Type.isObject(obj.testRule)
+      ? Request.TestRule.dispatch(obj.testRule.rule)
+      : null
+  )
 
 }
 
+Object.defineProperty(Request.prototype, 'url', { get () { return this._url } })
 Object.defineProperty(Request.prototype, 'method', { get () { return this._method } })
 Object.defineProperty(Request.prototype, 'header', { get () { return this._header } })
 Object.defineProperty(Request.prototype, 'payload', { get () { return this._payload } })
-Object.defineProperty(Request.prototype, 'testing', { get () { return this._testing } })
+Object.defineProperty(Request.prototype, 'testRule', { get () { return this._testRule } })
 Object.defineProperty(Request.prototype, 'display', { get () { return this._display } })
-Request.prototype.toggle = function() { this._display = !this._display; return this }
+Object.defineProperty(Request.prototype, 'displayVar', { get () { return this._displayVar } })
+Object.defineProperty(Request.prototype, 'vars', { get () {
+  return [...this._url.vars, ...this._header.vars, ...this._payload.vars]
+} })
+Object.defineProperty(Request.prototype, 'forceVars', { get () {
+  const vars = []
+  for (let t of this.vars.filter(({ val }) => val === null))
+    vars.push(t)
+  return vars
+} })
+
+Request.prototype.toggleDisplay = function() { this._display = !this._display; return this }
+Request.prototype.toggleDisplayVar = function() { this._displayVar = !this._displayVar; return this }
+Request.Token = function(type) {
+  if (!(this instanceof Request.Token))
+    return new Request.Token(type)
+
+  this._type = type
+}
+Object.defineProperty(Request.Token.prototype, 'type', { get () { return this._type } })
+Object.defineProperty(Request.Token.prototype, 'isVar', { get () { return this.type == 'var' } })
+Object.defineProperty(Request.Token.prototype, 'isRand', { get () { return this.type == 'rand' } })
+Object.defineProperty(Request.Token.prototype, 'isStr', { get () { return this.type == 'str' } })
+Object.defineProperty(Request.Token.prototype, 'isNum', { get () { return this.type == 'num' } })
+Object.defineProperty(Request.Token.prototype, 'isDynamic', { get () { return this.isVar || this.isRand } })
+
+Request.Token.Str = function(val) {
+  if (!(this instanceof Request.Token.Str))
+    return new Request.Token.Str(val)
+  else
+    Request.Token.call(this, 'str')
+
+  this._val = val
+}
+Request.Token.Str.prototype = Object.create(Request.Token.prototype)
+Request.Token.Str.prototype.toString = function() { return this._val }
+Object.defineProperty(Request.Token.Str.prototype, 'val', { get () { return this._val } })
+
+Request.Token.Num = function(val) {
+  if (!(this instanceof Request.Token.Num))
+    return new Request.Token.Num(val)
+  else
+    Request.Token.call(this, 'num')
+
+  this._val = val
+}
+Request.Token.Num.prototype = Object.create(Request.Token.prototype)
+Request.Token.Num.prototype.toString = function() { return this._val }
+Object.defineProperty(Request.Token.Num.prototype, 'val', { get () { return this._val } })
+
+Request.Token.Var = function(type, key, val) {
+  if (!(this instanceof Request.Token.Var))
+    return new Request.Token.Var(type, key, val)
+  else
+    Request.Token.call(this, 'var')
+
+  this._key = key
+  this._val = val
+  this._subtype = type
+}
+Request.Token.Var.prototype = Object.create(Request.Token.prototype)
+Request.Token.Var.prototype.toString = function() { return `變數：${this.key}` }
+Object.defineProperty(Request.Token.Var.prototype, 'key', { get () { return this._key } })
+Object.defineProperty(Request.Token.Var.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(Request.Token.Var.prototype, 'valString', { get () {
+  if (this.val === null)
+    return `預設值：?`
+  if (typeof this.val == 'string')
+    return `預設值："${this.val}"`
+  if (typeof this.val == 'number')
+    return `預設值：${this.val}`
+  if (Helper.Type.isObject(this.val))
+    return `預設值：${this.val}`
+  
+  return `預設值：?`
+} })
+Object.defineProperty(Request.Token.Var.prototype, 'subtype', { get () { return this._subtype } })
+
+Request.Token.Rand = function(type, title) {
+  if (!(this instanceof Request.Token.Rand))
+    return new Request.Token.Rand(type, title)
+  else
+    Request.Token.call(this, 'rand')
+
+  this._subtype = type
+  this._title = title
+}
+Request.Token.Rand.prototype = Object.create(Request.Token.prototype)
+Request.Token.Rand.prototype.toString = function() { return `隨機：${this._title}` }
+Object.defineProperty(Request.Token.Rand.prototype, 'subtype', { get () { return this._subtype } })
+Object.defineProperty(Request.Token.Rand.prototype, 'title', { get () { return this._title } })
+
+Request.Token.dispatch = function(obj) {
+  if (!Helper.Type.isObject(obj) || typeof obj.type != 'string')
+    return null
+
+  if (obj.type == 'str' && typeof obj.val == 'string')
+    return Request.Token.Str(obj.val)
+
+  if (obj.type == 'num' && typeof obj.val == 'number')
+    return Request.Token.Num(obj.val)
+
+  if (obj.type == 'var'
+      && Helper.Type.isObject(obj.val)
+      && typeof obj.val.type == 'string' && obj.val.type !== '' && ['str', 'num', 'obj'].includes(obj.val.type)
+      && typeof obj.val.key == 'string' && obj.val.key !== ''
+  ) return Request.Token.Var(obj.val.type, obj.val.key,
+    (obj.val.type == 'str' && typeof obj.val.val == 'string') ||
+    (obj.val.type == 'num' && typeof obj.val.val == 'number') ||
+    (obj.val.type == 'obj' && Helper.Type.isObject(obj.val.val))
+     ? obj.val.val
+     : null)
+
+  if (obj.type == 'rand'
+      && Helper.Type.isObject(obj.val)
+      && typeof obj.val.type == 'string' && obj.val.type !== '' && ['uuid', 'name', 'email', 'phone', 'address'].includes(obj.val.type)
+      && typeof obj.val.title == 'string' && obj.val.title !== ''
+  ) return Request.Token.Rand(obj.val.type, obj.val.title)
+
+ return null
+}
+
+Request.Url = function(paths) {
+  if (!(this instanceof Request.Url))
+    return new Request.Url(paths)
+
+  this._paths = []
+  for (let path of paths) {
+    let tmp = Request.Token.dispatch(path)
+    if (tmp !== null)
+      this._paths.push(tmp)
+  }
+}
+Object.defineProperty(Request.Url.prototype, 'paths', { get () { return this._paths } })
+Object.defineProperty(Request.Url.prototype, 'vars', { get () { return this.paths.filter(path => path.isVar) } })
 
 Request.Method = function(method) {
   if (!(this instanceof Request.Method))
     return new Request.Method(method)
-  this._val = ['get', 'post', 'put', 'delete'].includes(method) ? method : 'get'
+  this._val = method
 }
 Request.Method.prototype.toString = function() { return this._val.toLowerCase() }
 Request.Method.prototype.toUpperCase = function() { return this._val.toUpperCase() }
 
-Request.Header = function(obj) {
+Request.Header = function(display, data) {
   if (!(this instanceof Request.Header))
-    return new Request.Header(obj)
+    return new Request.Header(display, data)
 
-  this._display = obj.display
-  this._kvs = []
+  this._display = display
 
-  for (let key in obj.kv)
-    this._kvs.push({ key, val: obj.kv[key] })
+  this._data = []
+
+  for (const row of data) {
+    if (Helper.Type.isObject(row)) {
+
+      const key = Request.Token.dispatch(row.key)
+      const val = Request.Token.dispatch(row.val)
+      
+      if (key !== null && val !== null)
+        this._data.push({ key, val })
+    }
+  }
 }
 Object.defineProperty(Request.Header.prototype, 'display', { get () { return this._display } })
-Object.defineProperty(Request.Header.prototype, 'kvs', { get () { return this._kvs } })
-Request.Header.prototype.toggle = function() { this._display = !this._display; return this }
+Object.defineProperty(Request.Header.prototype, 'data', { get () { return this._data } })
+Object.defineProperty(Request.Header.prototype, 'vars', { get () { return this.data.map(({ key, val }) => [key, val]).reduce((a, b) => a.concat(b), []).filter(path => path.isVar) } })
+Request.Header.prototype.toggleDisplay = function() { this._display = !this._display; return this }
 
 
 Request.Payload = function(display, type) {
@@ -60,271 +243,359 @@ Request.Payload.prototype.toString = function() {
   return ''
 }
 
-Request.Method.prototype.toString = function() { return this._val.toLowerCase() }
-Request.Method.prototype.toUpperCase = function() { return this._val.toUpperCase() }
 Object.defineProperty(Request.Payload.prototype, 'type', { get () { return this._type } })
 Object.defineProperty(Request.Payload.prototype, 'display', { get () { return this._display } })
-Request.Payload.prototype.toggle = function() { this._display = !this._display; return this }
+Request.Payload.prototype.toggleDisplay = function() { this._display = !this._display; return this }
+Object.defineProperty(Request.Payload.prototype, 'vars', { get () { return [] } })
 
-Request.Payload.Form = function(obj) {
+Request.Payload.Form = function(display, data) {
   if (!(this instanceof Request.Payload.Form))
-    return new Request.Payload.Form(obj)
+    return new Request.Payload.Form(display, data)
   else
-    Request.Payload.call(this, obj.display, 'form')
+    Request.Payload.call(this, display, 'form')
 
-  this._kvs = []
-
-  for (let key in obj.kv)
-    this._kvs.push({ key, val: obj.kv[key] })
+  this._data = []
+  for (const row of data) {
+    if (Helper.Type.isObject(row)) {
+      
+      const key = Request.Token.dispatch(row.key)
+      const val = Request.Token.dispatch(row.val)
+      
+      if (key !== null && val !== null)
+        this._data.push({ key, val })
+    }
+  }
+  
 }
 Request.Payload.Form.prototype = Object.create(Request.Payload.prototype)
-Object.defineProperty(Request.Payload.Form.prototype, 'kvs', { get () { return this._kvs } })
+Object.defineProperty(Request.Payload.Form.prototype, 'data', { get () { return this._data } })
 
-Request.Payload.RawJson = function(obj) {
-  if (!(this instanceof Request.Payload.RawJson))
-    return new Request.Payload.RawJson(obj)
-  else
-    Request.Payload.call(this, obj.display, 'rawJson')
+Object.defineProperty(Request.Payload.Form.prototype, 'vars', { get () {
+  return this.data.map(({ key, val }) => [key, val]).reduce((a, b) => a.concat(b), []).filter(path => path.isVar)
+} })
+
+Request.Payload.dispatch = function(obj) {
+  if (!Helper.Type.isObject(obj) || typeof obj.type != 'string')
+    return null
+
+  if (obj.type == 'form' && Array.isArray(obj.data) && obj.data.length)
+    return Request.Payload.Form(typeof obj.display == 'boolean' ? obj.display : false, obj.data)
+
+  return null
 }
-Request.Payload.RawJson.prototype = Object.create(Request.Payload.prototype)
 
 
-Request.Testing = function(obj) {
-  if (!(this instanceof Request.Testing))
-    return new Request.Testing(obj)
+Request.TestRule = function(display, rule) {
+  if (!(this instanceof Request.TestRule))
+    return new Request.TestRule(display, rule)
 
-  this._display = obj.display
-  this._rule = Request.Testing.ruleDispatch(obj.rule)
+  this._display = display
+  this._rule = rule
 }
-Object.defineProperty(Request.Testing.prototype, 'display', { get () { return this._display } })
-Object.defineProperty(Request.Testing.prototype, 'rule', { get () { return this._rule } })
-Request.Testing.prototype.toggle = function() { this._display = !this._display; return this }
-Request.Testing.prototype.description = function() {
-  return this.rule === null
-    ? Request.Testing.Description('回應結果不需要測試')
-    : this.rule.description('回應結果')
-  // const strs = ['回應結果']
-  
-  // // strs.push(this.rule.optional ? '可以不存在或者為 null，如果存在或者不是 null 時，則要' : '必須要')
+Object.defineProperty(Request.TestRule.prototype, 'display', { get () { return this._display } })
+Object.defineProperty(Request.TestRule.prototype, 'rule', { get () { return this._rule } })
+Object.defineProperty(Request.TestRule.prototype, 'description', { get () { return this.rule === null ? null : this.rule.description('回應結果') } })
+Request.TestRule.prototype.toggleDisplay = function() { this._display = !this._display; return this }
 
-  // // this.rule instanceof Request.Testing.Num && strs.push('為「數字」格式')
-  // // this.rule instanceof Request.Testing.Str && strs.push('為「字串」格式')
-  // // this.rule instanceof Request.Testing.Bool && strs.push('為「布林值」格式')
-  // // this.rule instanceof Request.Testing.Arr && strs.push('為「陣列」格式')
-  // // this.rule instanceof Request.Testing.Obj && strs.push('為「Json」格式')
-  //   // : `回應結果必須為 this.rule.description()`
-  // return `${strs.join('')}，${this.rule.description()}`
-}
-Request.Testing.Description = function(title, children = []) {
-  if (!(this instanceof Request.Testing.Description))
-    return new Request.Testing.Description(title, children)
+Request.TestRule.Description = function(type, title, optional, descriptions, children = []) {
+  if (!(this instanceof Request.TestRule.Description))
+    return new Request.TestRule.Description(type, title, optional, descriptions, children)
+  this._type = type
   this._title = title
+  this._optional = optional
+  this._descriptions = descriptions
   this._children = children
 }
-Object.defineProperty(Request.Testing.Description.prototype, 'title', { get () { return this._title } })
-Object.defineProperty(Request.Testing.Description.prototype, 'children', { get () { return this._children } })
+Object.defineProperty(Request.TestRule.Description.prototype, 'type', { get () { return this._type } })
+Object.defineProperty(Request.TestRule.Description.prototype, 'title', { get () { return this._title } })
+Object.defineProperty(Request.TestRule.Description.prototype, 'optional', { get () { return this._optional } })
+Object.defineProperty(Request.TestRule.Description.prototype, 'descriptions', { get () { return this._descriptions } })
+Object.defineProperty(Request.TestRule.Description.prototype, 'children', { get () { return this._children } })
 
-Request.Testing.Num = function(obj) {
-  if (!(this instanceof Request.Testing.Num))
-    return new Request.Testing.Num(obj)
+Request.TestRule.Num = function(optional, val, min, max) {
+  if (!(this instanceof Request.TestRule.Num))
+    return new Request.TestRule.Num(optional, val, min, max)
 
-  this._val = undefined
-  this._min = undefined
-  this._max = undefined
-  this._optional = false
-
-  if (typeof obj != 'object' || obj === null || Array.isArray(obj))
-    return
-
-  this._val = obj.val === undefined || typeof obj.val != 'number' ? undefined : obj.val
-  this._min = obj.min === undefined || typeof obj.min != 'number' ? undefined : obj.min
-  this._max = obj.max === undefined || typeof obj.max != 'number' ? undefined : obj.max
-  this._optional = obj.optional === undefined || typeof obj.optional != 'boolean' ? false : obj.optional
+  this._optional = optional
+  this._val      = val
+  this._min      = min
+  this._max      = max
 }
-Object.defineProperty(Request.Testing.Num.prototype, 'title', { get () { return '數字' } })
-Object.defineProperty(Request.Testing.Num.prototype, 'val', { get () { return this._val } })
-Object.defineProperty(Request.Testing.Num.prototype, 'min', { get () { return this._min } })
-Object.defineProperty(Request.Testing.Num.prototype, 'max', { get () { return this._max } })
-Object.defineProperty(Request.Testing.Num.prototype, 'optional', { get () { return this._optional } })
-Request.Testing.Num.prototype.description = function(title) {
-  title = `「${title}」${this.optional ? '可以不存在或者為 null，如果存在或者不是 null 時，則' : '必須'}要為「${this.title}」格式`
-
+Object.defineProperty(Request.TestRule.Num.prototype, 'type', { get () { return '數字' } })
+Object.defineProperty(Request.TestRule.Num.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(Request.TestRule.Num.prototype, 'min', { get () { return this._min } })
+Object.defineProperty(Request.TestRule.Num.prototype, 'max', { get () { return this._max } })
+Object.defineProperty(Request.TestRule.Num.prototype, 'optional', { get () { return this._optional } })
+Request.TestRule.Num.prototype.description = function(title) {
+  let descriptions = []
   if (this.val !== undefined) {
-    title += `，值需等於「${this.val}」`
+    descriptions.push(`值需等於「${this.val}」`)
   } else {
-    this.min === undefined || (title += `，需大於等於「${this.min}」`)
-    this.max === undefined || (title += `，需小於等於「${this.max}」`)
+    this.min === undefined || descriptions.push(`需大於等於「${this.min}」`)
+    this.max === undefined || descriptions.push(`需小於等於「${this.max}」`)
   }
 
-  return Request.Testing.Description(title)
+  return Request.TestRule.Description(this.type, title, this.optional, descriptions)
 }
-Request.Testing.Str = function(obj) {
-  if (!(this instanceof Request.Testing.Str))
-    return new Request.Testing.Str(obj)
+Request.TestRule.Str = function(optional, val, min, max, len) {
+  if (!(this instanceof Request.TestRule.Str))
+    return new Request.TestRule.Str(optional, val, min, max, len)
 
-  this._val = undefined
-  this._min = undefined
-  this._max = undefined
-  this._len = undefined
-  this._optional = false
-
-  if (typeof obj != 'object' || obj === null || Array.isArray(obj))
-    return
-
-  this._val = obj.val === undefined || typeof obj.val != 'string' ? undefined : obj.val
-  this._len = obj.len === undefined || typeof obj.len != 'number' ? undefined : obj.len
-  this._min = obj.min === undefined || typeof obj.min != 'number' ? undefined : obj.min
-  this._max = obj.max === undefined || typeof obj.max != 'number' ? undefined : obj.max
-  this._optional = obj.optional === undefined || typeof obj.optional != 'boolean' ? false : obj.optional
+  this._optional = optional
+  this._val      = val
+  this._len      = len
+  this._min      = min
+  this._max      = max
 }
-Object.defineProperty(Request.Testing.Str.prototype, 'title', { get () { return '字串' } })
-Object.defineProperty(Request.Testing.Str.prototype, 'val', { get () { return this._val } })
-Object.defineProperty(Request.Testing.Str.prototype, 'len', { get () { return this._len } })
-Object.defineProperty(Request.Testing.Str.prototype, 'min', { get () { return this._min } })
-Object.defineProperty(Request.Testing.Str.prototype, 'max', { get () { return this._max } })
-Object.defineProperty(Request.Testing.Str.prototype, 'optional', { get () { return this._optional } })
-
-Request.Testing.Str.prototype.description = function(title) {
-  title = `「${title}」${this.optional ? '可以不存在或者為 null，如果存在或者不是 null 時，則' : '必須'}要為「${this.title}」格式`
-
+Object.defineProperty(Request.TestRule.Str.prototype, 'type', { get () { return '字串' } })
+Object.defineProperty(Request.TestRule.Str.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(Request.TestRule.Str.prototype, 'len', { get () { return this._len } })
+Object.defineProperty(Request.TestRule.Str.prototype, 'min', { get () { return this._min } })
+Object.defineProperty(Request.TestRule.Str.prototype, 'max', { get () { return this._max } })
+Object.defineProperty(Request.TestRule.Str.prototype, 'optional', { get () { return this._optional } })
+Request.TestRule.Str.prototype.description = function(title) {
+  let descriptions = []
   if (this.val !== undefined) {
-    title += `，值需等於「${this.val}」`
+    descriptions.push(`值需等於「${this.val}」`)
   } else if (this.len !== undefined) {
-    title += `，長度需等於「${this.val}」`
+    descriptions.push(`長度需等於「${this.val}」`)
   } else { 
-    this.min === undefined || (title += `，長度需大於等於「${this.min}」`)
-    this.max === undefined || (title += `，長度需小於等於「${this.max}」`)
+    this.min === undefined || descriptions.push(`長度需大於等於「${this.min}」`)
+    this.max === undefined || descriptions.push(`長度需小於等於「${this.max}」`)
   }
 
-  return Request.Testing.Description(title)
+  return Request.TestRule.Description(this.type, title, this.optional, descriptions)
 }
-Request.Testing.Bool = function(obj) {
-  if (!(this instanceof Request.Testing.Bool))
-    return new Request.Testing.Bool(obj)
 
-  this._val = undefined
-  this._optional = false
+Request.TestRule.Bool = function(optional, val) {
+  if (!(this instanceof Request.TestRule.Bool))
+    return new Request.TestRule.Bool(optional, val)
 
-  if (typeof obj != 'object' || obj === null || Array.isArray(obj))
-    return
-
-  this._val = obj.val === undefined || typeof obj.val != 'boolean' ? undefined : obj.val
-  this._optional = obj.optional === undefined || typeof obj.optional != 'boolean' ? false : obj.optional
+  this._optional = optional
+  this._val      = val
 }
-Object.defineProperty(Request.Testing.Bool.prototype, 'title', { get () { return '布林值' } })
-Object.defineProperty(Request.Testing.Bool.prototype, 'val', { get () { return this._val } })
-Object.defineProperty(Request.Testing.Bool.prototype, 'optional', { get () { return this._optional } })
-
-Request.Testing.Bool.prototype.description = function(title) {
-  title = `「${title}」${this.optional ? '可以不存在或者為 null，如果存在或者不是 null 時，則' : '必須'}要為「${this.title}」格式`
-  this.val === undefined || (title += `，值需等於「${this.val ? 'true' : 'false'}」`)
-  return Request.Testing.Description(title)
+Object.defineProperty(Request.TestRule.Bool.prototype, 'type', { get () { return '布林值' } })
+Object.defineProperty(Request.TestRule.Bool.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(Request.TestRule.Bool.prototype, 'optional', { get () { return this._optional } })
+Request.TestRule.Bool.prototype.description = function(title) {
+  let descriptions = []
+  this.val === undefined || descriptions.push(`值需等於「${this.val ? 'true' : 'false'}」`)
+  return Request.TestRule.Description(this.type, title, this.optional, descriptions)
 }
-Request.Testing.Arr = function(obj) {
-  if (!(this instanceof Request.Testing.Arr))
-    return new Request.Testing.Arr(obj)
 
-  this._element = Request.Testing.ruleDispatch(undefined)
-  this._len = undefined
-  this._min = undefined
-  this._max = undefined
-  this._optional = false
+Request.TestRule.Arr = function(optional, min, max, len, element) {
+  if (!(this instanceof Request.TestRule.Arr))
+    return new Request.TestRule.Arr(optional, min, max, len, element)
 
-  if (typeof obj != 'object' || obj === null || Array.isArray(obj))
-    return
-
-  this._element = Request.Testing.ruleDispatch(obj.element)
-  this._min = obj.min === undefined || typeof obj.min != 'number' ? undefined : obj.min
-  this._max = obj.max === undefined || typeof obj.max != 'number' ? undefined : obj.max
-  this._len = obj.len === undefined || typeof obj.len != 'number' ? undefined : obj.len
-  this._optional = obj.optional === undefined || typeof obj.optional != 'boolean' ? false : obj.optional
+  this._optional = optional
+  this._min      = min
+  this._max      = max
+  this._len      = len
+  this._element  = element
 }
-Object.defineProperty(Request.Testing.Arr.prototype, 'title', { get () { return '陣列' } })
-Object.defineProperty(Request.Testing.Arr.prototype, 'element', { get () { return this._element } })
-Object.defineProperty(Request.Testing.Arr.prototype, 'len', { get () { return this._len } })
-Object.defineProperty(Request.Testing.Arr.prototype, 'min', { get () { return this._min } })
-Object.defineProperty(Request.Testing.Arr.prototype, 'max', { get () { return this._max } })
-Object.defineProperty(Request.Testing.Arr.prototype, 'optional', { get () { return this._optional } })
-
-Request.Testing.Arr.prototype.description = function(title) {
-  title = `「${title}」${this.optional ? '可以不存在或者為 null，如果存在或者不是 null 時，則' : '必須'}要為「${this.title}」格式`
-  
+Object.defineProperty(Request.TestRule.Arr.prototype, 'type', { get () { return '陣列' } })
+Object.defineProperty(Request.TestRule.Arr.prototype, 'element', { get () { return this._element } })
+Object.defineProperty(Request.TestRule.Arr.prototype, 'len', { get () { return this._len } })
+Object.defineProperty(Request.TestRule.Arr.prototype, 'min', { get () { return this._min } })
+Object.defineProperty(Request.TestRule.Arr.prototype, 'max', { get () { return this._max } })
+Object.defineProperty(Request.TestRule.Arr.prototype, 'optional', { get () { return this._optional } })
+Request.TestRule.Arr.prototype.description = function(title) {
+  let descriptions = []
   if (this.len !== undefined) {
-    title += `，長度需等於「${this.len}」`
+    descriptions.push(`長度需等於「${this.len}」`)
   } else { 
-    this.min === undefined || (title += `，長度需大於等於「${this.min}」`)
-    this.max === undefined || (title += `，長度需小於等於「${this.max}」`)
+    this.min === undefined || descriptions.push(`長度需大於等於「${this.min}」`)
+    this.max === undefined || descriptions.push(`長度需小於等於「${this.max}」`)
   }
 
   const children = []
   if (this.element === null) {
-    title += `，元素類型不需要檢查`
+    descriptions.push(`，元素類型不需要檢查`)
   } else {
-    const { title: t, children: s } = this.element.description('元素')
-    title += `，${t}`
+    const { title: t, descriptions: descs, children: s } = this.element.description('元素')
+    descriptions.push(...descs)
     children.push(...s)
   }
 
-  return Request.Testing.Description(title, children)
+  return Request.TestRule.Description(this.type, title, this.optional, descriptions, children)
 }
-Request.Testing.Obj = function(obj) {
-  if (!(this instanceof Request.Testing.Obj))
-    return new Request.Testing.Obj(obj)
 
-  this._struct = {}
-  this._optional = false
+Request.TestRule.Obj = function(optional, struct) {
+  if (!(this instanceof Request.TestRule.Obj))
+    return new Request.TestRule.Obj(optional, struct)
 
-  if (typeof obj != 'object' || obj === null || Array.isArray(obj))
-    return
-
-  this._optional = obj.optional === undefined || typeof obj.optional != 'boolean' ? false : obj.optional
-  
-  let struct = obj.struct === undefined || typeof obj.struct != 'object' || obj.struct === null || Array.isArray(obj.struct) ? {} : obj.struct
-  for (let key in struct)
-    this._struct[key] = Request.Testing.ruleDispatch(struct[key])
+  this._optional = optional
+  this._struct = struct
 }
-Object.defineProperty(Request.Testing.Obj.prototype, 'title', { get () { return 'JSON' } })
-Object.defineProperty(Request.Testing.Obj.prototype, 'struct', { get () { return this._struct } })
-Object.defineProperty(Request.Testing.Obj.prototype, 'optional', { get () { return this._optional } })
-
-Request.Testing.Obj.prototype.description = function(title) {
-  const keys = Object.keys(this.struct)
-  title = `「${title}」${this.optional ? '可以不存在或者為 null，如果存在或者不是 null 時，則' : '必須'}要為「${this.title}」格式`
+Object.defineProperty(Request.TestRule.Obj.prototype, 'type', { get () { return 'JSON' } })
+Object.defineProperty(Request.TestRule.Obj.prototype, 'struct', { get () { return this._struct } })
+Object.defineProperty(Request.TestRule.Obj.prototype, 'optional', { get () { return this._optional } })
+Request.TestRule.Obj.prototype.description = function(title) {
+  let descriptions = []
+  const keys = this.struct ? Object.keys(this.struct) : []
 
   if (keys.length)
-    title += `，結構中的 ${keys.join('、')} 需要檢查`
+    descriptions.push(`結構中的 ${keys.map(k => `「${k}」`).join('、')} 需要檢查`)
   else
-    title += `，結構內容完全不用檢查`
+    descriptions.push(`結構內容完全不用檢查`)
 
   const children = []
   for (let key of keys)
     children.push(this.struct[key].description(key))
 
-  return Request.Testing.Description(title, children)
+  return Request.TestRule.Description(this.type, title, this.optional, descriptions, children)
 }
 
-Request.Testing.ruleDispatch = function(obj) {
-  if (typeof obj != 'object' || obj === null || Array.isArray(obj)) return null
-  if (obj.type == 'num') return Request.Testing.Num(obj)
-  if (obj.type == 'str') return Request.Testing.Str(obj)
-  if (obj.type == 'bool') return Request.Testing.Bool(obj)
-  if (obj.type == 'arr') return Request.Testing.Arr(obj)
-  if (obj.type == 'obj') return Request.Testing.Obj(obj)
+Request.TestRule.dispatch = function(obj) {
+  if (!Helper.Type.isObject(obj) || typeof obj.type != 'string')
+    return null
+  
+  if (obj.type == 'num')
+    return Request.TestRule.Num(
+      typeof obj.optional == 'boolean' ? obj.optional : false,
+      typeof obj.val      == 'number'  ? obj.val      : null,
+      typeof obj.min      == 'number'  ? obj.min      : null,
+      typeof obj.max      == 'number'  ? obj.max      : null
+    )
+
+  if (obj.type == 'str')
+    return Request.TestRule.Str(
+      typeof obj.optional == 'boolean' ? obj.optional : false,
+      typeof obj.val      == 'string'  ? obj.val      : null,
+      typeof obj.min      == 'number'  ? obj.min      : null,
+      typeof obj.max      == 'number'  ? obj.max      : null,
+      typeof obj.len      == 'number'  ? obj.len      : null
+    )
+
+  if (obj.type == 'bool')
+    return Request.TestRule.Bool(
+      typeof obj.optional == 'boolean' ? obj.optional : false,
+      typeof obj.val      == 'boolean' ? obj.val      : null
+    )
+
+  if (obj.type == 'arr')
+    return Request.TestRule.Arr(
+      typeof obj.optional == 'boolean' ? obj.optional : false,
+      typeof obj.min       == 'number' ? obj.min      : undefined,
+      typeof obj.max       == 'number' ? obj.max      : undefined,
+      typeof obj.len       == 'number' ? obj.len      : undefined,
+      Request.TestRule.dispatch(obj.element)
+    )
+
+  if (obj.type == 'obj') {
+    const struct = {}
+
+    if (Helper.Type.isObject(obj.struct))
+      for (let key in obj.struct) {
+        let tmp = Request.TestRule.dispatch(obj.struct[key])
+        if (tmp !== null)
+          struct[key] = tmp
+      }
+
+    return Request.TestRule.Obj(
+      typeof obj.optional == 'boolean' ? obj.optional : false,
+      Object.keys(struct).length ? struct : null)
+  }
+
   return null
 }
 
-Load.VueComponent('testing-description', {
+Load.VueComponent('test-rule', {
   props: {
-    description: { type: Request.Testing.Description, request: true }
+    description: { type: Request.TestRule.Description, request: true }
   },
   computed: {
   },
   template: `
-    div.testing-description
-      span => *text=description.title + '。'
+    div.test-rule
+      label
+        b => *text=description.title
+        span.type => *text=description.type
+        span.optional => *text=description.optional ? '非必須' : '必須'
+        template => *if=description.descriptions.length
+          i
+          span.rule => *text=description.descriptions.join('，') + '。'
       ul => *if=description.children.length
         li => *for=(child, i) in description.children   :key=i
-          testing-description => :description=child`
+          test-rule => :description=child`
+})
+
+Load.VueComponent('role-unit', {
+  props: {
+    request: { type: Request, request: true }
+  },
+  computed: {
+  },
+  template: `
+    .role-unit
+      header => :class=request.display ? '_open' : ''
+        i._icon-api
+        div
+          b => *text='登入前台'
+          span => *text='用戶使用 E-Mail 登入'
+        label => @click=request.toggleDisplay()
+
+      .body.api => *if=request.display
+        .var => *if=request.forceVars.length
+          label.row._arr._var => :class={_open: request.displayVar}   @click=request.toggleDisplayVar()
+            b => *text='必要變數'   :subtitle='（' + request.forceVars.length + '）'
+
+          .kvs => *if=request.displayVar
+            .kv => *for=(v, i) in request.forceVars   :key=i
+              label
+                b => *text=v.key
+              label
+                span => *text=v.valString
+
+        .url
+          label.row._copy
+            b => *text='URL'
+            div
+              span => *for=(path, i) in request.url.paths   :key=i   *text=path   :class={_token_dynamic: path.isDynamic}
+
+        .method
+          .row
+            b => *text='方式'   :subtitle='（method）'
+            div
+              span => *text=request.method.toUpperCase()   :class=request.method.toString()
+
+
+        .header => *if=request.header.data.length
+          label.row._arr => :class={_open: request.header.display}   @click=request.header.toggleDisplay()
+            b => *text='標題'   :subtitle='（header）'
+
+          .kvs => *if=request.header.display
+            .kv => *for=({ key, val },i) in request.header.data   :key=i
+              label
+                b => *text=key   :class={_token_dynamic: key.isDynamic}
+              label
+                span => *text=val   :class={_token_dynamic: val.isDynamic}
+
+        .payload => *if=request.payload
+          label.row._arr => :class={_open: request.payload.display}   @click=request.payload.toggleDisplay()
+            b => *text='內文'   :subtitle='（payload）'
+            span => *text=request.payload
+
+          template => *if=request.payload.display
+            .kvs => *if=request.payload.type == 'form'
+              .kv => *for=({ key, val }, i) in request.payload.data   :key=i
+                label
+                  b => *text=key   :class={_token_dynamic: key.isDynamic}
+                label
+                  span => *text=val   :class={_token_dynamic: val.isDynamic}
+
+        .test-rules
+          label.row._arr => :class=request.testRule.display ? '_open' : ''   @click=request.testRule.toggleDisplay()
+            b => *text='測試條件'   :subtitle='（test rule）'
+
+          div => *if=request.testRule.display
+            test-rule => *if=request.testRule.description   :description=request.testRule.description
+            div.test-rule => *else
+              div
+                b => *text='回應結果'
+                i
+                span.rule => *text='不需檢查。'
+    `
 })
 
 Load.Vue({
@@ -332,22 +603,65 @@ Load.Vue({
     request: Request({
       display: true,
       method: 'post',
+      url: {
+        paths: [
+          { type: 'var', val: {
+            type: 'str',
+            key: 'BaseURL',
+          } },
+          { type: 'str', val: 'market' },
+          { type: 'num', val: 2 },
+          { type: 'str', val: 'product' },
+          { type: 'var', val: {
+            type: 'num',
+            key: 'product-id',
+            val: 0
+          } },
+          { type: 'str', val: 'product' },
+          { type: 'rand', val: {
+            type: 'name', title: '姓名',
+            type: 'email', title: 'E-Mail',
+            type: 'phone', title: '電話',
+            type: 'address', title: '地址',
+          } },
+        ]
+      },
       header: {
         display: true,
-        kv: {
-          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kZXYtYXBpLmlkcmlwLmNvZmZlZVwvYXV0aFwvbG9naW4iLCJpYXQiOjE3MDI4ODc1NzEsImV4cCI6MTcwODA3MTU3MSwibmJmIjoxNzAyODg3NTcxLCJqdGkiOiJWbWVJY1NXakZxaVpFZEZCIiwic3ViIjo1NjE0LCJwcnYiOiJhZmQwZmQ5YmRkOWFjNzJmZjM5ODM0MWYxZDYyODQwY2JmNGM3MTY3In0.xcmOcBh3n-JsoVNSICdS8LkOWYHpLFiYbUirmnN3mp0'
-        }
+        data: [
+          {
+            key: { type: 'str', val: 'Authorization' },
+            val: { type: 'var', val: { type: 'str', key: 'auth-token'} }
+          },
+          {
+            key: { type: 'str', val: 'Pid' },
+            val: { type: 'var', val: { type: 'num', key: 'product-id'} }
+          },
+        ]
       },
       payload: {
         display: true,
         type: 'form',
-        kv: {
-          type: 'mobile',
-          username: 'oa.wu@idrip.coffee',
-          password: '123',
-        }
+        data: [
+          {
+            key: { type: 'str', val: 'type' },
+            val: { type: 'str', val: 'mobile' },
+          },
+          {
+            key: { type: 'str', val: 'username' },
+            val: { type: 'var', val: { type: 'str', key: 'auth-account'} }
+          },
+          {
+            key: { type: 'str', val: 'password' },
+            val: { type: 'var', val: { type: 'str', key: 'auth-password'} }
+          },
+          {
+            key: { type: 'str', val: 'uuid' },
+            val: { type: 'rand', val: { type: 'uuid', title: 'UUID' } }
+          },
+        ]
       },
-      testing: {
+      testRule: {
         display: true,
         rule: {
           type: 'obj', optional: false,
@@ -369,7 +683,10 @@ Load.Vue({
               } }
             } }
           }
-        }
+        },
+        // rule: {
+        //   type: 'num', optional: false, val: 200
+        // }
       }
     })
   },
@@ -389,49 +706,10 @@ Load.Vue({
                 b => *text='用戶前台'
               .role-units
                 b => *text='管理後台'
+
             .unit-roles
               .role-units
-                .role-unit
-                  header => :class=request.display ? '_open' : ''
-                    i._icon-api
-                    div
-                      b => *text='登入前台'
-                      span => *text='用戶使用 E-Mail 登入'
-                    label => @click=request.toggle()
-
-                  .body.api => *if=request.display
-                    .method
-                      .row
-                        span => *text='方式'
-                        b => *text=request.method.toUpperCase()
-
-                    .header => *if=request.header.kvs.length
-                      label.row => :class=request.header.display ? '_open' : ''   @click=request.header.toggle()
-                        span => *text='標題'
-
-                      .kvs => *if=request.header.display
-                        .kv => *for=({ key, val },i) in request.header.kvs   :key=i
-                          label => *text=key
-                          label => *text=val
-
-                    .payload
-                      label.row => :class=request.payload.display ? '_open' : ''   @click=request.payload.toggle()
-                        span => *text='內文'
-                        b => *text=request.payload
-
-                      template => *if=request.payload.display
-                        .kvs => *if=request.payload.type == 'form'
-                          .kv => *for=({ key, val },i) in request.payload.kvs   :key=i
-                            label => *text=key
-                            label => *text=val
-
-                    .testing
-                      label.row => :class=request.testing.display ? '_open' : ''   @click=request.testing.toggle()
-                        span => *text='測試'
-
-                      .testing.text => *if=request.testing.display
-                        testing-description => :description=request.testing.description()
-
+                role-unit => :request=request
 
                 .role-unit
                   header

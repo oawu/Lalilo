@@ -196,8 +196,8 @@
         top: 0;
         right: 0;
         display: inline-block;
-        height: 2px;
-        border-top: 2px solid var(--ui-color-iOS-separator);
+        height: 1px;
+        border-top: 1px solid var(--ui-color-iOS-separator);
       }
 
       &.api {
@@ -207,15 +207,7 @@
         justify-content: flex-start;
         width: 100%;
 
-        .method {
-          position: relative;
-          display: inline-flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-start;
-          width: 100%;
-        }
-        .header, .payload, .testing {
+        .var, .method, .url, .header, .payload, .test-rules {
           display: inline-flex;
           flex-direction: column;
           align-items: center;
@@ -233,21 +225,193 @@
             border-top: 1px solid var(--ui-color-iOS-separator);
           }
         }
+        .url {
+          .row {
+            div {
+              flex-grow: 1;
+              display: inline-flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-start;
+              margin-left: 20px;
+              flex-wrap: wrap;
+              position: relative;
+              margin-top: -2px;
+              &:before {
+                content: '';
+                position: absolute;
+                left: -8px;
+                top: 0;
+                bottom: 0;
+                display: inline-block;
+                width: 1px;
+                border-left: 1px solid var(--ui-color-iOS-systemFill);
+              }
+              
+              span {
+                position: relative;
+                display: inline-block;
+                padding: 1px 0;
+                margin-top: 2px;
+                font-size: small;
+                @extend %-user-select-none;
+                
+                &:before {
+                  content: '';
+                  position: absolute;
+                  left: -5px;
+                  top: 50%;
+                  display: inline-block;
+                  width: 1px;
+                  height: 70%;
+                  background-color: var(--ui-color-iOS-separator);
+                  @include transform(translateY(-50%) rotate(15deg));
+                  @include opacity(0);
+                }
+
+                + span {
+                  margin-left: 9px;
+                  &:before {
+                    @include opacity(1);
+                  }
+                }
+                &._token_dynamic {
+                  padding: 1px 6px;
+                  // border: 1px solid rgba(255, 0, 0, .3);
+                  @include border-radius(4px);
+
+                  background-color: var(--ui-color-iOS-tertiarySystemFill);
+                }
+              }
+            }
+          }
+        }
+        .method {
+          div {
+            
+            span {
+              display: inline-block;
+              padding: 2px 8px;
+              font-size: small;
+              @include border-radius(3px);
+              
+              &.get {
+                color: white;
+                background-color: var(--ui-color-iOS-systemGreen);
+              }
+              &.post {
+                color: white;
+                background-color: var(--ui-color-iOS-systemRed);
+              }
+              &.put {
+                color: white;
+                background-color: var(--ui-color-iOS-systemBlue);
+              }
+              &.delete {
+                color: var(--ui-color-iOS-darkText);
+                background-color: var(--ui-color-iOS-systemGray4);
+                
+              }
+            }
+          }
+        }
         .header {
           
         }
         .payload {
           
         }
-        .testing-description {
-          // border: 1px solid rgba(255, 0, 0, .3);
+        .test-rule {
           font-size: small;
-          span {
-            display: inline-block;
-            width: 100%;
-            @extend %-user-select-none;
+          label {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
             word-wrap: break-word;
-            // border: 1px solid rgba(255, 0, 0, .3);
+
+            width: 100%;
+            padding: 3px 5px;
+            padding-left: 16px;
+            position: relative;
+            @include border-radius(3px);
+            background-color: transparent;
+            cursor: pointer;
+            @include transition(background-color .3s);
+            
+
+            > * {
+              display: inline-block;
+              @extend %-user-select-none;
+            }
+            &:before {
+              content: '';
+              position: absolute;
+              left: 6px;
+              top: 10px;
+              display: inline-block;
+              width: 4px;
+              height: 4px;
+              @include border-radius(50%);
+              background-color: var(--ui-color-iOS-separator);
+              
+            }
+            b {
+              flex-shrink: 0;
+            }
+            i {
+              flex-shrink: 0;
+              margin-top: 1px;
+              width: 8px;
+              height: 2px;
+              border-top: 2px solid var(--ui-color-iOS-separator);
+              margin-left: 6px;
+              margin-right: 6px;
+            }
+            .type {
+              flex-shrink: 0;
+              color: var(--ui-color-iOS-secondaryLabel);
+              &:before, &:after {
+                display: inline-block;
+              }
+
+              &:before {
+                content: '[';
+                margin-left: 4px;
+                margin-right: 2px;
+              }
+              &:after {
+                content: ']';
+                margin-left: 2px;
+              }
+            }
+            .optional {
+              flex-shrink: 0;
+              color: var(--ui-color-iOS-secondaryLabel);
+              &:before, &:after {
+                display: inline-block;
+              }
+
+              &:before {
+                content: '[';
+                margin-left: 4px;
+                margin-right: 2px;
+              }
+              &:after {
+                content: ']';
+                margin-left: 2px;
+              }
+            }
+            .rule {
+              flex-grow: 1;
+            }
+            &:hover {
+              background-color: var(--ui-color-iOS-tertiarySystemFill);
+            }
+            &:active {
+              background-color: var(--ui-color-iOS-secondarySystemFill);
+            }
           }
           ul {
             display: inline-block;
@@ -260,36 +424,38 @@
             padding-right: 4px;
             padding-bottom: 4px;
             padding-left: 8px + 8px;
+            padding-left: 4px;
             list-style: none;
             background-color: var(--ui-color-iOS-tertiarySystemFill);
-            @include border-radius(4px);
+            @include border-radius(6px);
             border: 1px solid var(--ui-color-iOS-systemFill);
           }
           li {
             display: inline-block;
             width: 100%;
             position: relative;
-            &:before {
-              content: '';
-              position: absolute;
-              left: -8px + 1px;
-              top: 5px;
-              display: inline-block;
-              width: 6px;
-              height: 6px;
-              @include border-radius(50%);
-              background-color: var(--ui-color-iOS-separator);
-              // @include transform(translate(0, -50%));
-            }
+            // &:before {
+            //   content: '';
+            //   position: absolute;
+            //   left: -10px;
+            //   top: 7px;
+            //   display: inline-block;
+            //   width: 5px;
+            //   height: 5px;
+            //   @include border-radius(50%);
+            //   background-color: var(--ui-color-iOS-separator);
+            // }
             
             + li {
-              margin-top: 4px;
+              margin-top: 2px;
             }
           }
-          .testing-description {
+          .test-rule {
+            label {
+            }
             ul {
-              width: calc(100% - 16px);
-              margin-left: 16px;
+              width: calc(100% - 10px);
+              margin-left: 10px;
             }
           }
         }
@@ -302,16 +468,30 @@
           width: 100%;
           padding: 12px 12px;
 
-          span {
+          > *:nth-child(1) {
             flex-shrink: 0;
             display: inline-block;
             @extend %-user-select-none;
           }
-          b {
+          > *:nth-child(2) {
             flex-grow: 1;
             display: inline-block;
             text-align: right;
             @extend %-user-select-none;
+            @include overflow-docx3();
+          }
+          > *[subtitle]:not([subtitle='']) {
+            &:after {
+              content: attr(subtitle);
+              display: inline-block;
+              // margin-left: 4px;
+              color: var(--ui-color-iOS-secondaryLabel);
+            }
+          }
+          b {
+            &:after {
+              font-weight: normal;
+            }
           }
         }
         .kvs {
@@ -341,7 +521,7 @@
           justify-content: flex-start;
           width: 100%;
           padding: 0;
-          padding-left: 12px;
+          padding-left: 6px;
           padding-right: 0;
           
           position: relative;
@@ -358,60 +538,111 @@
             @include opacity(0);
           }
 
-          label {
-            flex-shrink: 0;
+          div, label {
+            
             position: relative;
-            display: inline-block;
-            padding: 12px;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            
+            padding: 10px 12px;
             z-index: 1;
-            cursor: pointer;
+            // background-color: rgba(0, 0, 255, 0.2);
+            
             @include overflow-docx3();
             @extend %-user-select-none;
 
             &:before {
               content: '';
               position: absolute;
-              left: 6px;
+              left: 12px;
               right: 6px;
-              top: 6px;
-              bottom: 6px;
+              top: 5px;
+              bottom: 5px;
               display: inline-block;
-              background-color: var(--ui-color-iOS-tertiarySystemFill);
+              background-color: transparent;
               z-index: -1;
-              @include opacity(0);
               @include border-radius(6px);
-              @include transition(opacity .3s);
+              @include transition(background-color .3s);
             }
-            &:hover {
-              &:before {
-                @include opacity(1);
-              }
+            &:after {
+              content: '';
+
+              position: absolute;
+              left: 0;
+              top: 8px;
+              bottom: 8px;
+              display: inline-block;
+              width: 1px;
+            
+              border-left: 1px solid var(--ui-color-iOS-systemFill);
+              @include opacity(0);
             }
             
-            &:first-child {
-              width: 30%;
-              font-weight: bold;
-
-            }
-            &:last-child {
-              width: 70%;
-              padding: 12px + 1px;
-
-              &:after {
-                content: '';
-
-                position: absolute;
-                left: 0;
-                top: 8px;
-                bottom: 8px;
-                display: inline-block;
-                width: 1px;
-              
-                border-left: 1px solid var(--ui-color-iOS-systemFill);
-                @include opacity(0);
+            + div, + label {
+              padding-left: 6px + 1px;
+              &:before {
+                left: 6px;
               }
+              
               &:after {
                 @include opacity(1);
+              }
+            }            
+          }
+          label {
+            cursor: pointer;
+            &:hover {
+              &:before {
+                background-color: var(--ui-color-iOS-tertiarySystemFill);
+              }
+            }
+            &:active {
+              &:before {
+                background-color: var(--ui-color-iOS-secondarySystemFill);
+              }
+            }
+          }
+
+          b, span {
+            display: inline-block;
+            font-size: small;
+            
+            padding: 1px 6px;
+            
+            &._token_dynamic {
+              margin-left: 6px;
+              @include border-radius(4px);
+              // border: 1px solid rgba(255, 0, 0, .3);
+              // background-color: rgba(0, 0, 255, 0.2);
+              background-color: var(--ui-color-iOS-tertiarySystemFill);
+            }
+          }
+
+
+          & {
+            div, label {
+              &:nth-child(1) {
+                width: 30%;
+                flex-shrink: 0;
+              }
+              &:nth-child(2) {
+                width: 70%;
+                flex-grow: 1;
+              }
+            }
+          }
+
+          &._var {
+            div, label {
+              &:nth-child(1) {
+                width: 30%;
+                flex-shrink: 0;
+              }
+              &:nth-child(2) {
+                width: 70%;
+                flex-grow: 1;
               }
             }
           }
@@ -422,47 +653,24 @@
             }
           }
         }
-
-        .text {
-          display: inline-block;
-          width: 100%;
-          padding: 12px;
-
-          position: relative;
-          z-index: 1;
-          word-wrap: break-word;
-
-          &:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
+        .test-rules {
+          > div {
             display: inline-block;
-            height: 1px;
-            border-top: 1px solid var(--ui-color-iOS-separator);
-          }
-          &:after {
-            content: '';
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            right: 10px;
-            bottom: 10px;
-            background-color: var(--ui-color-iOS-tertiarySystemFill);
-            z-index: -1;
-            @include opacity(0);
-            @include border-radius(6px);
-            @include transition(opacity .3s);
-          }
-        }
+            width: 100%;
+            padding: 12px;
 
-        label.text {
-          padding: 12px + 6px;
-          cursor: pointer;
-          &:hover {
-            &:after {
-              @include opacity(1);
+            position: relative;
+            z-index: 1;
+
+            &:before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              display: inline-block;
+              height: 1px;
+              border-top: 1px solid var(--ui-color-iOS-separator);
             }
           }
         }
@@ -471,10 +679,11 @@
           position: relative;
           cursor: pointer;
           padding: 12px 12px;
-          padding-right: 12px + 12px + 12px;
+          padding-right: 12px;
           z-index: 1;
 
           &:before {
+            content: '';
             position: absolute;
             z-index: -1;
             display: inline-block;
@@ -482,40 +691,73 @@
             right: 6px;
             bottom: 6px;
             top: 6px;
-            background-color: var(--ui-color-iOS-tertiarySystemFill);
+            background-color: transparent;
             @include border-radius(6px);
-            content: '';
-            @include opacity(0);
-            @include transition(opacity .3s);
+            @include transition(background-color .3s);
           }
           
           &:after {
-            content: '';
             position: absolute;
             top: 50%;
-            right: 12px + 6px;
             display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-bottom: 2px solid var(--ui-color-iOS-systemFill);
-            border-right: 2px solid var(--ui-color-iOS-systemFill);
-            @include border-bottom-right-radius(2px);
-            @include transform(translate(0, -50%) rotate(-45deg));
-            @include transition(border-color .3s, transform .3s);
-            
           }
           &:hover {
             &:before {
-              @include opacity(1);
+              background-color: var(--ui-color-iOS-tertiarySystemFill);
             }
-            
-            &:after {
-              border-color: var(--ui-color-iOS-separator);
+          }
+          &:active {
+            &:before {
+              background-color: var(--ui-color-iOS-secondarySystemFill);
             }
           }
           &._open {
             &:after {
               @include transform(translate(0, calc(-50% - 1px)) rotate(45deg));
+            }
+          }
+
+          &._copy {
+            &:after {
+              content: '複製';
+              right: 12px;
+              font-size: 10px;
+              width: 32px;
+              text-align: center;
+              color: var(--ui-color-iOS-link);
+              @include transform(translateY(-50%));
+              @include opacity(0);
+              @include transition(opacity .3s);
+            }
+            &:hover {
+              padding-right: 48px;
+              &:after {
+                @include opacity(1);
+              }
+            }
+          }
+          &._arr {
+            padding-right: 12px + 12px + 12px;
+            &:after {
+              content: '';
+              right: 12px + 6px;
+              width: 10px;
+              height: 10px;
+              border-bottom: 2px solid var(--ui-color-iOS-systemFill);
+              border-right: 2px solid var(--ui-color-iOS-systemFill);
+              @include border-bottom-right-radius(2px);
+              @include transform(translate(0, -50%) rotate(-45deg));
+              @include transition(border-color .3s, transform .3s);
+            }
+            &:hover {
+              &:after {
+                border-color: var(--ui-color-iOS-separator);
+              }
+            }
+            &._open {
+              &:after {
+                @include transform(translate(0, calc(-50% - 1px)) rotate(45deg));
+              }
             }
           }
         }
