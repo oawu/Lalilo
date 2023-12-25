@@ -44,22 +44,45 @@ const Request = function(obj) {
     ? obj.payload
     : null)
 
-  this._testRule = Request.TestRule(
-    isObj && Helper.Type.isObject(obj.testRule) && typeof obj.testRule.display == 'boolean'
-      ? obj.testRule.display
+  this._rule = Request.Rule(
+    isObj && Helper.Type.isObject(obj.rule) && typeof obj.rule.display == 'boolean'
+      ? obj.rule.display
       : false,
-    isObj && Helper.Type.isObject(obj.testRule)
-      ? Request.TestRule.dispatch(obj.testRule.rule)
-      : null
+
+    isObj && Helper.Type.isObject(obj.rule) && typeof obj.rule.index == 'number' && obj.rule.index >= 0 && obj.rule.index <= 1
+      ? obj.rule.index
+      : 0,
+
+    isObj && Helper.Type.isObject(obj.rule)
+      ? Request.Rule.Test.dispatch(obj.rule.test)
+      : null,
+
+    isObj && Helper.Type.isObject(obj.rule) && Array.isArray(obj.rule.saves)
+      ? obj.rule.saves.map(save => Helper.Type.isObject(save) && typeof save.key == 'string' && save.key !== '' && typeof save.var == 'string' && save.var !== ''
+        ? Request.Rule.Save(save.key, save.var)
+        : null).filter(save => save !== null)
+      : []
   )
 
+  this._response = Request.Response(
+    isObj && Helper.Type.isObject(obj.response) && typeof obj.response.display == 'boolean'
+      ? obj.response.display
+      : false,
+
+    isObj && Helper.Type.isObject(obj.rule) && typeof obj.rule.index == 'number' && obj.rule.index >= 0 && obj.rule.index <= 1
+      ? obj.rule.index
+      : 0,
+
+    Request.Response.Raw(isObj && Helper.Type.isObject(obj.response) ? obj.response.raw : null),
+  )
 }
 
 Object.defineProperty(Request.prototype, 'url', { get () { return this._url } })
 Object.defineProperty(Request.prototype, 'method', { get () { return this._method } })
 Object.defineProperty(Request.prototype, 'header', { get () { return this._header } })
 Object.defineProperty(Request.prototype, 'payload', { get () { return this._payload } })
-Object.defineProperty(Request.prototype, 'testRule', { get () { return this._testRule } })
+Object.defineProperty(Request.prototype, 'rule', { get () { return this._rule } })
+Object.defineProperty(Request.prototype, 'response', { get () { return this._response } })
 Object.defineProperty(Request.prototype, 'display', { get () { return this._display } })
 Object.defineProperty(Request.prototype, 'displayVar', { get () { return this._displayVar } })
 Object.defineProperty(Request.prototype, 'vars', { get () {
@@ -285,61 +308,69 @@ Request.Payload.dispatch = function(obj) {
 }
 
 
-Request.TestRule = function(display, rule) {
-  if (!(this instanceof Request.TestRule))
-    return new Request.TestRule(display, rule)
+Request.Rule = function(display, index, test, saves) {
+  if (!(this instanceof Request.Rule))
+    return new Request.Rule(display, index, test, saves)
 
   this._display = display
-  this._rule = rule
+  this._index = index
+  this._test = test
+  this._saves = saves
 }
-Object.defineProperty(Request.TestRule.prototype, 'display', { get () { return this._display } })
-Object.defineProperty(Request.TestRule.prototype, 'rule', { get () { return this._rule } })
-Object.defineProperty(Request.TestRule.prototype, 'description', { get () { return this.rule === null ? null : this.rule.description('回應結果') } })
-Request.TestRule.prototype.toggleDisplay = function() { this._display = !this._display; return this }
+Object.defineProperty(Request.Rule.prototype, 'display', { get () { return this._display } })
+Object.defineProperty(Request.Rule.prototype, 'index', { get () { return this._index }, set (val) { return this._index = val >= 0 && val <= 1 ? val : 0 } })
+Object.defineProperty(Request.Rule.prototype, 'test', { get () { return this._test } })
+Object.defineProperty(Request.Rule.prototype, 'saves', { get () { return this._saves } })
+Object.defineProperty(Request.Rule.prototype, 'showTest', { get () { return this.index == 0 } })
+Object.defineProperty(Request.Rule.prototype, 'showSave', { get () { return this.index == 1 } })
 
-Request.TestRule.Description = function(type, title, optional, descriptions, children = []) {
-  if (!(this instanceof Request.TestRule.Description))
-    return new Request.TestRule.Description(type, title, optional, descriptions, children)
+Request.Rule.prototype.toggleDisplay = function() { this._display = !this._display; return this }
+
+Request.Rule.Test = function() {}
+
+Request.Rule.Test.Description = function(type, title, optional, descriptions, children = []) {
+  if (!(this instanceof Request.Rule.Test.Description))
+    return new Request.Rule.Test.Description(type, title, optional, descriptions, children)
   this._type = type
   this._title = title
   this._optional = optional
   this._descriptions = descriptions
   this._children = children
 }
-Object.defineProperty(Request.TestRule.Description.prototype, 'type', { get () { return this._type } })
-Object.defineProperty(Request.TestRule.Description.prototype, 'title', { get () { return this._title } })
-Object.defineProperty(Request.TestRule.Description.prototype, 'optional', { get () { return this._optional } })
-Object.defineProperty(Request.TestRule.Description.prototype, 'descriptions', { get () { return this._descriptions } })
-Object.defineProperty(Request.TestRule.Description.prototype, 'children', { get () { return this._children } })
+Object.defineProperty(Request.Rule.Test.Description.prototype, 'type', { get () { return this._type } })
+Object.defineProperty(Request.Rule.Test.Description.prototype, 'title', { get () { return this._title } })
+Object.defineProperty(Request.Rule.Test.Description.prototype, 'optional', { get () { return this._optional } })
+Object.defineProperty(Request.Rule.Test.Description.prototype, 'descriptions', { get () { return this._descriptions } })
+Object.defineProperty(Request.Rule.Test.Description.prototype, 'children', { get () { return this._children } })
 
-Request.TestRule.Num = function(optional, val, min, max) {
-  if (!(this instanceof Request.TestRule.Num))
-    return new Request.TestRule.Num(optional, val, min, max)
+Request.Rule.Test.Num = function(optional, val, min, max) {
+  if (!(this instanceof Request.Rule.Test.Num))
+    return new Request.Rule.Test.Num(optional, val, min, max)
 
   this._optional = optional
   this._val      = val
   this._min      = min
   this._max      = max
 }
-Object.defineProperty(Request.TestRule.Num.prototype, 'type', { get () { return '數字' } })
-Object.defineProperty(Request.TestRule.Num.prototype, 'val', { get () { return this._val } })
-Object.defineProperty(Request.TestRule.Num.prototype, 'min', { get () { return this._min } })
-Object.defineProperty(Request.TestRule.Num.prototype, 'max', { get () { return this._max } })
-Object.defineProperty(Request.TestRule.Num.prototype, 'optional', { get () { return this._optional } })
-Request.TestRule.Num.prototype.description = function(title) {
+Object.defineProperty(Request.Rule.Test.Num.prototype, 'type', { get () { return '數字' } })
+Object.defineProperty(Request.Rule.Test.Num.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(Request.Rule.Test.Num.prototype, 'min', { get () { return this._min } })
+Object.defineProperty(Request.Rule.Test.Num.prototype, 'max', { get () { return this._max } })
+Object.defineProperty(Request.Rule.Test.Num.prototype, 'optional', { get () { return this._optional } })
+Request.Rule.Test.Num.prototype.description = function(title) {
   let descriptions = []
-  if (this.val !== undefined) {
+  if (this.val !== null) {
     descriptions.push(`值需等於「${this.val}」`)
   } else {
-    this.min === undefined || descriptions.push(`需大於等於「${this.min}」`)
-    this.max === undefined || descriptions.push(`需小於等於「${this.max}」`)
+    this.min === null || descriptions.push(`需大於等於「${this.min}」`)
+    this.max === null || descriptions.push(`需小於等於「${this.max}」`)
   }
 
-  return Request.TestRule.Description(this.type, title, this.optional, descriptions)
+  return Request.Rule.Test.Description(this.type, title, this.optional, descriptions)
 }
-Request.TestRule.Str = function(optional, val, min, max, len) {
-  if (!(this instanceof Request.TestRule.Str))
-    return new Request.TestRule.Str(optional, val, min, max, len)
+Request.Rule.Test.Str = function(optional, val, min, max, len) {
+  if (!(this instanceof Request.Rule.Test.Str))
+    return new Request.Rule.Test.Str(optional, val, min, max, len)
 
   this._optional = optional
   this._val      = val
@@ -347,45 +378,45 @@ Request.TestRule.Str = function(optional, val, min, max, len) {
   this._min      = min
   this._max      = max
 }
-Object.defineProperty(Request.TestRule.Str.prototype, 'type', { get () { return '字串' } })
-Object.defineProperty(Request.TestRule.Str.prototype, 'val', { get () { return this._val } })
-Object.defineProperty(Request.TestRule.Str.prototype, 'len', { get () { return this._len } })
-Object.defineProperty(Request.TestRule.Str.prototype, 'min', { get () { return this._min } })
-Object.defineProperty(Request.TestRule.Str.prototype, 'max', { get () { return this._max } })
-Object.defineProperty(Request.TestRule.Str.prototype, 'optional', { get () { return this._optional } })
-Request.TestRule.Str.prototype.description = function(title) {
+Object.defineProperty(Request.Rule.Test.Str.prototype, 'type', { get () { return '字串' } })
+Object.defineProperty(Request.Rule.Test.Str.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(Request.Rule.Test.Str.prototype, 'len', { get () { return this._len } })
+Object.defineProperty(Request.Rule.Test.Str.prototype, 'min', { get () { return this._min } })
+Object.defineProperty(Request.Rule.Test.Str.prototype, 'max', { get () { return this._max } })
+Object.defineProperty(Request.Rule.Test.Str.prototype, 'optional', { get () { return this._optional } })
+Request.Rule.Test.Str.prototype.description = function(title) {
   let descriptions = []
-  if (this.val !== undefined) {
+  if (this.val !== null) {
     descriptions.push(`值需等於「${this.val}」`)
-  } else if (this.len !== undefined) {
+  } else if (this.len !== null) {
     descriptions.push(`長度需等於「${this.val}」`)
   } else { 
-    this.min === undefined || descriptions.push(`長度需大於等於「${this.min}」`)
-    this.max === undefined || descriptions.push(`長度需小於等於「${this.max}」`)
+    this.min === null || descriptions.push(`長度需大於等於「${this.min}」`)
+    this.max === null || descriptions.push(`長度需小於等於「${this.max}」`)
   }
 
-  return Request.TestRule.Description(this.type, title, this.optional, descriptions)
+  return Request.Rule.Test.Description(this.type, title, this.optional, descriptions)
 }
 
-Request.TestRule.Bool = function(optional, val) {
-  if (!(this instanceof Request.TestRule.Bool))
-    return new Request.TestRule.Bool(optional, val)
+Request.Rule.Test.Bool = function(optional, val) {
+  if (!(this instanceof Request.Rule.Test.Bool))
+    return new Request.Rule.Test.Bool(optional, val)
 
   this._optional = optional
   this._val      = val
 }
-Object.defineProperty(Request.TestRule.Bool.prototype, 'type', { get () { return '布林值' } })
-Object.defineProperty(Request.TestRule.Bool.prototype, 'val', { get () { return this._val } })
-Object.defineProperty(Request.TestRule.Bool.prototype, 'optional', { get () { return this._optional } })
-Request.TestRule.Bool.prototype.description = function(title) {
+Object.defineProperty(Request.Rule.Test.Bool.prototype, 'type', { get () { return '布林值' } })
+Object.defineProperty(Request.Rule.Test.Bool.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(Request.Rule.Test.Bool.prototype, 'optional', { get () { return this._optional } })
+Request.Rule.Test.Bool.prototype.description = function(title) {
   let descriptions = []
-  this.val === undefined || descriptions.push(`值需等於「${this.val ? 'true' : 'false'}」`)
-  return Request.TestRule.Description(this.type, title, this.optional, descriptions)
+  this.val === null || descriptions.push(`值需等於「${this.val ? 'true' : 'false'}」`)
+  return Request.Rule.Test.Description(this.type, title, this.optional, descriptions)
 }
 
-Request.TestRule.Arr = function(optional, min, max, len, element) {
-  if (!(this instanceof Request.TestRule.Arr))
-    return new Request.TestRule.Arr(optional, min, max, len, element)
+Request.Rule.Test.Arr = function(optional, min, max, len, element) {
+  if (!(this instanceof Request.Rule.Test.Arr))
+    return new Request.Rule.Test.Arr(optional, min, max, len, element)
 
   this._optional = optional
   this._min      = min
@@ -393,44 +424,42 @@ Request.TestRule.Arr = function(optional, min, max, len, element) {
   this._len      = len
   this._element  = element
 }
-Object.defineProperty(Request.TestRule.Arr.prototype, 'type', { get () { return '陣列' } })
-Object.defineProperty(Request.TestRule.Arr.prototype, 'element', { get () { return this._element } })
-Object.defineProperty(Request.TestRule.Arr.prototype, 'len', { get () { return this._len } })
-Object.defineProperty(Request.TestRule.Arr.prototype, 'min', { get () { return this._min } })
-Object.defineProperty(Request.TestRule.Arr.prototype, 'max', { get () { return this._max } })
-Object.defineProperty(Request.TestRule.Arr.prototype, 'optional', { get () { return this._optional } })
-Request.TestRule.Arr.prototype.description = function(title) {
+Object.defineProperty(Request.Rule.Test.Arr.prototype, 'type', { get () { return '陣列' } })
+Object.defineProperty(Request.Rule.Test.Arr.prototype, 'element', { get () { return this._element } })
+Object.defineProperty(Request.Rule.Test.Arr.prototype, 'len', { get () { return this._len } })
+Object.defineProperty(Request.Rule.Test.Arr.prototype, 'min', { get () { return this._min } })
+Object.defineProperty(Request.Rule.Test.Arr.prototype, 'max', { get () { return this._max } })
+Object.defineProperty(Request.Rule.Test.Arr.prototype, 'optional', { get () { return this._optional } })
+Request.Rule.Test.Arr.prototype.description = function(title) {
   let descriptions = []
-  if (this.len !== undefined) {
+  if (this.len !== null) {
     descriptions.push(`長度需等於「${this.len}」`)
   } else { 
-    this.min === undefined || descriptions.push(`長度需大於等於「${this.min}」`)
-    this.max === undefined || descriptions.push(`長度需小於等於「${this.max}」`)
+    this.min === null || descriptions.push(`長度需大於等於「${this.min}」`)
+    this.max === null || descriptions.push(`長度需小於等於「${this.max}」`)
   }
 
   const children = []
   if (this.element === null) {
     descriptions.push(`，元素類型不需要檢查`)
   } else {
-    const { title: t, descriptions: descs, children: s } = this.element.description('元素')
-    descriptions.push(...descs)
-    children.push(...s)
+    children.push(this.element.description('元素'))
   }
 
-  return Request.TestRule.Description(this.type, title, this.optional, descriptions, children)
+  return Request.Rule.Test.Description(this.type, title, this.optional, descriptions, children)
 }
 
-Request.TestRule.Obj = function(optional, struct) {
-  if (!(this instanceof Request.TestRule.Obj))
-    return new Request.TestRule.Obj(optional, struct)
+Request.Rule.Test.Obj = function(optional, struct) {
+  if (!(this instanceof Request.Rule.Test.Obj))
+    return new Request.Rule.Test.Obj(optional, struct)
 
   this._optional = optional
   this._struct = struct
 }
-Object.defineProperty(Request.TestRule.Obj.prototype, 'type', { get () { return 'JSON' } })
-Object.defineProperty(Request.TestRule.Obj.prototype, 'struct', { get () { return this._struct } })
-Object.defineProperty(Request.TestRule.Obj.prototype, 'optional', { get () { return this._optional } })
-Request.TestRule.Obj.prototype.description = function(title) {
+Object.defineProperty(Request.Rule.Test.Obj.prototype, 'type', { get () { return 'JSON' } })
+Object.defineProperty(Request.Rule.Test.Obj.prototype, 'struct', { get () { return this._struct } })
+Object.defineProperty(Request.Rule.Test.Obj.prototype, 'optional', { get () { return this._optional } })
+Request.Rule.Test.Obj.prototype.description = function(title) {
   let descriptions = []
   const keys = this.struct ? Object.keys(this.struct) : []
 
@@ -443,15 +472,15 @@ Request.TestRule.Obj.prototype.description = function(title) {
   for (let key of keys)
     children.push(this.struct[key].description(key))
 
-  return Request.TestRule.Description(this.type, title, this.optional, descriptions, children)
+  return Request.Rule.Test.Description(this.type, title, this.optional, descriptions, children)
 }
 
-Request.TestRule.dispatch = function(obj) {
+Request.Rule.Test.dispatch = function(obj) {
   if (!Helper.Type.isObject(obj) || typeof obj.type != 'string')
     return null
   
   if (obj.type == 'num')
-    return Request.TestRule.Num(
+    return Request.Rule.Test.Num(
       typeof obj.optional == 'boolean' ? obj.optional : false,
       typeof obj.val      == 'number'  ? obj.val      : null,
       typeof obj.min      == 'number'  ? obj.min      : null,
@@ -459,7 +488,7 @@ Request.TestRule.dispatch = function(obj) {
     )
 
   if (obj.type == 'str')
-    return Request.TestRule.Str(
+    return Request.Rule.Test.Str(
       typeof obj.optional == 'boolean' ? obj.optional : false,
       typeof obj.val      == 'string'  ? obj.val      : null,
       typeof obj.min      == 'number'  ? obj.min      : null,
@@ -468,18 +497,18 @@ Request.TestRule.dispatch = function(obj) {
     )
 
   if (obj.type == 'bool')
-    return Request.TestRule.Bool(
+    return Request.Rule.Test.Bool(
       typeof obj.optional == 'boolean' ? obj.optional : false,
       typeof obj.val      == 'boolean' ? obj.val      : null
     )
 
   if (obj.type == 'arr')
-    return Request.TestRule.Arr(
+    return Request.Rule.Test.Arr(
       typeof obj.optional == 'boolean' ? obj.optional : false,
-      typeof obj.min       == 'number' ? obj.min      : undefined,
-      typeof obj.max       == 'number' ? obj.max      : undefined,
-      typeof obj.len       == 'number' ? obj.len      : undefined,
-      Request.TestRule.dispatch(obj.element)
+      typeof obj.min       == 'number' ? obj.min      : null,
+      typeof obj.max       == 'number' ? obj.max      : null,
+      typeof obj.len       == 'number' ? obj.len      : null,
+      Request.Rule.Test.dispatch(obj.element)
     )
 
   if (obj.type == 'obj') {
@@ -487,12 +516,12 @@ Request.TestRule.dispatch = function(obj) {
 
     if (Helper.Type.isObject(obj.struct))
       for (let key in obj.struct) {
-        let tmp = Request.TestRule.dispatch(obj.struct[key])
+        let tmp = Request.Rule.Test.dispatch(obj.struct[key])
         if (tmp !== null)
           struct[key] = tmp
       }
 
-    return Request.TestRule.Obj(
+    return Request.Rule.Test.Obj(
       typeof obj.optional == 'boolean' ? obj.optional : false,
       Object.keys(struct).length ? struct : null)
   }
@@ -500,31 +529,374 @@ Request.TestRule.dispatch = function(obj) {
   return null
 }
 
+Request.Rule.Save = function(key, v) {
+  if (!(this instanceof Request.Rule.Save))
+    return new Request.Rule.Save(key, v)
+  
+  this._key = key
+  this._var = v
+}
+Object.defineProperty(Request.Rule.Save.prototype, 'key', { get () { return this._key } })
+Object.defineProperty(Request.Rule.Save.prototype, 'var', { get () { return this._var } })
+
+
+Request.Response = function(display, index, raw) {
+  if (!(this instanceof Request.Response))
+    return new Request.Response(display, index, raw)
+
+  this._display = display
+  this._index = index
+  this._raw = raw
+}
+Object.defineProperty(Request.Response.prototype, 'display', { get () { return this._display } })
+Object.defineProperty(Request.Response.prototype, 'raw', { get () { return this._raw } })
+Object.defineProperty(Request.Response.prototype, 'index', { get () { return this._index }, set (val) { return this._index = val >= 0 && val <= 1 ? val : 0 } })
+Object.defineProperty(Request.Response.prototype, 'showPretty', { get () { return this.index == 0 } })
+Object.defineProperty(Request.Response.prototype, 'showOrigin', { get () { return this.index == 1 } })
+
+Request.Response.prototype.toggleDisplay = function() { this._display = !this._display; return this }
+
+
+Request.Response.Raw = function(data) {
+  if (!(this instanceof Request.Response.Raw))
+    return new Request.Response.Raw(data)
+
+  if (Helper.Type.isObject(data)) {
+    this._text = JSON.stringify(data)
+
+    this._json = {
+      val: data,
+      pretty: Request.Response.PrettyJson.dispatch(data)
+    }
+    return this._error = undefined
+  }
+
+  if (Array.isArray(data)) {
+    this._text = JSON.stringify(data)
+
+    this._json = {
+      val: data,
+      pretty: Request.Response.PrettyJson.dispatch(data)
+    }
+    return this._error = undefined
+  }
+
+  const type = typeof data
+
+  if (data === null || ['number', 'string', 'boolean'].includes(type)) {
+    if (data === null)
+      this._text = 'null'
+    if (type == 'string')
+      this._text = data
+    if (type == 'number')
+      this._text = `${data}`
+    if (type == 'boolean')
+      this._text = data ? 'true' : 'false'
+
+    this._json = undefined
+    this._error = undefined
+    let val = undefined
+    try {
+      val = JSON.parse(data)
+    } catch (e) {
+      this._error = e
+      val = undefined
+    }
+
+    if (this._error === undefined)
+      this._json = {
+        val,
+        pretty: Request.Response.PrettyJson.dispatch(val)
+      }
+    return this._error
+  }
+
+  this._text = undefined
+  this._json = undefined
+  return this._error = undefined
+}
+Object.defineProperty(Request.Response.Raw.prototype, 'text', { get () { return this._text } })
+Object.defineProperty(Request.Response.Raw.prototype, 'json', { get () { return this._json } })
+Object.defineProperty(Request.Response.Raw.prototype, 'error', { get () { return this._error } })
+
+
+Request.Response.PrettyJson = function (type) {
+  if (!(this instanceof Request.Response.PrettyJson))
+    return new Request.Response.PrettyJson(type)
+  
+  this._type = type
+}
+Object.defineProperty(Request.Response.PrettyJson.prototype, 'type', { get () { return this._type } })
+Request.Response.PrettyJson.dispatch = function(data) {
+
+  if (data === undefined)
+    return Request.Response.PrettyJson.Null()
+
+  if (data === null)
+    return Request.Response.PrettyJson.Null()
+  
+  if (typeof data == 'string')
+    return Request.Response.PrettyJson.Str(data)
+  
+  if (typeof data == 'number')
+    return Request.Response.PrettyJson.Num(data)
+  
+  if (typeof data == 'boolean')
+    return Request.Response.PrettyJson.Bool(data)
+  
+  if (Array.isArray(data))
+    return Request.Response.PrettyJson.Arr(data.map(t => Request.Response.PrettyJson.dispatch(t)))
+  
+  if (Helper.Type.isObject(data)) {
+    const keyVals = []
+    for (let key in data)
+      keyVals.push(Request.Response.PrettyJson.Obj.KeyVal(key, Request.Response.PrettyJson.dispatch(data[key])))
+    
+    return Request.Response.PrettyJson.Obj(keyVals)
+  }
+
+  return { type: 'null' }
+}
+
+Request.Response.PrettyJson.Null = function() {
+  if (!(this instanceof Request.Response.PrettyJson.Null))
+    return new Request.Response.PrettyJson.Null()
+  Request.Response.PrettyJson.call(this, 'null')
+}
+Request.Response.PrettyJson.Null.prototype = Object.create(Request.Response.PrettyJson.prototype)
+
+Request.Response.PrettyJson.Num = function(val) {
+  if (!(this instanceof Request.Response.PrettyJson.Num))
+    return new Request.Response.PrettyJson.Num(val)
+
+  Request.Response.PrettyJson.call(this, 'num')
+  this._val = val
+}
+Request.Response.PrettyJson.Num.prototype = Object.create(Request.Response.PrettyJson.prototype)
+Object.defineProperty(Request.Response.PrettyJson.Num.prototype, 'val', { get () { return this._val } })
+Request.Response.PrettyJson.Num.prototype.toString = function() { return this.val }
+
+Request.Response.PrettyJson.Str = function(val) {
+  if (!(this instanceof Request.Response.PrettyJson.Str))
+    return new Request.Response.PrettyJson.Str(val)
+
+  Request.Response.PrettyJson.call(this, 'str')
+  this._val = val
+}
+Request.Response.PrettyJson.Str.prototype = Object.create(Request.Response.PrettyJson.prototype)
+Object.defineProperty(Request.Response.PrettyJson.Str.prototype, 'val', { get () { return this._val } })
+Request.Response.PrettyJson.Str.prototype.toString = function() { return `"${this.val}"` }
+
+Request.Response.PrettyJson.Bool = function(val) {
+  if (!(this instanceof Request.Response.PrettyJson.Bool))
+    return new Request.Response.PrettyJson.Bool(val)
+
+  Request.Response.PrettyJson.call(this, 'bool')
+  this._val = val
+}
+Request.Response.PrettyJson.Bool.prototype = Object.create(Request.Response.PrettyJson.prototype)
+Object.defineProperty(Request.Response.PrettyJson.Bool.prototype, 'val', { get () { return this._val } })
+Request.Response.PrettyJson.Bool.prototype.toString = function() { return this.val ? 'true' : 'false' }
+
+Request.Response.PrettyJson.Arr = function(elements) {
+  if (!(this instanceof Request.Response.PrettyJson.Arr))
+    return new Request.Response.PrettyJson.Arr(elements)
+
+  Request.Response.PrettyJson.call(this, 'arr')
+  this._elements = elements
+}
+Request.Response.PrettyJson.Arr.prototype = Object.create(Request.Response.PrettyJson.prototype)
+Object.defineProperty(Request.Response.PrettyJson.Arr.prototype, 'elements', { get () { return this._elements } })
+
+Request.Response.PrettyJson.Obj = function(keys) {
+  if (!(this instanceof Request.Response.PrettyJson.Obj))
+    return new Request.Response.PrettyJson.Obj(keys)
+
+  Request.Response.PrettyJson.call(this, 'obj')
+  this._keys = keys
+}
+Request.Response.PrettyJson.Obj.prototype = Object.create(Request.Response.PrettyJson.prototype)
+Object.defineProperty(Request.Response.PrettyJson.Obj.prototype, 'keys', { get () { return this._keys } })
+
+Request.Response.PrettyJson.Obj.KeyVal = function(key, val) {
+  if (!(this instanceof Request.Response.PrettyJson.Obj.KeyVal))
+    return new Request.Response.PrettyJson.Obj.KeyVal(key, val)
+  this._key = key
+  this._val = val
+}
+Object.defineProperty(Request.Response.PrettyJson.Obj.KeyVal.prototype, 'key', { get () { return this._key } })
+Object.defineProperty(Request.Response.PrettyJson.Obj.KeyVal.prototype, 'val', { get () { return this._val } })
+
 Load.VueComponent('test-rule', {
   props: {
-    description: { type: Request.TestRule.Description, request: true }
-  },
-  computed: {
+    description: { type: Request.Rule.Test.Description, request: true }
   },
   template: `
-    div.test-rule
-      label
-        b => *text=description.title
-        span.type => *text=description.type
-        span.optional => *text=description.optional ? '非必須' : '必須'
-        template => *if=description.descriptions.length
+    .test-rule
+      template => *if=description
+        label
+          b.title => *text=description.title   :class={_optional: description.optional}
+          span.type => *text=description.type
+          template => *if=description.descriptions.length
+            i
+            span.desc => *text=description.descriptions.join('，') + '。'
+        
+        ul => *if=description.children.length
+          li => *for=(child, i) in description.children   :key=i
+            test-rule => :description=child
+
+      template => *else
+        label
+          b.title => *text='回應'
           i
-          span.rule => *text=description.descriptions.join('，') + '。'
-      ul => *if=description.children.length
-        li => *for=(child, i) in description.children   :key=i
-          test-rule => :description=child`
+          span.desc => *text='不需檢查。'
+`
+})
+
+Load.VueComponent('pretty-empty', { template: `span.pretty-empty => *text='尚未執行，故沒有任何回應。'` })
+Load.VueComponent('pretty-colon', { template: `span.pretty-colon => *text=':'` })
+Load.VueComponent('pretty-more', { template: `span.pretty-more => *text='…'` })
+Load.VueComponent('pretty-comma', { template: `span.pretty-comma => *text=','` })
+Load.VueComponent('pretty-square-left', { template: `span.pretty-square-left => *text='['` })
+Load.VueComponent('pretty-square-right', { template: `span.pretty-square-right => *text=']'` })
+Load.VueComponent('pretty-curly-left', { template: `span.pretty-curly-left => *text='{'` })
+Load.VueComponent('pretty-curly-right', { template: `span.pretty-curly-right => *text='}'` })
+Load.VueComponent('pretty-key', { props: { val: { type: String, request: true} }, computed: { text () { return `"${this.val}"` }}, template: `span.pretty-key => *text=text` })
+
+Load.VueComponent('pretty-null', { template: `span.pretty-null => *text='null'` })
+Load.VueComponent('pretty-num', { props: { val: { type: Request.Response.PrettyJson.Num, request: true} }, template: `span.pretty-num => *text=val` })
+Load.VueComponent('pretty-str', { props: { val: { type: Request.Response.PrettyJson.Str, request: true} }, computed: { text () { return `"${this.val}"` }}, template: `span.pretty-str => *text=text` })
+Load.VueComponent('pretty-bool', { props: { val: { type: Request.Response.PrettyJson.Bool, request: true} }, template: `span.pretty-bool => *text=val` })
+
+Load.VueComponent('pretty-arr', {
+  props: {
+    obj: { type: Request.Response.PrettyJson.Arr, request: true },
+    colon: { type: Boolean, request: true }
+  },
+  data: _ => ({
+    display: true
+  }),
+  methods: {
+    addColon(i) {
+      return i < this.obj.elements.length - 1
+    }
+  },
+  template: `
+    .pretty-arr
+      label.top => @click=display=!display
+        slot => name=key
+        pretty-square-left
+        pretty-more => *if=!display
+      .mid => *if=display
+        div => *for=(item, i) in obj.elements   :key=i
+          .pretty-el => *if=['null', 'num', 'str', 'bool'].includes(item.type)
+            pretty-null => *if=item.type == 'null'
+            pretty-num => *if=item.type == 'num'   :val=item.val
+            pretty-str => *if=item.type == 'str'   :val=item.val
+            pretty-bool => *if=item.type == 'bool'   :val=item.val
+            pretty-comma => *if=addColon(i)
+
+          pretty-arr => *if=item.type == 'arr'   :obj=item   :colon=addColon(i)
+          
+          pretty-obj => *if=item.type == 'obj'   :obj=item   :colon=addColon(i)
+          
+      .botton
+        pretty-square-right
+        pretty-comma => *if=colon
+    `
+
+})
+Load.VueComponent('pretty-obj', {
+  props: {
+    obj: { type: Request.Response.PrettyJson.Obj, request: true },
+    colon: { type: Boolean, request: true }
+  },
+  data: _ => ({
+    display: true
+  }),
+  methods: {
+    addColon(i) {
+      return i < this.obj.keys.length - 1
+    }
+  },
+  template: `
+    .pretty-obj
+      label.top => @click=display=!display
+        slot => name=key
+        pretty-curly-left
+        pretty-more => *if=!display
+      .mid => *if=display
+        div => *for=({ key, val: item }, i) in obj.keys   :key=i
+          .pretty-key-val => *if=['null', 'num', 'str', 'bool'].includes(item.type)
+            pretty-key => :val=key
+            pretty-colon
+            pretty-null => *if=item.type == 'null'
+            pretty-num => *if=item.type == 'num'   :val=item.val
+            pretty-str => *if=item.type == 'str'   :val=item.val
+            pretty-bool => *if=item.type == 'bool'   :val=item.val
+            pretty-comma => *if=addColon(i)
+
+          pretty-arr => *if=item.type == 'arr'   :obj=item   :colon=addColon(i)
+            template => slot=key
+              pretty-key => :val=key
+              pretty-colon
+
+          pretty-obj => *if=item.type == 'obj'   :obj=item   :colon=addColon(i)
+            template => slot=key
+              pretty-key => :val=key
+              pretty-colon
+
+      .botton
+        pretty-curly-right
+        pretty-comma => *if=colon
+  `
 })
 
 Load.VueComponent('role-unit', {
   props: {
     request: { type: Request, request: true }
   },
+  methods: {
+    fmt (data) {
+      if (data === undefined)
+        return { type: 'null', toString() { return this.type } }
+
+      if (data === null)
+        return { type: 'null', toString() { return this.type } }
+      
+      if (typeof data == 'string')
+        return { type: 'str', val: data, toString() { return `"${this.val}"` } }
+      
+      if (typeof data == 'number')
+        return { type: 'num', val: data, toString() { return this.val } }
+      
+      if (typeof data == 'boolean')
+        return { type: 'bool', val: data, toString() { return this.val } }
+      
+      if (Array.isArray(data))
+        return { type: 'arr', elements: data.map(this.fmt) }
+      
+      if (Helper.Type.isObject(data)) {
+        const keys = []
+        for (let key in data) {
+          keys.push({ key, val: this.fmt(data[key])})
+        }
+        return { type: 'obj', keys }
+      }
+
+      return { type: 'null' }
+    }
+  },
   computed: {
+    responseRawJsonPretty() {
+      return this.request
+        && this.request.response
+        && this.request.response.raw
+        && this.request.response.raw.json
+        && this.request.response.raw.json.pretty
+          ? this.request.response.raw.json.pretty
+          : null
+    }
   },
   template: `
     .role-unit
@@ -548,21 +920,14 @@ Load.VueComponent('role-unit', {
                 span => *text=v.valString
 
         .url
-          label.row._copy
-            b => *text='URL'
-            div
-              span => *for=(path, i) in request.url.paths   :key=i   *text=path   :class={_token_dynamic: path.isDynamic}
-
-        .method
-          .row
-            b => *text='方式'   :subtitle='（method）'
-            div
-              span => *text=request.method.toUpperCase()   :class=request.method.toString()
-
+          div.method
+            span => *text=request.method.toUpperCase()   :class=request.method.toString()
+          div.paths
+            span => *for=(path, i) in request.url.paths   :key=i   *text=path   :class={_token_dynamic: path.isDynamic}
 
         .header => *if=request.header.data.length
           label.row._arr => :class={_open: request.header.display}   @click=request.header.toggleDisplay()
-            b => *text='標題'   :subtitle='（header）'
+            b => *text='標題'   :subtitle='（Header）'
 
           .kvs => *if=request.header.display
             .kv => *for=({ key, val },i) in request.header.data   :key=i
@@ -573,7 +938,7 @@ Load.VueComponent('role-unit', {
 
         .payload => *if=request.payload
           label.row._arr => :class={_open: request.payload.display}   @click=request.payload.toggleDisplay()
-            b => *text='內文'   :subtitle='（payload）'
+            b => *text='內文'   :subtitle='（Payload）'
             span => *text=request.payload
 
           template => *if=request.payload.display
@@ -584,17 +949,42 @@ Load.VueComponent('role-unit', {
                 label
                   span => *text=val   :class={_token_dynamic: val.isDynamic}
 
-        .test-rules
-          label.row._arr => :class=request.testRule.display ? '_open' : ''   @click=request.testRule.toggleDisplay()
-            b => *text='測試條件'   :subtitle='（test rule）'
+        .rule
+          label.row._arr => :class=request.rule.display ? '_open' : ''   @click=request.rule.toggleDisplay()
+            b => *text='規則'   :subtitle='（Rule）'
 
-          div => *if=request.testRule.display
-            test-rule => *if=request.testRule.description   :description=request.testRule.description
-            div.test-rule => *else
-              div
-                b => *text='回應結果'
-                i
-                span.rule => *text='不需檢查。'
+          div.info => *if=request.rule.display
+            segmented.pick => :items=['測試', '存取']   :index=request.rule.index   @click=i=>request.rule.index=i
+
+            .test => *if=request.rule.showTest
+              test-rule => :description=request.rule.test ? request.rule.test.description('回應') : null
+            
+            .kvs => *if=request.rule.showSave
+              .kv => *for=(save, i) in request.rule.saves   :key=i
+                label
+                  b => *text=save.var
+                label
+                  span => *text=save.key
+
+        .response
+          label.row._arr => :class=request.response.display ? '_open' : ''   @click=request.response.toggleDisplay()
+            b => *text='回應'   :subtitle='（Response）'
+
+          div.info
+            segmented.pick => :items=['美化', '原始']   :index=request.response.index   @click=i=>request.response.index=i
+
+            .pretty => *if=request.response.showPretty
+              template => *if=responseRawJsonPretty
+                pretty-obj  => *if=responseRawJsonPretty.type == 'obj'   :obj=responseRawJsonPretty
+                pretty-arr  => *if=responseRawJsonPretty.type == 'arr'   :obj=responseRawJsonPretty
+                pretty-null => *if=responseRawJsonPretty.type == 'null'
+                pretty-num  => *if=responseRawJsonPretty.type == 'num'   :val=responseRawJsonPretty.val
+                pretty-str  => *if=responseRawJsonPretty.type == 'str'   :val=responseRawJsonPretty.val
+                pretty-bool => *if=responseRawJsonPretty.type == 'bool'   :val=responseRawJsonPretty.val
+              template => *else
+                pretty-empty
+
+            .origin => *if=request.response.showOrigin
     `
 })
 
@@ -627,7 +1017,7 @@ Load.Vue({
         ]
       },
       header: {
-        display: true,
+        display: false,
         data: [
           {
             key: { type: 'str', val: 'Authorization' },
@@ -640,7 +1030,7 @@ Load.Vue({
         ]
       },
       payload: {
-        display: true,
+        display: false,
         type: 'form',
         data: [
           {
@@ -661,9 +1051,10 @@ Load.Vue({
           },
         ]
       },
-      testRule: {
-        display: true,
-        rule: {
+      rule: {
+        display: false,
+        index: 0,
+        test: {
           type: 'obj', optional: false,
           struct: {
             status: { type: 'num', optional: false, val: 200 },
@@ -684,9 +1075,19 @@ Load.Vue({
             } }
           }
         },
-        // rule: {
-        //   type: 'num', optional: false, val: 200
-        // }
+        saves: [
+          { key: 'order', var: 'order' },
+          { key: 'order.id', var: 'order-id' },
+          { key: 'items', var: 'items' },
+          { key: 'items[0]', var: 'item0' },
+          { key: 'items[0].id', var: 'item0-id' },
+          { key: 'items[0].name', var: 'item0-name' },
+        ]
+      },
+      response: {
+        display: false,
+        // raw: ''
+        raw: {a: 1, b: 2, c: [1, 2, {a: 1, b: []}], d: {}}
       }
     })
   },
