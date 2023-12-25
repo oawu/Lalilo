@@ -553,9 +553,7 @@ Object.defineProperty(Request.Response.prototype, 'raw', { get () { return this.
 Object.defineProperty(Request.Response.prototype, 'index', { get () { return this._index }, set (val) { return this._index = val >= 0 && val <= 1 ? val : 0 } })
 Object.defineProperty(Request.Response.prototype, 'showPretty', { get () { return this.index == 0 } })
 Object.defineProperty(Request.Response.prototype, 'showOrigin', { get () { return this.index == 1 } })
-
 Request.Response.prototype.toggleDisplay = function() { this._display = !this._display; return this }
-
 
 Request.Response.Raw = function(data) {
   if (!(this instanceof Request.Response.Raw))
@@ -563,51 +561,37 @@ Request.Response.Raw = function(data) {
 
   if (Helper.Type.isObject(data)) {
     this._text = JSON.stringify(data)
-
-    this._json = {
-      val: data,
-      pretty: Request.Response.PrettyJson.dispatch(data)
-    }
+    this._json = { val: data, pretty: PrettyJson.dispatch(data) }
     return this._error = undefined
   }
 
   if (Array.isArray(data)) {
     this._text = JSON.stringify(data)
-
-    this._json = {
-      val: data,
-      pretty: Request.Response.PrettyJson.dispatch(data)
-    }
+    this._json = { val: data, pretty: PrettyJson.dispatch(data) }
     return this._error = undefined
   }
 
   const type = typeof data
 
   if (data === null || ['number', 'string', 'boolean'].includes(type)) {
-    if (data === null)
-      this._text = 'null'
-    if (type == 'string')
-      this._text = data
-    if (type == 'number')
-      this._text = `${data}`
-    if (type == 'boolean')
-      this._text = data ? 'true' : 'false'
+    if (data === null) this._text = 'null'
+    if (type == 'string') this._text = `${data}`
+    if (type == 'number') this._text = `${data}`
+    if (type == 'boolean') this._text = data ? 'true' : 'false'
 
     this._json = undefined
     this._error = undefined
     let val = undefined
     try {
-      val = JSON.parse(data)
+      val = JSON.parse(type == 'string' ? `"${data}"` : data)
     } catch (e) {
       this._error = e
       val = undefined
     }
 
     if (this._error === undefined)
-      this._json = {
-        val,
-        pretty: Request.Response.PrettyJson.dispatch(val)
-      }
+      this._json = { val, pretty: PrettyJson.dispatch(val) }
+
     return this._error
   }
 
@@ -620,112 +604,103 @@ Object.defineProperty(Request.Response.Raw.prototype, 'json', { get () { return 
 Object.defineProperty(Request.Response.Raw.prototype, 'error', { get () { return this._error } })
 
 
-Request.Response.PrettyJson = function (type) {
-  if (!(this instanceof Request.Response.PrettyJson))
-    return new Request.Response.PrettyJson(type)
-  
-  this._type = type
+const PrettyJson = function (type) {
+  if (this instanceof PrettyJson) return this._type = type
+  else return new PrettyJson(type)
 }
-Object.defineProperty(Request.Response.PrettyJson.prototype, 'type', { get () { return this._type } })
-Request.Response.PrettyJson.dispatch = function(data) {
-
-  if (data === undefined)
-    return Request.Response.PrettyJson.Null()
-
-  if (data === null)
-    return Request.Response.PrettyJson.Null()
-  
-  if (typeof data == 'string')
-    return Request.Response.PrettyJson.Str(data)
-  
-  if (typeof data == 'number')
-    return Request.Response.PrettyJson.Num(data)
-  
-  if (typeof data == 'boolean')
-    return Request.Response.PrettyJson.Bool(data)
-  
-  if (Array.isArray(data))
-    return Request.Response.PrettyJson.Arr(data.map(t => Request.Response.PrettyJson.dispatch(t)))
+Object.defineProperty(PrettyJson.prototype, 'type', { get () { return this._type } })
+PrettyJson.dispatch = function(data) {
+  if (typeof data == 'string') return PrettyJson.Str(data)
+  if (typeof data == 'number') return PrettyJson.Num(data)
+  if (typeof data == 'boolean') return PrettyJson.Bool(data)
+  if (Array.isArray(data)) return PrettyJson.Arr(data.map(t => PrettyJson.dispatch(t)))
   
   if (Helper.Type.isObject(data)) {
     const keyVals = []
-    for (let key in data)
-      keyVals.push(Request.Response.PrettyJson.Obj.KeyVal(key, Request.Response.PrettyJson.dispatch(data[key])))
-    
-    return Request.Response.PrettyJson.Obj(keyVals)
+    for (let key in data) keyVals.push(PrettyJson.Obj.KeyVal(key, PrettyJson.dispatch(data[key])))
+    return PrettyJson.Obj(keyVals)
   }
 
-  return { type: 'null' }
+  return PrettyJson.Null()
 }
 
-Request.Response.PrettyJson.Null = function() {
-  if (!(this instanceof Request.Response.PrettyJson.Null))
-    return new Request.Response.PrettyJson.Null()
-  Request.Response.PrettyJson.call(this, 'null')
+PrettyJson.Null = function() {
+  if (!(this instanceof PrettyJson.Null))
+    return new PrettyJson.Null()
+  PrettyJson.call(this, 'null')
 }
-Request.Response.PrettyJson.Null.prototype = Object.create(Request.Response.PrettyJson.prototype)
+PrettyJson.Null.prototype = Object.create(PrettyJson.prototype)
+PrettyJson.Null.prototype.toString = function() { return 'null' }
+PrettyJson.Null.prototype.toStructString = function() { return this.toString() }
 
-Request.Response.PrettyJson.Num = function(val) {
-  if (!(this instanceof Request.Response.PrettyJson.Num))
-    return new Request.Response.PrettyJson.Num(val)
+PrettyJson.Num = function(val) {
+  if (!(this instanceof PrettyJson.Num))
+    return new PrettyJson.Num(val)
 
-  Request.Response.PrettyJson.call(this, 'num')
+  PrettyJson.call(this, 'num')
   this._val = val
 }
-Request.Response.PrettyJson.Num.prototype = Object.create(Request.Response.PrettyJson.prototype)
-Object.defineProperty(Request.Response.PrettyJson.Num.prototype, 'val', { get () { return this._val } })
-Request.Response.PrettyJson.Num.prototype.toString = function() { return this.val }
+PrettyJson.Num.prototype = Object.create(PrettyJson.prototype)
+Object.defineProperty(PrettyJson.Num.prototype, 'val', { get () { return this._val } })
+PrettyJson.Num.prototype.toString = function() { return this.val }
+PrettyJson.Num.prototype.toStructString = function() { return this.toString() }
 
-Request.Response.PrettyJson.Str = function(val) {
-  if (!(this instanceof Request.Response.PrettyJson.Str))
-    return new Request.Response.PrettyJson.Str(val)
+PrettyJson.Str = function(val) {
+  if (!(this instanceof PrettyJson.Str))
+    return new PrettyJson.Str(val)
 
-  Request.Response.PrettyJson.call(this, 'str')
+  PrettyJson.call(this, 'str')
   this._val = val
 }
-Request.Response.PrettyJson.Str.prototype = Object.create(Request.Response.PrettyJson.prototype)
-Object.defineProperty(Request.Response.PrettyJson.Str.prototype, 'val', { get () { return this._val } })
-Request.Response.PrettyJson.Str.prototype.toString = function() { return `"${this.val}"` }
+PrettyJson.Str.prototype = Object.create(PrettyJson.prototype)
+Object.defineProperty(PrettyJson.Str.prototype, 'val', { get () { return this._val } })
+PrettyJson.Str.prototype.toString = function() { return `"${this.val}"` }
+PrettyJson.Str.prototype.toStructString = function() { return this.toString() }
 
-Request.Response.PrettyJson.Bool = function(val) {
-  if (!(this instanceof Request.Response.PrettyJson.Bool))
-    return new Request.Response.PrettyJson.Bool(val)
+PrettyJson.Bool = function(val) {
+  if (!(this instanceof PrettyJson.Bool))
+    return new PrettyJson.Bool(val)
 
-  Request.Response.PrettyJson.call(this, 'bool')
+  PrettyJson.call(this, 'bool')
   this._val = val
 }
-Request.Response.PrettyJson.Bool.prototype = Object.create(Request.Response.PrettyJson.prototype)
-Object.defineProperty(Request.Response.PrettyJson.Bool.prototype, 'val', { get () { return this._val } })
-Request.Response.PrettyJson.Bool.prototype.toString = function() { return this.val ? 'true' : 'false' }
+PrettyJson.Bool.prototype = Object.create(PrettyJson.prototype)
+Object.defineProperty(PrettyJson.Bool.prototype, 'val', { get () { return this._val } })
+PrettyJson.Bool.prototype.toString = function() { return this.val ? 'true' : 'false' }
+PrettyJson.Bool.prototype.toStructString = function() { return this.toString() }
 
-Request.Response.PrettyJson.Arr = function(elements) {
-  if (!(this instanceof Request.Response.PrettyJson.Arr))
-    return new Request.Response.PrettyJson.Arr(elements)
+PrettyJson.Arr = function(elements) {
+  if (!(this instanceof PrettyJson.Arr))
+    return new PrettyJson.Arr(elements)
 
-  Request.Response.PrettyJson.call(this, 'arr')
+  PrettyJson.call(this, 'arr')
   this._elements = elements
 }
-Request.Response.PrettyJson.Arr.prototype = Object.create(Request.Response.PrettyJson.prototype)
-Object.defineProperty(Request.Response.PrettyJson.Arr.prototype, 'elements', { get () { return this._elements } })
+PrettyJson.Arr.prototype = Object.create(PrettyJson.prototype)
+Object.defineProperty(PrettyJson.Arr.prototype, 'elements', { get () { return this._elements } })
+PrettyJson.Arr.prototype.toString = function () { return `[${this.elements.map(e => e.toString()).join(',')}]` }
+PrettyJson.Arr.prototype.toStructString = function (level = 0) { return `[\n${this.elements.length ? `${this.elements.map(e => `${' '.repeat((level + 1) * 2)}${e.toStructString(level + 1)}`).join(',\n')}\n` : ''}${' '.repeat(level * 2)}]` }
 
-Request.Response.PrettyJson.Obj = function(keys) {
-  if (!(this instanceof Request.Response.PrettyJson.Obj))
-    return new Request.Response.PrettyJson.Obj(keys)
+PrettyJson.Obj = function(keyVals) {
+  if (!(this instanceof PrettyJson.Obj))
+    return new PrettyJson.Obj(keyVals)
 
-  Request.Response.PrettyJson.call(this, 'obj')
-  this._keys = keys
+  PrettyJson.call(this, 'obj')
+  this._keyVals = keyVals
 }
-Request.Response.PrettyJson.Obj.prototype = Object.create(Request.Response.PrettyJson.prototype)
-Object.defineProperty(Request.Response.PrettyJson.Obj.prototype, 'keys', { get () { return this._keys } })
+PrettyJson.Obj.prototype = Object.create(PrettyJson.prototype)
+Object.defineProperty(PrettyJson.Obj.prototype, 'keyVals', { get () { return this._keyVals } })
+PrettyJson.Obj.prototype.toString = function () { return `{${this.keyVals.map(keyVal => `"${keyVal.key}":${keyVal.val.toString()}`).join(',')}}` }
+PrettyJson.Obj.prototype.toStructString = function (level = 0) { return `{\n${this.keyVals.length ? `${this.keyVals.map(keyVal => `${' '.repeat((level + 1) * 2)}"${keyVal.key}": ${keyVal.val.toStructString(level + 1)}`).join(',\n')}\n` : ''}${' '.repeat(level * 2)}}` }
 
-Request.Response.PrettyJson.Obj.KeyVal = function(key, val) {
-  if (!(this instanceof Request.Response.PrettyJson.Obj.KeyVal))
-    return new Request.Response.PrettyJson.Obj.KeyVal(key, val)
+PrettyJson.Obj.KeyVal = function(key, val) {
+  if (!(this instanceof PrettyJson.Obj.KeyVal))
+    return new PrettyJson.Obj.KeyVal(key, val)
   this._key = key
   this._val = val
 }
-Object.defineProperty(Request.Response.PrettyJson.Obj.KeyVal.prototype, 'key', { get () { return this._key } })
-Object.defineProperty(Request.Response.PrettyJson.Obj.KeyVal.prototype, 'val', { get () { return this._val } })
+Object.defineProperty(PrettyJson.Obj.KeyVal.prototype, 'key', { get () { return this._key } })
+Object.defineProperty(PrettyJson.Obj.KeyVal.prototype, 'val', { get () { return this._val } })
 
 Load.VueComponent('test-rule', {
   props: {
@@ -753,24 +728,25 @@ Load.VueComponent('test-rule', {
 `
 })
 
-Load.VueComponent('pretty-empty', { template: `span.pretty-empty => *text='尚未執行，故沒有任何回應。'` })
-Load.VueComponent('pretty-colon', { template: `span.pretty-colon => *text=':'` })
-Load.VueComponent('pretty-more', { template: `span.pretty-more => *text='…'` })
-Load.VueComponent('pretty-comma', { template: `span.pretty-comma => *text=','` })
-Load.VueComponent('pretty-square-left', { template: `span.pretty-square-left => *text='['` })
-Load.VueComponent('pretty-square-right', { template: `span.pretty-square-right => *text=']'` })
-Load.VueComponent('pretty-curly-left', { template: `span.pretty-curly-left => *text='{'` })
-Load.VueComponent('pretty-curly-right', { template: `span.pretty-curly-right => *text='}'` })
-Load.VueComponent('pretty-key', { props: { val: { type: String, request: true} }, computed: { text () { return `"${this.val}"` }}, template: `span.pretty-key => *text=text` })
+Load.VueComponent('pretty-json-count', { props: { count: { type: Number, request: true }}, template: `span.pj-count._ns => *text=count` })
+Load.VueComponent('pretty-json-copy', { template: `span.pj-copy._ns => *text='複製'   @click.stop=$emit('copy')` })
+Load.VueComponent('pretty-json-empty', { template: `span.pj-empty._ns` })
+Load.VueComponent('pretty-json-colon', { template: `span.pj-colon._ns => *text=':'` })
+Load.VueComponent('pretty-json-more', { template: `span.pj-more._ns => *text='…'` })
+Load.VueComponent('pretty-json-comma', { template: `span.pj-comma._ns => *text=','` })
+Load.VueComponent('pretty-json-square-left', { template: `span.pj-square-left._ns => *text='['` })
+Load.VueComponent('pretty-json-square-right', { template: `span.pj-square-right._ns => *text=']'` })
+Load.VueComponent('pretty-json-curly-left', { template: `span.pj-curly-left._ns => *text='{'` })
+Load.VueComponent('pretty-json-curly-right', { template: `span.pj-curly-right._ns => *text='}'` })
+Load.VueComponent('pretty-json-key', { props: { val: { type: String, request: true } }, computed: { text () { return `"${this.val}"` }}, template: `span.pj-key._ns => *text=text` })
+Load.VueComponent('pretty-json-null', { template: `span.pj-null._ns => *text='null'` })
+Load.VueComponent('pretty-json-num', { props: { val: { type: PrettyJson.Num, request: true } }, template: `span.pj-num._ns => *text=val` })
+Load.VueComponent('pretty-json-str', { props: { val: { type: PrettyJson.Str, request: true } }, computed: { text () { return `"${this.val}"` }}, template: `span.pj-str._ns => *text=text` })
+Load.VueComponent('pretty-json-bool', { props: { val: { type: PrettyJson.Bool, request: true } }, template: `span.pj-bool._ns => *text=val` })
 
-Load.VueComponent('pretty-null', { template: `span.pretty-null => *text='null'` })
-Load.VueComponent('pretty-num', { props: { val: { type: Request.Response.PrettyJson.Num, request: true} }, template: `span.pretty-num => *text=val` })
-Load.VueComponent('pretty-str', { props: { val: { type: Request.Response.PrettyJson.Str, request: true} }, computed: { text () { return `"${this.val}"` }}, template: `span.pretty-str => *text=text` })
-Load.VueComponent('pretty-bool', { props: { val: { type: Request.Response.PrettyJson.Bool, request: true} }, template: `span.pretty-bool => *text=val` })
-
-Load.VueComponent('pretty-arr', {
+Load.VueComponent('pretty-json-arr', {
   props: {
-    obj: { type: Request.Response.PrettyJson.Arr, request: true },
+    obj: { type: PrettyJson.Arr, request: true },
     colon: { type: Boolean, request: true }
   },
   data: _ => ({
@@ -779,36 +755,48 @@ Load.VueComponent('pretty-arr', {
   methods: {
     addColon(i) {
       return i < this.obj.elements.length - 1
+    },
+    copyArr () {
+      copy(this.obj.toStructString(), _ => Toastr.success('已複製！'), _ => Toastr.failure('複製失敗'))
+    },
+    copyKeyVal (item, colon) {
+      if (!['null', 'num', 'str', 'bool'].includes(item.type)) return Toastr.failure('複製失敗')
+      copy(`${item.toStructString()}${colon ? ',' : ''}`, _ => Toastr.success('已複製！'), _ => Toastr.failure('複製失敗'))
     }
   },
   template: `
-    .pretty-arr
-      label.top => @click=display=!display
-        slot => name=key
-        pretty-square-left
-        pretty-more => *if=!display
-      .mid => *if=display
-        div => *for=(item, i) in obj.elements   :key=i
-          .pretty-el => *if=['null', 'num', 'str', 'bool'].includes(item.type)
-            pretty-null => *if=item.type == 'null'
-            pretty-num => *if=item.type == 'num'   :val=item.val
-            pretty-str => *if=item.type == 'str'   :val=item.val
-            pretty-bool => *if=item.type == 'bool'   :val=item.val
-            pretty-comma => *if=addColon(i)
+    .pj-arr
+      div.pj-r0 => @click=display=!display
+        label
+          slot => name=key
+          pretty-json-square-left
+          pretty-json-count => *if=display   :count=obj.elements.length
+          pretty-json-more => *else
+        pretty-json-copy => @copy=copyArr
 
-          pretty-arr => *if=item.type == 'arr'   :obj=item   :colon=addColon(i)
+      .pj-r1 => *if=display
+        div => *for=(item, i) in obj.elements   :key=i
+          .pj-els => *if=['null', 'num', 'str', 'bool'].includes(item.type)
+            pretty-json-null => *if=item.type == 'null'
+            pretty-json-num => *if=item.type == 'num'   :val=item.val
+            pretty-json-str => *if=item.type == 'str'   :val=item.val
+            pretty-json-bool => *if=item.type == 'bool'   :val=item.val
+            pretty-json-comma => *if=addColon(i)
+            pretty-json-copy => @copy=copyKeyVal(item, addColon(i))
+
+          pretty-json-arr => *if=item.type == 'arr'   :obj=item   :colon=addColon(i)
           
-          pretty-obj => *if=item.type == 'obj'   :obj=item   :colon=addColon(i)
+          pretty-json-obj => *if=item.type == 'obj'   :obj=item   :colon=addColon(i)
           
-      .botton
-        pretty-square-right
-        pretty-comma => *if=colon
+      .pj-r2
+        pretty-json-square-right
+        pretty-json-comma => *if=colon
     `
 
 })
-Load.VueComponent('pretty-obj', {
+Load.VueComponent('pretty-json-obj', {
   props: {
-    obj: { type: Request.Response.PrettyJson.Obj, request: true },
+    obj: { type: PrettyJson.Obj, request: true },
     colon: { type: Boolean, request: true }
   },
   data: _ => ({
@@ -816,39 +804,51 @@ Load.VueComponent('pretty-obj', {
   }),
   methods: {
     addColon(i) {
-      return i < this.obj.keys.length - 1
+      return i < this.obj.keyVals.length - 1
+    },
+    copyObj () {
+      copy(this.obj.toStructString(), _ => Toastr.success('已複製！'), _ => Toastr.failure('複製失敗'))
+    },
+    copyKeyVal (key, item, colon) {
+      if (!['null', 'num', 'str', 'bool'].includes(item.type)) return Toastr.failure('複製失敗')
+      copy(`"${key}": ${item.toStructString()}${colon ? ',' : ''}`, _ => Toastr.success('已複製！'), _ => Toastr.failure('複製失敗'))
     }
   },
   template: `
-    .pretty-obj
-      label.top => @click=display=!display
-        slot => name=key
-        pretty-curly-left
-        pretty-more => *if=!display
-      .mid => *if=display
-        div => *for=({ key, val: item }, i) in obj.keys   :key=i
-          .pretty-key-val => *if=['null', 'num', 'str', 'bool'].includes(item.type)
-            pretty-key => :val=key
-            pretty-colon
-            pretty-null => *if=item.type == 'null'
-            pretty-num => *if=item.type == 'num'   :val=item.val
-            pretty-str => *if=item.type == 'str'   :val=item.val
-            pretty-bool => *if=item.type == 'bool'   :val=item.val
-            pretty-comma => *if=addColon(i)
+    .pj-obj
+      div.pj-r0 => @click=display=!display
+        label
+          slot => name=key
+          pretty-json-curly-left
+          pretty-json-more => *if=!display
+        pretty-json-copy => @copy=copyObj
 
-          pretty-arr => *if=item.type == 'arr'   :obj=item   :colon=addColon(i)
+      .pj-r1 => *if=display
+        div => *for=({ key, val: item }, i) in obj.keyVals   :key=i
+          .pj-kvs => *if=['null', 'num', 'str', 'bool'].includes(item.type)
+            pretty-json-key => :val=key
+            pretty-json-colon
+            pretty-json-null => *if=item.type == 'null'
+            pretty-json-num => *if=item.type == 'num'   :val=item.val
+            pretty-json-str => *if=item.type == 'str'   :val=item.val
+            pretty-json-bool => *if=item.type == 'bool'   :val=item.val
+            pretty-json-comma => *if=addColon(i)
+            pretty-json-copy => @copy=copyKeyVal(key, item, addColon(i))
+
+
+          pretty-json-arr => *if=item.type == 'arr'   :obj=item   :colon=addColon(i)
             template => slot=key
-              pretty-key => :val=key
-              pretty-colon
+              pretty-json-key => :val=key
+              pretty-json-colon
 
-          pretty-obj => *if=item.type == 'obj'   :obj=item   :colon=addColon(i)
+          pretty-json-obj => *if=item.type == 'obj'   :obj=item   :colon=addColon(i)
             template => slot=key
-              pretty-key => :val=key
-              pretty-colon
+              pretty-json-key => :val=key
+              pretty-json-colon
 
-      .botton
-        pretty-curly-right
-        pretty-comma => *if=colon
+      .pj-r2
+        pretty-json-curly-right
+        pretty-json-comma => *if=colon
   `
 })
 
@@ -857,35 +857,6 @@ Load.VueComponent('role-unit', {
     request: { type: Request, request: true }
   },
   methods: {
-    fmt (data) {
-      if (data === undefined)
-        return { type: 'null', toString() { return this.type } }
-
-      if (data === null)
-        return { type: 'null', toString() { return this.type } }
-      
-      if (typeof data == 'string')
-        return { type: 'str', val: data, toString() { return `"${this.val}"` } }
-      
-      if (typeof data == 'number')
-        return { type: 'num', val: data, toString() { return this.val } }
-      
-      if (typeof data == 'boolean')
-        return { type: 'bool', val: data, toString() { return this.val } }
-      
-      if (Array.isArray(data))
-        return { type: 'arr', elements: data.map(this.fmt) }
-      
-      if (Helper.Type.isObject(data)) {
-        const keys = []
-        for (let key in data) {
-          keys.push({ key, val: this.fmt(data[key])})
-        }
-        return { type: 'obj', keys }
-      }
-
-      return { type: 'null' }
-    }
   },
   computed: {
     responseRawJsonPretty() {
@@ -970,19 +941,19 @@ Load.VueComponent('role-unit', {
           label.row._arr => :class=request.response.display ? '_open' : ''   @click=request.response.toggleDisplay()
             b => *text='回應'   :subtitle='（Response）'
 
-          div.info
+          div.info => *if=request.response.display
             segmented.pick => :items=['美化', '原始']   :index=request.response.index   @click=i=>request.response.index=i
 
             .pretty => *if=request.response.showPretty
-              template => *if=responseRawJsonPretty
-                pretty-obj  => *if=responseRawJsonPretty.type == 'obj'   :obj=responseRawJsonPretty
-                pretty-arr  => *if=responseRawJsonPretty.type == 'arr'   :obj=responseRawJsonPretty
-                pretty-null => *if=responseRawJsonPretty.type == 'null'
-                pretty-num  => *if=responseRawJsonPretty.type == 'num'   :val=responseRawJsonPretty.val
-                pretty-str  => *if=responseRawJsonPretty.type == 'str'   :val=responseRawJsonPretty.val
-                pretty-bool => *if=responseRawJsonPretty.type == 'bool'   :val=responseRawJsonPretty.val
-              template => *else
-                pretty-empty
+              .pretty-json => *if=responseRawJsonPretty
+                pretty-json-obj  => *if=responseRawJsonPretty.type == 'obj'   :obj=responseRawJsonPretty
+                pretty-json-arr  => *if=responseRawJsonPretty.type == 'arr'   :obj=responseRawJsonPretty
+                pretty-json-null => *if=responseRawJsonPretty.type == 'null'
+                pretty-json-num  => *if=responseRawJsonPretty.type == 'num'   :val=responseRawJsonPretty.val
+                pretty-json-str  => *if=responseRawJsonPretty.type == 'str'   :val=responseRawJsonPretty.val
+                pretty-json-bool => *if=responseRawJsonPretty.type == 'bool'   :val=responseRawJsonPretty.val
+              .pretty-json => *else
+                pretty-json-empty
 
             .origin => *if=request.response.showOrigin
     `
@@ -1085,9 +1056,16 @@ Load.Vue({
         ]
       },
       response: {
-        display: false,
-        // raw: ''
-        raw: {a: 1, b: 2, c: [1, 2, {a: 1, b: []}], d: {}}
+        display: true,
+        // raw: 'a',
+        // raw: 1,
+        // raw: [],
+        // raw: null,
+        // raw: false,
+        // raw: true,
+        // raw: {},
+        raw: undefined,
+        // raw: '{"string":"這是一個字串","number":42,"boolean":true,"array":["元素1",2,false,{"nested_key":"nested_value"},["nested","array"],null],"object":{"key1":"value1","key2":123,"key3":{"nested_key":"nested_value"},"key4":["a","b",{"nested_object_in_array":true}],"key_with_null_value":null},"null_value":null}',
       }
     })
   },

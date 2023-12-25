@@ -731,6 +731,19 @@
             display: inline-block;
             width: 100%;
             padding: 12px;
+            position: relative;
+
+            &:before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              display: inline-block;
+              height: 1px;
+              border-top: 1px solid var(--ui-color-iOS-separator);
+            }
+
           }
           .pretty {
             display: inline-block;
@@ -742,121 +755,11 @@
             overflow: auto;
             border: 1px solid var(--ui-color-iOS-quaternarySystemFill);
             max-height: 500px;
-            
-          }
-          .pretty-empty {
-            color: var(--ui-color-iOS-tertiaryLabel);
-            display: inline-block;
-            width: 100%;
-            font-size: small;
-
-            text-align: center;
-            font-style: italic;
-            @extend %-user-select-none;
-          }
-          .pretty-more {
-            color: var(--ui-color-iOS-secondaryLabel);
-            margin-left: 4px;
-            @extend %-user-select-none;
-          }
-          .pretty-comma {
-            color: var(--ui-color-iOS-label);
-            margin-left: 2px;
-          }
-          .pretty-square-left {
-            color: var(--ui-color-iOS-label);
-          }
-          .pretty-square-right {
-            color: var(--ui-color-iOS-label);
-          }
-          .pretty-curly-left {
-            color: var(--ui-color-iOS-label);
-          }
-          .pretty-curly-right {
-            color: var(--ui-color-iOS-label);
-          }
-          .pretty-key {
-            color: var(--ui-color-iOS-systemPink);
-          }
-          .pretty-colon {
-            color: var(--ui-color-iOS-label);
-            margin-left: 2px;
-            margin-right: 6px;
-          }
-          .pretty-null {
-            color: var(--ui-color-iOS-systemIndigo);
-          }
-          .pretty-num {
-            color: var(--ui-color-iOS-systemMint);
-
-          }
-          .pretty-str {
-            color: var(--ui-color-iOS-systemBlue);
-
-          }
-          .pretty-bool {
-            color: var(--ui-color-iOS-systemIndigo);
-
-          }
-          .pretty-obj, .pretty-arr {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-            // border: 1px solid rgba(255, 0, 0, .3);
-            .top, .mid, .botton {
-              display: inline-block;
-              width: 100%;
-              // border: 1px solid rgba(255, 0, 0, .3);
-            }
-            .top {
-              cursor: pointer;
-              
-              &:hover {
-                background-color: var(--ui-color-iOS-quaternarySystemFill);
-
-                ~ .mid {
-                  background-color: var(--ui-color-iOS-quaternarySystemFill);
-                }
-              }
-              
-            }
-            .mid {
-              padding-left: 16px;
-              position: relative;
+            .pj-empty {
               &:before {
-                content: '';
-                position: absolute;
-                left: 2px;
-                top: 4px;
-                bottom: 4px;
-                display: inline-block;
-                width: 1px;
-                border-left: 1px solid var(--ui-color-iOS-quaternaryLabel);
+                content: '尚未執行，故沒有任何回應。';
               }
-              > div {
-                display: inline-block;
-                width: 100%;
-              }
-            }
-            .pretty-key-val, .pretty-el {
-              display: inline-flex;
-              flex-direction: row;
-              align-items: center;
-              justify-content: flex-start;
-              width: 100%;
-              // border: 1px solid rgba(255, 0, 0, .3);
-
               
-              &:hover {
-                background-color: var(--ui-color-iOS-quaternarySystemFill);
-              }
-              span {
-                flex-shrink: 0;
-                display: inline-block;
-                // border: 1px solid rgba(255, 0, 0, .3);
-              }
             }
           }
         }
@@ -945,6 +848,207 @@
                 @include transform(translate(0, calc(-50% - 1px)) rotate(45deg));
               }
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+.pretty-json {
+  ._ns {
+    @extend %-user-select-none;
+  }
+  .pj-count {
+    flex-shrink: 0;
+    font-size: small;
+    
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    color: var(--ui-color-iOS-tertiaryLabel);
+    
+    &:before, &:after {
+      display: inline-block;
+    }
+    
+    &:before {
+      content: '// 共有';
+      margin-left: 4px;
+      margin-right: 2px;
+    }
+    &:after {
+      content: '個元素';
+      margin-left: 2px;
+    }
+    
+    
+  }
+  .pj-empty {
+    color: var(--ui-color-iOS-tertiaryLabel);
+    display: inline-block;
+    width: 100%;
+    font-size: small;
+    flex-shrink: 0;
+
+    text-align: center;
+    font-style: italic;
+  }
+  .pj-more {
+    color: var(--ui-color-iOS-secondaryLabel);
+    margin-left: 4px;
+    
+  }
+  .pj-comma {
+    color: var(--ui-color-iOS-label);
+    margin-left: 2px;
+    
+  }
+  .pj-square-left {
+    color: var(--ui-color-iOS-label);
+    
+  }
+  .pj-square-right {
+    color: var(--ui-color-iOS-label);
+    
+  }
+  .pj-curly-left {
+    color: var(--ui-color-iOS-label);
+    
+  }
+  .pj-curly-right {
+    color: var(--ui-color-iOS-label);
+    
+  }
+  .pj-key {
+    
+    color: var(--ui-color-iOS-systemPink);
+  }
+  .pj-colon {
+    
+    color: var(--ui-color-iOS-label);
+    margin-left: 2px;
+    margin-right: 6px;
+  }
+  .pj-null {
+    
+    color: var(--ui-color-iOS-systemIndigo);
+  }
+  .pj-num {
+    
+    color: var(--ui-color-iOS-systemMint);
+  }
+  .pj-str {
+    
+    color: var(--ui-color-iOS-systemBlue);
+
+  }
+  .pj-bool {
+    
+    color: var(--ui-color-iOS-systemIndigo);
+  }
+  .pj-copy {
+    
+    display: inline-block;
+    font-size: small;
+    cursor: pointer;
+    color: var(--ui-color-iOS-link);
+    @include opacity(0);
+    @include transition(opacity .3s);
+  }
+  .pj-obj, .pj-arr {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    
+    .pj-r0, .pj-r1, .pj-r2 {
+      display: inline-block;
+      width: 100%;
+    }
+    .pj-r0 {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      > label {
+        cursor: pointer;
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        
+        flex-grow: 1;
+      }
+      .pj-copy {
+        
+        flex-shrink: 0;
+      }
+      &:hover {
+        .pj-copy {
+          @include opacity(.5);
+          &:hover {
+            @include opacity(1);
+          }
+        }
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+
+        ~ .pj-r1 {
+          background-color: var(--ui-color-iOS-quaternarySystemFill);
+        }
+        ~ .pj-r2 {
+          background-color: var(--ui-color-iOS-quaternarySystemFill);
+        }
+      }
+      
+    }
+    .pj-r1 {
+      padding-left: 16px;
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        left: 2px;
+        top: 4px;
+        bottom: 4px;
+        display: inline-block;
+        width: 1px;
+        border-left: 1px solid var(--ui-color-iOS-quaternaryLabel);
+      }
+      > div {
+        display: inline-block;
+        width: 100%;
+      }
+    }
+    .pj-kvs, .pj-els {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      // border: 1px solid rgba(255, 0, 0, .3);
+
+      
+      &:hover {
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+      }
+      span {
+        flex-shrink: 0;
+        display: inline-block;
+      }
+      .pj-copy {
+        display: inline-block;
+        margin-left: 8px;
+      }
+      
+      &:hover {
+        .pj-copy {
+          @include opacity(.5);
+          &:hover {
+            @include opacity(1);
           }
         }
       }
