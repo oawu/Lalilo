@@ -17,7 +17,7 @@ const Api = function(obj) {
   this._request = Api.Request(isObj ? obj.request : null)
   this._rule    = Api.Rule(isObj    ? obj.rule    : null)
 
-  // this.response = Api.Response
+  // this._response = Api.Response()
 }
 
 Object.defineProperty(Api.prototype, 'ctrl',     { get () { return this._ctrl } })

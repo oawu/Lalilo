@@ -12,16 +12,14 @@ Api.Rule = function(obj) {
   const isObj = Helper.Type.isObject(obj)
 
   this._test = Api.Rule.Test.dispatch(isObj ? obj.test : null)
-  // console.error(this._test.condition('a'));
   
-  
-  this._saves = []    
+  this._saves = isObj && Array.isArray(obj.saves) ? obj.saves.map(
+    save => Helper.Type.isObject(save)
+      && typeof save.key == 'string' && save.key !== ''
+      && typeof save.varName == 'string' && save.varName !== ''
+      ? Api.Rule.Save(save.key, save.varName)
+      : null).filter(save => save !== null) : []
 
-  // isObj && Helper.Type.isObject(obj.rule) && Array.isArray(obj.rule.saves)
-  //   ? obj.rule.saves.map(save => Helper.Type.isObject(save) && typeof save.key == 'string' && save.key !== '' && typeof save.var == 'string' && save.var !== ''
-  //     ? Request.Rule.Save(save.key, save.var)
-  //     : null).filter(save => save !== null)
-  //   : []
 }
 
 Object.defineProperty(Api.Rule.prototype, 'test',  { get () { return this._test } })

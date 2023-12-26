@@ -213,17 +213,6 @@
 // }
 
 
-// Request.Rule.Save = function(key, v) {
-//   if (!(this instanceof Request.Rule.Save))
-//     return new Request.Rule.Save(key, v)
-  
-//   this._key = key
-//   this._var = v
-// }
-// Object.defineProperty(Request.Rule.Save.prototype, 'key', { get () { return this._key } })
-// Object.defineProperty(Request.Rule.Save.prototype, 'var', { get () { return this._var } })
-
-
 // Request.Response = function(display, index, body) {
 //   if (!(this instanceof Request.Response))
 //     return new Request.Response(display, index, body)
@@ -547,8 +536,9 @@ Load.VueComponent('role-unit', {
         forceVar: false,
         header: false,
         payload: false,
-        rule: true,
+        rule: false,
         ruleIndex: 0,
+
         response: true,
         responseIndex: true,
       },
@@ -627,17 +617,15 @@ Load.VueComponent('role-unit', {
           }
         },
         saves: [
-          { key: 'order', var: 'order' },
-          { key: 'order.id', var: 'order-id' },
-          { key: 'items', var: 'items' },
-          { key: 'items[0]', var: 'item0' },
-          { key: 'items[0].id', var: 'item0-id' },
-          { key: 'items[0].name', var: 'item0-name' },
+          { key: 'order', varName: 'order' },
+          { key: 'order.id', varName: 'order-id' },
+          { key: 'items', varName: 'items' },
+          { key: 'items[0]', varName: 'item0' },
+          { key: 'items[0].id', varName: 'item0-id' },
+          { key: 'items[0].name', varName: 'item0-name' },
         ]
       },
-      response: {
-
-      }
+      response: null
     })
 
     // request: Request({
@@ -694,6 +682,9 @@ Load.VueComponent('role-unit', {
     },
     rule () {
       return this.api.rule
+    },
+    response () {
+      return this.api.response
     },
     responseBodyJsonPretty() {
       return this.request
@@ -767,31 +758,31 @@ Load.VueComponent('role-unit', {
               test-rule => :condition=rule.test ? rule.test.condition('回應') : null
 
             .kvs => *if=ctrl.ruleIndex==1
-      //         .kv => *for=(save, i) in request.rule.saves   :key=i
-      //           label
-      //             b => *text=save.var
-      //           label
-      //             span => *text=save.key
+              .kv => *for=(save, i) in rule.saves   :key=i
+                label
+                  b => *text=save.varName
+                label
+                  span => *text=save.key
 
-      //   .response
-      //     label.row._arr => :class=request.response.display ? '_open' : ''   @click=request.response.toggleDisplay()
-      //       b => *text='回應'   :subtitle='（Response）'
+        .response => *if=response
+          label.row._arr => :class=ctrl.response ? '_open' : ''   @click=ctrl.toggleResponse()
+            b => *text='回應'   :subtitle='（Response）'
 
-      //     div.info => *if=request.response.display
-      //       segmented.pick => :items=['Info', 'Header', 'Body']   :index=request.response.index   @click=i=>request.response.index=i
+          div.info => *if=ctrl.response
+            segmented.pick => :items=['Info', 'Header', 'Body']   :index=request.response.index   @click=i=>request.response.index=i
 
-      //       .pretty => *if=request.response.showPretty
-      //         .pretty-json => *if=responseBodyJsonPretty
-      //           pretty-json-obj  => *if=responseBodyJsonPretty.type == 'obj'   :obj=responseBodyJsonPretty
-      //           pretty-json-arr  => *if=responseBodyJsonPretty.type == 'arr'   :obj=responseBodyJsonPretty
-      //           pretty-json-null => *if=responseBodyJsonPretty.type == 'null'
-      //           pretty-json-num  => *if=responseBodyJsonPretty.type == 'num'   :val=responseBodyJsonPretty.val
-      //           pretty-json-str  => *if=responseBodyJsonPretty.type == 'str'   :val=responseBodyJsonPretty.val
-      //           pretty-json-bool => *if=responseBodyJsonPretty.type == 'bool'   :val=responseBodyJsonPretty.val
-      //         .pretty-json => *else
-      //           pretty-json-empty
+            .pretty => *if=request.response.showPretty
+              .pretty-json => *if=responseBodyJsonPretty
+                pretty-json-obj  => *if=responseBodyJsonPretty.type == 'obj'   :obj=responseBodyJsonPretty
+                pretty-json-arr  => *if=responseBodyJsonPretty.type == 'arr'   :obj=responseBodyJsonPretty
+                pretty-json-null => *if=responseBodyJsonPretty.type == 'null'
+                pretty-json-num  => *if=responseBodyJsonPretty.type == 'num'   :val=responseBodyJsonPretty.val
+                pretty-json-str  => *if=responseBodyJsonPretty.type == 'str'   :val=responseBodyJsonPretty.val
+                pretty-json-bool => *if=responseBodyJsonPretty.type == 'bool'   :val=responseBodyJsonPretty.val
+              .pretty-json => *else
+                pretty-json-empty
 
-      //       .origin => *if=request.response.showOrigin
+            .origin => *if=request.response.showOrigin
     `
 })
 

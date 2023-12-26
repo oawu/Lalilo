@@ -5,12 +5,13 @@
  * @link        https://www.ioa.tw/
  */
 
-Api.Rule.Save = function(obj) {
+Api.Rule.Save = function(key, varName) {
   if (!(this instanceof Api.Rule.Save))
-    return new Api.Rule.Save(obj)
+    return new Api.Rule.Save(key, varName)
 
-  const isObj = Helper.Type.isObject(obj)
+  this._key = key
+  this._varName = varName
 }
 
-Object.defineProperty(Api.Rule.Save.prototype, 'test',     { get () { return this._test } })
-Object.defineProperty(Api.Rule.Save.prototype, 'saves', { get () { return this._saves } })
+Object.defineProperty(Api.Rule.Save.prototype, 'key', { get () { return this._key } })
+Object.defineProperty(Api.Rule.Save.prototype, 'varName', { get () { return this._varName } })
