@@ -922,8 +922,8 @@
     
   }
   .pj-key {
-    
     color: var(--ui-color-iOS-systemPink);
+    color: rgba(175, 51, 51, 1.00);
   }
   .pj-colon {
     
@@ -934,19 +934,23 @@
   .pj-null {
     
     color: var(--ui-color-iOS-systemIndigo);
+    color: rgba(15, 82, 165, 1.00);
   }
   .pj-num {
     
     color: var(--ui-color-iOS-systemMint);
+    color: rgba(38, 143, 100, 1.00);
   }
   .pj-str {
     
     color: var(--ui-color-iOS-systemBlue);
+    color: rgba(15, 82, 166, 1.00);
 
   }
   .pj-bool {
     
     color: var(--ui-color-iOS-systemIndigo);
+    color: rgba(42, 107, 177, 1.00);
   }
   .pj-copy {
     

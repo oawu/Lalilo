@@ -30,6 +30,33 @@ echo html(
       ->js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
       ->js('_/Core.js')
       
+      ->js('_/Lib/Helper.js')
+      
+      ->js('_/Lib/Api.js')
+      ->js('_/Lib/Api/Ctrl.js')
+      
+      ->js('_/Lib/Api/Token.js')
+      ->js('_/Lib/Api/Token/Fix.js')
+      ->js('_/Lib/Api/Token/Var.js')
+      ->js('_/Lib/Api/Token/Rand.js')
+
+      ->js('_/Lib/Api/Request.js')
+      ->js('_/Lib/Api/Request/Url.js')
+      ->js('_/Lib/Api/Request/Method.js')
+      ->js('_/Lib/Api/Request/Payload.js')
+      ->js('_/Lib/Api/Request/Payload/Form.js')
+      
+      ->js('_/Lib/Api/Rule.js')
+      ->js('_/Lib/Api/Rule/Test.js')
+      ->js('_/Lib/Api/Rule/Test/Condition.js')
+      ->js('_/Lib/Api/Rule/Test/Bool.js')
+      ->js('_/Lib/Api/Rule/Test/Num.js')
+      ->js('_/Lib/Api/Rule/Test/Str.js')
+      ->js('_/Lib/Api/Rule/Test/Arr.js')
+      ->js('_/Lib/Api/Rule/Test/Obj.js')
+
+      ->js('_/Lib/Api/Rule/Save.js')
+      
       ->js('_/Alert.js')
       ->js('_/Toastr.js')
       ->js('_/Nav.js')
