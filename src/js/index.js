@@ -763,10 +763,10 @@ Load.VueComponent('role-unit', {
           div.info => *if=ctrl.rule
             segmented.pick => :items=['測試', '存取']   :index=ctrl.ruleIndex   @click=i=>ctrl.ruleIndex=i
 
-            .test => *if=rule.test
+            .test => *if=ctrl.ruleIndex==0
               test-rule => :condition=rule.test ? rule.test.condition('回應') : null
 
-      //       .kvs => *if=request.rule.showSave
+            .kvs => *if=ctrl.ruleIndex==1
       //         .kv => *for=(save, i) in request.rule.saves   :key=i
       //           label
       //             b => *text=save.var
