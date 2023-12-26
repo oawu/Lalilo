@@ -36,5 +36,5 @@ Api.Rule.Test.Str.prototype.condition = function(title) {
     this.max === null || descriptions.push(`長度需小於等於「${this.max}」`)
   }
 
-  return Api.Rule.Test.Condition(this.type, title, this.optional, descriptions)
+  return Api.Rule.Test.Condition(this, title, descriptions)
 }

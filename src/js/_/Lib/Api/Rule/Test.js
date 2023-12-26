@@ -12,6 +12,20 @@ Api.Rule.Test = function(type) {
   this._type = type
 }
 Object.defineProperty(Api.Rule.Test.prototype, 'type', { get () { return this._type } })
+Object.defineProperty(Api.Rule.Test.prototype, 'typeText', { get () {
+  if ('bool' == this._type)
+    return '布林'
+  if ('num' == this._type)
+    return '數字'
+  if ('str' == this._type)
+    return '字串'
+  if ('arr' == this._type)
+    return '陣列'
+  if ('obj' == this._type)
+    return '物件'
+  
+  return '?'
+} })
 Api.Rule.Test.prototype.condition = function(title) {
   return Api.Rule.Test.Condition('', '', false, [], [])
 }

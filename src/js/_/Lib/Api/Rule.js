@@ -12,6 +12,8 @@ Api.Rule = function(obj) {
   const isObj = Helper.Type.isObject(obj)
 
   this._test = Api.Rule.Test.dispatch(isObj ? obj.test : null)
+  // console.error(this._test.condition('a'));
+  
   
   this._saves = []    
 

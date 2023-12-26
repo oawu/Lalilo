@@ -31,5 +31,5 @@ Api.Rule.Test.Obj.prototype.condition = function(title) {
   for (let key of keys)
     children.push(this.struct[key].condition(key))
 
-  return Api.Rule.Test.Condition(this.type, title, this.optional, descriptions, children)
+  return Api.Rule.Test.Condition(this, title, descriptions, children)
 }

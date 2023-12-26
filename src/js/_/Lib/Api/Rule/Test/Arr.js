@@ -42,5 +42,5 @@ Api.Rule.Test.Arr.prototype.condition = function(title) {
     children.push(this.struct.description('元素'))
   }
 
-  return Api.Rule.Test.Condition(this.type, title, this.optional, descriptions, children)
+  return Api.Rule.Test.Condition(this, title, descriptions)
 }

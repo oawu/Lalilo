@@ -386,31 +386,31 @@
 // Object.defineProperty(PrettyJson.Obj.KeyVal.prototype, 'key', { get () { return this._key } })
 // Object.defineProperty(PrettyJson.Obj.KeyVal.prototype, 'val', { get () { return this._val } })
 
-// Load.VueComponent('test-rule', {
-//   props: {
-//     description: { type: Request.Rule.Test.Description, request: true }
-//   },
-//   template: `
-//     .test-rule
-//       template => *if=description
-//         label
-//           b.title => *text=description.title   :class={_optional: description.optional}
-//           span.type => *text=description.type
-//           template => *if=description.descriptions.length
-//             i
-//             span.desc => *text=description.descriptions.join('，') + '。'
+Load.VueComponent('test-rule', {
+  props: {
+    condition: { type: Api.Rule.Test.Condition, request: true }
+  },
+  template: `
+    .test-rule
+      template => *if=condition
+        label
+          b.title => *text=condition.title   :class={_optional: condition.test.optional}
+          span.type => *text=condition.test.typeText
+          template => *if=condition.descriptions.length
+            i
+            span.desc => *text=condition.description
         
-//         ul => *if=description.children.length
-//           li => *for=(child, i) in description.children   :key=i
-//             test-rule => :description=child
+        ul => *if=condition.children.length
+          li => *for=(child, i) in condition.children   :key=i
+            test-rule => :condition=child
 
-//       template => *else
-//         label
-//           b.title => *text='回應'
-//           i
-//           span.desc => *text='不需檢查。'
-// `
-// })
+      template => *else
+        label
+          b.title => *text='回應'
+          i
+          span.desc => *text='不需檢查。'
+`
+})
 
 // Load.VueComponent('pretty-json-count', { props: { count: { type: Number, request: true }}, template: `span.pj-count._ns => *text=count` })
 // Load.VueComponent('pretty-json-copy', { template: `span.pj-copy._ns => *text='複製'   @click.stop=$emit('copy')` })
@@ -764,8 +764,8 @@ Load.VueComponent('role-unit', {
             segmented.pick => :items=['測試', '存取']   :index=ctrl.ruleIndex   @click=i=>ctrl.ruleIndex=i
 
             .test => *if=rule.test
-              test-rule => :description=rule.test ? rule.test.condition('回應') : null
-            
+              test-rule => :condition=rule.test ? rule.test.condition('回應') : null
+
       //       .kvs => *if=request.rule.showSave
       //         .kv => *for=(save, i) in request.rule.saves   :key=i
       //           label

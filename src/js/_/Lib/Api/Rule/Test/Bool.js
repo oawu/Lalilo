@@ -22,5 +22,5 @@ Object.defineProperty(Api.Rule.Test.Bool.prototype, 'optional', { get () { retur
 Api.Rule.Test.Bool.prototype.condition = function(title) {
   let descriptions = []
   this.val === null || descriptions.push(`值需等於「${this.val ? 'true' : 'false'}」`)
-  return Api.Rule.Test.Condition(this.type, title, this.optional, descriptions)
+  return Api.Rule.Test.Condition(this, title, descriptions)
 }
