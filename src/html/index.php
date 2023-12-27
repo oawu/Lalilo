@@ -31,6 +31,15 @@ echo html(
       ->js('_/Core.js')
       
       ->js('_/Lib/Helper.js')
+
+      ->js('_/Lib/PrettyJson.js')
+      ->js('_/Lib/PrettyJson/Null.js')
+      ->js('_/Lib/PrettyJson/Bool.js')
+      ->js('_/Lib/PrettyJson/Num.js')
+      ->js('_/Lib/PrettyJson/Str.js')
+      ->js('_/Lib/PrettyJson/Arr.js')
+      ->js('_/Lib/PrettyJson/Obj.js')
+      ->js('_/Lib/PrettyJson/Obj/KeyVal.js')
       
       ->js('_/Lib/Api.js')
       ->js('_/Lib/Api/Ctrl.js')
@@ -57,9 +66,16 @@ echo html(
 
       ->js('_/Lib/Api/Rule/Save.js')
       
+      ->js('_/Lib/Api/Response.js')
+      ->js('_/Lib/Api/Response/Info.js')
+      ->js('_/Lib/Api/Response/Header.js')
+      ->js('_/Lib/Api/Response/Body.js')
+      ->js('_/Lib/Api/Response/Body/Json.js')
+
       ->js('_/Alert.js')
       ->js('_/Toastr.js')
       ->js('_/Nav.js')
+      ->js('_/Component/PrettyJson.js')
       ->js('_/Component/Segmented.js')
       ->js('_/Component/Layout.js')
       ->js('index.js')

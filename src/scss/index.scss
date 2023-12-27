@@ -327,21 +327,46 @@
         .payload {
           
         }
+
         .rule {
-          .pick {
-            margin-left: 12px;
-            margin-top: 12px;
-          }
+          // .pick {
+          //   // margin-left: 12px;
+          //   // margin-top: 12px;
+          // }
           .info {
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            
             width: 100%;
             // padding: 12px;
-            // padding-top: 12px;
-            // padding-bottom: 12px;
-            // padding-left: 0;
+            padding-top: 10px;
+            padding-bottom: 18px;
+            // padding-left: 12px;
 
             position: relative;
             z-index: 1;
+
+            .segmenteds {
+              display: inline-flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: flex-start;
+              width: 100%;
+              padding-left: 18px;
+              padding-right: 18px;
+              flex-wrap: wrap;
+              
+              > div {
+                flex-shrink: 0;
+                margin-top: 8px;
+                margin-right: 12px;
+                &:last-child {
+                  margin-right: 0;
+                }
+              }
+            }
 
             &:before {
               content: '';
@@ -355,9 +380,17 @@
             }
 
             .kvs {
-              margin-top: 12px;
-              padding-top: 6px;
-              padding-bottom: 6px;
+              // width: calc(100% - 12px);
+              // margin-left: 12px;
+              margin-top: 8px;
+              // margin-bottom: 12px;
+              // padding-top: 12px;
+              
+              // padding-bottom: 8px;
+              &:before {
+                @include opacity(0);
+              }
+              
             }
 
             .test {
@@ -365,9 +398,9 @@
               margin-top: 12px;
               margin-bottom: 12px;
 
-              width: calc(100% - 12px * 2);
-              margin-left: 12px;
-              margin-right: 12px;
+              width: calc(100% - 18px * 2);
+              margin: 18px;
+              margin-bottom: 0;
 
               &, ul {
                 padding-top: 4px;
@@ -380,6 +413,7 @@
                 border: 1px solid var(--ui-color-iOS-systemFill);
                 background-color: var(--ui-color-iOS-tertiarySystemFill);
               }
+              // background-color: rgba(0, 0, 255, 0.2) !important;
             }
           }
         }
@@ -472,7 +506,6 @@
             
             padding: 10px 12px;
             z-index: 1;
-            // background-color: rgba(0, 0, 255, 0.2);
             
             @include overflow-docx3();
             @extend %-user-select-none;
@@ -513,8 +546,9 @@
               &:after {
                 @include opacity(1);
               }
-            }            
+            }
           }
+
           label {
             cursor: pointer;
             &:hover {
@@ -530,7 +564,9 @@
           }
 
           b, span {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+
             font-size: small;
             
             padding: 1px 6px;
@@ -539,8 +575,16 @@
               margin-left: 6px;
               @include border-radius(4px);
               // border: 1px solid rgba(255, 0, 0, .3);
-              // background-color: rgba(0, 0, 255, 0.2);
               background-color: var(--ui-color-iOS-tertiarySystemFill);
+            }
+            &[subtitle]:not([subtitle='']) {
+              &:after {
+                content: attr(subtitle);
+                display: inline-block;
+                margin-left: 4px;
+                font-weight: normal;
+                color: var(--ui-color-iOS-secondaryLabel);
+              }
             }
           }
 
@@ -728,9 +772,16 @@
         .response {
 
           .info {
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            
             width: 100%;
-            padding: 12px;
+            // padding: 12px;
+            // padding-bottom: 8px;
+            padding-top: 10px;
+            padding-bottom: 18px;
             position: relative;
 
             &:before {
@@ -743,24 +794,70 @@
               height: 1px;
               border-top: 1px solid var(--ui-color-iOS-separator);
             }
-
           }
-          .pretty {
-            display: inline-block;
+
+          .segmenteds {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
             width: 100%;
-            margin-top: 12px;
+            padding-left: 18px;
+            padding-right: 18px;
+            flex-wrap: wrap;
+            
+            > div {
+              flex-shrink: 0;
+              margin-top: 8px;
+              margin-right: 12px;
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+          }
+
+          .kvs {
+            // margin-top: 12px;
+            padding-top: 8px;
+            
+            // padding-bottom: 6px;
+            &:before {
+              @include opacity(0);
+            }
+            
+          }
+          .pretty, .origin {
+            display: inline-block;
+            width: calc(100% - 18px * 2);
+            margin: 18px;
+            margin-bottom: 0;
+
             padding: 12px;
             @include border-radius(6px);
             background-color: var(--ui-color-iOS-quaternarySystemFill);
             overflow: auto;
             border: 1px solid var(--ui-color-iOS-quaternarySystemFill);
+            
             max-height: 500px;
+          }
+          .pretty {
             .pj-empty {
               &:before {
-                content: '尚未執行，故沒有任何回應。';
+                content: '結構化失敗或者資料格式錯誤。';
               }
-              
             }
+          }
+          .response-empty {
+            display: inline-block;
+            width: calc(100% - 12px * 2);
+            padding: 12px;
+            margin: 12px;
+            color: var(--ui-color-iOS-secondaryLabel);
+            font-style: italic;
+            @include border-radius(6px);
+            font-size: small;
+            text-align: center;
+            background-color: var(--ui-color-iOS-quaternarySystemFill);
           }
         }
 
@@ -924,6 +1021,10 @@
   .pj-key {
     color: var(--ui-color-iOS-systemPink);
     color: rgba(175, 51, 51, 1.00);
+
+    @include dark {
+      color: rgba(207, 91, 91, 1.00);
+    }
   }
   .pj-colon {
     
@@ -935,22 +1036,37 @@
     
     color: var(--ui-color-iOS-systemIndigo);
     color: rgba(15, 82, 165, 1.00);
+
+    @include dark {
+      color: rgba(127, 184, 255, 1.00);
+    }
   }
   .pj-num {
     
     color: var(--ui-color-iOS-systemMint);
     color: rgba(38, 143, 100, 1.00);
+
+    @include dark {
+      color: rgba(70, 180, 135, 1.00);
+    }
   }
   .pj-str {
     
     color: var(--ui-color-iOS-systemBlue);
     color: rgba(15, 82, 166, 1.00);
 
+    @include dark {
+      color: rgba(127, 184, 255, 1.00);
+    }
+
   }
   .pj-bool {
     
     color: var(--ui-color-iOS-systemIndigo);
     color: rgba(42, 107, 177, 1.00);
+    @include dark {
+      color: rgba(159, 165, 253, 1.00)
+    }
   }
   .pj-copy {
     

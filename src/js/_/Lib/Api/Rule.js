@@ -19,7 +19,6 @@ Api.Rule = function(obj) {
       && typeof save.varName == 'string' && save.varName !== ''
       ? Api.Rule.Save(save.key, save.varName)
       : null).filter(save => save !== null) : []
-
 }
 
 Object.defineProperty(Api.Rule.prototype, 'test',  { get () { return this._test } })

@@ -20,6 +20,7 @@ Api.Ctrl = function(obj) {
   
   this._ruleIndex     = isObj && typeof obj.ruleIndex     == 'number'  ? obj.ruleIndex     : 0
   this._responseIndex = isObj && typeof obj.responseIndex == 'number'  ? obj.responseIndex : 0
+  this._responseBodyIndex = isObj && typeof obj.responseBodyIndex == 'number' ? obj.responseBodyIndex : 0
 }
 
 Object.defineProperty(Api.Ctrl.prototype, 'main',     { get () { return this._main } })
@@ -31,6 +32,7 @@ Object.defineProperty(Api.Ctrl.prototype, 'response', { get () { return this._re
 
 Object.defineProperty(Api.Ctrl.prototype, 'ruleIndex',     { get () { return this._ruleIndex }, set (val) { return this._ruleIndex = val } })
 Object.defineProperty(Api.Ctrl.prototype, 'responseIndex', { get () { return this._responseIndex }, set (val) { return this._responseIndex = val } })
+Object.defineProperty(Api.Ctrl.prototype, 'responseBodyIndex', { get () { return this._responseBodyIndex }, set (val) { return this._responseBodyIndex = val } })
 
 Api.Ctrl.prototype.toggleMain = function() { this._main = !this.main; return this }
 Api.Ctrl.prototype.toggleForceVar = function() { this._forceVar = !this.forceVar; return this }
