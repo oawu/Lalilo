@@ -11,8 +11,12 @@ Load.VueComponent('role-unit', {
   },
   data: _ => ({
     api: Api({
+
       ctrl: {
-        main: true,
+        error: new Error('asdd'),
+        loading: false,
+
+        main: false,
         forceVar: false,
         header: false,
         payload: false,
@@ -146,12 +150,17 @@ Load.VueComponent('role-unit', {
   },
   template: `
     .role-unit
-      header => :class=ctrl.main ? '_open' : ''
+      header.unit-header => :class=ctrl.main ? '_open' : ''
         i._icon-api
-        div
+        div.info
           b => *text=request.title
           span => *text=request.subtitle   *if=request.subtitle!==''
-        label => @click=ctrl.toggleMain()
+        
+        div.error => *if=ctrl.error
+        label.loading => *if=ctrl.loading
+          div
+            i => *for=i in [0,1,2,3,4,5,6,7,8,9,10,11]   :key=i   :class='__i' + i
+        div.arrow => *else   @click=ctrl.toggleMain()
 
       .body.api => *if=ctrl.main
         .var => *if=request.forceVars.length

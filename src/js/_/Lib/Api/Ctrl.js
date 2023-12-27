@@ -11,6 +11,15 @@ Api.Ctrl = function(obj) {
 
   const isObj = Helper.Type.isObject(obj)
   
+  this._error = isObj
+    ? typeof obj.error != 'string'
+      ? Helper.Type.isObject(obj.error) && obj.error instanceof Error
+        ? obj.error
+        : null
+      : new Error(obj.error)
+    : null
+
+  this._loading       = isObj && typeof obj.loading       == 'boolean' ? obj.loading       : false
   this._main          = isObj && typeof obj.main          == 'boolean' ? obj.main          : false
   this._forceVar      = isObj && typeof obj.forceVar      == 'boolean' ? obj.forceVar      : false
   this._header        = isObj && typeof obj.header        == 'boolean' ? obj.header        : false
@@ -23,6 +32,8 @@ Api.Ctrl = function(obj) {
   this._responseBodyIndex = isObj && typeof obj.responseBodyIndex == 'number' ? obj.responseBodyIndex : 0
 }
 
+Object.defineProperty(Api.Ctrl.prototype, 'error',    { get () { return this._error } })
+Object.defineProperty(Api.Ctrl.prototype, 'loading',  { get () { return this._loading } })
 Object.defineProperty(Api.Ctrl.prototype, 'main',     { get () { return this._main } })
 Object.defineProperty(Api.Ctrl.prototype, 'forceVar', { get () { return this._forceVar } })
 Object.defineProperty(Api.Ctrl.prototype, 'header',   { get () { return this._header } })

@@ -5,6 +5,7 @@
 // @link        https://www.ioa.tw/
 //
 
+@use "sass:math";
 @import "_/_Lib";
 @import "Lalilo";
 
@@ -60,7 +61,7 @@
       margin-top: 20px;
     }
 
-    header {
+    .unit-header {
       display: inline-flex;
       flex-direction: row;
       align-items: center;
@@ -71,7 +72,7 @@
       padding-left: 12px;
       padding-right: 8px;
 
-      i {
+      > i {
         display: inline-block;
         width: 36px;
         height: 36px;
@@ -101,7 +102,7 @@
           }
         }
       }
-      div {
+      .info {
         display: inline-flex;
         flex-direction: column;
         align-items: center;
@@ -126,7 +127,80 @@
         font-size: small;
         text-align: left;
       }
-      label {
+      .error {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        position: relative;
+        
+        &:before {
+          @extend %-icon;
+          content: '\f000a';
+          
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          line-height: 28px;
+          @include transform(translate(-50%, -50%));
+          font-size: 28px;
+          color: var(--ui-color-iOS-systemRed);
+
+        }
+        
+
+      }
+      .loading {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        position: relative;
+
+        div {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          @include transform(translate(-50%, -50%));
+
+          i {
+            --loading-color-0: var(--ui-color-iOS-label);
+            --loading-color-1: var(--ui-color-iOS-secondarySystemFill);
+            --loading-color-2: var(--ui-color-iOS-systemGray);
+
+            position: absolute;
+            left: 50%;
+            top: 50%;
+
+            display: inline-block;
+            width: 2px;
+            height: 6px;
+
+            background-color: var(--loading-color-1);
+
+            @include border-radius(math.div(2px, 2));
+            @include transform(translate(-50%, -50%));
+            $cnt: 12;
+            $deg: math.div(360deg, $cnt);
+            $r: 9px;
+            @for $i from 0 through $cnt - 1 {
+              &.__i#{$i} {
+                @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
+                @include animation-delay($i * .05s);
+              }
+            }
+            @include animation(loading-rotate $cnt * .05s linear infinite);
+          }
+        }
+
+      }
+      .arrow {
         display: inline-block;
         width: 36px;
         height: 36px;

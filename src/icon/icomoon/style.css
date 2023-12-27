@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?tr9h0o');
-  src:  url('fonts/icomoon.eot?tr9h0o#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?tr9h0o') format('truetype'),
-    url('fonts/icomoon.woff?tr9h0o') format('woff'),
-    url('fonts/icomoon.svg?tr9h0o#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?ivgvm8');
+  src:  url('fonts/icomoon.eot?ivgvm8#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ivgvm8') format('truetype'),
+    url('fonts/icomoon.woff?ivgvm8') format('woff'),
+    url('fonts/icomoon.svg?ivgvm8#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,20 +25,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-f0009:before {
-  content: "\f0009";
+.icon-f000a:before {
+  content: "\f000a";
 }
-.icon-f0008:before {
-  content: "\f0008";
+.icon-f0001:before {
+  content: "\f0001";
 }
-.icon-f0007:before {
-  content: "\f0007";
-}
-.icon-f0006:before {
-  content: "\f0006";
-}
-.icon-f0005:before {
-  content: "\f0005";
+.icon-f0002:before {
+  content: "\f0002";
 }
 .icon-f0003:before {
   content: "\f0003";
@@ -46,9 +40,18 @@
 .icon-f0004:before {
   content: "\f0004";
 }
-.icon-f0002:before {
-  content: "\f0002";
+.icon-f0005:before {
+  content: "\f0005";
 }
-.icon-f0001:before {
-  content: "\f0001";
+.icon-f0006:before {
+  content: "\f0006";
+}
+.icon-f0007:before {
+  content: "\f0007";
+}
+.icon-f0008:before {
+  content: "\f0008";
+}
+.icon-f0009:before {
+  content: "\f0009";
 }
