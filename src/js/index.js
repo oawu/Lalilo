@@ -293,9 +293,9 @@ Load.Vue({
                 role-unit
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-ifelse
-                    div
+                    .info
                       b => *text='檢查是否可被申請退貨'
                       span
                     label
@@ -303,9 +303,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='清除購物車'
                       span
                     label
@@ -313,9 +313,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='加入購物車'
                       span
                     label
@@ -323,9 +323,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='取得付款憑證'
                       span
                     label
@@ -333,9 +333,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='付款'
                       span
                     label
@@ -348,9 +348,9 @@ Load.Vue({
               .role-units
               .role-units
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='登入後台'
                       span
                     label
@@ -358,9 +358,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='排程過 12 小時'
                       span
                     label
@@ -368,9 +368,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='登入後台'
                       span
                     label
@@ -378,9 +378,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='檢視訂單-取的項目'
                       span
                     label
@@ -388,9 +388,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='建立出貨單'
                       span
                     label
@@ -398,9 +398,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='檢視訂單-取得出貨單'
                       span
                     label
@@ -408,9 +408,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='送達'
                       span
                     label
@@ -421,9 +421,9 @@ Load.Vue({
             .unit-roles
               .role-units
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='登入前台'
                       span
                     label
@@ -431,9 +431,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='檢視訂單'
                       span
                     label
@@ -441,9 +441,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-ifelse
-                    div
+                    .info
                       b => *text='檢查是否可被申請退貨'
                       span
                     label
@@ -451,9 +451,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='申請退貨'
                       span
                     label
@@ -466,9 +466,9 @@ Load.Vue({
               .role-units
               .role-units
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='登入後台'
                       span
                     label
@@ -476,9 +476,9 @@ Load.Vue({
                   .body
 
                 .role-unit
-                  header
+                  header.unit-header
                     i._icon-api
-                    div
+                    .info
                       b => *text='允許退貨'
                       span
                     label
@@ -491,9 +491,9 @@ Load.Vue({
               .role-units
                 .unit
                   .role-unit
-                    header
+                    header.unit-header
                       i
-                      div
+                      .info
                         b => *text='登入後台'
                         span
                       label
@@ -501,9 +501,9 @@ Load.Vue({
                     .body
 
                   .role-unit
-                    header
+                    header.unit-header
                       i
-                      div
+                      .info
                         b => *text='退款'
                         span
                       label

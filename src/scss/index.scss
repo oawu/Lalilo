@@ -60,8 +60,28 @@
     + .role-unit {
       margin-top: 20px;
     }
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: inline-block;
+      border: 2px solid rgba(255, 0, 0, .3);
+      z-index: 2;
+      @include border-radius(10px);
+      
+    }
+    
+    
 
     .unit-header {
+      position: relative;
+      z-index: 1;
+
       display: inline-flex;
       flex-direction: row;
       align-items: center;
@@ -245,13 +265,27 @@
         }
       }
       &._open {
-        label {
+        .arrow {
           &:after {
             @include transform(translate(-50%, calc(-50% - 1px)) rotate(45deg));
           }
         }
       }
+
+      // background-color: rgba(0, 0, 255, 0.2);
+      // background: linear-gradient(45deg,
+      //   rgba(250, 169, 169, 1.00) 25%,
+      //   rgba(254, 236, 236, 1.00) 0,
+      //   rgba(254, 236, 236, 1.00) 50%,
+      //   rgba(250, 169, 169, 1.00) 0,
+      //   rgba(250, 169, 169, 1.00) 75%,
+      //   rgba(254, 236, 236, 1.00) 0);
+      // background-size: 30px 30px;
+      // background-repeat: repeat;
+
+      
     }
+
     .body {
       display: inline-block;
       width: 100%;
@@ -261,6 +295,7 @@
       // padding-bottom: 8px;
       text-align: left;
       position: relative;
+      z-index: 1;
       // display: none;
       
       &:before {
