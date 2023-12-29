@@ -26,6 +26,7 @@ Api.Ctrl = function(obj) {
   this._payload       = isObj && typeof obj.payload       == 'boolean' ? obj.payload       : false
   this._rule          = isObj && typeof obj.rule          == 'boolean' ? obj.rule          : false
   this._response      = isObj && typeof obj.response      == 'boolean' ? obj.response      : false
+  this._result        = isObj && typeof obj.result        == 'boolean' ? obj.result        : false
   
   this._ruleIndex     = isObj && typeof obj.ruleIndex     == 'number'  ? obj.ruleIndex     : 0
   this._responseIndex = isObj && typeof obj.responseIndex == 'number'  ? obj.responseIndex : 0
@@ -40,6 +41,7 @@ Object.defineProperty(Api.Ctrl.prototype, 'header',   { get () { return this._he
 Object.defineProperty(Api.Ctrl.prototype, 'payload',  { get () { return this._payload } })
 Object.defineProperty(Api.Ctrl.prototype, 'rule',     { get () { return this._rule } })
 Object.defineProperty(Api.Ctrl.prototype, 'response', { get () { return this._response } })
+Object.defineProperty(Api.Ctrl.prototype, 'result',   { get () { return this._result } })
 
 Object.defineProperty(Api.Ctrl.prototype, 'ruleIndex',     { get () { return this._ruleIndex }, set (val) { return this._ruleIndex = val } })
 Object.defineProperty(Api.Ctrl.prototype, 'responseIndex', { get () { return this._responseIndex }, set (val) { return this._responseIndex = val } })
@@ -51,3 +53,4 @@ Api.Ctrl.prototype.toggleHeader = function() { this._header = !this.header; retu
 Api.Ctrl.prototype.togglePayload = function() { this._payload = !this.payload; return this }
 Api.Ctrl.prototype.toggleRule = function() { this._rule = !this.rule; return this }
 Api.Ctrl.prototype.toggleResponse = function() { this._response = !this.response; return this }
+Api.Ctrl.prototype.toggleResult = function() { this._result = !this.result; return this }

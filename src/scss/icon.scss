@@ -7,7 +7,7 @@
 
 @import "Lalilo";
 
-@font-face { font-family: "icon"; src: url("../icon/icomoon/fonts/icomoon.eot?t=1703729440244") format("embedded-opentype"), url("../icon/icomoon/fonts/icomoon.woff?t=1703729440244") format("woff"), url("../icon/icomoon/fonts/icomoon.ttf?t=1703729440244") format("truetype"), url("../icon/icomoon/fonts/icomoon.svg?t=1703729440244") format("svg"); }
+@font-face { font-family: "icon"; src: url("../icon/icomoon/fonts/icomoon.eot?t=1703840907289") format("embedded-opentype"), url("../icon/icomoon/fonts/icomoon.woff?t=1703840907289") format("woff"), url("../icon/icomoon/fonts/icomoon.ttf?t=1703840907289") format("truetype"), url("../icon/icomoon/fonts/icomoon.svg?t=1703840907289") format("svg"); }
 
 *[class^="icon-"]:before, *[class*=" icon-"]:before {
   font-family: "icon";
@@ -27,3 +27,4 @@
 .icon-f0008:before { content: "\f0008"; }
 .icon-f0009:before { content: "\f0009"; }
 .icon-f000a:before { content: "\f000a"; }
+.icon-f000b:before { content: "\f000b"; }

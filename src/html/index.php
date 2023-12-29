@@ -23,6 +23,7 @@ echo html(
       ->css('_/Alert.css')
       ->css('_/Toastr.css')
       ->css('_/Nav.css')
+      ->css('_/Component/PrettyJson.css')
       ->css('_/Component/Segmented.css')
       ->css('_/Component/Layout.css')
       ->css('index.css')

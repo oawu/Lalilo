@@ -14,9 +14,12 @@ Load.VueComponent('role-unit', {
 
       ctrl: {
         error: new Error('asdd'),
+        // error: null,
+
         loading: false,
 
-        main: false,
+        main: true,
+
         forceVar: false,
         header: false,
         payload: false,
@@ -27,6 +30,8 @@ Load.VueComponent('role-unit', {
         response: false,
         responseIndex: 2,
         responseBodyIndex: 1,
+        
+        result: false,
       },
       request: {
         method: 'post',
@@ -132,6 +137,11 @@ Load.VueComponent('role-unit', {
 
     })
   }),
+  mounted () {
+    console.error(this.api.ctrl.error.message);
+    console.error(`${this.api.ctrl.error.stack}`);
+    
+  },
   methods: {
   },
   computed: {
@@ -149,122 +159,139 @@ Load.VueComponent('role-unit', {
     },
   },
   template: `
-    .role-unit
-      header.unit-header => :class=ctrl.main ? '_open' : ''
-        i._icon-api
-        div.info
-          b => *text=request.title
-          span => *text=request.subtitle   *if=request.subtitle!==''
-        
-        div.error => *if=ctrl.error
-        label.loading => *if=ctrl.loading
-          div
-            i => *for=i in [0,1,2,3,4,5,6,7,8,9,10,11]   :key=i   :class='__i' + i
-        div.arrow => *else   @click=ctrl.toggleMain()
+    .role-unit => :class={_error: ctrl.error, _force: false}
+      .ru-container
+        header.unit-header => :class=ctrl.main ? '_open' : ''
+          i._icon-api
+          div.info
+            b => *text=request.title
+            span => *text=request.subtitle   *if=request.subtitle!==''
+          
+          label.loading => *if=ctrl.loading
+            div
+              i => *for=i in [0,1,2,3,4,5,6,7,8,9,10,11]   :key=i   :class='__i' + i
+          div.arrow => *else   @click=ctrl.toggleMain()
 
-      .body.api => *if=ctrl.main
-        .var => *if=request.forceVars.length
-          label.row._arr._var => :class={_open: ctrl.forceVar}   @click=ctrl.toggleForceVar()
-            b => *text='必要變數'   :subtitle='（' + request.forceVars.length + '）'
+        .body.api => *if=ctrl.main
+          .var => *if=request.forceVars.length
+            label.row._arr._var => :class={_open: ctrl.forceVar}   @click=ctrl.toggleForceVar()
+              b => *text='必要變數'   :subtitle='（' + request.forceVars.length + '）'
 
-          .kvs => *if=ctrl.forceVar
-            .kv => *for=(v, i) in request.forceVars   :key=i
-              label
-                b => *text=v.key
-              label
-                span => *text=v.default
+            .kvs => *if=ctrl.forceVar
+              .kv => *for=(v, i) in request.forceVars   :key=i
+                label
+                  b => *text=v.key
+                label
+                  span => *text=v.default
 
-        .url
-          div.method
-            span => *text=request.method.toUpperCase   :class=request.method.toLowerCase
-          div.paths
-            span => *for=(path, i) in request.url.paths   :key=i   *text=path.text   :class={_token_dynamic: !path.isFix}
+          .url
+            div.method
+              span => *text=request.method.toUpperCase   :class=request.method.toLowerCase
+            div.paths
+              span => *for=(path, i) in request.url.paths   :key=i   *text=path.text   :class={_token_dynamic: !path.isFix}
 
-        .header => *if=request.headers.length
-          label.row._arr => :class={_open: ctrl.header}   @click=ctrl.toggleHeader()
-            b => *text='標題'   :subtitle='（Header）'
+          .header => *if=request.headers.length
+            label.row._arr => :class={_open: ctrl.header}   @click=ctrl.toggleHeader()
+              b => *text='標題'   :subtitle='（Header）'
 
-          .kvs => *if=ctrl.header
-            .kv => *for=({ key, val },i) in request.headers   :key=i
-              label
-                b => *text=key.text   :class={_token_dynamic: !key.isFix}
-              label
-                span => *text=val.text   :class={_token_dynamic: !val.isFix}
-
-        .payload => *if=request.payload
-          label.row._arr => :class={_open: ctrl.payload}   @click=ctrl.togglePayload()
-            b => *text='內文'   :subtitle='（Payload）'
-            span => *text=request.payload.text
-
-          template => *if=ctrl.payload
-            .kvs => *if=request.payload.type == 'form'
-              .kv => *for=({ key, val }, i) in request.payload.data   :key=i
+            .kvs => *if=ctrl.header
+              .kv => *for=({ key, val },i) in request.headers   :key=i
                 label
                   b => *text=key.text   :class={_token_dynamic: !key.isFix}
                 label
                   span => *text=val.text   :class={_token_dynamic: !val.isFix}
 
-        .rule
-          label.row._arr => :class=ctrl.rule ? '_open' : ''   @click=ctrl.toggleRule()
-            b => *text='規則'   :subtitle='（Rule）'
+          .payload => *if=request.payload
+            label.row._arr => :class={_open: ctrl.payload}   @click=ctrl.togglePayload()
+              b => *text='內文'   :subtitle='（Payload）'
+              span => *text=request.payload.text
 
-          div.info => *if=ctrl.rule
-            .segmenteds
-              segmented => :items=['測試', '存取']   :index=ctrl.ruleIndex   @click=i=>ctrl.ruleIndex=i
+            template => *if=ctrl.payload
+              .kvs => *if=request.payload.type == 'form'
+                .kv => *for=({ key, val }, i) in request.payload.data   :key=i
+                  label
+                    b => *text=key.text   :class={_token_dynamic: !key.isFix}
+                  label
+                    span => *text=val.text   :class={_token_dynamic: !val.isFix}
 
-            .test => *if=ctrl.ruleIndex==0
-              test-rule => :condition=rule.test ? rule.test.condition('回應') : null
+          .rule
+            label.row._arr => :class=ctrl.rule ? '_open' : ''   @click=ctrl.toggleRule()
+              b => *text='規則'   :subtitle='（Rule）'
 
-            .kvs => *if=ctrl.ruleIndex==1
-              .kv => *for=(save, i) in rule.saves   :key=i
-                label
-                  b => *text=save.varName
-                label
-                  span => *text=save.key
-
-        .response
-          label.row._arr => :class=ctrl.response ? '_open' : ''   @click=ctrl.toggleResponse()
-            b => *text='回應'   :subtitle='（Response）'
-
-          div.info => *if=ctrl.response
-            template => *if=response
+            div.info => *if=ctrl.rule
               .segmenteds
-                segmented.pick => :items=['Info', ['Header', response.headers.length], 'Body']   :index=ctrl.responseIndex   @click=i=>ctrl.responseIndex=i
-                segmented.pick => *if=ctrl.responseIndex==2   :items=['原始資料', '結構化']   :index=ctrl.responseBodyIndex   @click=i=>ctrl.responseBodyIndex=i
+                segmented => :items=['測試', '存取']   :index=ctrl.ruleIndex   @click=i=>ctrl.ruleIndex=i
 
-              .kvs => *if=ctrl.responseIndex==0
-                .kv
-                  label
-                    b => *text='狀態'   :subtitle='（Status Code）'
-                  label
-                    span => *text=response.info.status
+              .test => *if=ctrl.ruleIndex==0
+                test-rule => :condition=rule.test ? rule.test.condition('回應') : null
 
-                .kv
+              .kvs => *if=ctrl.ruleIndex==1
+                .kv => *for=(save, i) in rule.saves   :key=i
                   label
-                    b => *text='傳輸大小'
+                    b => *text=save.varName
                   label
-                    span => *text=response.info.size   :subtitle='Byte'
-                    
-                .kv
-                  label
-                    b => *text='執行時間'
-                  label
-                    span => *text=response.info.during   :subtitle='ms'
-                    
-              .kvs => *if=ctrl.responseIndex==1
-                .kv => *for=(header, i) in response.headers   :key=i
-                  label
-                    b => *text=header.key
-                  label
-                    span => *text=header.val
+                    span => *text=save.key
 
-              template => *if=ctrl.responseIndex==2
-                .pretty => *if=ctrl.responseBodyIndex==1
-                  pretty-json => :json=response.body.json
-                .origin => *if=ctrl.responseBodyIndex==0
-                  div => *text=response.body.text
-            template => *else
-              div.response-empty => *text='尚未執行，所以還沒有任何回應結果。'
+          .response
+            label.row._arr => :class=ctrl.response ? '_open' : ''   @click=ctrl.toggleResponse()
+              b => *text='回應'   :subtitle='（Response）'
+
+            div.info => *if=ctrl.response
+              template => *if=response
+                .segmenteds
+                  segmented.pick => :items=['Info', ['Header', response.headers.length], 'Body']   :index=ctrl.responseIndex   @click=i=>ctrl.responseIndex=i
+                  segmented.pick => *if=ctrl.responseIndex==2   :items=['原始資料', '結構化']   :index=ctrl.responseBodyIndex   @click=i=>ctrl.responseBodyIndex=i
+
+                .kvs => *if=ctrl.responseIndex==0
+                  .kv
+                    label
+                      b => *text='狀態'   :subtitle='（Status Code）'
+                    label
+                      span => *text=response.info.status
+
+                  .kv
+                    label
+                      b => *text='傳輸大小'
+                    label
+                      span => *text=response.info.size   :subtitle='Byte'
+                      
+                  .kv
+                    label
+                      b => *text='執行時間'
+                    label
+                      span => *text=response.info.during   :subtitle='ms'
+                      
+                .kvs => *if=ctrl.responseIndex==1
+                  .kv => *for=(header, i) in response.headers   :key=i
+                    label
+                      b => *text=header.key
+                    label
+                      span => *text=header.val
+
+                template => *if=ctrl.responseIndex==2
+                  .pretty => *if=ctrl.responseBodyIndex==1
+                    pretty-json => :json=response.body.json
+                  
+                  .origin => *if=ctrl.responseBodyIndex==0
+                    div => *text=response.body.text   :class={_empty: response.body.text === ''}
+
+              template => *else
+                div.response-empty => *text='尚未執行，所以還沒有任何回應結果。'
+          
+          .result
+            label.row._arr => :class=ctrl.result ? '_open' : ''   @click=ctrl.toggleResult()
+              b => *text='結果'   :subtitle='（Result）'
+
+            div.info
+              ul
+                li => *text='asd'
+                li => *text='asd'
+                li => *text='asd'
+                li => *text='asd'
+
+
+
+
     `
 })
 
