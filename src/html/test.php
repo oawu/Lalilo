@@ -18,15 +18,185 @@ echo html(
     title(TITLE),
 
     asset()
-      ->css('icon.css')
-      ->css('_/Core.css')
-      ->css('_/Alert.css')
+      ->css('https://fonts.googleapis.com/css?family=Comfortaa:400,300,700')
+      ->css('https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css')
       ->css('test.css')
-      ->js('https://code.jquery.com/jquery-1.12.4.min.js')
-      ->js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
-      ->js('_/Core.js')
-      ->js('_/Alert.js')
-      ->js('test.js')
   ),
-  body()
+  body(
+    h1('肆 . 零 . 肆'),
+    p('糟糕，是 404 not found！'),
+    article(
+      div(
+        span('html')->class('r'),
+        span('_')->class('s'),
+        span('{')
+      ),
+      div(
+        span('position')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('fixed')->class('b'),
+        span(';')
+      ),
+      div(
+        span('top')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('-99999')->class('p'),
+        span('px')->class('r'),
+        span(';')
+      ),
+      div(
+        span('left')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('-99999')->class('p'),
+        span('px')->class('r'),
+        span(';')
+      ),
+      div(
+      ),
+      div(
+        span('z-index')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('-99999')->class('p'),
+        span(';')
+      ),
+      div(
+      ),
+      div(
+        span('display')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('null')->class('b'),
+        span(';')
+      ),
+      div(
+        span('width')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(';')
+      ),
+      div(
+        span('height')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(';')
+      ),
+      div(
+      ),
+      div(
+        span('filter')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('progid:DXImageTransform.Microsoft.Alpha')->class('b'),
+        span('(Opacity=0);')
+      ),
+      div(
+        span('opacity')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(';')
+      ),
+      div(
+      ),
+      div(
+        span('-webkit-transform')->class('b i'),
+        span(':'),
+        span('_')->class('s'),
+        span('scale')->class('b'),
+        span('('),
+        span('0')->class('p'),
+        span(','),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(');')
+      ),
+      div(
+        span('_')->class('s i'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('-moz-transform')->class('b'),
+        span(':'),
+        span('_')->class('s'),
+        span('scale')->class('b'),
+        span('('),
+        span('0')->class('p'),
+        span(','),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(');')
+      ),
+      div(
+        span('_')->class('s i'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('-ms-transform')->class('b'),
+        span(':'),
+        span('_')->class('s'),
+        span('scale')->class('b'),
+        span('('),
+        span('0')->class('p'),
+        span(','),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(');')
+      ),
+      div(
+        span('_')->class('s i'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('-o-transform')->class('b'),
+        span(':'),
+        span('_')->class('s'),
+        span('scale')->class('b'),
+        span('('),
+        span('0')->class('p'),
+        span(','),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(');')
+      ),
+      div(
+        span('_')->class('s i'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('_')->class('s'),
+        span('transform')->class('b'),
+        span(':'),
+        span('_')->class('s'),
+        span('scale')->class('b'),
+        span('('),
+        span('0')->class('p'),
+        span(','),
+        span('_')->class('s'),
+        span('0')->class('p'),
+        span(');')
+      ),
+
+      div(
+        span('}')
+      )
+    ),
+    footer(
+      a(
+        'OA'
+      )->href('https://www.ioa.tw/')->target('blank'),
+      i(),
+      a(
+        'GitHub'
+      )->href('https://github.com/oawu/')->target('blank')
+    )
+  )
 )->lang('zh-Hant');

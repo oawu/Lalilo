@@ -8,33 +8,228 @@
 @import "_/_Lib";
 @import "Lalilo";
 
-#app {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: inline-block;
+* {
+  &, &:after, &:before {
+    vertical-align: middle;
+    @include box-sizing(border-box);
+    @include font-smoothing(subpixel-antialiased);
+  }
+}
+
+%-position-relative {
+  position: relative;
+}
+%-position-absolute {
+  position: absolute;
+}
+%-display-inline-block {
+  display:inline-block
+}
+%-margin-0 {
+  margin: 0;
+}
+%-padding-0 {
+  padding: 0;
+}
+%-width-100 {
   width: 100%;
-  height: 100%;
-  border: 1px solid rgba(255, 0, 0, .3);
-  .content {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
+}
+%-top-left-100 {
+  top: 0;
+  left: 0;
+}
+%-display-inline-flex {
+  display: inline-flex;
+  align-items: center;
+
+}
+%-column {
+  flex-direction: column;
+}
+%-row {
+  flex-direction: row;
+}
+html {
+  @extend %-position-relative;
+  @extend %-display-inline-block;
+  @extend %-margin-0;
+  @extend %-padding-0;
+}
+body {
+  @extend %-position-relative;
+  @extend %-display-inline-block;
+  @extend %-margin-0;
+  @extend %-padding-0;
+  @extend %-width-100;
+
+  font-size: medium;
+  text-align: center;
+  font-family: Comfortaa;
+  
+  color: #f8f8f2;
+  background-color: #373832;
+}
+h1 {
+  @extend %-position-relative;
+  @extend %-display-inline-block;
+  @extend %-width-100;
+
+  @extend %-user-select-none;
+  
+  color: #d7d7d7;
+  font-size: 56px;
+  font-family: Comfortaa;
+  
+  text-shadow: 1px 1px 10px #0b0b0b;
+}
+p {
+  @extend %-user-select-none;
+  @extend %-margin-0;
+  color: #7f7f7f
+}
+article {
+  @extend %-position-relative;
+  @extend %-display-inline-flex;
+  justify-content: flex-start;
+  @extend %-column;
+
+  width: calc(100% - 16px);
+  max-width: 640px;
+
+  text-align: left;
+
+  padding: 12px 8px;
+  padding-left: 0;
+
+  margin: 0 8px;
+  margin-top: 20px;
+
+  background-color: #282923;
+  overflow: hidden;
+  overflow-x: auto;
+  
+  @include border-radius(3px);
+  @include box-shadow(
+    inset 1px 1px 2px #1f1f1f,
+    1px 1px 1px #454545);
+  
+  &:before, &:after {
+    @extend %-position-absolute;
+    @extend %-top-left-100;
+  }
+  &:after {
     bottom: 0;
-    z-index: 1;
-    overflow: auto;
+    display: inline-block;
+    width: 1px;
+    background-color: #232323;
+    content: '';
   }
-  .cover {
-    position: absolute;
-    left: 100px;
-    top: 100px;
-    bottom: 100px;
-    right: 100px;
-    border: 1px solid rgba(255, 0, 0, .3);
-    z-index: 2;
-    background-color: white;
+  
+  &:before {
+    content: "";
+    height: 100%;
+    width: 36px;
+    background-color: #282923;
+    @include box-shadow(0 0 5px #1f1f1f, 0 0 1px #000000);
   }
+}
+div{
+  @extend %-position-relative;
+  @extend %-display-inline-flex;
+  justify-content: flex-start;
+  @extend %-row;
+  @extend %-width-100;
+
+  height: 22px;
+  line-height: 22px;
+  padding: 0;
+  padding-left: 48px;
+  color: #f8f8f2;
+  font-family: Hack, Comfortaa;
+
+  &:before{
+    @extend %-position-absolute;
+    @extend %-top-left-100;
+    width: 36px;
+    color: #90918b;
+    font-size: 13px;
+    font-weight: 100;
+    text-align: center;
+  }
+
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      @if ($i < 10) {
+        &:before{content:"0#{$i}"}
+      } @else {
+        &:before{content:"#{$i}"}
+      }
+    }
+  }
+}
+span {
+  @extend %-user-select-none;
+  @extend %-display-inline-block;
+  flex-shrink: 0;
+}
+.p {
+  color: #b07dff;
+}
+.b {
+  color: #61d8f1;
+}
+.y {
+  color: #d3c964;
+}
+.r {
+  color: #ee1b6b;
+}
+.i {
+  padding-left: 16px;
+}
+.s {
+  @include opacity(0);
+}
+
+footer{
+  @extend %-display-inline-flex;
+  justify-content: center;
+
+  @extend %-row;
+  @extend %-width-100;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+a {
+  @extend %-user-select-none;
+  @extend %-display-inline-block;
+
+  flex-shrink: 0;
+  text-decoration: none;
+  font-family: Comfortaa;
+  font-size: 13px;
+  padding: 6px 8px;
+  
+  color: #7e807c;
+  cursor: pointer;
+  @include transition(background-color .3s, color .3s);
+  @include border-radius(5px);
+
+  &:hover {
+    color: #d1d1d1;
+    background-color: #555555;
+  }
+  &:active {
+    color: #d1d1d1;
+    background-color: #444444;
+  }
+}
+i {
+  @extend %-display-inline-block;
+  width: 1px;
+  height: 16px;
+  background-color: #636363;
+  margin-left: 8px;
+  margin-right: 8px;
 }
