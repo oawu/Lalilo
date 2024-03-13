@@ -18,20 +18,16 @@ echo html(
     title(TITLE),
 
     asset()
+      ->css('https://unpkg.com/leaflet@1.9.2/dist/leaflet.css')
       ->css('icon.css')
       ->css('_/Core.css')
-      ->css('_/Alert.css')
-      ->css('_/Toastr.css')
-      ->css('_/Nav.css')
-      ->css('_/Component/Segmented.css')
       ->css('index.css')
+
       ->js('https://code.jquery.com/jquery-1.12.4.min.js')
       ->js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
+      ->js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
+      ->js('https://unpkg.com/leaflet-ant-path@1.3.0/dist/leaflet-ant-path.js')
       ->js('_/Core.js')
-      ->js('_/Alert.js')
-      ->js('_/Toastr.js')
-      ->js('_/Nav.js')
-      ->js('_/Component/Segmented.js')
       ->js('index.js')
   ),
   body()

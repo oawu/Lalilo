@@ -5,13 +5,122 @@
 // @link        https://www.ioa.tw/
 //
 
+@use "sass:math";
 @import "_/_Lib";
 @import "Lalilo";
 
-.btn {
-  // @extend %-button;
+$font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+$headerH: 44px;
+$footerH: 56px;
+  $zoomH: 36px;
+
+
+.leaflet-ant-path {
+  pointer-events: none !important;
+}
+
+%-full {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   display: inline-block;
-  width: 100px;
-  height: 44px;
-  line-height: 44px;
+  width: 100%;
+  height: 100%;
+}
+#app {
+  @extend %-full;
+  z-index: 1;
+  background-color: rgba(242, 241, 240, 1.00);
+}
+
+#map {
+  position: relative;
+  display: inline-block;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: rgba(242, 241, 240, 1.00);
+}
+
+#p0, #p1, #p2, #p3 {
+  position: fixed;
+  z-index: 2;
+  @extend %-cover;
+  @include border-radius(6px);
+  @include box-shadow(0 4px 10px 1px rgba(0, 0, 0, .26));
+}
+
+#p0 {
+  width: 500px;
+  height: 500px * 2 / 3;
+  top: 50%;
+  left: 16px;
+  @include transform(translateY(-50%) rotate(0));
+}
+#p1 {
+  width: 360px;
+  height: 360px * 2 / 3;
+  top: 16px;
+  left: 16px;
+}
+#p2 {
+  width: 360px;
+  height: 360px * 2 / 3;
+  bottom: 16px;
+  left: 16px;
+}
+#p3 {
+  bottom: 16px;
+  right: 16px;
+}
+
+#tt {
+  --top: none;
+  --left: none;
+  --bottom: none;
+  --right: none;
+  position: fixed;
+  top: var(--top);
+  left: var(--left);
+  bottom: var(--bottom);
+  right: var(--right);
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, .7);
+  @include backdrop-filter(blur(5px));
+  z-index: 3;
+  @include border-radius(8px);
+  @include box-shadow(0 0 10px 1px rgba(0, 0, 0, .26));
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0 8px;
+  
+  b, div {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+  }  
+  b {
+    padding: 12px 8px;
+  }
+  div {
+    display: inline-block;
+    width: 100%;
+    padding: 4px 8px;
+    font-size: small;
+    &:last-child {
+      margin-bottom: 12px;
+    }
+  }
+
+  b + div {
+    border-top: 2px solid rgba(0, 0, 0, .1);
+    margin-top: 4px;
+    padding-top: 8px;
+  }
 }
