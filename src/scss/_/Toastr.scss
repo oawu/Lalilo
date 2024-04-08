@@ -1,9 +1,9 @@
-//
-// @author      OA Wu <oawu.tw@gmail.com>
-// @copyright   Copyright (c) 2015 - 2022, Lalilo
-// @license     http://opensource.org/licenses/MIT  MIT License
-// @link        https://www.ioa.tw/
-//
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
 
 @use "sass:math";
 @import "@/CSS3/Appearance";
@@ -31,7 +31,7 @@
     @include word-break(break-all);
 
     font-size: 14px;
-    padding-right: 12px;
+    // padding-right: 12px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;

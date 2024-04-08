@@ -1,9 +1,10 @@
-//
-// @author      OA Wu <oawu.tw@gmail.com>
-// @copyright   Copyright (c) 2015 - 2022, Lalilo
-// @license     http://opensource.org/licenses/MIT  MIT License
-// @link        https://www.ioa.tw/
-//
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
 @use "sass:math";
 @import "@/Common";
 @import "@/CSS3/Appearance";
@@ -48,8 +49,9 @@
   --tbv-cell-padding-right: 16px;
   --tbv-cell-empty-color: var(--ui-color-iOS-secondaryLabel);
   
-  --tbv-cell-color-hover: var(--ui-color-iOS-tertiarySystemFill);
-  --tbv-cell-color-active: var(--ui-color-iOS-systemFill);;
+  --tbv-cell-radius-hover: 8px;
+  --tbv-cell-color-hover: var(--ui-color-iOS-quaternarySystemFill);
+  --tbv-cell-color-active: var(--ui-color-iOS-tertiarySystemFill);
   
   --tbv-cell-title-color: var(--ui-color-iOS-label);
   --tbv-cell-subtitle-color: var(--ui-color-iOS-secondaryLabel);
@@ -225,6 +227,20 @@
       --tbv-section-padding-left: var(--tbv-section-group-padding-left);
       --tbv-section-padding-right: var(--tbv-section-group-padding-right);
       --tbv-section-body-radius: var(--tbv-section-body-group-radius);
+    }
+
+    &.__clear {
+      --tbv-section-body-shadow: none;
+      --tbv-section-body-color: transparent;
+
+      ._cell {
+        --first-padding-top: 0px;
+        --last-padding-bottom: 0px;
+        --tbv-cell-padding-top: 0px;
+        --tbv-cell-padding-bottom: 0px;
+        --tbv-cell-padding-left: 0px;
+        --tbv-cell-padding-right: 0px
+      }
     }
   }
 
@@ -532,11 +548,51 @@
       text-overflow: var(--tbv-cell-title_text-overflow);
       white-space: var(--tbv-cell-title_white-space);
       overflow: var(--tbv-cell-title_overflow);
-      
-      // @include prefix(white-space, pre-wrap);
 
       @include word-break(break-word);
       @include user-select(var(--user-select));
+    }
+    > ._ctx.__tx {
+      input, textarea {
+        display: inline-block;
+        width: 100%;
+
+        font-size: medium;
+        font-family: $font-family;
+
+        color: var(--ui-color-iOS-label);
+        border: 1px solid transparent;
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+        @include border-radius(4px);
+        @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+
+        margin: 0;
+        padding: 8px 12px;
+        
+        @include appearance(none);
+        @include input-placeholder {
+          font-size: small;
+          color: var(--ui-color-iOS-secondaryLabel);
+        }
+
+        &:focus {
+          outline: 0;
+        }
+        
+        &:not([readonly]):focus {
+          border-color: var(--ui-color-iOS-link);
+          @include box-shadow(0 0 0 3px var(--ui-color-macOS-keyboardFocusIndicatorColor));
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        height: 120px;
+
+        &[readonly] {
+          resize: none;
+        }
+      }
     }
     &.__select {
       --user-select: auto;
@@ -598,16 +654,36 @@
       }
     }
     &.__click {
+      position: relative;
+      z-index: 1;
+
+      &:before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        left: 4px;
+        top: 4px;
+        right: 4px;
+        bottom: 4px;
+        background-color: transparent;
+        @include transition(background-color .3s);
+        @include border-radius(var(--tbv-cell-radius-hover));
+      }
+
       cursor: pointer;
       @include transition(background-color .3s);
 
       @include hover {
         &:hover {
-          background-color: var(--tbv-cell-color-hover);
+          &:before {
+            background-color: var(--tbv-cell-color-hover);
+          }
         }
       }
       &:active {
-        background-color: var(--tbv-cell-color-active) 
+        &:before {
+          background-color: var(--tbv-cell-color-active);
+        }
       }
     }
 

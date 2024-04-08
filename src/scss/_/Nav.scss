@@ -1,9 +1,9 @@
-//
-// @author      OA Wu <oawu.tw@gmail.com>
-// @copyright   Copyright (c) 2015 - 2022, Lalilo
-// @license     http://opensource.org/licenses/MIT  MIT License
-// @link        https://www.ioa.tw/
-//
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
 
 @use "sass:math";
 @import "@/CSS3/Appearance";
@@ -365,6 +365,9 @@
             }
             > span {
               flex-shrink: 0;
+              &._red {
+                color: var(--ui-color-iOS-systemRed);
+              }
             }
           }
           &.__full {

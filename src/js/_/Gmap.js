@@ -1,6 +1,6 @@
 /**
- * @author      OA Wu <comdan66@gmail.com>
- * @copyright   Copyright (c) 2015 - 2021, Lalilo
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -9,28 +9,45 @@ const GoogleMap = {
   closure: null,
   inited: false,
   base () {
-    if (this.inited) return
-    else this.inited = true
+    if (this.inited) {
+      return
+    }
+    
+    this.inited = true
 
     void function() { // init GoogleMap.Marker
       GoogleMap.Marker.prototype = Object.create(google.maps.OverlayView.prototype)
 
       Object.assign(GoogleMap.Marker.prototype, {
         draw () {
-          this._vue.pixel = this._vue.$el && this._vue.position ? this.getProjection().fromLatLngToDivPixel(this._vue.position) : null
+          this._vue.pixel = this._vue.$el && this._vue.position
+            ? this.getProjection().fromLatLngToDivPixel(this._vue.position)
+            : null
+
           return this
         },
         onAdd () {
-          this._vue.$el || this._el.appendChild(this._vue.$mount().$el)
+          if (!this._vue.$el) {
+            this._el.appendChild(this._vue.$mount().$el)
+          }
+
           this._removeVue()._addVue()
-          this._vue.$el && this.getPanes().overlayImage.appendChild(this._vue.$el)
-          this._vue.$el && this._vue.$el.addEventListener('click', e => e.stopPropagation())
-          this._vue.$el && this._vue.$el.addEventListener('dblclick', e => e.stopPropagation())
+
+          if (this._vue.$el) {
+            this.getPanes().overlayImage.appendChild(this._vue.$el)
+            this._vue.$el.addEventListener('click', e => e.stopPropagation())
+            this._vue.$el.addEventListener('dblclick', e => e.stopPropagation())
+          }
+
           return this
         },
         remove () {
           this._removeVue()
-          this._vue.$el && this._vue.$el.parentNode.removeChild(this._vue.$el)
+
+          if (this._vue.$el) {
+            this._vue.$el.parentNode.removeChild(this._vue.$el)
+          }
+
           this._vue.$el = null
           return this
         },
@@ -41,23 +58,28 @@ const GoogleMap = {
             return this
           }
 
-          if (!(typeof latLng == 'object' && latLng !== null))
+          if (!(typeof latLng == 'object' && latLng !== null)) {
             return this
+          }
 
-          if (Array.isArray(latLng))
-            if (latLng.length < 2)
+          if (Array.isArray(latLng)) {
+            if (latLng.length < 2) {
               return this
-            else
-              latLng = new google.maps.LatLng(latLng[0], latLng[1])
+            }
 
-          if (!(latLng instanceof google.maps.LatLng))
-            if (latLng.lat === undefined || latLng.lng === undefined)
+            latLng = new google.maps.LatLng(latLng[0], latLng[1])
+          }
+
+          if (!(latLng instanceof google.maps.LatLng)) {
+            if (latLng.lat === undefined || latLng.lng === undefined) {
               return this
-            else
-              latLng = new google.maps.LatLng(latLng.lat, latLng.lng)
+            }
+            latLng = new google.maps.LatLng(latLng.lat, latLng.lng)
+          }
 
-          if (!(latLng instanceof google.maps.LatLng))
+          if (!(latLng instanceof google.maps.LatLng)) {
             return this
+          }
           
           this._vue.position = latLng
           this.draw()
@@ -66,56 +88,70 @@ const GoogleMap = {
         },
         setClassName (val) {
           val = GoogleMap.Marker._toStr(val, true)
-          if (val === null || val === '')
+
+          if (val === null || val === '') {
             return this
+          }
           
           this._vue.className = val
           return this
         },
         setTop (val) {
           val = GoogleMap.Marker._toNum(val)
-          if (val === null)
+
+          if (val === null) {
             return this
+          }
 
           this._vue.top = val
           return this
         },
         setLeft (val) {
           val = GoogleMap.Marker._toNum(val)
-          if (val === null)
+
+          if (val === null) {
             return this
+          }
           
           this._vue.left = val
           return this
         },
         setWidth (val) {
           val = GoogleMap.Marker._toNum(val)
-          if (val === null || val <= 0)
+
+          if (val === null || val <= 0) {
             return this
+          }
 
           this._vue.width = val
           return this
         },
         setHeight (val) {
           val = GoogleMap.Marker._toNum(val)
-          if (val === null || val <= 0)
+
+          if (val === null || val <= 0) {
             return this
+          }
 
           this._vue.height = val
           return this
         },
         setText (val) {
           val = GoogleMap.Marker._toStr(val, true)
-          if (val === null)
+
+          if (val === null) {
             return this
+          }
             
           this._vue.text = val
           return this
         },
         setHtml (val) {
           val = GoogleMap.Marker._toStr(val, true)
-          if (val === null)
+
+          if (val === null) {
             return this
+          }
           
           this._vue.html = val
           return this
@@ -135,8 +171,9 @@ const GoogleMap = {
             return this
           }
 
-          if (typeof func != 'function')
+          if (typeof func != 'function') {
             return this
+          }
 
           this._vue.drag = {
             able: true,
@@ -149,8 +186,9 @@ const GoogleMap = {
           }
 
           this._vue.events.mousedown = e => {
-            if (!this.map)
+            if (!this.map) {
               return
+            }
 
             this.map.set('draggable', false)
             
@@ -161,8 +199,9 @@ const GoogleMap = {
 
             this._vue.drag.mouseleave = this.getMap().getDiv().addEventListener('mouseleave', e => this._vue.events && this._vue.events.mouseup && this._vue.events.mouseup())
             this._vue.drag.mousemove = this.getMap().getDiv().addEventListener('mousemove', e => {
-              if (!(this._vue.drag && this._vue.drag.origin))
+              if (!(this._vue.drag && this._vue.drag.origin)) {
                 return
+              }
 
               let left   = this._vue.drag.origin.clientX - e.clientX
               let top    = this._vue.drag.origin.clientY - e.clientY
@@ -177,8 +216,9 @@ const GoogleMap = {
           }
 
           this._vue.events.mouseup = e => {
-            if (!this.map)
+            if (!this.map) {
               return
+            }
 
             this.map.set('draggable', this._vue.drag.default)
 
@@ -196,65 +236,79 @@ const GoogleMap = {
           return this
         },
         onClick (val) {
-          if (typeof val != 'function')
+          if (typeof val != 'function') {
             return this
+          }
 
           this._vue.events.click = val.bind(this, this.position, this)
           return this
         },
         onEvents (val) {
-          if (!(typeof val == 'object' && val !== null && !Array.isArray(val)))
+          if (!(typeof val == 'object' && val !== null && !Array.isArray(val))) {
             return this
+          }
 
           let events = {}
-          for (let key in val)
-            if (typeof val[key] == 'function')
+          for (let key in val) {
+            if (typeof val[key] == 'function') {
               events[key] = val[key].bind(this, this.position, this)
+            }
+          }
 
           this._vue.events = events
           return this
         },
         setCss (val) {
-          if (val === undefined)
+          if (val === undefined) {
             return this
+          }
 
-          if (!(typeof val == 'object' && val !== null && !Array.isArray(val)))
+          if (!(typeof val == 'object' && val !== null && !Array.isArray(val))) {
             return this
+          }
 
           this._vue.css = val
           return this
         },
         setVue (val) {
-          if (val === undefined)
+          if (val === undefined) {
             return this
+          }
 
-          if (typeof val == 'function')
+          if (typeof val == 'function') {
             val = val()
+          }
 
-          if (!(typeof val == 'object' && val !== null && !Array.isArray(val)))
+          if (!(typeof val == 'object' && val !== null && !Array.isArray(val))) {
             return this
+          }
 
           if (!(val instanceof Vue)) {
 
-            if (typeof val.template == 'undefined')
+            if (typeof val.template == 'undefined') {
               val.template = ''
-
-            if (typeof El3 != 'undefined') {
-              if (typeof val.template == 'string')
-                val.template = El3(val.template)
-
-              if (val.template instanceof El3)
-                val.template = val.template.toString()
             }
 
-            if (typeof val.template == 'object')
+            if (typeof El3 != 'undefined') {
+              if (typeof val.template == 'string') {
+                val.template = El3(val.template)
+              }
+
+              if (val.template instanceof El3) {
+                val.template = val.template.toString()
+              }
+            }
+
+            if (typeof val.template == 'object') {
               val.template = val.template.toString()
+            }
 
             val = new Vue(val)
           }
 
-          if (!(val instanceof Vue))
+          if (!(val instanceof Vue)) {
             return this
+          }
           
           this._removeVue()
           val.marker = this
@@ -264,8 +318,9 @@ const GoogleMap = {
           return this
         },
         setOptions (options) {
-          if (!(typeof options == 'object' && options !== null && !Array.isArray(options)))
+          if (!(typeof options == 'object' && options !== null && !Array.isArray(options))) {
             options = {}
+          }
           
           this.setTop(options.top).setTop(options.t)
           this.setLeft(options.left).setLeft(options.l)
@@ -297,7 +352,10 @@ const GoogleMap = {
           return this
         },
         _addVue () {
-          this._vue.vue && this._vue.$el && this._vue.$el.appendChild(this._vue.vue.$mount().$el)
+          if (this._vue.vue && this._vue.$el) {
+            this._vue.$el.appendChild(this._vue.vue.$mount().$el)
+          }
+
           return this
         },
       })
@@ -334,15 +392,19 @@ const GoogleMap = {
 }
 
 GoogleMap.Marker = function(className, options = {}, el = null) {
-  if (!(this instanceof GoogleMap.Marker))
+  if (!(this instanceof GoogleMap.Marker)) {
     return new GoogleMap.Marker(className, options)
+  }
   
   this._el = document.body
 
-  if (el instanceof HTMLElement)
+  if (el instanceof HTMLElement) {
     this._el = el
-  if (el instanceof Vue)
+  }
+
+  if (el instanceof Vue) {
     this._el = el.$el
+  }
 
   this._vue = new Vue({
     data: {
@@ -366,10 +428,11 @@ GoogleMap.Marker = function(className, options = {}, el = null) {
     },
     computed: {
       style () {
-        if (!(this.pixel && this.$el))
+        if (!(this.pixel && this.$el)) {
           return {
             display: 'none'
           }
+        }
 
         let h = this.height === null ? this.$el.offsetHeight : this.height
         let w = this.width === null ? this.$el.offsetWidth : this.width
@@ -378,9 +441,18 @@ GoogleMap.Marker = function(className, options = {}, el = null) {
 
         return {
           cursor: (drag => {
-            if (!drag)     return 'default'
-            if (drag.ing)  return 'grabbing'
-            if (drag.able) return 'grab'
+            if (!drag) {
+              return 'default'
+            }
+
+            if (drag.ing) {
+              return 'grabbing'
+            }
+
+            if (drag.able) {
+              return 'grab'
+            }
+
           })(this.drag),
 
           position: 'absolute',
@@ -393,9 +465,15 @@ GoogleMap.Marker = function(className, options = {}, el = null) {
         }
       },
       content () {
-        if (this.vue !== null) return { }
-        if (this.html !== null) return { innerHTML: this.html }
-        if (this.text !== null) return { innerText: this.text }
+        if (this.vue !== null) {
+          return {}
+        }
+        if (this.html !== null) {
+          return { innerHTML: this.html }
+        }
+        if (this.text !== null) {
+          return { innerText: this.text }
+        }
         return {}
       }
     },
@@ -405,29 +483,38 @@ GoogleMap.Marker = function(className, options = {}, el = null) {
 }
 
 GoogleMap.Marker._toStr = (val, trim) => {
-  if (typeof val == 'function')
+  if (typeof val == 'function') {
     val = val()
+  }
 
-  if (typeof val == 'object' && val !== null)
+  if (typeof val == 'object' && val !== null) {
     val = `${val}`
+  }
   
-  if (typeof val == 'number')
-    if (isNaN(val))
+  if (typeof val == 'number') {
+    if (isNaN(val)) {
       return null
-    else
-      val = `${val}`
+    }
+    val = `${val}`
+  }
 
-  if (typeof val != 'string')
+  if (typeof val != 'string') {
     return null
+  }
 
-  return trim ? val.trim() : val
+  return trim
+    ? val.trim()
+    : val
 }
 GoogleMap.Marker._toNum = val => {
   val = GoogleMap.Marker._toStr(val, true)
   
-  if (val === null || val === '')
+  if (val === null || val === '') {
     return null
+  }
 
   val = parseFloat(val)
-  return isNaN(val) ? null : val
+  return isNaN(val)
+    ? null
+    : val
 }
