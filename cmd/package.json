@@ -1,12 +1,10 @@
 {
   "name": "Lalilo",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "用自己做出來的工具開發，就想再品嚐自己做的一道菜，美味只有自己知道。",
-  "main": "index.js",
+  "main": "Serve.js",
   "scripts": {
-    "serve": "node Serve.js",
-    "build": "node Build.js",
-    "deploy": "node Deploy.js"
+    "serve": "node Serve.js"
   },
   "repository": {
     "type": "git",
@@ -20,28 +18,39 @@
   "author": {
     "name": "OA Wu",
     "email": "oawu.tw@gmail.com",
-    "url": "https://www.ioa.tw"
+    "url": "https://www.ioa.tw/"
   },
   "license": "MIT",
   "homepage": "https://www.ioa.tw/",
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@oawu/core": "git+https://github.com/oawu/LaliloCore.git",
-    "@oawu/cli-progress": "^1.0.15",
-    "@oawu/helper": "^1.0.5",
-    "@oawu/queue": "^1.0.11",
-    "@oawu/scss": "^1.0.23",
-    "@oawu/uploader": "^1.0.12",
+    "@oawu/_ArgV": "file:Core/ArgV.js",
+    "@oawu/_Asset": "file:Core/Asset.js",
+    "@oawu/_Config": "file:Config.js",
+    "@oawu/_Factory": "file:Core/Factory.js",
+    "@oawu/_FactoryDispatch": "file:Core/Factory/Dispatch.js",
+    "@oawu/_FactoryFile": "file:Core/Factory/File.js",
+    "@oawu/_FactoryIcon": "file:Core/Factory/Icon.js",
+    "@oawu/_FactoryScss": "file:Core/Factory/Scss.js",
+    "@oawu/_Helper": "file:Core/Helper.js",
+    "@oawu/_Notifier": "file:Core/Notifier.js",
+    "@oawu/_Port": "file:Core/Port.js",
+    "@oawu/_Response": "file:Core/Response.js",
+    "@oawu/_Valid": "file:Core/Valid.js",
+    "@oawu/cli-progress": "^1.0.22",
+    "@oawu/queue": "^1.0.14",
+    "@oawu/scss": "^1.0.24",
+    "@oawu/uploader": "^2.0.1",
     "@oawu/xterm": "^1.0.7",
     "babel-preset-minify": "^0.5.1",
-    "chokidar": "^3.5.1",
-    "clean-css": "^4.2.3",
+    "clean-css": "^5.3.3",
     "command-exists": "^1.2.9",
+    "handlebars": "^4.7.8",
     "html-minifier": "^4.0.0",
     "mime": "^2.5.0",
-    "node-notifier": "^9.0.0",
+    "node-notifier": "^10.0.1",
     "open": "^7.3.1",
-    "socket.io": "^3.1.0"
+    "socket.io": "^4.7.2"
   }
 }
