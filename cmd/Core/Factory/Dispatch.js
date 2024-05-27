@@ -5,19 +5,20 @@
  * @link        https://www.ioa.tw/
  */
 
-const Path = require('path')
-const queue = require('@oawu/queue').create()
+const Path         = require('path')
 
-const Helper = require('@oawu/_Helper')
-const FactoryIcon = require('@oawu/_FactoryIcon')
-const FactoryScss = require('@oawu/_FactoryScss')
-const FactoryFile = require('@oawu/_FactoryFile')
+const queue        = require('@oawu/queue').create()
+
+const Helper       = require('@oawu/_Helper')
+const FactoryIcon  = require('@oawu/_FactoryIcon')
+const FactoryScss  = require('@oawu/_FactoryScss')
+const FactoryFile  = require('@oawu/_FactoryFile')
 
 const iconTimerMap = new Map()
 const scssTimerMap = new Map()
 const fileTimerMap = new Map()
 
-const Config = require('@oawu/_Config')
+const Config       = require('@oawu/_Config')
 
 module.exports = (file, action) => {
   const last = file.split(Path.sep).pop()

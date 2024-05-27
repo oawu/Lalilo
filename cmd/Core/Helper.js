@@ -5,8 +5,8 @@
  * @link        https://www.ioa.tw/
  */
 
+const Path       = require('path')
 const FileSystem = require('fs')
-const Path = require('path')
 
 const Type = {
   isObject: obj => typeof obj == 'object' && obj !== null && !Array.isArray(obj),

@@ -5,48 +5,44 @@
  * @link        https://www.ioa.tw/
  */
 
-const cli   = require('@oawu/cli-progress')
-
-const Helper = require('@oawu/_Helper')
-
-const Path = require('path')
 const FileSystem = require('fs')
-const Queue = require('@oawu/queue')
-const crypto = require('crypto')
-const Config = require('@oawu/_Config')
+const Path       = require('path')
+const crypto     = require('crypto')
 const Handlebars = require('handlebars')
-  
+
+const cli        = require('@oawu/cli-progress')
+const Queue      = require('@oawu/queue')
+const Dog        = require('@oawu/dog')
+
+const Helper     = require('@oawu/_Helper')
+const Config     = require('@oawu/_Config')
+const Sigint     = require('@oawu/_Sigint')
+
 const buildHtml = (file, closure) => {
-  let _errors = undefined
-  const _wait = _ => {
-    if (_errors === undefined) {
-      return setTimeout(_wait, 100)
-    }
-    
-    if (_errors instanceof Error) {
-      return closure([null, _errors], null)
+  const dog = Dog().bite(food => {
+    if (food instanceof Error) {
+      return closure([null, food], null)
     }
 
-    if (Array.isArray(_errors) && _errors.length) {
-      return closure([null, ..._errors], null)
+    if (Array.isArray(food) && food.length) {
+      return closure([null, ...food], null)
     }
 
-    if (_errors) {
-      return closure([], _errors)
+    if (food) {
+      return closure([], food)
     }
-  }
-  _wait()
+  })
 
   FileSystem.readFile(file.src, 'utf8', (error, data) => {
     if (error) {
-      return _errors = [null, `無法讀取 ${Path.$.rRoot(file.src)}`, error]
+      return dog.eat([null, `無法讀取 ${Path.$.rRoot(file.src)}`, error])
     }
     if (file.model === null) {
-      return _errors = data
+      return dog.eat(data)
     }
 
     const _input = FileSystem.createReadStream(file.model)
-    _input.on('error', error => _errors = [null, `無法讀取 ${Path.$.rRoot(file.model)}`, error])
+    _input.on('error', error => dog.eat([null, `無法讀取 ${Path.$.rRoot(file.model)}`, error]))
 
     const _output = crypto.createHash('md5')
 
@@ -55,7 +51,7 @@ const buildHtml = (file, closure) => {
       
       FileSystem.copyFile(file.model, tmp, error => {
         if (error) {
-          return _errors = [null, '無法複製 Model', error]
+          return dog.eat([null, '無法複製 Model', error])
         }
 
         let exp = null
@@ -69,11 +65,11 @@ const buildHtml = (file, closure) => {
         FileSystem.unlink(tmp, _ => {})
 
         if (error) {
-          return _errors = [null, '執行 Model 錯誤', error]
+          return dog.eat([null, '執行 Model 錯誤', error])
         }
 
         const template = Handlebars.compile(data)
-        _errors = template(exp)
+        dog.eat(template(exp))
       })
     })
     _input.pipe(_output)
@@ -136,7 +132,7 @@ module.exports = {
     }
   },
   
-  Source: (closure, Config, sigints) => {
+  Source: (closure, Config) => {
     cli.title('檢查設定檔內 Source 的格式')
     cli.appendTitle(Helper.Display.cmd('檢查', '入口路徑是否正確'))
 
@@ -225,49 +221,37 @@ module.exports = {
       return cli.fail(null, `路徑「${Path.$.rRoot(Config.Source.modelTmpDir, true)}」不是目錄類型。`)
     }
 
-    let _errors = 0
-    const _wait = _ => {
-      if (_errors === 0) {
-        return setTimeout(_wait, 100)
-      }
-      
-      if (_errors instanceof Error) {
-        return cli.fail(null, _errors)
+    const dog = Dog().bite(food => {
+      if (food instanceof Error) {
+        return cli.fail(null, food)
       }
 
-      if (Array.isArray(_errors) && _errors.length) {
-        return cli.fail(null, ..._errors)
+      if (Array.isArray(food) && food.length) {
+        return cli.fail(null, ...food)
       }
 
-      if (_errors === 1) {
+      cli.done()
 
-        cli.done()
+      Sigint.push(_closure => require('child_process').exec(`rm -rf ${Config.Source.modelTmpDir}*`, _ => _closure()))
 
-        sigints.push(_ => require('child_process')
-          .exec(`rm -rf ${Config.Source.modelTmpDir}*`, _ => {
-
-          }))
-
-        if (Helper.Type.isFunction(closure)) {
-          closure(Config)
-        }
+      if (Helper.Type.isFunction(closure)) {
+        closure(Config)
       }
-    }
-    _wait()
+    })
 
     require('child_process')
       .exec(`rm -rf ${Config.Source.modelTmpDir}*`, error => {
 
         if (error) {
-          return _errors = [`目錄「${Path.$.rRoot(Config.Source.modelTmpDir, true)}」無法被清空。`, error]
+          return dog.eat([`目錄「${Path.$.rRoot(Config.Source.modelTmpDir, true)}」無法被清空。`, error])
         }
 
         FileSystem.writeFile(`${Config.Source.modelTmpDir}.gitignore`, `*`, error => {
           if (error) {
-            return _errors = [`目錄「${Path.$.rRoot(Config.Source.modelTmpDir, true)}」內無法建立「.gitignore」。`]
+            return dog.eat([`目錄「${Path.$.rRoot(Config.Source.modelTmpDir, true)}」內無法建立「.gitignore」。`])
           }
 
-          _errors = 1
+          dog.eat(null)
         })
       })
   },
@@ -524,23 +508,17 @@ module.exports = {
 
         const FactoryIcon = require('@oawu/_FactoryIcon')
 
-        let _errors = null
-        const _wait = _ => {
-          if (_errors === null) {
-            return setTimeout(_wait, 100)
-          }
-          
-          if (_errors instanceof Error) {
-            return cli.fail(null, _errors)
+        const dog = Dog().bite(food => {
+          if (food instanceof Error) {
+            return cli.fail(null, food)
           }
 
-          if (Array.isArray(_errors)) {
-            return _errors.length
-              ? cli.fail(null, ..._errors)
-              : next(cli.done())
+          if (Array.isArray(food) && food.length) {
+            return cli.fail(null, ...food)
           }
-        }
-        _wait()
+
+          next(cli.done())
+        })
 
         Promise.all(Helper.Fs.scanDirSync(Config.Source.dir.icon, false)
           .map(path => `${path}${Path.sep}style.css`)
@@ -548,8 +526,8 @@ module.exports = {
           .map(file => new Promise((resolve, reject) => FactoryIcon(file).build(errors => errors.length > 0
             ? reject(errors)
             : resolve()))))
-        .then(_ => _errors = [])
-        .catch(errors => _errors = errors)
+        .then(_ => dog.eat())
+        .catch(dog.eat)
 
       })
       .enqueue(next => {
@@ -558,31 +536,25 @@ module.exports = {
 
         const FactoryScss = require('@oawu/_FactoryScss')
 
-        let _errors = null
-        const _wait = _ => {
-          if (_errors === null) {
-            return setTimeout(_wait, 100)
-          }
-          
-          if (_errors instanceof Error) {
-            return cli.fail(null, _errors)
+        const dog = Dog().bite(food => {
+          if (food instanceof Error) {
+            return cli.fail(null, food)
           }
 
-          if (Array.isArray(_errors)) {
-            return _errors.length
-              ? cli.fail(null, ..._errors)
-              : next(cli.done())
+          if (Array.isArray(food) && food.length) {
+            return cli.fail(null, ...food)
           }
-        }
-        _wait()
+  
+          next(cli.done())
+        })
 
         Promise.all(Helper.Fs.scanDirSync(Config.Source.dir.scss)
           .filter(file => Path.extname(file) == '.scss')
           .map(file => new Promise((resolve, reject) => FactoryScss(file).build(errors => errors.length > 0
             ? reject(errors)
             : resolve()))))
-        .then(_ => _errors = [])
-        .catch(errors => _errors = errors)
+        .then(_ => dog.eat())
+        .catch(dog.eat)
       })
       .enqueue(next => closure(Config, next()))
   },

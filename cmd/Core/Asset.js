@@ -5,10 +5,11 @@
  * @link        https://www.ioa.tw/
  */
 
-const Path = require('path')
-const Config = require('@oawu/_Config')
-const Helper = require('@oawu/_Helper')
 const FileSystem = require('fs')
+const Path       = require('path')
+
+const Config     = require('@oawu/_Config')
+const Helper     = require('@oawu/_Helper')
 
 const cssDir = _ => {
   return Config.assetDir.css

@@ -8,33 +8,23 @@
 require('@oawu/xterm').stringPrototype()
 require('@oawu/cli-progress').option.color = true
 
-const Path = require('path')
+const Path       = require('path')
 const FileSystem = require('fs')
 
-const Queue = require('@oawu/queue')
-const cli   = require('@oawu/cli-progress')
+const Queue      = require('@oawu/queue')
+const cli        = require('@oawu/cli-progress')
 
-const Helper = require('@oawu/_Helper')
-const Valid = require('@oawu/_Valid')
-const ArgV = require('@oawu/_ArgV')
+const Helper     = require('@oawu/_Helper')
+const Valid      = require('@oawu/_Valid')
+const ArgV       = require('@oawu/_ArgV')
+const Sigint     = require('@oawu/_Sigint')
 
-const sigints = []
-const startAt = Date.now()
+const startAt    = Date.now()
 
 Queue()
   .enqueue(next => {
     // 定義終止時
-    process.on('SIGINT', _ => {
-      for (const sigint of sigints) {
-        try {
-          typeof sigint == 'function' && sigint()
-        } catch (_) {
-          // 
-        }
-      }
-
-      process.exit(1)
-    })
+    process.on('SIGINT', _ => Sigint.run())
 
     // 顯示主要大標題
     Helper.Print.cn()
@@ -50,7 +40,7 @@ Queue()
     Queue()
       .enqueue(Valid.Path)
       .enqueue(Valid.Config)
-      .enqueue((next, Config) => Valid.Source(next, Config, sigints))
+      .enqueue((next, Config) => Valid.Source(next, Config))
       .enqueue(Valid.Build)
       .enqueue((_next, Config) => next(Config, _next()))
   })
@@ -101,4 +91,10 @@ Queue()
         // 
       }
     }
+
+    next()
+  })
+  .enqueue(next => {
+    next()
+    Sigint.run()
   })

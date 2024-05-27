@@ -8,18 +8,17 @@
 require('@oawu/xterm').stringPrototype()
 require('@oawu/cli-progress').option.color = true
 
-const Path = require('path')
+const Path       = require('path')
 const FileSystem = require('fs')
 
-const Queue = require('@oawu/queue')
-const cli   = require('@oawu/cli-progress')
+const Queue      = require('@oawu/queue')
+const cli        = require('@oawu/cli-progress')
 
-const Helper = require('@oawu/_Helper')
-const Valid = require('@oawu/_Valid')
-const ArgV = require('@oawu/_ArgV')
+const Helper     = require('@oawu/_Helper')
+const Valid      = require('@oawu/_Valid')
+const ArgV       = require('@oawu/_ArgV')
 
-const sigints = []
-const startAt = Date.now()
+const startAt    = Date.now()
 
 const errorLog = error => {
   Helper.Print.ln(`${"\n 【錯誤訊息】\n".red}${' '.repeat(3)}${'◉'.red} ${error instanceof Error ? error.stack : error}`)
@@ -29,17 +28,7 @@ const errorLog = error => {
 Queue()
   .enqueue(next => {
     // 定義終止時
-    process.on('SIGINT', _ => {
-      for (const sigint of sigints) {
-        try {
-          typeof sigint == 'function' && sigint()
-        } catch (_) {
-          // 
-        }
-      }
-
-      process.exit(1)
-    })
+    process.on('SIGINT', _ => Sigint.run())
 
     // 顯示主要大標題
     Helper.Print.cn()
@@ -55,7 +44,7 @@ Queue()
     Queue()
       .enqueue(Valid.Path)
       .enqueue(Valid.Config)
-      .enqueue((next, Config) => Valid.Source(next, Config, sigints))
+      .enqueue((next, Config) => Valid.Source(next, Config))
       .enqueue(Valid.Build)
       .enqueue(Valid.Deploy)
       .enqueue((_next, Config) => next(Config, _next()))
@@ -167,4 +156,9 @@ Queue()
     Helper.Print.ln(`${' '.repeat(3)}⏰ 部署耗費時間${'：'.dim}${Helper.Display.during(startAt).lightGray}`)
     Helper.Print.ln(`${' '.repeat(3)}🌏 這是您的網址${'：'.dim}${Config.baseUrl.lightBlue.italic.underline}`)
     Helper.Print.ln('')
+    next()
+  })
+  .enqueue(next => {
+    next()
+    Sigint.run()
   })

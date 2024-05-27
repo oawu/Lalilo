@@ -5,8 +5,8 @@
  * @link        https://www.ioa.tw/
  */
 
-const cli   = require('@oawu/cli-progress')
 const Helper = require('@oawu/_Helper')
+const cli    = require('@oawu/cli-progress')
 
 const env = d4 => {
   cli.title('取得環境')

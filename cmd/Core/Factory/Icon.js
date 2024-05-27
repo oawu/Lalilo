@@ -5,14 +5,13 @@
  * @link        https://www.ioa.tw/
  */
 
-const Path = require('path')
+const Path       = require('path')
 const FileSystem = require('fs')
 
-const Factory = require('@oawu/_Factory')
-const Notifier = require('@oawu/_Notifier')
-const { Display: Dp, Fs } = require('@oawu/_Helper')
-
-const Config = require('@oawu/_Config')
+const Factory    = require('@oawu/_Factory')
+const Notifier   = require('@oawu/_Notifier')
+const Helper     = require('@oawu/_Helper')
+const Config     = require('@oawu/_Config')
 
 const parse = function(className, dir, face, data) {
   const contents = [
@@ -26,7 +25,7 @@ const parse = function(className, dir, face, data) {
     `@import "Lalilo";`
   ]
 
-  const basePath = `${Config.baseUrl}${Fs.dirOrEmpty(Path.relative(Config.Source.path, Config.Source.dir.icon)).split(Path.sep).join('/')}`
+  const basePath = `${Config.baseUrl}${Helper.Fs.dirOrEmpty(Path.relative(Config.Source.path, Config.Source.dir.icon)).split(Path.sep).join('/')}`
 
   data = data.match(/\.icon-[a-zA-Z_\-0-9]*:before\s?\{\s*content:\s*"[\\A-Za-z0-9]*";(\s*color:\s*#[A-Za-z0-9]*;)?\s*}/g)
 
@@ -107,7 +106,7 @@ Icon.prototype.build = function(done) {
 Icon.prototype.create = function(done) {
   return FileSystem.readFile(this.file, 'utf8', (error, data) => {    
     if (error) {
-      Dp.LineRed('新增 icon 失敗')
+      Helper.Dp.LineRed('新增 icon 失敗')
         .row('錯誤', `無法讀取「${this.name}」`)
         .row('原因', error.message)
         .go()
@@ -124,7 +123,7 @@ Icon.prototype.create = function(done) {
 
     FileSystem.writeFile(this.scss, parse(`.${this.face}-`, this.dir, this.face, data), error => {
       if (error) {
-        Dp.LineRed('新增 icon 失敗')
+        Helper.Dp.LineRed('新增 icon 失敗')
           .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
           .row('原因', error.message)
           .go()
@@ -139,7 +138,7 @@ Icon.prototype.create = function(done) {
           : null
       }
 
-      Dp.LineBlue('新增 icon 成功')
+      Helper.Dp.LineBlue('新增 icon 成功')
         .row('檔案路徑', this.name.dim)
         .row('新增檔案', Path.$.rRoot(this.scss).dim)
         .go()
@@ -153,7 +152,7 @@ Icon.prototype.create = function(done) {
 Icon.prototype.update = function(done) {
   return FileSystem.readFile(this.file, 'utf8', (error, data) => {
     if (error) {
-      Dp.LineRed('修改 icon 失敗')
+      Helper.Dp.LineRed('修改 icon 失敗')
         .row('錯誤', `無法讀取「${this.name}」`)
         .row('原因', error.message)
         .go()
@@ -170,7 +169,7 @@ Icon.prototype.update = function(done) {
 
     FileSystem.writeFile(this.scss, parse(`.${this.face}-`, this.dir, this.face, data), error => {
       if (error) {
-        Dp.LineRed('修改 icon 失敗')
+        Helper.Dp.LineRed('修改 icon 失敗')
           .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
           .row('原因', error.message)
           .go()
@@ -185,7 +184,7 @@ Icon.prototype.update = function(done) {
           : null
       }
 
-      Dp.LineBlue('修改 icon 成功')
+      Helper.Dp.LineBlue('修改 icon 成功')
         .row('檔案路徑', this.name.dim)
         .row('修改檔案', Path.$.rRoot(this.scss).dim)
         .go()
@@ -197,9 +196,9 @@ Icon.prototype.update = function(done) {
   })
 }
 Icon.prototype.remove = function(done) {
-  return Fs.remove(this.scss, error => {
+  return Helper.Fs.remove(this.scss, error => {
     if (error) {
-      Dp.LineRed('移除 scss 失敗')
+      Helper.Dp.LineRed('移除 scss 失敗')
         .row('錯誤', `無法移除：${Path.$.rRoot(this.scss)}`)
         .row('原因', error.message)
         .go()
@@ -214,7 +213,7 @@ Icon.prototype.remove = function(done) {
         : null
     }
 
-    Dp.LineGreen('移除 scss 成功')
+    Helper.Dp.LineGreen('移除 scss 成功')
       .row('檔案路徑', Path.$.rRoot(this.scss).dim)
       .go()
 

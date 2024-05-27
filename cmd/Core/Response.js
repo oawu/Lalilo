@@ -5,17 +5,17 @@
  * @link        https://www.ioa.tw/
  */
 
-const Path = require('path')
 const FileSystem = require('fs')
+const Path       = require('path')
 
-const URL = require('url')
-const Mime = require('mime')
+const URL        = require('url')
+const Mime       = require('mime')
+const crypto     = require('crypto')
 const Handlebars = require('handlebars')
 
-const Notifier = require('@oawu/_Notifier')
-const Config = require('@oawu/_Config')
-const Helper = require('@oawu/_Helper')
-const crypto = require('crypto')
+const Notifier   = require('@oawu/_Notifier')
+const Config     = require('@oawu/_Config')
+const Helper     = require('@oawu/_Helper')
 
 const HtmlModelPath = function(html, model) {
   if (!(this instanceof HtmlModelPath)) {

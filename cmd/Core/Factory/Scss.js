@@ -5,16 +5,15 @@
  * @link        https://www.ioa.tw/
  */
 
-const Path = require('path')
+const Path       = require('path')
 const FileSystem = require('fs')
 
-const SCSS = require('@oawu/scss')
+const SCSS       = require('@oawu/scss')
 
-const Factory = require('@oawu/_Factory')
-const Notifier = require('@oawu/_Notifier')
-const { Display: Dp, Fs } = require('@oawu/_Helper')
-
-const Config = require('@oawu/_Config')
+const Factory    = require('@oawu/_Factory')
+const Notifier   = require('@oawu/_Notifier')
+const Helper     = require('@oawu/_Helper')
+const Config     = require('@oawu/_Config')
 
 const err1 = error => error.line !== undefined || error.column !== undefined ? [
   `錯誤位置：第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字`,
@@ -30,7 +29,7 @@ const Scss = function(file) {
 
   Factory.call(this, file)
 
-  this.dirs = Fs.deSlash(Path.relative(Config.Source.dir.scss, this.file))
+  this.dirs = Helper.Fs.deSlash(Path.relative(Config.Source.dir.scss, this.file))
   this.css = `${Config.Source.dir.css}${[...this.dirs.slice(0, -1), `${Path.basename(this.dirs.pop(), '.scss')}.css`].join(Path.sep)}`
 }
 
@@ -44,7 +43,7 @@ Scss.prototype.build = function(done) {
         : null
     }
 
-    if (Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
+    if (Helper.Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
       return typeof done == 'function'
         ? done([`無法建立目錄：${Path.$.rRoot(Path.dirname(this.css), true)}`])
         : null
@@ -65,7 +64,7 @@ Scss.prototype.build = function(done) {
 Scss.prototype.create = function(done) {
   return SCSS.file(this.file, (error, result) => {
     if (error) {
-      Dp.LineRed('編譯 scss 失敗')
+      Helper.Dp.LineRed('編譯 scss 失敗')
         .row('檔案', this.name)
         .row('位置', error.line !== undefined || error.column !== undefined ? `第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字` : '')
         .row('原因', error.info !== undefined ? error.info : error.message)
@@ -81,8 +80,8 @@ Scss.prototype.create = function(done) {
         : null
     }
     
-    if (Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
-      Dp.LineRed('無法建立 css 目錄')
+    if (Helper.Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
+      Helper.Dp.LineRed('無法建立 css 目錄')
         .row('目錄', `${Path.$.rRoot(Path.dirname(this.css), true)}`)
         .go()
 
@@ -97,7 +96,7 @@ Scss.prototype.create = function(done) {
 
     FileSystem.writeFile(this.css, result.utf8.replace(/^\uFEFF/gm, ""), error => {
       if (error) {
-        Dp.LineRed('新增 scss 失敗')
+        Helper.Dp.LineRed('新增 scss 失敗')
           .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
           .row('原因', error.message)
           .go()
@@ -112,7 +111,7 @@ Scss.prototype.create = function(done) {
           : null
       }
       
-      Dp.LineGreen('新增 scss 成功')
+      Helper.Dp.LineGreen('新增 scss 成功')
         .row('檔案路徑', this.name.dim)
         .row('新增檔案', Path.$.rRoot(this.css).dim)
         .row('編譯耗時', `${result.stats.duration / 1000}${' 秒'.dim}`)
@@ -127,7 +126,7 @@ Scss.prototype.create = function(done) {
 Scss.prototype.update = function(done) {
   return SCSS.file(this.file, (error, result) => {
     if (error) {
-      Dp.LineRed('編譯 scss 失敗')
+      Helper.Dp.LineRed('編譯 scss 失敗')
         .row('檔案', this.name)
         .row('位置', error.line !== undefined || error.column !== undefined ? `第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字` : '')
         .row('原因', error.info !== undefined ? error.info : error.message)
@@ -143,8 +142,8 @@ Scss.prototype.update = function(done) {
         : null
     }
     
-    if (Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
-      Dp.LineRed('無法建立 css 目錄')
+    if (Helper.Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
+      Helper.Dp.LineRed('無法建立 css 目錄')
         .row('目錄', `${Path.$.rRoot(Path.dirname(this.css), true)}`)
         .go()
 
@@ -159,7 +158,7 @@ Scss.prototype.update = function(done) {
 
     FileSystem.writeFile(this.css, result.utf8.replace(/^\uFEFF/gm, ""), error => {
       if (error) {
-        Dp.LineRed('修改 scss 失敗')
+        Helper.Dp.LineRed('修改 scss 失敗')
           .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
           .row('原因', error.message)
           .go()
@@ -174,7 +173,7 @@ Scss.prototype.update = function(done) {
           : null
       }
       
-      Dp.LineGreen('修改 scss 成功')
+      Helper.Dp.LineGreen('修改 scss 成功')
         .row('檔案路徑', this.name.dim)
         .row('修改檔案', Path.$.rRoot(this.css).dim)
         .row('編譯耗時', `${result.stats.duration / 1000}${' 秒'.dim}`)
@@ -187,9 +186,9 @@ Scss.prototype.update = function(done) {
   })
 }
 Scss.prototype.remove = function(done) {
-  return Fs.remove(this.css, error => {
+  return Helper.Fs.remove(this.css, error => {
     if (error) {
-      Dp.LineRed('移除 css 失敗')
+      Helper.Dp.LineRed('移除 css 失敗')
         .row('錯誤', `無法移除：${Path.$.rRoot(this.css)}`)
         .row('原因', error.message)
         .go()
@@ -204,7 +203,7 @@ Scss.prototype.remove = function(done) {
         : null
     }
 
-    Dp.LineGreen('移除 css 成功')
+    Helper.Dp.LineGreen('移除 css 成功')
       .row('檔案路徑', Path.$.rRoot(this.css).dim)
       .go()
 
