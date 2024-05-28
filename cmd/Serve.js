@@ -135,7 +135,7 @@ Queue()
   .enqueue((next, Config) => {
     Helper.Print.ln(`\n ${'【啟動 Server 伺服器】'.yellow}`)
 
-    Queue()
+    Queue() 
       .enqueue(_next => {
         cli.title(`開啟 ${'http'.lightPurple} 伺服器`, Helper.Display.cmd('執行動作', `Start HTTP server, port: ${Config.Serve.server.port.value}`))
 
