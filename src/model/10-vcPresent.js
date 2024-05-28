@@ -20,10 +20,13 @@ module.exports = {
     .css('_/Core.css')
     .css('_/Alert.css')
     .css('_/Toastr.css')
-    .css('index.css')
+    .css('00-tool.css')
 
     .js('_/Core/vue-2.7.16.min.js', false)
     .js('_/Core/jquery-1.12.4.min.js', false)
+
+    // .js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
+    // .js('https://unpkg.com/leaflet-ant-path@1.3.0/dist/leaflet-ant-path.js')
 
     .js('_/Core/El3.js')
     .js('_/Core/Load.js')
@@ -34,5 +37,6 @@ module.exports = {
     
     .js('_/App.js')
 
-    .js('index.js')
+    .js('00-tool.js')
+    .js('10-vcPresent.js')
 }

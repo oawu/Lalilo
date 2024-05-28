@@ -42,7 +42,7 @@ const Alert = function(title = null, message = null, buttons = [], inputs = []) 
                 if (this.$refs.alertInput && this.$refs.alertInput.length > 0) {
                   this.$refs.alertInput[this.$refs.alertInput.length - 1].focus()
                 } else if (this.$refs.alertButton && this.$refs.alertButton.length > 0) {
-                  this.$refs.alertButton[this.$refs.alertButton.length - 1].focus()
+                  // this.$refs.alertButton[this.$refs.alertButton.length - 1].focus()
                 }
               }, 50)
 

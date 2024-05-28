@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-const Toastr = function(message, type = 'success') {
+const Toastr = function(data, type = 'success') {
   if (Toastr._vue === undefined) {
     Toastr._vue = new Vue({
       data: {
@@ -14,7 +14,6 @@ const Toastr = function(message, type = 'success') {
       },
       methods: {
         close (toastr) {
-
           toastr.predisappear = true
 
           setTimeout(_ => {
@@ -30,14 +29,14 @@ const Toastr = function(message, type = 'success') {
 
           return this
         },
-        push (message, type) {
+        push (data, type) {
           if (!this.$el && this.$mount()) {
             document.body.append(this.$el)
           }
           
           const object = {
             id: ++this.id,
-            message,
+            data,
             type,
             appear: false,
             appeared: false,
@@ -56,13 +55,47 @@ const Toastr = function(message, type = 'success') {
           }, 100)
 
           return this
+        },
+        _clas (toastr) {
+          if (typeof toastr.data == 'string') {
+            return ['_unit', '_str']
+          }
+
+          if (typeof toastr.data == 'object' && toastr.data !== null && !Array.isArray(toastr.data)) {
+            return ['_unit', '_obj']
+          }
+
+          return ['_unit']
         }
       },
-      template: `<div id="toastr" v-if="toastrs.length"><div v-for="toastr in toastrs" :key="toastr.id" :class="['toastr', { appear: toastr.appear, appeared: toastr.appeared, predisappear: toastr.predisappear, disappear: toastr.disappear }]" :type="toastr.type" @click="close(toastr)"><span v-if="toastr.message">{{ toastr.message }}</span></div></div>`
+      template: `
+        <div id="toastr" v-if="toastrs.length">
+          <div v-for="toastr in toastrs" :key="toastr.id" :class="['toastr', { appear: toastr.appear, appeared: toastr.appeared, predisappear: toastr.predisappear, disappear: toastr.disappear }]" :type="toastr.type" @click="close(toastr)">
+            
+            <div v-if="toastr" :class="_clas(toastr)">
+
+              <template v-if="typeof toastr.data == 'string'">
+                {{ toastr.data }}
+              </template>
+
+              <template v-if="typeof toastr.data == 'object' && toastr.data !== null && !Array.isArray(toastr.data)">
+                
+                <b v-if="typeof toastr.data.title == 'string' && toastr.data.title !== ''">{{ toastr.data.title }}</b>
+                <span v-if="typeof toastr.data.description == 'string' && toastr.data.description !== ''">{{ toastr.data.description }}</span>
+
+                <ul v-if="toastr.data.items">
+                  <ol v-for="(item, i) in toastr.data.items" :key="i">{{ item }}</ol>
+                </ul>
+              </template>
+
+              
+            </div>
+          </div>
+        </div>`
     })
   }
 
-  Toastr._vue.push(message, type)
+  Toastr._vue.push(data, type)
   return Toastr
 }
 

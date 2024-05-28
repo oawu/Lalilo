@@ -106,7 +106,7 @@ module.exports = {
     s3: {
       region: 'ap-northeast-1',
 
-      prefix: '',
+      prefix: 'test',
 
       ignoreNames: [], // 忽略的檔案
       ignoreExts: [], // 忽略的副檔名
