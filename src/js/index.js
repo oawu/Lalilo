@@ -10,7 +10,7 @@ Load.Vue({
     style: {
       color: 'rgba(120, 120, 120, 1.00);'
     },
-    version: '2.0.0'
+    version: '2.0.1'
   },
   mounted () {
   },
