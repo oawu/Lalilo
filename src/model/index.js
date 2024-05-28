@@ -21,6 +21,8 @@ module.exports = {
         .js('https://code.jquery.com/jquery-1.12.4.min.js')
         .js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
 
-        .js('_/Core.js')
+        .js('_/Core/El3.js')
+        .js('_/Core/Load.js')
+
         .js('vue-index.js')
 }
