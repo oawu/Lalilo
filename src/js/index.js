@@ -13,6 +13,8 @@ Load.Vue({
     version: '2.0.1'
   },
   mounted () {
+    console.error(1);
+    
   },
   computed: {
   },
