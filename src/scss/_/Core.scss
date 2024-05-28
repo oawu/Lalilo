@@ -18,6 +18,21 @@
 }
 
 :root {
+  @each $env, $colors in $ui-color {
+    @each $name, $color in $colors {
+      --ui-color-#{$env}-#{$name}: #{map-get($color, light)};
+    }
+  }
+}
+
+@include dark {
+  :root {
+    @each $env, $colors in $ui-color {
+      @each $name, $color in $colors {
+        --ui-color-#{$env}-#{$name}: #{map-get($color, dark)};
+      }
+    }
+  }
 }
 
 body {
@@ -41,4 +56,10 @@ body {
   top: -1000px;
   z-index: -9999;
   @include opacity(0);
+}
+
+@include keyframes(loading-rotate) {
+  0% { background-color: var(--loading-color-1); }
+  5% { background-color: var(--loading-color-2); }
+  100% { background-color: var(--loading-color-1); }
 }
