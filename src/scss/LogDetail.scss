@@ -1,0 +1,76 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "_/_Lib";
+@import "Lalilo";
+
+#app {
+
+  .map {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: 100%;
+    padding: 0;
+
+    background-color: rgba(242, 241, 240, 1.00);
+    @include border-radius(16px);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+
+    &:after {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 5px solid rgba(0, 0, 0, .15);
+      z-index: 3;
+      cursor: pointer;
+      @include border-radius(16px);
+    }
+    .el {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      
+      &:before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        max-width: 100%;
+        color: var(--ui-color-iOS-tertiaryLabel);
+        @include transform(translate(-50%, -50%));
+        cursor: not-allowed;
+      }
+      &:empty {
+        &:before {
+          content: '地圖初始中…';
+        }
+        ~ * {
+          display: none;
+        }
+      }
+    }
+  }
+}
+

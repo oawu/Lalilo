@@ -96,3 +96,25 @@
   }
 }
 
+%-map-ui {
+  overflow: hidden;
+  @include border-radius(10px);
+  @include backdrop-filter(blur(4px));
+  background-color: rgba(255, 255, 255, 0.8);
+  @include dark {
+    @include backdrop-filter(blur(8px));
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: '';
+    z-index: 1;
+    border: 1px solid var(--ui-color-iOS-secondarySystemFill);
+    @include border-radius(10px);
+  }
+}

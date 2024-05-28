@@ -1,0 +1,451 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "_/_Lib";
+@import "Lalilo";
+
+#app {
+  .table-view-groups {
+    position: relative;
+    z-index: 1;
+  }
+
+  .group {
+    .bg {
+      @include border-radius(16px);
+      border: 1px solid var(--ui-color-iOS-tertiarySystemFill);
+      background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    }
+    .items {
+    }
+    .item.log {
+      b {
+        font-size: small;
+        color: var(--ui-color-iOS-secondaryLabel);
+      }
+      span {
+        color: var(--ui-color-iOS-label);
+        font-size: medium;
+        &:after {
+          display: inline-flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          color: var(--ui-color-iOS-tertiaryLabel);
+          font-size: small;
+        }
+
+        &:empty {
+          &:after {
+            content: '--';
+          }
+        }
+        &:not(:empty) {
+          &:after {
+            margin-left: 4px;
+          }
+          &[after]:not([after='']) {
+            &:after {
+              content: '(' attr(after) ')'
+            }
+          }
+        }
+      }
+    }
+    .ctrl {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      
+      align-items: flex-start;
+
+      width: 100%;
+
+      padding: 20px;
+      @include border-radius(16px);
+      
+      b, span {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        @extend %-select-none;
+        text-align: left;
+      }
+      b {
+        color: var(--ui-color-iOS-label);
+        + span {
+          margin-top: 4px;
+        }
+      }
+      span {
+        color: var(--ui-color-iOS-secondaryLabel);
+        font-size: small;
+        + span {
+          margin-top: 0;
+        }
+      }
+      label {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 12px;
+        margin-top: 12px;
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+        color: var(--ui-color-iOS-link);
+        text-align: center;
+        @extend %-select-none;
+        cursor: pointer;
+        @include border-radius(10px);
+      }
+    }
+    .unit {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+        
+
+      b, span, i {
+        @extend %-select-none;
+        display: inline-block;
+
+        
+        width: 100%;
+        font-style: normal;
+        @include overflow-docx3();
+      }
+      span, i {
+        color: var(--ui-color-iOS-secondaryLabel);
+        font-size: small;
+      }
+      b {
+        color: var(--ui-color-iOS-label);
+        
+        font-size: large;
+        // margin-top: 2px;
+        &:before, &:after {
+          display: inline-flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          
+          font-weight: normal;
+          font-size: small;
+          color: var(--ui-color-iOS-tertiaryLabel);
+        }
+        &:after {
+          margin-left: 2px;
+        }
+        
+        &[after]:not(:empty):not([after='']) {
+          &:after {
+            content: attr(after);
+          }
+        }
+        &:empty {
+          &:before {
+            content: '--'
+          }
+        }
+      }
+
+      &._left {
+        padding: 12px 16px;
+
+        justify-content: flex-start;
+        b, span, i {
+          text-align: left;
+        }
+        b {
+          margin-top: 2px;
+          display: inline-flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+        }
+      }
+      &._center {
+        padding: 12px;
+        justify-content: center;
+        b, span, i {
+          text-align: center;
+        }
+        b {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+      }
+    }
+    .speeds, .alts, .counts {
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: flex-start;
+
+      align-items: stretch;
+
+      width: 100%;
+      padding: 0;
+
+    }
+    .speeds, .alts {
+      .unit {
+        flex-shrink: 0;
+        width: calc((100% - 12px * 2) / 3);
+
+        + .unit {
+          margin-left: 12px;
+        }
+      }
+    }
+    .counts {
+      .unit {
+        flex-shrink: 0;
+        width: calc((100% - 12px * 1) / 2);
+
+        + .unit {
+          margin-left: 12px;
+        }
+      }
+    }
+
+    .alts {
+      .unit {
+        width: calc((100% - 12px * 1) / 2);
+      }
+    }
+    .counts {
+      .done {
+        color: var(--ui-color-iOS-systemGreen);
+      }
+      .fail {
+        color: var(--ui-color-iOS-systemRed);
+      }
+    }
+    .position {
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: flex-start;
+
+      align-items: stretch;
+      
+      width: 100%;
+      padding: 0;
+
+      .latlng {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        flex-grow: 1;
+        min-width: calc((100% - 12px * 1) / 2);
+      }
+
+      .lat, .lng, .accH {
+      }
+      .lat, .lng {
+        width: 100%;
+        
+      }
+      .lng {
+        margin-top: 12px;
+      }
+
+      .accH {
+        flex-shrink: 0;
+        margin-left: 12px;
+        
+        
+        max-width: calc((100% - 12px * 1) / 2);
+        min-width: calc((100% - 12px * 1) / 2.8);
+      }
+    }
+    .map {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      
+      width: 100%;
+      padding: 0;
+
+      background-color: rgba(242, 241, 240, 1.00);
+      @include border-radius(16px);
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      position: relative;
+
+      &:after {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 5px solid rgba(0, 0, 0, .15);
+        z-index: 3;
+        @include border-radius(16px);
+        // @include backdrop-filter(blur(4px));
+      }
+
+      .el {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        
+        &:before {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: inline-flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          max-width: 100%;
+          color: var(--ui-color-iOS-tertiaryLabel);
+          @include transform(translate(-50%, -50%));
+          cursor: not-allowed;
+        }
+        &:empty {
+          &:before {
+            content: '地圖初始中…';
+          }
+          ~ * {
+            display: none;
+          }
+        }
+      }
+      .zoom {
+        @extend %-map-ui;
+        --width: 44px;
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        
+
+        width: var(--width);
+        height: calc(var(--width) * 2 + 1px);
+
+        z-index: 4;
+
+        i {
+          position: relative;
+          display: inline-flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          width: 70%;
+          height: 1px;
+          z-index: 2;
+          @extend %-select-none;
+          background-color: var(--ui-color-iOS-systemFill);
+        }
+
+        label {
+          position: relative;
+          z-index: 3;
+          display: inline-flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+
+          width: var(--width);
+          height: var(--width);
+          cursor: pointer;
+          @extend %-select-none;
+          
+          &.add, &.sub {
+            &:before, &:after {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              display: inline-block;
+              width: 40%;
+              height: 3px;
+              background-color: var(--ui-color-iOS-link);
+              @include border-radius(2px);
+            }
+              
+            &:before {
+              content: '';
+              @include transform(translate(-50%, -50%));
+            }
+          }
+          &.add {
+            @include border-top-radius(10px);
+
+            &:after {
+              content: '';
+              @include transform(translate(-50%, -50%) rotate(90deg));
+            }
+          }
+          &.sub {
+            @include border-bottom-radius(10px);
+          }
+        }
+      }
+    }
+  }
+}
+
+.marker-my-location {
+  --width: 20px;
+
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  z-index: 995;
+
+  &:after {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    @include border-radius(50%);
+    border: 2px solid white;
+    background-color: rgba(65, 131, 224, 1.00);
+    @include box-shadow(0 0 5px rgba(0, 0, 0, .3));
+    z-index: 2;
+  }
+  > div {
+    aspect-ratio: 1;
+    z-index: 1;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: inline-block;
+    width: calc(var(--width) * 2);
+    min-width: 10px;
+    border: 1px solid rgba(65, 131, 224, 1);
+    background-color: rgba(65, 131, 224, .500);
+
+    @include opacity(.35);
+    @include border-radius(50%);
+    @include transform(translate(-50%, -50%));
+    @include transition(width .3s, transform .3s);
+  }
+}

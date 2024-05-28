@@ -6,6 +6,107 @@
  */
 
 const Helper = {
+  round: (val, digital = 0, d4 = '') => typeof val == 'number' && !isNaN(val) && val !== Infinity
+    ? parseFloat(val.toFixed(digital))
+    : d4,
+
+  cluster: (objs, zoom, level, isLinear, closure) => {
+    if (!objs.length) {
+      closure && closure([])
+      return []
+    }
+
+    objs = [...objs]
+
+    const tmps = new WeakMap()
+    const last = isLinear ? objs.pop() : undefined
+    const sets = []
+
+    for (const i in objs) {
+      const _i = 1 * i
+      const obj1 = objs[_i]
+
+      if (tmps.get(obj1)) {
+        continue
+      }
+
+      tmps.set(obj1, true)
+
+      const subs = [obj1]
+      const _objs = objs.slice(_i)
+      for (const j in _objs) {
+        const _j = 1 * j +  _i
+        const obj2 = objs[_j]
+
+        if (_j == _i || obj2 == obj1) {
+          continue
+        }
+
+        if (tmps.get(obj2)) {
+          if (isLinear) {
+            break
+          } else {
+            continue
+          }
+        }
+
+        const distance = Math.max(
+          Math.abs(obj1.lat - obj2.lat),
+          Math.abs(obj1.lng - obj2.lng)
+        )
+
+        if (30 / Math.pow(2, zoom) / level <= distance) {
+          if (isLinear) {
+            break
+          } else {
+            continue
+          }
+        }
+
+        tmps.set(obj2, true)
+        subs.push(obj2)
+      }
+      sets.push(subs)
+    }
+
+    if (last) {
+      sets.push([last])
+    }
+
+    closure && closure(sets)
+
+    return sets
+  },
+
+  timeFormat: (sec, min = false) => {
+    sec /= 1000
+    // sec = parseInt(sec, 10)
+
+    const y = Math.floor(sec / (365 * 24 * 3600))
+    sec %= (365 * 24 * 3600)
+
+    const m = Math.floor(sec / (30 * 24 * 3600))
+    sec %= (30 * 24 * 3600)
+
+    const d = Math.floor(sec / (24 * 3600))
+    sec %= (24 * 3600)
+
+    const h = Math.floor(sec / 3600)
+    sec %= 3600
+
+    const i = Math.floor(sec / 60)
+    const s = Math.floor(sec % 60)
+
+    const strs = []
+    if (y > 0) strs.push(min ? `${y}年` : `${y} 年`)
+    if (m > 0) strs.push(min ? `${m}月` : `${m} 月`)
+    if (d > 0) strs.push(min ? `${d}天` : `${d} 天`)
+    if (h > 0) strs.push(min ? `${h}時` : `${h} 時`)
+    if (i > 0) strs.push(min ? `${i}分` : `${i} 分`)
+    if (s > 0) strs.push(min ? `${s}秒` : `${s} 秒`)
+
+    return strs.join(' ')
+  },
   numFormat: (n, d = 3) => {
     const w = []
     for (let i = 0, a = ('' + n).split('').reverse(); i < a.length; i++) {
@@ -16,6 +117,14 @@ const Helper = {
       }
     }
     return w.reverse().join('')
+  },
+  length ([lat1, lon1], [lat2, lon2]) {
+    let aa = lat1 * Math.PI / 180
+    let bb = lon1 * Math.PI / 180
+    let cc = lat2 * Math.PI / 180
+    let dd = lon2 * Math.PI / 180
+
+    return (2 * Math.asin(Math.sqrt(Math.pow(Math.sin ((aa - cc) / 2), 2) + Math.cos(aa) * Math.cos(cc) * Math.pow(Math.sin((bb - dd) / 2), 2)))) * 6378137
   },
   pad0: (t, n = 2, c = '0') => {
     t = '' + t

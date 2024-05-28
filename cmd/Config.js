@@ -37,7 +37,7 @@ module.exports = {
       port: {
         min: 8000,
         max: 8999,
-        default: 8000,
+        default: 8001,
       },
 
       utf8Exts: [
@@ -106,7 +106,7 @@ module.exports = {
     s3: {
       region: 'ap-northeast-1',
 
-      prefix: '',
+      prefix: 'test',
 
       ignoreNames: [], // 忽略的檔案
       ignoreExts: [], // 忽略的副檔名

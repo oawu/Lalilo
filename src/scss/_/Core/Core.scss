@@ -1,0 +1,110 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@import "../_Var";
+@import "../_Lib";
+@import "Lalilo";
+
+* {
+  &, &:after, &:before {
+    vertical-align: top;
+    @include box-sizing(border-box);
+    @include font-smoothing(subpixel-antialiased);
+  }
+}
+
+:root {
+  @each $env, $colors in $ui-color {
+    @each $name, $color in $colors {
+      --ui-color-#{$env}-#{$name}: #{map-get($color, light)};
+    }
+  }
+}
+
+@include dark {
+  :root {
+    @each $env, $colors in $ui-color {
+      @each $name, $color in $colors {
+        --ui-color-#{$env}-#{$name}: #{map-get($color, dark)};
+      }
+    }
+  }
+}
+
+.__lalilo_copy_str {
+  position: fixed;
+  left: -1000px;
+  top: -1000px;
+  z-index: -9999;
+  @include opacity(0);
+}
+
+@include keyframes(loading-rotate) {
+  0% { background-color: var(--loading-color-1); }
+  5% { background-color: var(--loading-color-2); }
+  100% { background-color: var(--loading-color-1); }
+}
+
+html, body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  margin: 0;
+  padding: 0;
+  
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
+}
+#app {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  // bottom: 0;
+  z-index: 1;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+
+  width: 100vw;
+  max-height: 100vh;
+  // border: 1px solid rgba(255, 0, 0, .3);
+
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.leaflet-ant-path { pointer-events: none !important; }
+
+@include dark {
+  .leaflet-layer,
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out,
+  .leaflet-control-attribution {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+  }
+  .leaflet-container {
+      background: #000
+  }
+}
