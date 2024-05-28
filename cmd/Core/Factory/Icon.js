@@ -106,7 +106,7 @@ Icon.prototype.build = function(done) {
 Icon.prototype.create = function(done) {
   return FileSystem.readFile(this.file, 'utf8', (error, data) => {    
     if (error) {
-      Helper.Dp.LineRed('新增 icon 失敗')
+      Helper.Display.LineRed('新增 icon 失敗')
         .row('錯誤', `無法讀取「${this.name}」`)
         .row('原因', error.message)
         .go()
@@ -123,7 +123,7 @@ Icon.prototype.create = function(done) {
 
     FileSystem.writeFile(this.scss, parse(`.${this.face}-`, this.dir, this.face, data), error => {
       if (error) {
-        Helper.Dp.LineRed('新增 icon 失敗')
+        Helper.Display.LineRed('新增 icon 失敗')
           .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
           .row('原因', error.message)
           .go()
@@ -138,7 +138,7 @@ Icon.prototype.create = function(done) {
           : null
       }
 
-      Helper.Dp.LineBlue('新增 icon 成功')
+      Helper.Display.LineBlue('新增 icon 成功')
         .row('檔案路徑', this.name.dim)
         .row('新增檔案', Path.$.rRoot(this.scss).dim)
         .go()
@@ -152,7 +152,7 @@ Icon.prototype.create = function(done) {
 Icon.prototype.update = function(done) {
   return FileSystem.readFile(this.file, 'utf8', (error, data) => {
     if (error) {
-      Helper.Dp.LineRed('修改 icon 失敗')
+      Helper.Display.LineRed('修改 icon 失敗')
         .row('錯誤', `無法讀取「${this.name}」`)
         .row('原因', error.message)
         .go()
@@ -169,7 +169,7 @@ Icon.prototype.update = function(done) {
 
     FileSystem.writeFile(this.scss, parse(`.${this.face}-`, this.dir, this.face, data), error => {
       if (error) {
-        Helper.Dp.LineRed('修改 icon 失敗')
+        Helper.Display.LineRed('修改 icon 失敗')
           .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
           .row('原因', error.message)
           .go()
@@ -184,7 +184,7 @@ Icon.prototype.update = function(done) {
           : null
       }
 
-      Helper.Dp.LineBlue('修改 icon 成功')
+      Helper.Display.LineBlue('修改 icon 成功')
         .row('檔案路徑', this.name.dim)
         .row('修改檔案', Path.$.rRoot(this.scss).dim)
         .go()
@@ -198,7 +198,7 @@ Icon.prototype.update = function(done) {
 Icon.prototype.remove = function(done) {
   return Helper.Fs.remove(this.scss, error => {
     if (error) {
-      Helper.Dp.LineRed('移除 scss 失敗')
+      Helper.Display.LineRed('移除 scss 失敗')
         .row('錯誤', `無法移除：${Path.$.rRoot(this.scss)}`)
         .row('原因', error.message)
         .go()
@@ -213,7 +213,7 @@ Icon.prototype.remove = function(done) {
         : null
     }
 
-    Helper.Dp.LineGreen('移除 scss 成功')
+    Helper.Display.LineGreen('移除 scss 成功')
       .row('檔案路徑', Path.$.rRoot(this.scss).dim)
       .go()
 
