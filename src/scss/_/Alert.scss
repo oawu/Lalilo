@@ -265,7 +265,7 @@
         flex-direction: row;
       }
       &[n="2"] {
-        flex-direction: row-reverse;
+        flex-direction: row;
         > ._button {
           width: 50%;
 
@@ -309,6 +309,7 @@
         }
         &:focus {
           font-weight: bold;
+          background-color: var(--button-hover-bg-color);
         }
         &.__preferred {
           font-weight: bold;

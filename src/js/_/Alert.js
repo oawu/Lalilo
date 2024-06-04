@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-const Alert = function(title = '', message = '', buttons = [], inputs = []) {
+const Alert = function(title = null, message = null, buttons = [], inputs = []) {
   if (!(this instanceof Alert)) {
     return new Alert(title, message, buttons)
   }
@@ -15,7 +15,7 @@ const Alert = function(title = '', message = '', buttons = [], inputs = []) {
       display: false,
       isLoading: false,
 
-      title: '',
+      title: null,
       message: null,
 
       buttons: [],
@@ -39,10 +39,10 @@ const Alert = function(title = '', message = '', buttons = [], inputs = []) {
 
             setTimeout(_ => {
               setTimeout(_ => {
-                if (this.$refs.alertInput && this.$refs.alertInput[0]) {
-                  this.$refs.alertInput[0].focus()
-                } else if (this.$refs.alertButton && this.$refs.alertButton[0]) {
-                  this.$refs.alertButton[0].focus()
+                if (this.$refs.alertInput && this.$refs.alertInput.length > 0) {
+                  this.$refs.alertInput[this.$refs.alertInput.length - 1].focus()
+                } else if (this.$refs.alertButton && this.$refs.alertButton.length > 0) {
+                  this.$refs.alertButton[this.$refs.alertButton.length - 1].focus()
                 }
               }, 50)
 
@@ -102,12 +102,40 @@ const Alert = function(title = '', message = '', buttons = [], inputs = []) {
         return this
       },
     },
-    template: `<div id="__oaui-alert" v-if="display" :class="{ __p0: status.p0, __p1: status.p1 }"><div :class="{ _body: true, __loading: isLoading }"><template v-if="isLoading"><div class="_loading"><div><i v-for="i in [0,1,2,3,4,5,6,7,8,9,10,11]" :key="i" :class="'__i' + i"></i></div><span>{{ message.text }}</span></div></template><template v-else><b class="_title" v-if="title">{{ title }}</b><span class="_subtitle" v-if="message && message.text !== '' && message.isHTML" v-html="message.text"></span><span class="_subtitle" v-if="message && message.text !== '' && !message.isHTML">{{ message.text }}</span><input class='_input' v-for="(input, i) in inputs" :key="i" type="text" :placeholder="input.placeholder" v-model.trim="input.value" ref="alertInput" /><div class="_buttons" v-if="buttons.length" :n="buttons.length"><button class='_button' v-for="(button, i) in buttons" :key="i" @click="button.click ? button.click(...inputs.map(input => input.value)) : {}" :class="{ '__preferred': button.preferred, '__warning': button.isRed }" ref="alertButton">{{ button.text }}</button></div></template></div></div>`,
+    template: `<div id="__oaui-alert" v-if="display" :class="{ __p0: status.p0, __p1: status.p1 }">
+      <div :class="{ _body: true, __loading: isLoading }">
+        <template v-if="isLoading">
+          <div class="_loading">
+            <div>
+              <i v-for="i in [0,1,2,3,4,5,6,7,8,9,10,11]" :key="'_alert_loading_' + i" :class="'__i' + i"></i>
+            </div>
+
+            <span>{{ message.text }}</span>
+          </div>
+        </template>
+
+        <template v-else>
+          <b class="_title" v-if="title !== null">{{ title }}</b>
+
+          <template v-if="message !== null">
+            <span class="_subtitle" v-if="message.isHTML" v-html="message.text"></span>
+            <span class="_subtitle" v-if="!message.isHTML">{{ message.text }}</span>
+          </template>
+
+          <input class='_input' v-for="(input, i) in inputs" :key="'_alert_input_' + i" type="text" :placeholder="input.placeholder" v-model.trim="input.value" ref="alertInput" />
+          <div class="_buttons" v-if="buttons.length" :n="buttons.length">
+            <button class='_button' v-for="(button, i) in buttons" :key="'_alert_button_' + i" @click="button.click ? button.click(...inputs.map(input => input.value)) : {}" :class="{ '__preferred': button.preferred, '__warning': button.destructive }" ref="alertButton">{{ button.text }}</button>
+          </div>
+        </template>
+      </div>
+    </div>`,
   })
 
-  this.title(title).message(message)
+  this.title(title)
+  this.message(message)
+
   inputs.forEach(this.input)
-  buttons.forEach(this.button)
+  buttons.forEach(button => typeof button == 'object' && button !== null && !Array.isArray(button) && this.button(button.text, button.click, button.destructive, button.preferred))
 }
 
 Alert.prototype.present = function(completion = null, animated = true) {
@@ -143,20 +171,28 @@ Alert.prototype.dismiss = function(completion = null, animated = true) {
   return this
 }
 Alert.prototype.title = function(title) {
-  if (typeof title == 'string') {
+  if (title === null) {
+    this._vue.title = null
+  } else if (typeof title == 'string') {
     this._vue.title = title
   }
   return this
 }
 Alert.prototype.message = function(text, isHTML = false) {
-  if (typeof text == 'string') {
+  if (text === null) {
+    this._vue.message = null
+  } else if (typeof text == 'string') {
     this._vue.message = { text, isHTML }
   }
   return this
 }
-Alert.prototype.button = function(text, click = null, isRed = false, preferred = false) {
-  if (text) {
-    this._vue.buttons.push(new Alert._Button(text, typeof click == 'function' ? click.bind(this, this) : null, isRed, preferred))
+Alert.prototype.button = function(text, click = null, destructive = false, preferred = false) {
+  if (typeof text == 'string' && text !== '') {
+    this._vue.buttons.push(Alert._Button(
+      text,
+      typeof click == 'function' ? click.bind(this, this) : null,
+      typeof destructive == 'boolean' && destructive,
+      typeof preferred == 'boolean' && preferred))
   }
   return this
 }
@@ -195,14 +231,14 @@ Object.defineProperty(Alert, 'shared', { get () {
   return this._shared
 } })
 
-Alert._Button = function(text = '', click = null, isRed = false, preferred = false) {
+Alert._Button = function(text = '', click = null, destructive = false, preferred = false) {
   if (!(this instanceof Alert._Button)) {
-    return new Alert._Button(text, click, isRed, preferred)
+    return new Alert._Button(text, click, destructive, preferred)
   }
 
   this.text = text
   this.click = click
-  this.isRed = isRed
+  this.destructive = destructive
   this.preferred = preferred
 }
 
