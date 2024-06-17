@@ -703,10 +703,24 @@ module.exports = {
                 return cli.fail(null, `無法讀取 ${Path.$.rRoot(file.src)}`, error)
               }
 
-              FileSystem.writeFile(file.dist.path, Config.isMinify
-                ? Babel.transformSync(data, { presets: Config.Build.minify }).code
-                : data, 'utf8', error => {
-                  
+              let str = ''
+              if (Config.isMinify) {
+
+                try {
+                  str = Babel.transformSync(data, { presets: Config.Build.minify }).code
+                } catch (e) {
+                  str = e
+                }
+
+              } else {
+                str = data
+              }
+
+              if (str instanceof Error) {
+                return cli.fail(null, `轉譯 JS 錯誤，檔案：${file.src}`, str)
+              }
+
+              FileSystem.writeFile(file.dist.path, str, 'utf8', error => {
                   if (error) {
                     return cli.fail(null, `無法寫入 ${Path.$.rRoot(file.dist.path)}`, error)
                   }
