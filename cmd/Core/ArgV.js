@@ -41,7 +41,7 @@ const buildUrl = _ => {
   return baseUrl
 }
 
-const min = _ => {
+const merge = _ => {
   cli.title('確認是否合併 Js 與 Css 檔案')
   cli.appendTitle(Helper.Display.cmd('取得參數', '--merge'))
   argvs = Helper.argV.byKey(['--merge'])
@@ -49,7 +49,7 @@ const min = _ => {
   cli.done()
   return isMerge
 }
-const merge = _ => {
+const min = _ => {
   cli.title('確認是否壓縮 Js 檔案')
   cli.appendTitle(Helper.Display.cmd('取得參數', '--min'))
   argvs = Helper.argV.byKey(['--min'])

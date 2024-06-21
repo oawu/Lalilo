@@ -360,8 +360,8 @@ module.exports = {
 
     cli.appendTitle(Helper.Display.cmd('檢查', 'Javascript 壓縮設定'))
 
-    Config.Build.minify = Array.isArray(Config.Build.minify)
-      ? Config.Build.minify
+    Config.Build.jsMinify = Helper.Type.isObject(Config.Build.jsMinify)
+      ? Config.Build.jsMinify
       : []
 
     cli.appendTitle(Helper.Display.cmd('檢查', '複製檔案與目錄路徑'))
@@ -685,8 +685,8 @@ module.exports = {
         queue.enqueue(_next => next(files, cli.done(), _next()))
       })
       .enqueue((next, files) => {
-        cli.title(`複製${Config.isMinify ? '並壓縮' : ''} JavaScript 檔案`)
-        cli.appendTitle(Helper.Display.cmd('執行動作', `copy${Config.isMinify ? ', and minify' : ''} .js files`))
+        cli.title(`複製 JavaScript 檔案`)
+        cli.appendTitle(Helper.Display.cmd('執行動作', `copy .js files`))
         cli.total(files.jsFiles.length)
         
         const Babel = require("@babel/core")
@@ -703,24 +703,7 @@ module.exports = {
                 return cli.fail(null, `無法讀取 ${Path.$.rRoot(file.src)}`, error)
               }
 
-              let str = ''
-              if (Config.isMinify) {
-
-                try {
-                  str = Babel.transformSync(data, { presets: Config.Build.minify }).code
-                } catch (e) {
-                  str = e
-                }
-
-              } else {
-                str = data
-              }
-
-              if (str instanceof Error) {
-                return cli.fail(null, `轉譯 JS 錯誤，檔案：${file.src}`, str)
-              }
-
-              FileSystem.writeFile(file.dist.path, str, 'utf8', error => {
+              FileSystem.writeFile(file.dist.path, data, 'utf8', error => {
                   if (error) {
                     return cli.fail(null, `無法寫入 ${Path.$.rRoot(file.dist.path)}`, error)
                   }
@@ -734,8 +717,8 @@ module.exports = {
         queue.enqueue(_next => next(files, cli.done(), _next()))
       })
       .enqueue((next, files) => {
-        cli.title(`編譯後複製${Config.isMinify ? '並壓縮' : ''} Html 檔案`)
-        cli.appendTitle(Helper.Display.cmd('執行動作', `compile${Config.isMinify ? ', copy, and minify' : ', and copy'} .js files`))
+        cli.title(`編譯後${['複製', Config.isMinify ? '壓縮' : '', Config.isMerge ? '合併' : ''].filter(t => t !== '').join('、')} Html 檔案`)
+        cli.appendTitle(Helper.Display.cmd('執行動作', `compile ${['copy', Config.isMinify ? 'minify' : '', Config.isMerge ? 'merge' : ''].filter(t => t !== '').join('、')} .js files`))
         cli.total(files.htmlFiles.length)
 
         const Minify = require('html-minifier').minify

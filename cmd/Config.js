@@ -55,10 +55,18 @@ module.exports = {
     
     autoOpenFolder: false, // 自動開啟目錄
 
-    minify: [ // JS minify 時外加的轉譯
-      '@babel/preset-env',
-      ['minify', { builtIns: false }]
-    ],
+    jsMinify: { // JS minify 時外加的轉譯
+      comments: false,
+      presets: [
+        '@babel/preset-env',
+        [
+          'minify',
+          {
+            builtIns: false
+          }
+        ]
+      ]
+    },
 
     copy: {
       // files: ['CNAME'], // 包含檔案

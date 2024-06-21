@@ -8,8 +8,19 @@
 const FileSystem = require('fs')
 const Path       = require('path')
 
+const Babel      = require("@babel/core")
+
 const Config     = require('@oawu/_Config')
 const Helper     = require('@oawu/_Helper')
+
+const Comment = [
+  '/**',
+  ' * @author      OA Wu <oawu.tw@gmail.com>',
+  ` * @copyright   Copyright (c) 2015 - ${new Date().getFullYear()}, Lalilo`,
+  ' * @license     http://opensource.org/licenses/MIT  MIT License',
+  ' * @link        https://www.ioa.tw/',
+  ' */',
+].join('\n')
 
 const cssDir = _ => {
   return Config.assetDir.css
@@ -73,7 +84,7 @@ Asset.prototype.css = function(src, attr = { type: 'text/css', rel: 'stylesheet'
 
   return this
 }
-Asset.prototype.js = function(src, attr = { type: 'text/javascript', language: 'javascript' }) {
+Asset.prototype.js = function(src, minify = true, attr = { type: 'text/javascript', language: 'javascript' }) {
   if (!(typeof src == 'string' && src !== '')) {
     return this
   }
@@ -107,7 +118,7 @@ Asset.prototype.js = function(src, attr = { type: 'text/javascript', language: '
     if (Helper.Fs.inDir(entryDir(), file)) {
       if (!this._jsMap.get(file)) {
         let name = Path.relative(entryDir(), file)
-        this._jsList.push({ file, attr, name, src: `${Config.baseUrl}${name.split(Path.sep).join('/')}` })
+        this._jsList.push({ file, minify, attr, name, src: `${Config.baseUrl}${name.split(Path.sep).join('/')}` })
         this._jsMap.set(file, true)
       }
     }
@@ -169,18 +180,46 @@ const mergeCss = list => {
 const mergeJs = list => {
   const tags = []
   let strs = []
+
   let merge = _ => {
     if (!strs.length) {
       return null
     }
-    tags.push(`<script${joinAttr({ type: 'text/javascript', language: 'javascript' })}>\n${strs.join('\n\n')}\n</script>`)
+
+    let content = null
+
+    if (Config.isMinify) {
+      try {
+        content = [Comment, `${Babel.transformSync(strs.join('\n\n'), Config.Build.jsMinify).code}`].join('\n')
+      } catch (_) {
+        content = null
+      }
+    }
+
+    if (content == null) {
+      content = strs.join('\n\n')
+    }
+
+    tags.push(`<script${joinAttr({ type: 'text/javascript', language: 'javascript' })}>\n${content}\n</script>`)
     strs = []
   }
 
-  for (const { file, src, attr, name } of list) {
+  for (const { file, minify, src, attr, name } of list) {
     if (file === null) {
       merge()
       tags.push(`<script src="${src}"${joinAttr(attr)}></script>`)
+    } else if (!minify) {
+      let content = null
+      try {
+        content = FileSystem.readFileSync(file, 'utf8').trim().replace(/^\uFEFF/gm, "")
+      } catch (_) {
+        content = null
+      }
+
+      if (content !== null) {
+        merge()
+        tags.push(`<script${joinAttr(attr)}>${content}</script>`)
+      }
     } else {
       let content = null
       try {
