@@ -360,6 +360,19 @@ html, body {
       }
     }
   }
+
+  .map {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: 100%;
+    padding: 0;
+
+    // border: 1px solid rgba(255, 0, 0, .3);
+    
+  }
 }
 #status {
   position: relative;
