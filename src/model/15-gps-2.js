@@ -33,10 +33,13 @@ module.exports = {
     .js('_/Core/Load.js')
     .js('_/Core/Api.js')
     .js('_/Core/Helper.js')
+    .js('_/Core/Queue.js')
     .js('_/Alert.js')
     .js('_/Toastr.js')
     
     .js('_/App.js')
+    .js('_/App.Emu.js')
+    .js('_/DB.js')
 
     .js('00-tool.js')
     .js('15-gps-2.js')

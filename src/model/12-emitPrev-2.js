@@ -36,6 +36,7 @@ module.exports = {
     .js('_/Toastr.js')
     
     .js('_/App.js')
+    .js('_/App.Emu.js')
 
     .js('00-tool.js')
     .js('12-emitPrev-2.js')

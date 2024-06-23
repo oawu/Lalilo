@@ -39,5 +39,5 @@ module.exports = {
     .js('_/App.Emu.js')
 
     .js('00-tool.js')
-    .js('07-navSetTitle.js')
+    .js('16-feedback.js')
 }

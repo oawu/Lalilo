@@ -32,7 +32,7 @@ Load.Vue({
 
       // ====================================
 
-      const url = 'http://127.0.0.1:8000/12-emitPrev-2.html'
+      const url = `${window.baseUrl}12-emitPrev-2.html`
       const web = App.VC.View.Web(url)
 
       if (task.key == 'Push')  { closure(App.VC.Nav.Push(web)) }

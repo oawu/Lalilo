@@ -33,6 +33,7 @@ module.exports = {
     .js('_/Toastr.js')
     
     .js('_/App.js')
+    .js('_/App.Emu.js')
 
     .js('index.js')
 }

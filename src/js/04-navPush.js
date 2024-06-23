@@ -48,7 +48,7 @@ Load.Vue({
 
       // ====================================
 
-      const url = 'http://127.0.0.1:8000/'
+      const url = `${window.baseUrl}index.html`
       const web = App.VC.View.Web(url)
 
       if (task.key == 'P(W(str))')                       { closure(App.VC.Nav.Push(web)) }

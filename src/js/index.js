@@ -17,6 +17,7 @@ Load.Vue({
           { title: 'HUD', subtitle: '抬頭顯示器', href: `${window.baseUrl}13-hud.html` },
           { title: 'Youtube Player', subtitle: 'Youtube 播放器', href: `${window.baseUrl}14-youtubePlayer.html` },
           { title: 'GPS', subtitle: '定位功能', href: `${window.baseUrl}15-gps-1.html` },
+          { title: 'Feedback', subtitle: '觸感回應', href: `${window.baseUrl}16-feedback.html` },
         ] 
       },
       {
@@ -52,33 +53,15 @@ Load.Vue({
     ]
   },
   mounted () {
-  //   App.Bridge.on('vc:loadView', _ => {
-  //     console.error('vc:loadView');
-  //   })
-  //   App.Bridge.on('vc:viewDidLoad', _ => {
-  //     console.error('vc:viewDidLoad');
-  //   })
-  //   App.Bridge.on('vc:viewWillAppear', _ => {
-  //     console.error('vc:viewWillAppear');
-  //   })
-  //   App.Bridge.on('vc:viewDidAppear', _ => {
-  //     console.error('vc:viewDidAppear');
-  //   })
-  //   App.Bridge.on('vc:viewWillDisappear', _ => {
-  //     console.error('vc:viewWillDisappear');
-  //   })
-  //   App.Bridge.on('vc:viewDidDisappear', _ => {
-  //     console.error('vc:viewDidDisappear');
-  //   })
-  //   App.Bridge.on('vc:viewWillLayoutSubviews', _ => {
-  //     console.error('vc:viewWillLayoutSubviews');
-  //   })
-  //   App.Bridge.on('vc:viewDidLayoutSubviews', _ => {
-  //     console.error('vc:viewDidLayoutSubviews');
-  //   })
-  //   App.Bridge.on('vc:webViewDidFinish', _ => {
-  //     console.error('vc:webViewDidFinish');
-  //   })
+  //   App.Bridge.on('vc:loadView', _ => console.error('vc:loadView'); )
+  //   App.Bridge.on('vc:viewDidLoad', _ => console.error('vc:viewDidLoad'); )
+  //   App.Bridge.on('vc:viewWillAppear', _ => console.error('vc:viewWillAppear'); )
+  //   App.Bridge.on('vc:viewDidAppear', _ => console.error('vc:viewDidAppear'); )
+  //   App.Bridge.on('vc:viewWillDisappear', _ => console.error('vc:viewWillDisappear'); )
+  //   App.Bridge.on('vc:viewDidDisappear', _ => console.error('vc:viewDidDisappear'); )
+  //   App.Bridge.on('vc:viewWillLayoutSubviews', _ => console.error('vc:viewWillLayoutSubviews'); )
+  //   App.Bridge.on('vc:viewDidLayoutSubviews', _ => console.error('vc:viewDidLayoutSubviews'); )
+  //   App.Bridge.on('vc:webViewDidFinish', _ => console.error('vc:webViewDidFinish'); )
 
     App.Bridge.emits([
       App.VC.Nav.SetTitle("首頁"),

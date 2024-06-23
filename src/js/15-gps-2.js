@@ -5,105 +5,242 @@
  * @link        https://www.ioa.tw/
  */
 
+const Location = function(data) {
+  if (!(this instanceof Location)) {
+    return new Location(data)
+  }
+
+  const _isNum = v => typeof v == 'number' && !isNaN(v) && v !== Infinity
+  const _round = (val, digital, d4 = '') => _isNum(val) ? parseFloat(val.toFixed(digital)) : d4
+  const _timeago = e => {
+    const d = (new Date().getTime() - e * 1000) / 1000
+
+    const c = [
+      { b: 10, f: '現在'},
+      { b: 6,  f: '不到 1 分鐘'},
+      { b: 60, f: ' 分鐘前'},
+      { b: 24, f: ' 小時前'},
+      { b: 30, f: ' 天前'},
+      { b: 12, f: ' 個月前'}
+    ]
+
+    let u = 1
+
+    for (let i = 0, t; i < c.length; i++, u = t) {
+      t = c[i].b * u
+      
+      if (d < t) {
+        return `${i > 1 ? parseInt(d / u, 10) : ''}${c[i].f}`
+      }
+    }
+
+    return `${parseInt(d / u, 10)} 年前`
+  }
+
+  this.position = null
+  this.altitude = null
+  this.speed = null
+  this.course = null
+
+  this.time = {
+    gps: null,
+    upload: null,
+    server: null,
+  }
+
+  this.status = 'none'
+
+  if (_isNum(data.accH) && data.accH > 0) {
+    this.position = {
+      acc: _round(data.accH, 1),
+      lat: _round(data.lat, 10),
+      lng: _round(data.lng, 10),
+    }
+  }
+  if (_isNum(data.accV) && data.accV > 0) {
+    this.altitude = {
+      acc: _round(data.accV, 1),
+      val: _round(data.alt, 2),
+    }
+  }
+
+  if (_isNum(data.accS) && data.accS >= 0 && _isNum(data.speed) && data.speed >= 0) {
+    this.speed = {
+      acc: _round(data.accS, 1),
+      ms: _round(data.speed, 2),
+      kmh: _round(_round(data.speed, 2) * 3.6, 2),
+    }
+  }
+
+  if (_isNum(data.accC) && data.accC >= 0 && _isNum(data.course) && data.course >= 0) {
+    this.course = {
+      acc: _round(data.accC, 1),
+      val: _round(data.course, 1) }
+  }
+
+  if (_isNum(data.time) && data.time >= 0) {
+    const val = Math.round(data.time * 1000)
+    const text = Helper.date('Y/m/d H:i:s', new Date(val))
+    const timeago = `(${_timeago(val)})`
+
+    this.time.gps = { val, text, timeago }
+  }
+}
+
+
 Load.Vue({
   data: {
-    status: null,
+    status: 'always',
 
-    model: {
-      lat: '',
-      lng: '',
-      alt: '',
-      accH: '',
-      accV: '',
-      accS: '',
-      accC: '',
-      speed: '',
-      course: '',
+    count: {
+      gps: null,
+      done: null,
+      fail: null,
     },
+
+    time: {
+      gps: null,
+      upload: null,
+      server: null,
+    },
+
+    queueSave: Queue(),
+    queueCount: Queue(),
+    queueUpload: Queue(),
+    location: null,
 
     isRunning: false
   },
   mounted () {
+
     App.Bridge.on('GPS::isRunning', isRunning => {
       this.isRunning = isRunning
-
     })
+
     App.Bridge.on('GPS::status', status => {
       this.status = status
     })
 
-    App.Bridge.on('GPS::location', locations => {
-      if (!locations.length) { return }
+    App.Bridge.on('GPS::location', this._refresh)
 
-      this.model.lat = locations[0].lat
-      this.model.lng = locations[0].lng
-      this.model.accH = locations[0].accH
 
-      this.model.alt = locations[0].alt
-      this.model.accV = locations[0].accV
+    // DB._clear(_ => {
+      App.Bridge.emits([
+        App.GPS.Refresh.Status(),
+        App.GPS.Refresh.isRunning(),
+      ], App.VC.Mounted())
 
-      this.model.speed = locations[0].speed
-      this.model.accS = locations[0].accS
-      this.model.course = locations[0].course
-      this.model.accC = locations[0].accC
-    })
-
-    App.Bridge.emits([
-      App.GPS.Refresh.Status(),
-      App.GPS.Refresh.isRunning(),
-    ], App.VC.Mounted())
+      this._count()
+      this._upload()
+      // setInterval(_ => this._count(), 1000)
+      // setInterval(_ => this._upload(), 1000)
+    // })
   },
   methods: {
+    _refresh (locations) {
+      if (!locations.length) {
+        return
+      }
+
+      for (let location of locations) {
+        const _location = Location(location)
+        this.location = _location
+        this.queueSave.enqueue(next => DB.Location.create(_location, _ => {
+          this._count()
+          this._upload()
+          next()
+        }))
+      }
+    },
+    _count (next) {
+      this.queueCount.enqueue(next => {
+        Promise.all([
+          DB.Location.index('Status', 'none').count(),
+          DB.Location.index('Status', 'done').count(),
+          DB.Location.index('Status', 'fail').count(),
+        ])
+        .then(([none, done, fail]) => {
+          this.count.gps = none
+          this.count.done = done
+          this.count.fail = fail
+        })
+        .finally(next)
+      })
+    },
+    _upload () {
+      this.queueUpload.enqueue(next => DB.Location.index('Status', 'none').first((error, location) => {
+        if (error) {
+          return console.error(error)
+        }
+
+        if (!(typeof location == 'object' && location !== null && !Array.isArray(location))) {
+          return next()
+        }
+
+        const timer = Math.random() * 5
+        console.error(timer);
+        
+
+        setTimeout(_ => { // upload
+          const done = Math.random() < 0.5
+
+          location.status = done ? 'done' : 'fail'
+
+          DB.Location.update(location.key, location, (error, location) => {
+            if (error) {
+              return 
+            }
+
+            this._count()
+            next()
+          })
+        }, timer)
+
+      }))
+    },
+
     start () {
       App.Alert(null, '你確定要啟動？')
         .button('取消')
         .button('確定', App.HUD.Show.Loading('開啟中，請稍後…').completion(
           _ => setTimeout(
-            _ => App.GPS.Start(result => result && App.HUD.Show.Done('已開啟').completion(App.HUD.Hide(900)).emit()).emit(), 500))).emit()
+            _ => App.GPS.Start(result => result && App.HUD.Show.Done('已開啟').completion(App.HUD.Hide(400)).emit()).emit(), 500))).emit()
     },
     stop () {
       App.Alert(null, '你確定要停止？')
         .button('取消')
         .button('確定', App.HUD.Show.Loading('關閉中，請稍後…').completion(
           _ => setTimeout(
-            _ => App.GPS.Stop(result => result && App.HUD.Show.Done('已關閉').completion(App.HUD.Hide(900)).emit()).emit(), 500))).emit()
+            _ => App.GPS.Stop(result => result && App.HUD.Show.Done('已關閉').completion(App.HUD.Hide(400)).emit()).emit(), 500))).emit()
     },
     determine () {
       App.GPS.Require.Always().emit()
     },
-    round (val, digital, d4 = '') {
-      if (!(typeof val == 'number' && !isNaN(val) && val !== Infinity)) {
-        return d4
-      }
-
-      return parseFloat(val.toFixed(digital))
-    },
   },
   computed: {
     lat () {
-      return this.round(this.model.lat, 10)
+      return this.location && this.location.position ? this.location.position.lat : ''
     },
     lng () {
-      return this.round(this.model.lng, 10)
+      return this.location && this.location.position ? this.location.position.lng : ''
     },
     accH () {
-      return this.round(this.model.accH, 1)
+      return this.location && this.location.position ? this.location.position.acc : ''
     },
     speed1 () {
-      let speed = this.speed2
-      return speed === '' ? '' : this.round(speed * 3.6, 2)
+      return this.location && this.location.speed ? this.location.speed.kmh : ''
     },
     speed () {
-      return this.round(this.model.speed, 2)
+      return this.location && this.location.speed ? this.location.speed.ms : ''
     },
     accS () {
-      return this.round(this.model.accS, 1)
+      return this.location && this.location.speed ? this.location.speed.acc : ''
     },
     alt () {
-      return this.round(this.model.alt, 2)
+      return this.location && this.location.altitude ? this.location.altitude.val : ''
     },
     accV () {
-      return this.round(this.model.accV, 1)
+      return this.location && this.location.altitude ? this.location.altitude.acc : ''
     },
   },
   template: `
@@ -202,17 +339,17 @@ Load.Vue({
           .cell.counts
             .count
               span.title => *text='未上傳'
-              span.value => *text=0
+              span.value => *text=count.gps === null ? '?' : count.gps
               span.unit => *text='次'
 
             .count
               span.title => *text='上傳成功'
-              span.value.done => *text=0
+              span.value.done => *text=count.done
               span.unit => *text='次'
 
             .count
               span.title => *text='上傳失敗'
-              span.value.fail => *text=0
+              span.value.fail => *text=count.fail
               span.unit => *text='次'
           
           span.header => *text='時間'
@@ -220,15 +357,18 @@ Load.Vue({
           .cell.logs
             .log
               .title => *text='GPS 擷取時間'
-              .value => *text='2024/12/12 13:12:11'   :after='(現在)'
+              .value => *if=location && location.time && location.time.gps   *text=location.time.gps.text   :after=location.time.gps.timeago
+              .value => *else   *text=''   :after=''
 
             .log
               .title => *text='最新上傳時間'
-              .value => *text=''   :after=''
+              .value => *if=1   *text=''   :after=''
+              .value => *else   *text=time.upload.text   :after=time.upload.timeago
 
             .log
               .title => *text='伺服器回應時間'
-              .value => *text='2024/12/12 13:12:11'   :after='(現在)'
+              .value => *if=1   *text=''   :after=''
+              .value => *else   *text=time.server.text   :after=time.server.timeago
           
 
       `
