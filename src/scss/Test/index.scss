@@ -1,0 +1,271 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "../_/_Lib";
+@import "Lalilo";
+
+html, body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  overflow: hidden;
+}
+#app {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+  .groups {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: calc(100% - 16px * 2);
+    max-width: 900px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .group {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    
+    + .group {
+      margin-top: 32px;
+    }
+  }
+
+  .header, .footer {
+    @extend %-select-none;
+    flex-shrink: 0;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+    @include word-break(break-all);
+    
+    
+    font-weight: bold;
+    font-size: small;
+    padding: 0 8px;
+    color: var(--ui-color-iOS-tertiaryLabel);
+  }
+  .header {
+    margin-bottom: 4px;
+  }
+  .footer {
+    margin-top: 4px;
+  }
+  .items {
+    flex-grow: 1;
+    // 
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+    padding: 8px 0;
+    @include border-radius(16px);
+    border: 1px solid var(--ui-color-iOS-tertiarySystemFill);
+    
+    label.item {
+      cursor: pointer;
+    }
+    .item {
+      display: inline-flex;
+      flex-direction: row;
+      // align-items: center;
+      justify-content: flex-start;
+      align-items: stretch;
+      width: 100%;
+      padding: 0;
+
+      position: relative;
+
+      + .item {
+        margin-top: 1px;
+        .content {
+          &:before {
+            content: '';
+          }
+        }
+      }
+    }
+
+    .img {
+      flex-shrink: 0;
+
+      padding-left: 16px;
+      
+      
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      
+      figure {
+        @extend %-cover;
+        display: inline-block;
+        // width: 40px;
+        // height: 40px;
+        height: calc(100% - 20%);
+        aspect-ratio: 1;
+
+        margin: 0;
+        padding: 0;
+        background-color: rgba(0, 0, 255, 0.2);
+        
+        @include border-radius(50%);
+      }
+
+      + .content {
+        padding-left: 16px;
+      }
+    }
+    .content {
+      flex-grow: 1;
+
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      position: relative;
+      z-index: 1;
+      padding: 10px 16px;
+      padding-left: 24px;
+      padding-right: 12px;
+
+      &:before {
+        position: absolute;
+        top: -1px;
+        left: 16px;
+        right: 0;
+        z-index: 1;
+
+        display: inline-block;
+        height: 1px;
+        border-top: 1px solid var(--ui-color-iOS-systemFill);
+      }
+    }
+    .info {
+      position: relative;
+      z-index: 2;
+      flex-grow: 1;
+      
+      
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      
+
+      .key {
+        flex-grow: 1;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        
+
+        b, span {
+          text-align: left;
+        }
+      }
+      .val {
+        flex-shrink: 0;
+        max-width: 50%;
+        
+        margin-left: 4px;
+        b, span {
+          text-align: right;
+        }
+      }
+      b, span {
+        @extend %-select-none;
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        @include word-break(break-all);
+        width: 100%;
+        text-align: left;
+      }
+
+      b {
+        font-weight: normal;
+        color: var(--ui-color-iOS-label);
+        + span {
+          margin-top: 2px;
+        }
+      }
+      span {
+        font-size: small;
+        color: var(--ui-color-iOS-secondaryLabel);
+      }
+    }
+    .icon {
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
+      
+      width: 20px;
+      height: 20px;
+      
+      margin-left: 8px;
+
+      .arrowUI {
+        position: absolute;
+        top: 50%;
+        left: calc(50% - 3px);
+
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-top: 2px solid var(--ui-color-iOS-systemFill);
+        border-right: 2px solid var(--ui-color-iOS-systemFill);
+        @include transform(translate(-50%, -50%) scale(1) rotate(45deg));
+      }
+    }
+  }
+}
