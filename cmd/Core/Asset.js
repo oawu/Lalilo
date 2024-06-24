@@ -37,26 +37,14 @@ const Asset = function() {
     return new Asset()
   }
 
-  this._preloadMap = new Map()
   this._cssMap = new Map()
   this._jsMap = new Map()
 
-  this._preloadList = []
   this._cssList = []
   this._jsList = []
 
 }
 
-Asset.prototype.preload = function(src, attr = { rel: 'preload', as: 'fetch' }) {
-  if (!(typeof src == 'string' && src !== '')) {
-    return this
-  }
-  if (!this._preloadMap.get(src)) {
-    this._preloadList.push({ src, attr })
-    this._preloadMap.set(src, true)
-  }
-  return this
-}
 Asset.prototype.css = function(src, attr = { type: 'text/css', rel: 'stylesheet' }) {
   if (!(typeof src == 'string' && src !== '')) {
     return this
@@ -256,12 +244,10 @@ const mergeJs = list => {
 Asset.prototype.toString = function() {
   return Config.isMerge
     ? [
-        ...this._preloadList.map(({ src, attr }) => `<link href="${src}"${joinAttr(attr)} />`),
         ...mergeCss(this._cssList),
         ...mergeJs(this._jsList),
       ].join('\n')
     : [
-        ...this._preloadList.map(({ src, attr }) => `<link href="${src}"${joinAttr(attr)} />`),
         ...this._cssList.map(({ src, attr }) => `<link href="${src}"${joinAttr(attr)} />`),
         ...this._jsList.map(({ src, attr }) => `<script src="${src}"${joinAttr(attr)}></script>`)
       ].join('\n')
