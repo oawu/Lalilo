@@ -22,9 +22,6 @@ module.exports = {
     .css('_/Toastr.css')
     .css('00-tool.css')
 
-    .preload(`${Config.baseUrl}15-gps-2.html`)
-
-
     .js('_/Core/vue-2.7.16.min.js', false)
     .js('_/Core/jquery-1.12.4.min.js', false)
 
