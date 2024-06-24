@@ -186,7 +186,9 @@ module.exports = function(request, response) {
   // http://127.0.0.1/a/b.html
   if (extension === 'html') {
     const name = dirs.pop()
-    return outputHtml(response, HtmlModelPath(`${Config.Source.dir.html}${dirs.join(Path.sep)}${Path.sep}${name}`, `${Config.Source.dir.model}${dirs.join(Path.sep)}${Path.sep}${Path.basename(name, '.html')}.js`))
+    return outputHtml(response, HtmlModelPath(
+      `${Config.Source.dir.html}${dirs.join(Path.sep)}${Path.sep}${name}`,
+      `${Config.Source.dir.model}${dirs.join(Path.sep)}${Path.sep}${Path.basename(name, '.html')}.js`))
   }
 
   // http://127.0.0.1/a/b
