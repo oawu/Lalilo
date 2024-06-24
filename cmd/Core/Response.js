@@ -78,7 +78,7 @@ const outputModel = (response, path, data) => FileSystem.exists(path, exists => 
   if (!exists) {
     return output(response, 200, 'text/html; charset=UTF-8', appendWebSocket(data))
   }
-  
+
   const _input = FileSystem.createReadStream(path)
   _input.on('error', error => {
     Helper.Display.LineRed('讀取 Model 失敗')
@@ -175,6 +175,7 @@ module.exports = function(request, response) {
   const extension = pathname === '' ? null : Mime.getExtension(Mime.getType(pathname))
   
   const dirs = pathname.split('/').filter(t => t !== '')
+
   // const first = dirs.shift()
 
   // if (first !== 'ui')
@@ -190,10 +191,8 @@ module.exports = function(request, response) {
 
   // http://127.0.0.1/a/b.html
   if (extension === 'html') {
-    return outputHtml(response, HtmlModelPath(
-      `${Config.Source.dir.html}${dirs.join(Path.sep)}`,
-      `${Config.Source.dir.model}${Path.basename(dirs.join(Path.sep), '.html')}.js`))
-    // return outputHtml(response, `${Config.Source.dir.html}${dirs.join(Path.sep)}`)
+    const name = dirs.pop()
+    return outputHtml(response, HtmlModelPath(`${Config.Source.dir.html}${dirs.join(Path.sep)}${Path.sep}${name}`, `${Config.Source.dir.model}${dirs.join(Path.sep)}${Path.sep}${Path.basename(name, '.html')}.js`))
   }
 
   // http://127.0.0.1/a/b
