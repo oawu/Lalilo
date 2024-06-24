@@ -176,17 +176,11 @@ module.exports = function(request, response) {
   
   const dirs = pathname.split('/').filter(t => t !== '')
 
-  // const first = dirs.shift()
-
-  // if (first !== 'ui')
-  //   return output404(response)
-
   // http://127.0.0.1/
   if (dirs.length == 0) {
     return outputHtml(response, HtmlModelPath(
       `${Config.Source.dir.html}${main}.html`,
       `${Config.Source.dir.model}${main}.js`))
-    // return outputHtml(response, Config.Source.dir.html, [], `${main}`)
   }
 
   // http://127.0.0.1/a/b.html
