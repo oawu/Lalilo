@@ -431,6 +431,7 @@ Load.Vue({
     Tool => :groups=groups   @click=click
       .header => *text='Status'
       .unit
+        a => *text='click'   :href=window.baseUrl + '15-gps-2.html'
         div
           span => *text=status   :before='狀態'   :after=''
           span => *text=isRunning?'True':'False'   :before='是否收集'   :after=''

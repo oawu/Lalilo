@@ -14,9 +14,9 @@ module.exports = {
   baseUrl: Config.baseUrl,
 
   asset: _ => Asset()
-    // .css('https://unpkg.com/leaflet@1.9.2/dist/leaflet.css')
+    .css('https://unpkg.com/leaflet@1.9.2/dist/leaflet.css')
 
-    .css('leaflet-1.9.2.min.css')
+    // .css('leaflet-1.9.2.min.css')
 
     .css('icon/icon.css')
     .css('_/Core.css')
@@ -27,9 +27,9 @@ module.exports = {
 
     .js('_/Core/vue-2.7.16.min.js', false)
     .js('_/Core/jquery-1.12.4.min.js', false)
-    .js('_/Core/leaflet-1.9.2.min.js', false)
+    // .js('_/Core/leaflet-1.9.2.min.js', false)
     
-    // .js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
+    .js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
     // .js('https://unpkg.com/leaflet-ant-path@1.3.0/dist/leaflet-ant-path.js')
 
     .js('_/Core/El3.js')
