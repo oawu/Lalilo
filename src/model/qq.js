@@ -16,9 +16,8 @@ module.exports = {
   asset: _ => Asset()
     .css('icon/icon.css')
     .css('_/Core/Core.css')
-    .css('_/Core/Alert.css')
-    .css('_/Core/Toastr.css')
-    .css('_/Component/00-tool.css')
+
+    .css('qq.css')
 
     .js('_/Core/vue-2.7.16.min.js', false)
     .js('_/Core/jquery-1.12.4.min.js', false)
@@ -27,12 +26,7 @@ module.exports = {
     .js('_/Core/Load.js')
     .js('_/Core/Api.js')
     .js('_/Core/Helper.js')
-    .js('_/Core/Alert.js')
-    .js('_/Core/Toastr.js')
     
-    .js('_/Core/App.js')
-    .js('_/Core/App.Emu.js')
 
-    .js('_/Component/00-tool.js')
-    .js('Test/05-navPop.js')
+    .js('qq.js')
 }

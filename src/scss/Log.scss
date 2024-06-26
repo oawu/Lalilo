@@ -6,10 +6,11 @@
  */
 
 @use "sass:math";
-@import "../_/_Lib";
+@import "_/_Lib";
 @import "Lalilo";
 
 #app {
+
   .groups {
     display: inline-flex;
     flex-direction: column;
@@ -147,6 +148,7 @@
         height: 1px;
         border-top: 1px solid var(--ui-color-iOS-systemFill);
       }
+
     }
     .info {
       position: relative;

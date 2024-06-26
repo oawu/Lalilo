@@ -26,6 +26,8 @@ const App = function(type, ...completion) {
 
 App._FeedbackEnum = ['light', 'heavy', 'medium', 'soft', 'rigid', 'error', 'success', 'warning']
 App._ActionEmitGoalEnum = ['this', 'prev']
+App._NavBarAppearance = ['show', 'auto']
+App._TabBarAppearance = ['show', 'auto']
 
 App.prototype.feedback = function(val) {
   if (!(val instanceof App.Feedback)) {
@@ -293,8 +295,7 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
     },
     emit (app, ...done) {
       const params = App.Bridge._emit(app, ...done)
-      console.error(params);
-      
+      // console.error(params);
       
       if (params === null) {
         return App.Bridge
@@ -603,6 +604,63 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
 
     App.Action.Func.Id = 0
     App.Action.Func.Map = new Map()
+
+// ======== App.OnScroll
+  App.OnScroll = function(scrollTop, clientHeight, scrollHeight, ...completion) {
+    if (!(this instanceof App.OnScroll)) {
+      return new App.OnScroll(scrollTop, clientHeight, scrollHeight, ...completion)
+    }
+
+    App.call(this, 'App.OnScroll', ...completion)
+    
+    this._scrollTop = null
+    this._clientHeight = null
+    this._scrollHeight = null
+
+    this.scrollTop(scrollTop)
+    this.clientHeight(clientHeight)
+    this.scrollHeight(scrollHeight)
+  }
+  App.OnScroll.prototype = Object.create(App.prototype)
+  App.OnScroll.prototype.scrollTop = function(val) {
+    if (App._T.num(val)) {
+      this._scrollTop = val
+    }
+    return this
+  }
+  App.OnScroll.prototype.clientHeight = function(val) {
+    if (App._T.num(val)) {
+      this._clientHeight = val
+    }
+    return this
+  }
+  App.OnScroll.prototype.scrollHeight = function(val) {
+    if (App._T.num(val)) {
+      this._scrollHeight = val
+    }
+    return this
+  }
+  Object.defineProperty(App.OnScroll.prototype, App.JsonKeyName, { get () {
+    const scrollTop = this._scrollTop
+    const clientHeight = this._clientHeight
+    const scrollHeight = this._scrollHeight
+    
+    if (!App._T.num(scrollTop) || !App._T.num(clientHeight) || !App._T.num(scrollHeight)) {
+      return null
+    }
+
+    const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+
+    parent.struct = {
+      scrollTop,
+      clientHeight,
+      scrollHeight,
+    }
+    return parent
+  } })
+
+  App.Action.Func.Id = 0
+  App.Action.Func.Map = new Map()
 
 // ======== App.Alert
   App.Alert = function(title = null, message = null, buttons = [], isAnimated = true, ...completion) {
@@ -1217,24 +1275,139 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
         return App.VC.View.Web(data)
       }
 
-      this._navBarHidden = false
-      this._navTitle = ''
+      this._navBarHidden = null
+      this._navBarAppearance = null
+      this._navBarTitle = null
+      this._navBarLeft = null
+      this._navBarRight = null
+      
+      this._tabBarAppearance = null
+      this._tabBarTitle = null
+
+      this.navBarHidden(false)
+        .navBarAppearance(App._NavBarAppearance[0])
+        .navBarTitle('')
+        .navBarLeft('')
+        .navBarRight('')
+        .tabBarAppearance(App._TabBarAppearance[0])
+        .tabBarTitle(null)
 
       return null
     }
 
     App.VC.View.prototype.navBarHidden = function(val) {
-      if (App._T.bool(val)) {
+      if (!(val instanceof App.VC.Nav.Bar.Hidden)) {
+        val = App.VC.Nav.Bar.Hidden(val)
+      }
+      if (val instanceof App.VC.Nav.Bar.Hidden) {
         this._navBarHidden = val
       }
       return this
     }
-    App.VC.View.prototype.navTitle = function(val) {
-      if (App._T.str(val)) {
-        this._navTitle = val
+    App.VC.View.prototype.navBarAppearance = function(val) {
+      if (!(val instanceof App.VC.Nav.Bar.Appearance)) {
+        val = App.VC.Nav.Bar.Appearance(val)
+      }
+      if (val instanceof App.VC.Nav.Bar.Appearance) {
+        this._navBarAppearance = val
       }
       return this
     }
+    App.VC.View.prototype.navBarTitle = function(val) {
+      if (!(val instanceof App.VC.Nav.Bar.Title)) {
+        val = App.VC.Nav.Bar.Title(val)
+      }
+      if (val instanceof App.VC.Nav.Bar.Title) {
+        this._navBarTitle = val
+      }
+      return this
+    }
+    App.VC.View.prototype.navBarLeft = function(text, ...data) {
+      if (!(text instanceof App.VC.Nav.Bar.Button.Left)) {
+        text = App.VC.Nav.Bar.Button.Left(text, ...data)
+      }
+      if (text instanceof App.VC.Nav.Bar.Button.Left) {
+        this._navBarLeft = text
+      }
+
+      return this
+    }
+    App.VC.View.prototype.navBarRight = function(text, ...data) {
+      if (!(text instanceof App.VC.Nav.Bar.Button.Right)) {
+        text = App.VC.Nav.Bar.Button.Right(text, ...data)
+      }
+      if (text instanceof App.VC.Nav.Bar.Button.Right) {
+        this._navBarRight = text
+      }
+      return this
+    }
+    App.VC.View.prototype.tabBarAppearance = function(val) {
+      if (!(val instanceof App.VC.Tab.Bar.Appearance)) {
+        val = App.VC.Tab.Bar.Appearance(val)
+      }
+      if (val instanceof App.VC.Tab.Bar.Appearance) {
+        this._tabBarAppearance = val
+      }
+      return this
+    }
+    App.VC.View.prototype.tabBarTitle = function(val) {
+      if (!(val instanceof App.VC.Tab.Bar.Title)) {
+        val = App.VC.Tab.Bar.Title(val)
+      }
+      if (val instanceof App.VC.Tab.Bar.Title) {
+        this._tabBarTitle = val
+      }
+      return this
+    }
+    Object.defineProperty(App.VC.View.prototype, 'nav', { get () {
+        let navBarHidden     = this._navBarHidden     instanceof App.VC.Nav.Bar.Hidden       ? this._navBarHidden     : App.VC.Nav.Bar.Hidden(false)
+        let navBarAppearance = this._navBarAppearance instanceof App.VC.Nav.Bar.Appearance   ? this._navBarAppearance : App.VC.Nav.Bar.Appearance(App._NavBarAppearance[0])
+        let navBarTitle      = this._navBarTitle      instanceof App.VC.Nav.Bar.Title        ? this._navBarTitle      : App.VC.Nav.Bar.Title('')
+        let navBarLeft       = this._navBarLeft       instanceof App.VC.Nav.Bar.Button.Left  ? this._navBarLeft       : App.VC.Nav.Bar.Button.Left()
+        let navBarRight      = this._navBarRight      instanceof App.VC.Nav.Bar.Button.Right ? this._navBarRight      : App.VC.Nav.Bar.Button.Right()
+
+        navBarHidden         = navBarHidden[App.JsonKeyName]
+        navBarAppearance     = navBarAppearance[App.JsonKeyName]
+        navBarTitle          = navBarTitle[App.JsonKeyName]
+        navBarLeft           = navBarLeft[App.JsonKeyName]
+        navBarRight          = navBarRight[App.JsonKeyName]
+
+        if (
+          navBarHidden === null
+          || navBarAppearance === null
+          || navBarTitle === null
+          || navBarLeft === null
+          || navBarRight === null) {
+          return null
+        }
+
+        return {
+          barHidden    : navBarHidden.struct.isHidden,
+          barAppearance: navBarAppearance.struct.style,
+          barTitle     : navBarTitle.struct.text,
+          barLeft      : navBarLeft.struct,
+          barRight     : navBarRight.struct,
+        }
+    } })
+    Object.defineProperty(App.VC.View.prototype, 'tab', { get () {
+        let tabBarAppearance = this._tabBarAppearance instanceof App.VC.Tab.Bar.Appearance   ? this._tabBarAppearance : App.VC.Tab.Bar.Appearance(App._TabBarAppearance[0])
+        let tabBarTitle      = this._tabBarTitle      instanceof App.VC.Tab.Bar.Title        ? this._tabBarTitle      : App.VC.Tab.Bar.Title('')
+
+        tabBarAppearance     = tabBarAppearance[App.JsonKeyName]
+        tabBarTitle          = tabBarTitle[App.JsonKeyName]
+
+        if (tabBarAppearance === null
+          || tabBarTitle === null) {
+          
+          return null
+        }
+
+        return {
+          barAppearance: tabBarAppearance.struct.style,
+          barTitle     : tabBarTitle.struct.text,
+        }
+    } })
+
 
     // ======== App.VC.View.Web
       App.VC.View.Web = function(url = null) {
@@ -1309,12 +1482,9 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
       
       const isNavigation = App._T.bool(this._isNavigation) ? this._isNavigation : false
 
-      const nav = isNavigation ? {
-        barHidden: App._T.bool(this._view._navBarHidden) ? this._view._navBarHidden : false,
-        title: App._T.str(this._view._navTitle) ? this._view._navTitle : '',
-        left: App.VC.Nav.SetLeft(),
-        right: App.VC.Nav.SetRight(),
-      } : null
+      const nav = isNavigation ? null : this._view.nav
+      const tab = this._view.tab
+
       const isAnimated = App._T.bool(this._isAnimated) ? this._isAnimated : true
       const isFullScreen = App._T.bool(this._isFullScreen) ? this._isFullScreen : false
 
@@ -1325,6 +1495,8 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
           url: this._view._url,
 
           nav,
+          tab,
+
           isAnimated,
           isFullScreen,
         }
@@ -1437,13 +1609,8 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
         }
 
         const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
-
-        const nav = {
-          barHidden: App._T.bool(this._view._navBarHidden) ? this._view._navBarHidden : false,
-          title: App._T.str(this._view._navTitle) ? this._view._navTitle : '',
-          left: App.VC.Nav.SetLeft(),
-          right: App.VC.Nav.SetRight(),
-        }
+        const nav = this._view.nav
+        const tab = this._view.tab
         const isAnimated = App._T.bool(this._isAnimated) ? this._isAnimated : true
 
         if (this._view instanceof App.VC.View.Web && App._T.url(this._view._url)) {
@@ -1451,6 +1618,7 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
             type: 'webView',
             url: this._view._url,
             nav,
+            tab,
             isAnimated,
           }
           return parent
@@ -1486,140 +1654,225 @@ App.emits = (apps, ...data) => App.Bridge.emits(apps, ...data)
         return parent
       } })
 
-    // ======== App.VC.Nav.SetBarHidden
-      App.VC.Nav.SetBarHidden = function(isHidden = true, isAnimated = true, ...completion) {
-        if (!(this instanceof App.VC.Nav.SetBarHidden)) {
-          return new App.VC.Nav.SetBarHidden(isHidden, isAnimated, ...completion)
+    // ======== App.VC.Nav.Bar
+      App.VC.Nav.Bar = function() {}
+
+      // ======== App.VC.Nav.Bar.Hidden
+        App.VC.Nav.Bar.Hidden = function(isHidden = true, isAnimated = true, ...completion) {
+          if (!(this instanceof App.VC.Nav.Bar.Hidden)) {
+            return new App.VC.Nav.Bar.Hidden(isHidden, isAnimated, ...completion)
+          }
+
+          App.call(this, 'App.VC.Nav.Bar.Hidden', ...completion)
+          this._isHidden = true
+          this._isAnimated = true
+          this.isHidden(isHidden).isAnimated(isAnimated)
         }
-
-        App.call(this, 'App.VC.Nav.SetBarHidden', ...completion)
-        this._isHidden = true
-        this._isAnimated = true
-        this.isHidden(isHidden).isAnimated(isAnimated)
-      }
-      App.VC.Nav.SetBarHidden.prototype = Object.create(App.prototype)
-      App.VC.Nav.SetBarHidden.prototype.isHidden = function(val) {
-        if (App._T.bool(val)) {
-          this._isHidden = val
+        App.VC.Nav.Bar.Hidden.prototype = Object.create(App.prototype)
+        App.VC.Nav.Bar.Hidden.prototype.isHidden = function(val) {
+          if (App._T.bool(val)) {
+            this._isHidden = val
+          }
+          return this
         }
-        return this
-      }
-      App.VC.Nav.SetBarHidden.prototype.isAnimated = function(val) {
-        if (App._T.bool(val)) {
-          this._isAnimated = val
+        App.VC.Nav.Bar.Hidden.prototype.isAnimated = function(val) {
+          if (App._T.bool(val)) {
+            this._isAnimated = val
+          }
+          return this
         }
-        return this
-      }
-      Object.defineProperty(App.VC.Nav.SetBarHidden.prototype, App.JsonKeyName, { get () {
-        const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
-        
-        const isHidden = App._T.bool(this._isHidden) ? this._isHidden : true
-        const isAnimated = App._T.bool(this._isAnimated) ? this._isAnimated : true
+        Object.defineProperty(App.VC.Nav.Bar.Hidden.prototype, App.JsonKeyName, { get () {
+          const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+          
+          const isHidden = App._T.bool(this._isHidden) ? this._isHidden : true
+          const isAnimated = App._T.bool(this._isAnimated) ? this._isAnimated : true
 
-        parent.struct = {
-          isHidden,
-          isAnimated,
+          parent.struct = {
+            isHidden,
+            isAnimated,
+          }
+          return parent
+        } })
+
+      // ======== App.VC.Nav.Bar.Appearance
+        App.VC.Nav.Bar.Appearance = function(style = true, ...completion) {
+          if (!(this instanceof App.VC.Nav.Bar.Appearance)) {
+            return new App.VC.Nav.Bar.Appearance(style, ...completion)
+          }
+
+          App.call(this, 'App.VC.Nav.Bar.Appearance', ...completion)
+          this._style = true
+          this.style(style)
         }
-        return parent
-      } })
-
-    // ======== App.VC.Nav.SetTitle
-      App.VC.Nav.SetTitle = function(text = null, ...completion) {
-        if (!(this instanceof App.VC.Nav.SetTitle)) {
-          return new App.VC.Nav.SetTitle(text, ...completion)
+        App.VC.Nav.Bar.Appearance.prototype = Object.create(App.prototype)
+        App.VC.Nav.Bar.Appearance.prototype.style = function(style) {
+          if (App._T.neStr(style) && App._NavBarAppearance.includes(style)) {
+            this._style = style
+          }
+          return this
         }
+        Object.defineProperty(App.VC.Nav.Bar.Appearance.prototype, App.JsonKeyName, { get () {
+          const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+          const style = App._T.neStr(this._style) && App._NavBarAppearance.includes(this._style) ? this._style : App._NavBarAppearance[0]
+          parent.struct = { style }
+          return parent
+        } })
 
-        App.call(this, 'App.VC.Nav.SetTitle', ...completion)
-        this._text = ''
-        this.text(text)
-      }
-      App.VC.Nav.SetTitle.prototype = Object.create(App.prototype)
-      App.VC.Nav.SetTitle.prototype.text = function(val) {
-        if (App._T.str(val)) {
-          this._text = val
-        }
-        return this
-      }
-      Object.defineProperty(App.VC.Nav.SetTitle.prototype, App.JsonKeyName, { get () {
-        const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+      // ======== App.VC.Nav.Bar.Title
+        App.VC.Nav.Bar.Title = function(text = null, ...completion) {
+          if (!(this instanceof App.VC.Nav.Bar.Title)) {
+            return new App.VC.Nav.Bar.Title(text, ...completion)
+          }
 
-        const text = App._T.str(this._text) ? this._text : ''
-
-        parent.struct = {
-          text,
-        }
-        return parent
-      } })
-
-    // ======== App.VC.Nav.SetBarButton
-      App.VC.Nav.SetBarButton = function(key, text, ...data) {
-        if (!(this instanceof App.VC.Nav.SetBarButton)) {
-          return new App.VC.Nav.SetBarButton(key, text, ...data)
-        }
-
-        App.call(this, key)
-
-        this._text = ''
-        this._click = null
-
-        if (App._T.str(text)) {
+          App.call(this, 'App.VC.Nav.Bar.Title', ...completion)
+          this._text = ''
           this.text(text)
-          this.click(...data)
-        } else {
-          this.text('')
-          this.click(text, ...data)
         }
-      }
-      App.VC.Nav.SetBarButton.prototype = Object.create(App.prototype)
-      App.VC.Nav.SetBarButton.prototype.text = function(val) {
-        if (App._T.str(val)) {
-          this._text = val
+        App.VC.Nav.Bar.Title.prototype = Object.create(App.prototype)
+        App.VC.Nav.Bar.Title.prototype.text = function(val) {
+          if (App._T.str(val)) {
+            this._text = val
+          }
+          return this
         }
-        return this
-      }
-      App.VC.Nav.SetBarButton.prototype.click = function(val, ...params) {
-        if (!(val instanceof App)) {
-          val = App.Action(val, ...params)
-        }
+        Object.defineProperty(App.VC.Nav.Bar.Title.prototype, App.JsonKeyName, { get () {
+          const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
 
-        if (val instanceof App) {
-          this._click = val
-        }
-        return this
-      }
-      Object.defineProperty(App.VC.Nav.SetBarButton.prototype, App.JsonKeyName, { get () {
-        const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+          const text = App._T.str(this._text) ? this._text : ''
 
-        const text = App._T.str(this._text) ? this._text : ''
-        const click = this._click instanceof App ? this._click[App.JsonKeyName] : null
+          parent.struct = {
+            text,
+          }
+          return parent
+        } })
 
-        parent.struct = {
-          text,
-          click,
-        }
-        return parent
-      } })
+      // ======== App.VC.Nav.Bar.Button
+        App.VC.Nav.Bar.Button = function(key, text, ...data) {
+          if (!(this instanceof App.VC.Nav.Bar.Button)) {
+            return new App.VC.Nav.Bar.Button(key, text, ...data)
+          }
 
-    // ======== App.VC.Nav.SetLeft
-      App.VC.Nav.SetLeft = function(...data) {
-        if (this instanceof App.VC.Nav.SetLeft) {
-          App.VC.Nav.SetBarButton.call(this, 'App.VC.Nav.SetLeft', ...data)
-        } else {
-          return new App.VC.Nav.SetLeft(...data)
+          App.call(this, key)
+
+          this._text = ''
+          this._click = null
+
+          if (App._T.str(text)) {
+            this.text(text)
+            this.click(...data)
+          } else {
+            this.text('')
+            this.click(text, ...data)
+          }
         }
-      }
-      App.VC.Nav.SetLeft.prototype = Object.create(App.VC.Nav.SetBarButton.prototype)
-      
-    // ======== App.VC.Nav.SetRight
-      App.VC.Nav.SetRight = function(...data) {
-        if (this instanceof App.VC.Nav.SetRight) {
-          App.VC.Nav.SetBarButton.call(this, 'App.VC.Nav.SetRight', ...data)
-        } else {
-          return new App.VC.Nav.SetRight(...data)
+        App.VC.Nav.Bar.Button.prototype = Object.create(App.prototype)
+        App.VC.Nav.Bar.Button.prototype.text = function(val) {
+          if (App._T.str(val)) {
+            this._text = val
+          }
+          return this
         }
-      }
-      App.VC.Nav.SetRight.prototype = Object.create(App.VC.Nav.SetBarButton.prototype)
-      
+        App.VC.Nav.Bar.Button.prototype.click = function(val, ...params) {
+          if (!(val instanceof App)) {
+            val = App.Action(val, ...params)
+          }
+
+          if (val instanceof App) {
+            this._click = val
+          }
+          return this
+        }
+        Object.defineProperty(App.VC.Nav.Bar.Button.prototype, App.JsonKeyName, { get () {
+          const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+
+          const text = App._T.str(this._text) ? this._text : ''
+          const click = this._click instanceof App ? this._click[App.JsonKeyName] : null
+
+          parent.struct = {
+            text,
+            click,
+          }
+          return parent
+        } })
+
+        // ======== App.VC.Nav.Bar.Button.Left
+          App.VC.Nav.Bar.Button.Left = function(...data) {
+            if (this instanceof App.VC.Nav.Bar.Button.Left) {
+              App.VC.Nav.Bar.Button.call(this, 'App.VC.Nav.Bar.Button.Left', ...data)
+            } else {
+              return new App.VC.Nav.Bar.Button.Left(...data)
+            }
+          }
+          App.VC.Nav.Bar.Button.Left.prototype = Object.create(App.VC.Nav.Bar.Button.prototype)
+          
+        // ======== App.VC.Nav.Bar.Button.Right
+          App.VC.Nav.Bar.Button.Right = function(...data) {
+            if (this instanceof App.VC.Nav.Bar.Button.Right) {
+              App.VC.Nav.Bar.Button.call(this, 'App.VC.Nav.Bar.Button.Right', ...data)
+            } else {
+              return new App.VC.Nav.Bar.Button.Right(...data)
+            }
+          }
+          App.VC.Nav.Bar.Button.Right.prototype = Object.create(App.VC.Nav.Bar.Button.prototype)
+       
+  // ======== App.VC.Tab
+    App.VC.Tab = function() {}
+
+    // ======== App.VC.Tab.Bar
+      App.VC.Tab.Bar = function() {}
+
+      // ======== App.VC.Tab.Bar.Appearance
+        App.VC.Tab.Bar.Appearance = function(style = true, ...completion) {
+          if (!(this instanceof App.VC.Tab.Bar.Appearance)) {
+            return new App.VC.Tab.Bar.Appearance(style, ...completion)
+          }
+
+          App.call(this, 'App.VC.Tab.Bar.Appearance', ...completion)
+          this._style = true
+          this.style(style)
+        }
+        App.VC.Tab.Bar.Appearance.prototype = Object.create(App.prototype)
+        App.VC.Tab.Bar.Appearance.prototype.style = function(style) {
+          if (App._T.neStr(style) && App._TabBarAppearance.includes(style)) {
+            this._style = style
+          }
+          return this
+        }
+        Object.defineProperty(App.VC.Tab.Bar.Appearance.prototype, App.JsonKeyName, { get () {
+          const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+          const style = App._T.neStr(this._style) && App._TabBarAppearance.includes(this._style) ? this._style : App._TabBarAppearance[0]
+          parent.struct = { style }
+          return parent
+        } })
+   
+      // ======== App.VC.Tab.Bar.Title
+        App.VC.Tab.Bar.Title = function(text = null, ...completion) {
+          if (!(this instanceof App.VC.Tab.Bar.Title)) {
+            return new App.VC.Tab.Bar.Title(text, ...completion)
+          }
+
+          App.call(this, 'App.VC.Tab.Bar.Title', ...completion)
+          this._text = null
+          this.text(text)
+        }
+        App.VC.Tab.Bar.Title.prototype = Object.create(App.prototype)
+        App.VC.Tab.Bar.Title.prototype.text = function(val) {
+          if (App._T.str(val)) {
+            this._text = val
+          }
+          return this
+        }
+        Object.defineProperty(App.VC.Tab.Bar.Title.prototype, App.JsonKeyName, { get () {
+          const parent = Object.getOwnPropertyDescriptor(App.prototype, App.JsonKeyName).get.call(this)
+
+          const text = App._T.str(this._text) ? this._text : null
+
+          parent.struct = {
+            text,
+          }
+          return parent
+        } })
+
   // ======== App.VC.Test
     App.VC.Test = function(text, click = null) {
       if (!(this instanceof App.VC.Test)) {

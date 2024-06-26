@@ -31,6 +31,13 @@ Load.Vue({
           { key: 'W(str).title(str)', text: 'Web(url).title(str)' },
         ]
       },
+      {
+        header: 'Bar Appearance',
+        items: [
+          { key: 'Web(url).BarAppearance(auto)', text: 'Web(url).BarAppearance(auto)' },
+          { key: 'Web(url).BarAppearance(show)', text: 'Web(url).BarAppearance(show)' },
+        ]
+      },
     ],
   },
   mounted () {
@@ -59,8 +66,11 @@ Load.Vue({
       if (task.key == 'W(str).barH(true)')               { closure(App.VC.Nav.Push(web.navBarHidden(true))) }
       if (task.key == 'W(str).barH(false)')              { closure(App.VC.Nav.Push(web.navBarHidden(false))) }
       
-      if (task.key == 'W(str).title(empty str)')         { closure(App.VC.Nav.Push(web.navTitle(''))) }
-      if (task.key == 'W(str).title(str)')               { closure(App.VC.Nav.Push(web.navTitle('str'))) }
+      if (task.key == 'W(str).title(empty str)')         { closure(App.VC.Nav.Push(web.navBarTitle(''))) }
+      if (task.key == 'W(str).title(str)')               { closure(App.VC.Nav.Push(web.navBarTitle('str'))) }
+
+      if (task.key == 'Web(url).BarAppearance(auto)')    { closure(App.VC.Nav.Push(web.navBarAppearance('auto'))) }
+      if (task.key == 'Web(url).BarAppearance(show)')    { closure(App.VC.Nav.Push(web.navBarAppearance('show'))) }
     },
   },
   template: `

@@ -37,6 +37,7 @@ Load.VueComponent('Tool', {
     bridgeOns: []
   }),
   mounted () {
+    setTimeout(_ => this.$el.dispatchEvent(new CustomEvent('scroll')), 1)
     App.Bridge.$.subscribe(_ => this.bridgeOns = App.Bridge.$.struct)
 
     this.func1 = (appParam, jsParam) => {
@@ -75,12 +76,15 @@ Load.VueComponent('Tool', {
         if (this.completionIs.key == 'str')          { App.Bridge.emit(app, 'On_Completion') }
         if (this.completionIs.key == 'str,any')      { App.Bridge.emit(app, 'On_Completion', 'Completion') }
       })
+    },
+    scroll (e) {
+      App.OnScroll(e.target.scrollTop, e.target.clientHeight, e.target.scrollHeight).emit()
     }
   },
   computed: {
   },
   template: `
-    main#app
+    main#app => @scroll=scroll
       #monit
         #info
           slot

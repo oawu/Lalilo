@@ -29,6 +29,8 @@ Load.Vue({
     ],
   },
   mounted () {
+    console.error(1);
+    
     App.VC.Mounted().emit()
   },
   methods: {
@@ -43,15 +45,15 @@ Load.Vue({
 
       // ====================================
 
-      if (task.key == 'B()') { closure(App.VC.Nav.SetBarHidden()) }
-      if (task.key == 'B(false)') { closure(App.VC.Nav.SetBarHidden(false)) }
-      if (task.key == 'B(true)') { closure(App.VC.Nav.SetBarHidden(true)) }
+      if (task.key == 'B()') { closure(App.VC.Nav.Bar.Hidden()) }
+      if (task.key == 'B(false)') { closure(App.VC.Nav.Bar.Hidden(false)) }
+      if (task.key == 'B(true)') { closure(App.VC.Nav.Bar.Hidden(true)) }
       
-      if (task.key == 'B(false, false)') { closure(App.VC.Nav.SetBarHidden(false, false)) }
-      if (task.key == 'B(true, false)') { closure(App.VC.Nav.SetBarHidden(true, false)) }
+      if (task.key == 'B(false, false)') { closure(App.VC.Nav.Bar.Hidden(false, false)) }
+      if (task.key == 'B(true, false)') { closure(App.VC.Nav.Bar.Hidden(true, false)) }
       
-      if (task.key == 'B(false, true)') { closure(App.VC.Nav.SetBarHidden(false, true)) }
-      if (task.key == 'B(true, true)') { closure(App.VC.Nav.SetBarHidden(true, true)) }
+      if (task.key == 'B(false, true)') { closure(App.VC.Nav.Bar.Hidden(false, true)) }
+      if (task.key == 'B(true, true)') { closure(App.VC.Nav.Bar.Hidden(true, true)) }
     },
   },
   template: `

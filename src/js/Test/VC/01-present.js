@@ -25,6 +25,13 @@ Load.Vue({
           { key: 'P(str).isNav(true).isFull(true)', text: 'Present(url).isNav(true).isFull(true)' },
         ]
       },
+      {
+        header: 'Bar Appearance',
+        items: [
+          { key: 'Web(url).BarAppearance(auto)', text: 'Web(url).BarAppearance(auto)' },
+          { key: 'Web(url).BarAppearance(show)', text: 'Web(url).BarAppearance(show)' },
+        ]
+      },
     ],
   },
   mounted () {
@@ -53,6 +60,9 @@ Load.Vue({
       if (task.key == 'P(str).isNav(true)')              { closure(App.VC.Present(web).isNavigation(true)) }
       if (task.key == 'P(str).isFull(true)')             { closure(App.VC.Present(web).isFullScreen(true)) }
       if (task.key == 'P(str).isNav(true).isFull(true)') { closure(App.VC.Present(web).isNavigation(true).isFullScreen(true)) }
+      
+      if (task.key == 'Web(url).BarAppearance(auto)') { closure(App.VC.Present(web.navBarAppearance('auto')).isNavigation(true)) }
+      if (task.key == 'Web(url).BarAppearance(show)') { closure(App.VC.Present(web.navBarAppearance('show')).isNavigation(true)) }
     },
   },
   template: `

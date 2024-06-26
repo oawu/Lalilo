@@ -34,5 +34,5 @@ module.exports = {
     .js('_/Core/App.Emu.js')
 
     .js('_/Component/00-tool.js')
-    .js('Test/10-vcPresent.js')
+    .js('Test/VC/01-present.js')
 }

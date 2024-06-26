@@ -34,5 +34,5 @@ module.exports = {
     .js('_/Core/App.Emu.js')
 
     .js('_/Component/00-tool.js')
-    .js('Test/08-navSetLeft.js')
+    .js('Test/Tab/02-bar.Title.js')
 }

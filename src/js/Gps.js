@@ -5,152 +5,12 @@
  * @link        https://www.ioa.tw/
  */
 
-const Location = function(data) {
-  if (!(this instanceof Location)) {
-    return new Location(data)
-  }
-
-  this.position = null
-  this.altitude = null
-  this.speed = null
-  this.course = null
-
-  this.time = {
-    gps: null,
-    upload: null,
-    server: null,
-  }
-
-  this.status = 'none'
-
-  if (Location._isNum(data.accH) && data.accH > 0) {
-    this.position = {
-      acc: Location._round(data.accH, 1),
-      lat: Location._round(data.lat, 10),
-      lng: Location._round(data.lng, 10),
-    }
-  }
-  if (Location._isNum(data.accV) && data.accV > 0) {
-    this.altitude = {
-      acc: Location._round(data.accV, 1),
-      val: Location._round(data.alt, 2),
-    }
-  }
-
-  if (Location._isNum(data.accS) && data.accS >= 0 && Location._isNum(data.speed) && data.speed >= 0) {
-    this.speed = {
-      acc: Location._round(data.accS, 1),
-      ms: Location._round(data.speed, 2),
-      kmh: Location._round(Location._round(data.speed, 2) * 3.6, 2),
-    }
-  }
-
-  if (Location._isNum(data.accC) && data.accC >= 0 && Location._isNum(data.course) && data.course >= 0) {
-    this.course = {
-      acc: Location._round(data.accC, 1),
-      val: Location._round(data.course, 1) }
-  }
-
-  if (Location._isNum(data.time) && data.time >= 0) {
-    this.time.gps = Location._time(data.time * 1000)
-  }
-}
-
-Location._isNum = v => typeof v == 'number' && !isNaN(v) && v !== Infinity
-Location._round = (val, digital, d4 = '') => Location._isNum(val) ? parseFloat(val.toFixed(digital)) : d4
-Location._time = unixtime => ({ val: unixtime, text: Helper.date('Y/m/d H:i:s', new Date(unixtime)), ago: Location._timeago(unixtime) })
-Location._timeago = e => {
-  const d = (new Date().getTime() - e * 1000) / 1000
-
-  const c = [
-    { b: 10, f: '現在'},
-    { b: 6,  f: '不到 1 分鐘'},
-    { b: 60, f: ' 分鐘前'},
-    { b: 24, f: ' 小時前'},
-    { b: 30, f: ' 天前'},
-    { b: 12, f: ' 個月前'}
-  ]
-
-  let u = 1
-
-  for (let i = 0, t; i < c.length; i++, u = t) {
-    t = c[i].b * u
-    
-    if (d < t) {
-      return `${i > 1 ? parseInt(d / u, 10) : ''}${c[i].f}`
-    }
-  }
-
-  return `${parseInt(d / u, 10)} 年前`
-}
-
-const MapMyLocation = function(latlng, acc = null, map = null) {
-  if (!(this instanceof MapMyLocation)) {
-    return new MapMyLocation(latlng, acc, map)
-  }
-  this._map = null
-  this._acc = null
-  this._timer = null
-
-  this._$icon = $('<div />')
-  this._marker = L.marker(latlng, { icon: L.divIcon({
-    className: 'marker-my-location',
-    iconSize: [16, 16],
-    iconAnchor: [8, 8],
-    html: this._$icon.get(0),
-    zIndexOffset: 999
-  }) })
-
-  this.acc(acc).map(map)
-}
-MapMyLocation.prototype.map = function(map) {
-  if (map) {
-    if (this._map !== map) {
-      this._map = map
-      this._marker.addTo(map)
-    }
-  } else if (this._map) {
-    this._map.removeLayer(this._marker)
-    this._map = null
-  } else {
-    this._map = null
-  }
-  return this.acc()
-}
-MapMyLocation.prototype.latlng = function(latlng) {
-  if (this._marker) {
-    this._marker.setLatLng(latlng)
-  }
-  return this
-}
-MapMyLocation.prototype.acc = function(val = undefined) {
-  if (val === null || (typeof val == 'number' && !isNaN(val) && val !== Infinity)) {
-    this._acc = val
-  }
-
-  clearTimeout(this._timer)
-  this._timer = setTimeout(_ => {
-    if (this._acc === null) {
-      return this._$icon.removeAttr('style')
-    }
-
-    if (!this._map) {
-      return this._$icon.removeAttr('style')
-    }
-
-    const mapHeightInMetres = this._map.getBounds().getSouthEast().distanceTo(this._map.getBounds().getNorthEast()) // 高度多少公尺
-    const mapHeightInPixels = this._map.getSize().y // 高度多少 px
-    this._$icon.attr('style', `--width: ${this._acc * (mapHeightInPixels / mapHeightInMetres)}px;`)
-  }, 100)
-  return this
-}
-
-
 Load.Vue({
   data: {
     queueSave: Queue(),
     queueCount: Queue(),
     queueUpload: Queue(),
+    queueRefresh: Queue(),
     
     count: {
       gps: null,
@@ -158,44 +18,132 @@ Load.Vue({
       fail: null,
     },
 
-    location: {
-      gps: null,
-      upload: null,
-      server: null,
-    },
-    isMounted: false
+    date: null,
+    activity: null,
+    point: null,
   },
   mounted () {
+
+    setTimeout(_ => this.$el.dispatchEvent(new CustomEvent('scroll')), 1)
+
     App.Bridge.on('GPS::location', this._refresh)
 
+    App.emits([
+      App.VC.Nav.Bar.Title("首頁  1"),
+      App.VC.Tab.Bar.Title("首頁  2"),
+    ])
+      
     App.VC.Mounted().emit(_ => {
-      this.isMounted = true
 
-      DB._clear(_ => {
-        this._count()
-        this._upload()
+      this._count()
+      // this._upload()
+
+      this._initDate(date => {
+        this.date = date
       })
+
+      // DB._clear(_ => {
+
+      //   this._count()
+      //   // this._upload()
+
+      //   this._initDate(date => {
+      //     this.date = date
+
+      //     this._createActivity(date, activity => {
+      //       this.activity = activity
+      //     })
+      //   })
+      // })
     })
 
   },
   methods: {
+    // _createActivity(date, closure) {
+    //   if (date === null) {
+    //     return closure(null)
+    //   }
+
+    //   const now    = new Date()
+
+    //   const dateId = date.id
+    //   const hour   = now.getHours()
+    //   const min    = now.getMinutes()
+    //   const sec    = now.getSeconds()
+    //   const time   = { gps: null, upload: null, server: null }
+
+    //   DB.Date.Activity.where('dateId', date.id).first(
+    //     (error, activity) => error
+    //       ? closure(null)
+    //       : DB.Date.Activity.create({ dateId, hour, min, sec, time, cntPoints: 0 },
+    //         (error, activity) => {
+    //           if (error) {
+    //             return closure(null)
+    //           }
+
+    //           date.cntActivities += 1
+    //           date.save(_ => {})
+    //           return closure(activity)
+    //         }))
+    // },
+    _initDate(closure) {
+      const now   = new Date()
+
+      const year  = now.getFullYear()
+      const month = now.getMonth() + 1
+      const day   = now.getDate()
+      
+      DB.Date.where('ymd', [year, month, day]).first(
+        (error, date) => error
+          ? closure(null)
+          : DB.Date.create({ year, month, day, cntActivities: 0 },
+            (error, date) => closure(error
+              ? null
+              : date)))
+    },
+    
     _refresh (locations) {
       if (!locations.length) {
         return
       }
 
-      for (let location of locations) {
-        const _location = Location(location)
-        this.location.gps = _location
-        this.queueSave.enqueue(next => DB.$.Location.create(_location, _ => next(this._count())))
+      for (let _location of locations) {
+        const point = DB.Date.Activity.fromJson(this.date, this.activity, _location)
+
+        if (point === null) {
+          continue
+        }
+
+        this.point = point
+
+        this.queueSave.enqueue(next => DB.Date.Activity.Point.create(point, (error, point) => {
+          if (error) {
+            return next()
+          }
+
+          this.activity.time.gps = point.time
+          this.activity.cntPoints += 1
+
+          this.activity.save(_ => {})
+
+          this._count()
+          next()
+        }))
       }
     },
-    _count (next) {
+    _count () {
       this.queueCount.enqueue(next => {
+        if (!(this.activity instanceof DB.Date.Activity)) {
+          this.count.gps = 0
+          this.count.done = 0
+          this.count.fail = 0
+          return next()
+        }
+
         Promise.all([
-          DB.$.Location.index('Status', 'none').count(),
-          DB.$.Location.index('Status', 'done').count(),
-          DB.$.Location.index('Status', 'fail').count(),
+          DB.Date.Activity.Point.where('activityId_status', [this.activity.id, 'none']).count(),
+          DB.Date.Activity.Point.where('activityId_status', [this.activity.id, 'done']).count(),
+          DB.Date.Activity.Point.where('activityId_status', [this.activity.id, 'fail']).count(),
         ])
         .then(([none, done, fail]) => {
           this.count.gps = none
@@ -206,57 +154,93 @@ Load.Vue({
       })
     },
     _upload () {
-      this.queueUpload.enqueue(next => DB.$.Location.index('Status', 'none').first((error, location) => {
-        if (error) {
-          return console.error(error)
-        }
-
-        if (!(typeof location == 'object' && location !== null && !Array.isArray(location))) {
+      this.queueUpload.enqueue(next => {
+        const _done = _ => {
           next()
           return setTimeout(this._upload, 100)
         }
 
-        location.val.time.upload = Location._time(Date.now())
-        this.location.upload = location.val
+        if (!(this.activity instanceof DB.Date.Activity)) {
+          return _done()
+        }
 
-        const timer = Math.random() * 5
 
-        setTimeout(_ => { // upload
-          const done = Math.random() < 0.5
+        DB.Date.Activity.Point.where('activityId_status', [this.activity.id, 'none']).first((error, point) => {
+          if (error) {
+            return _done()
+          }
 
-          location.val.status = done ? 'done' : 'fail'
-          location.val.time.server = Location._time(Date.now() + 2000)
-          this.location.server = location.val
+          if (!(point instanceof DB.Date.Activity.Point)) {
+            return _done()
+          }
 
-          DB.$.Location.update(location.key, location.val, (error, location) => {
+          this.activity.time.upload = Date.now()
+
+          this.activity.save((error, activity) => {
             if (error) {
-              return 
+              return _done()
             }
 
-            this._count()
-            next()
-            return setTimeout(this._upload, 100)
+            if (!(activity instanceof DB.Date.Activity)) {
+              return _done()
+            }
+
+            this.activity = activity
+
+            const timer = Math.random() * 5
+            console.error(timer);
+
+            setTimeout(_ => { // upload
+              const done = Math.random() < 0.5
+
+              point.status = done ? 'done' : 'fail'
+              this.activity.time.server = Date.now()
+
+              Promise.all([
+                this.activity.save(),
+                point.save(),
+              ])
+              .finally(_ => {
+                this._count()
+                _done()
+              })
+
+            }, timer)
           })
-        }, timer)
-      }))
+        })
+      })
     },
+
+    scroll (e) {
+      App.OnScroll(e.target.scrollTop, e.target.clientHeight, e.target.scrollHeight).emit()
+    },
+    updateActivity (activity) {
+      this.activity = activity
+      
+      if (activity === null) {
+        this.point = null
+      }
+
+      this._count()
+    }
   },
   template: `
-    main#app => *if=isMounted
+    main#app => @scroll=scroll
       .groups
         
-        Ctrl
-        Position => :location=location.gps
-        Speed    => :location=location.gps
-        Alt      => :location=location.gps
+        Ctrl     => :date=date   @activity=updateActivity
+        Position => :location=point
+        Speed    => :location=point
+        Alt      => :location=point
         Count    => :count=count
-        Timelog  => :location=location
-        Map      => :location=location.gps
+        Timelog  => :activity=activity
+        Map      => :location=point
       `
 })
 
 Load.VueComponent('Ctrl', {
   props: {
+    date: { type: DB.Date, required: true, default: null }
   },
   data: _ => ({
     status: null,
@@ -275,23 +259,59 @@ Load.VueComponent('Ctrl', {
     start () {
       App.Alert(null, '你確定要啟動？')
         .button('取消')
-        .button('確定', App.HUD.Show.Loading('開啟中，請稍後…').completion(
-          _ => setTimeout(
-            _ => App.GPS.Start(result => result && App.HUD.Show.Done('已開啟').completion(App.HUD.Hide(400)).emit()).emit(), 500))).emit()
+        .button('確定', App.HUD.Show.Loading('開啟中，請稍後…').completion(_ => this._createActivity(this.date, activity => {
+            this.$emit('activity', activity)
+
+            activity === null
+              ? App.HUD.Show.Fail('無法建立活動').completion(App.HUD.Hide(400)).emit()
+              : App.GPS.Start(result => result && App.HUD.Show.Done('已開啟').completion(App.HUD.Hide(400)).emit()).emit()
+          }))).emit()
     },
     stop () {
       App.Alert(null, '你確定要停止？')
         .button('取消')
-        .button('確定', App.HUD.Show.Loading('關閉中，請稍後…').completion(
-          _ => setTimeout(
-            _ => App.GPS.Stop(result => result && App.HUD.Show.Done('已關閉').completion(App.HUD.Hide(400)).emit()).emit(), 500))).emit()
+        .button('確定', App.HUD.Show.Loading('關閉中，請稍後…').completion(_ => {
+            this.$emit('activity', null)
+
+          setTimeout(
+            _ => App.GPS.Stop(result => result && App.HUD.Show.Done('已關閉').completion(App.HUD.Hide(400)).emit()).emit(), 500)
+
+        })).emit()
     },
     determine () {
       App.GPS.Require.Always().emit()
     },
+
+    _createActivity(date, closure) {
+      if (date === null) {
+        return closure(null)
+      }
+
+      const now    = new Date()
+
+      const dateId = date.id
+      const hour   = now.getHours()
+      const min    = now.getMinutes()
+      const sec    = now.getSeconds()
+      const time   = { gps: null, upload: null, server: null }
+
+      DB.Date.Activity.where('dateId', date.id).first(
+        (error, activity) => error
+          ? closure(null)
+          : DB.Date.Activity.create({ dateId, hour, min, sec, time, cntPoints: 0 },
+            (error, activity) => {
+              if (error) {
+                return closure(null)
+              }
+
+              date.cntActivities += 1
+              date.save(_ => {})
+              return closure(activity)
+            }))
+    },
   },
   template: `
-    .group
+    .group => *if=date
       .items._clear
         .ctrl.bg => *if=status=='notDetermined'
           b => *text='請同意定位'
@@ -452,13 +472,45 @@ Load.VueComponent('Count', {
 })
 Load.VueComponent('Timelog', {
   props: {
-    location: { type: Object, required: true, default: null }
+    activity: { type: Object, required: true, default: null }
   },
   data: _ => ({
   }),
   mounted () {
   },
   methods: {
+    date (unixtime) {
+      return Helper.date('Y/m/d H:i:s', new Date(unixtime))
+    },
+    timeago (unixtime) {
+      const d = (new Date().getTime() - unixtime) / 1000
+
+      const c = [
+        { b: 10, f: '現在'},
+        { b: 6,  f: '不到 1 分鐘'},
+        { b: 60, f: ' 分鐘前'},
+        { b: 24, f: ' 小時前'},
+        { b: 30, f: ' 天前'},
+        { b: 12, f: ' 個月前'}
+      ]
+
+      let u = 1
+
+      for (let i = 0, t; i < c.length; i++, u = t) {
+        t = c[i].b * u
+        
+        if (d < t) {
+          return `${i > 1 ? parseInt(d / u, 10) : ''}${c[i].f}`
+        }
+      }
+
+      return `${parseInt(d / u, 10)} 年前`
+    }
+  },
+  computed: {
+    time () {
+      return this.activity && this.activity.time ? this.activity.time : null
+    }
   },
   template: `
     .group
@@ -469,7 +521,7 @@ Load.VueComponent('Timelog', {
             .info
               .key
                 b => *text='GPS 擷取時間'
-                span => *if=location && location.gps && location.gps.time && location.gps.time.gps   *text=location.gps.time.gps.text   :after=location.gps.time.gps.ago
+                span => *if=time && time.gps   *text=date(time.gps)   :after=timeago(time.gps)
                 span => *else
 
         .item.log
@@ -477,7 +529,7 @@ Load.VueComponent('Timelog', {
             .info
               .key
                 b => *text='最新上傳時間'
-                span => *if=location && location.upload && location.upload.time && location.upload.time.upload   *text=location.upload.time.upload.text   :after=location.upload.time.upload.ago
+                span => *if=time && time.upload   *text=date(time.upload)   :after=timeago(time.upload)
                 span => *else
 
         .item.log
@@ -485,7 +537,7 @@ Load.VueComponent('Timelog', {
             .info
               .key
                 b => *text='伺服器回應時間'
-                span => *if=location && location.server && location.server.time && location.server.time.upload   *text=location.server.time.upload.text   :after=location.server.time.upload.ago
+                span => *if=time && time.server   *text=date(time.server)   :after=timeago(time.server)
                 span => *else
   `
 })
@@ -495,7 +547,7 @@ Load.VueComponent('Map', {
   },
   data: _ => ({
     map: null,
-    d4View: { latlng: [23.5678056, 120.3046447], zoom: 15 },
+    d4View: { latlng: [25.0475759, 121.5177779], zoom: 15 },
     myLocation: null,
     observer: null,
     position: null,
@@ -571,3 +623,66 @@ Load.VueComponent('Map', {
             label.sub => @click=zoom(-1)
   `
 })
+
+
+
+const MapMyLocation = function(latlng, acc = null, map = null) {
+  if (!(this instanceof MapMyLocation)) {
+    return new MapMyLocation(latlng, acc, map)
+  }
+  this._map = null
+  this._acc = null
+  this._timer = null
+
+  this._$icon = $('<div />')
+  this._marker = L.marker(latlng, { icon: L.divIcon({
+    className: 'marker-my-location',
+    iconSize: [16, 16],
+    iconAnchor: [8, 8],
+    html: this._$icon.get(0),
+    zIndexOffset: 999
+  }) })
+
+  this.acc(acc).map(map)
+}
+MapMyLocation.prototype.map = function(map) {
+  if (map) {
+    if (this._map !== map) {
+      this._map = map
+      this._marker.addTo(map)
+    }
+  } else if (this._map) {
+    this._map.removeLayer(this._marker)
+    this._map = null
+  } else {
+    this._map = null
+  }
+  return this.acc()
+}
+MapMyLocation.prototype.latlng = function(latlng) {
+  if (this._marker) {
+    this._marker.setLatLng(latlng)
+  }
+  return this
+}
+MapMyLocation.prototype.acc = function(val = undefined) {
+  if (val === null || (typeof val == 'number' && !isNaN(val) && val !== Infinity)) {
+    this._acc = val
+  }
+
+  clearTimeout(this._timer)
+  this._timer = setTimeout(_ => {
+    if (this._acc === null) {
+      return this._$icon.removeAttr('style')
+    }
+
+    if (!this._map) {
+      return this._$icon.removeAttr('style')
+    }
+
+    const mapHeightInMetres = this._map.getBounds().getSouthEast().distanceTo(this._map.getBounds().getNorthEast()) // 高度多少公尺
+    const mapHeightInPixels = this._map.getSize().y // 高度多少 px
+    this._$icon.attr('style', `--width: ${this._acc * (mapHeightInPixels / mapHeightInMetres)}px;`)
+  }, 100)
+  return this
+}

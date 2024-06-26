@@ -14,15 +14,12 @@ module.exports = {
   baseUrl: Config.baseUrl,
 
   asset: _ => Asset()
-    .css('https://unpkg.com/leaflet@1.9.2/dist/leaflet.css')
-    
     .css('icon/icon.css')
     .css('_/Core/Core.css')
     .css('_/Core/Alert.css')
     .css('_/Core/Toastr.css')
-    .css('Test/15-gps-2.css')
+    .css('_/Component/00-tool.css')
 
-    .js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
     .js('_/Core/vue-2.7.16.min.js', false)
     .js('_/Core/jquery-1.12.4.min.js', false)
 
@@ -32,10 +29,10 @@ module.exports = {
     .js('_/Core/Helper.js')
     .js('_/Core/Alert.js')
     .js('_/Core/Toastr.js')
-    .js('_/Core/Queue.js')
     
     .js('_/Core/App.js')
     .js('_/Core/App.Emu.js')
 
-    .js('Test/15-gps-2.js')
+    .js('_/Component/00-tool.js')
+    .js('Test/Tab/01-bar.Appearance.js')
 }

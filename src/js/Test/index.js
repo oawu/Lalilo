@@ -26,7 +26,6 @@ Load.Vue({
         items: [
           { title: 'Action',  subtitle: '回應測試', href: `${window.baseUrl}Test/01-action.html` },
           { title: 'Alert',   subtitle: '彈窗測試', href: `${window.baseUrl}Test/02-alert.html` },
-          { title: 'Close', subtitle: 'ViewController Close', href: `${window.baseUrl}Test/03-vcClose.html` },
 
         ] 
       },
@@ -34,20 +33,30 @@ Load.Vue({
         header: 'Nav 系列',
         footer: '',
         items: [
-          { title: 'Push',         subtitle: 'NavigationController Push', href: `${window.baseUrl}Test/04-navPush.html` },
-          { title: 'Pop',          subtitle: 'NavigationController Pop', href: `${window.baseUrl}Test/05-navPop.html` },
-          { title: 'SetBarHidden', subtitle: '更新 Navigation Bar 是否隱藏', href: `${window.baseUrl}Test/06-navSetBarHidden.html` },
-          { title: 'SetTitle',     subtitle: '更新 Navigation title', href: `${window.baseUrl}Test/07-navSetTitle.html` },
-          { title: 'SetLeft',      subtitle: '更新 Navigation 左上按鈕', href: `${window.baseUrl}Test/08-navSetLeft.html` },
-          { title: 'SetRight',     subtitle: '更新 Navigation 右上按鈕', href: `${window.baseUrl}Test/09-navSetRight.html` },
+          { title: 'Push',                 subtitle: 'NavigationController Push', href: `${window.baseUrl}Test/Nav/01-push.html` },
+          { title: 'Pop',                  subtitle: 'NavigationController Pop', href: `${window.baseUrl}Test/Nav/02-pop.html` },
+          { title: 'Bar.Hidden',           subtitle: '更新 Navigation Bar 是否隱藏', href: `${window.baseUrl}Test/Nav/03-bar.Hidden.html` },
+          { title: 'Bar.Appearance',       subtitle: '更新 Navigation Bar 樣式', href: `${window.baseUrl}Test/Nav/04-bar.Appearance.html` },
+          { title: 'Bar.Title',            subtitle: '更新 Navigation title', href: `${window.baseUrl}Test/Nav/05-bar.Title.html` },
+          { title: 'Bar.Button.Left',      subtitle: '更新 Navigation 左上按鈕', href: `${window.baseUrl}Test/Nav/06-bar.Button.Left.html` },
+          { title: 'Bar.Button.Right',     subtitle: '更新 Navigation 右上按鈕', href: `${window.baseUrl}Test/Nav/07-bar.Button.Right.html` },
+        ] 
+      },
+      {
+        header: 'Tab 系列',
+        footer: '',
+        items: [
+          { title: 'Bar.Appearance',       subtitle: '更新 Tab Bar 樣式', href: `${window.baseUrl}Test/Tab/01-bar.Appearance.html` },
+          { title: 'Bar.Title',            subtitle: '更新 Tab title', href: `${window.baseUrl}Test/Tab/02-bar.Title.html` },
         ] 
       },
       {
         header: 'VC 系列',
         footer: '',
         items: [
-          { title: 'Present', subtitle: 'ViewController Present', href: `${window.baseUrl}Test/10-vcPresent.html` },
-          { title: 'Dismiss', subtitle: 'ViewController Dismiss', href: `${window.baseUrl}Test/11-vcDismiss.html` }
+          { title: 'Present', subtitle: 'ViewController Present', href: `${window.baseUrl}Test/VC/01-present.html` },
+          { title: 'Dismiss', subtitle: 'ViewController Dismiss', href: `${window.baseUrl}Test/VC/02-dismiss.html` },
+          { title: 'Close', subtitle: 'ViewController Close', href: `${window.baseUrl}Test/VC/03-close.html` },
         ] 
       },
     ]
@@ -63,9 +72,12 @@ Load.Vue({
   //   App.Bridge.on('vc:viewDidLayoutSubviews', _ => console.error('vc:viewDidLayoutSubviews'); )
   //   App.Bridge.on('vc:webViewDidFinish', _ => console.error('vc:webViewDidFinish'); )
 
+    setTimeout(_ => this.$el.dispatchEvent(new CustomEvent('scroll')), 1)
+
     App.Bridge.emits([
-      App.VC.Nav.SetTitle("首頁"),
-      App.VC.Nav.SetRight("關閉", App.VC.Close()),
+      App.VC.Nav.Bar.Title("首頁  1"),
+      App.VC.Tab.Bar.Title("首頁  2"),
+      App.VC.Nav.Bar.Button.Right("關閉", App.VC.Close()),
     ], App.VC.Mounted())
   },
   computed: {
@@ -73,24 +85,26 @@ Load.Vue({
   methods: {
     click (item) {
       if (window.Bridge.type === 'Web') {
-        window.location.assign(item.href)
-        return
+        return window.location.assign(item.href)
       }
       
-      const web = App.VC.View.Web(item.href).navTitle(item.title)
+      const web = App.VC.View.Web(item.href).navBarTitle(item.title)
 
       if (item.title == 'NavPop') {
         web.navBarHidden(true)
-      } else if (item.title == 'NavSetBarHidden') {
+      } else if (item.title == 'Bar.Hidden') {
         web.navBarHidden(true)
       } else {
       }
 
       App.VC.Nav.Push(web).emit()
     },
+    scroll (e) {
+      App.OnScroll(e.target.scrollTop, e.target.clientHeight, e.target.scrollHeight).emit()
+    }
   },
   template: `
-    main#app
+    main#app => @scroll=scroll
       .groups
         .group => *for=(group, i) in groups   :key='groups_' + i
           .header => *if=typeof group.header == 'string' && group.header !== ''   *text=group.header

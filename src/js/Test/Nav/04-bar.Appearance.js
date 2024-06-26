@@ -11,14 +11,15 @@ Load.Vue({
       {
         header: '',
         items: [
-          { key: 'T()',   text: 'Title()' },
-          { key: 'T("")', text: 'Title("")' },
-          { key: 'T("str")', text: 'Title("str")' },
+          { key: 'A(auto)', text: 'Appearance(auto)' },
+          { key: 'A(show)', text: 'Appearance(show)' },
         ]
       },
     ],
   },
   mounted () {
+    console.error(1);
+    
     App.VC.Mounted().emit()
   },
   methods: {
@@ -33,9 +34,8 @@ Load.Vue({
 
       // ====================================
 
-      if (task.key == 'T()') { closure(App.VC.Nav.SetTitle()) }
-      if (task.key == 'T("")') { closure(App.VC.Nav.SetTitle("")) }
-      if (task.key == 'T("str")') { closure(App.VC.Nav.SetTitle("str")) }
+      if (task.key == 'A(auto)') { closure(App.VC.Nav.Bar.Appearance('auto')) }
+      if (task.key == 'A(show)') { closure(App.VC.Nav.Bar.Appearance('show')) }
     },
   },
   template: `

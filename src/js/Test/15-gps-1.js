@@ -250,7 +250,7 @@ Load.Vue({
     })
 
     App.Bridge.emits([
-      App.VC.Nav.SetRight('範例應用', App.VC.Nav.Push(App.VC.View.Web(`${window.baseUrl}Test/15-gps-2.html`).navTitle('範例應用'))),
+      App.VC.Nav.Bar.Button.Right('範例應用', App.VC.Nav.Push(App.VC.View.Web(`${window.baseUrl}Test/15-gps-2.html`).navBarTitle('範例應用'))),
       App.GPS.Refresh.Status(),
       App.GPS.Refresh.isRunning(),
     ], App.VC.Mounted())

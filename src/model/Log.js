@@ -18,7 +18,8 @@ module.exports = {
     .css('_/Core/Core.css')
     .css('_/Core/Alert.css')
     .css('_/Core/Toastr.css')
-    .css('_/Component/00-tool.css')
+
+    .css('Log.css')
 
     .js('_/Core/vue-2.7.16.min.js', false)
     .js('_/Core/jquery-1.12.4.min.js', false)
@@ -33,6 +34,5 @@ module.exports = {
     .js('_/Core/App.js')
     .js('_/Core/App.Emu.js')
 
-    .js('_/Component/00-tool.js')
-    .js('Test/03-vcClose.js')
+    .js('Log.js')
 }

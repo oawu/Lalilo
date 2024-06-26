@@ -23,6 +23,7 @@
     if (params.type == 'App.Action.Emit') { return App.Emu.Action.Emit(params.struct, params.completion, params.done, data) }
     
     if (params.type == 'App.Feedback') { return App.Emu.Feedback(params.struct, params.completion, params.done) }
+    if (params.type == 'App.OnScroll') { return App.Emu.OnScroll(params.struct, params.completion, params.done) }
     
     if (params.type == 'App.Alert') { return App.Emu.Alert(params.struct, params.completion, params.done) }
 
@@ -41,11 +42,15 @@
 
     if (params.type == 'App.VC.Nav.Push') { return App.Emu.VC.Nav.Push(params.struct, params.completion, params.done) }
     if (params.type == 'App.VC.Nav.Pop') { return App.Emu.VC.Nav.Pop(params.struct, params.completion, params.done) }
-    if (params.type == 'App.VC.Nav.SetBarHidden') { return App.Emu.VC.Nav.SetBarHidden(params.struct, params.completion, params.done) }
-    if (params.type == 'App.VC.Nav.SetTitle') { return App.Emu.VC.Nav.SetTitle(params.struct, params.completion, params.done) }
-    if (params.type == 'App.VC.Nav.SetLeft') { return App.Emu.VC.Nav.SetLeft(params.struct, params.completion, params.done) }
-    if (params.type == 'App.VC.Nav.SetRight') { return App.Emu.VC.Nav.SetRight(params.struct, params.completion, params.done) }
-    
+    if (params.type == 'App.VC.Nav.Bar.Hidden') { return App.Emu.VC.Nav.Bar.Hidden(params.struct, params.completion, params.done) }
+    if (params.type == 'App.VC.Nav.Bar.Appearance') { return App.Emu.VC.Nav.Bar.Appearance(params.struct, params.completion, params.done) }
+    if (params.type == 'App.VC.Nav.Bar.Title') { return App.Emu.VC.Nav.Bar.Title(params.struct, params.completion, params.done) }
+    if (params.type == 'App.VC.Nav.Bar.Button.Left') { return App.Emu.VC.Nav.Bar.Button.Left(params.struct, params.completion, params.done) }
+    if (params.type == 'App.VC.Nav.Bar.Button.Right') { return App.Emu.VC.Nav.Bar.Button.Right(params.struct, params.completion, params.done) }
+
+    if (params.type == 'App.VC.Tab.Bar.Appearance') { return App.Emu.VC.Tab.Bar.Appearance(params.struct, params.completion, params.done) }
+    if (params.type == 'App.VC.Tab.Bar.Title') { return App.Emu.VC.Tab.Bar.Title(params.struct, params.completion, params.done) }
+
     if (params.type == 'App.GPS.Start') { return App.Emu.GPS.Start(params.struct, params.completion, params.done) }
     if (params.type == 'App.GPS.Stop') { return App.Emu.GPS.Stop(params.struct, params.completion, params.done) }
     
@@ -167,6 +172,37 @@
         title: __title,
         items: [
           `Style："${_style}"`,
+          `Completion：${_completion}`,
+        ]
+      })
+
+      App._T.obj(done) && App.Emu(done)
+    }
+
+  // ======== App.Emu.OnScroll
+    App.Emu.OnScroll = function(struct, completion, done) {
+      const __title = `App.Emu.OnScroll`
+
+      if (!App._T.obj(struct)) {
+        return console.error(`🔴 ${__title} 格式錯誤，不是物件格式`)
+      }
+
+      const _scrollTop = struct.scrollTop
+      const _clientHeight = struct.clientHeight
+      const _scrollHeight = struct.scrollHeight
+
+      if (!App._T.num(_scrollTop) || !App._T.num(_clientHeight) || !App._T.num(_scrollHeight)) {
+        return console.error(`🔴 ${__title} 格式錯誤，Offset 錯誤`)
+      }
+
+      const _completion = App.Emu._ActionStr(completion)
+
+      Toastr.success({
+        title: __title,
+        items: [
+          `ScrollTop：${_scrollTop}`,
+          `ClientHeight：${_clientHeight}`,
+          `ScrollHeight：${_scrollHeight}`,
           `Completion：${_completion}`,
         ]
       })
@@ -402,8 +438,6 @@
 
   // ======== App.Emu.VC
     App.Emu.VC = function() {}
-
-    
     // ======== App.Emu.VC.Present
       App.Emu.VC.Present = function(struct, completion, done) {
         const _title = `App.Emu.VC.Present`
@@ -418,20 +452,23 @@
         }
 
         const _isAnimated   = App._T.bool(struct.isAnimated) ? struct.isAnimated : true
-        // const _isNavigation = App._T.bool(struct.isNavigation) ? struct.isNavigation : false
         const _isFullScreen = App._T.bool(struct.isFullScreen) ? struct.isFullScreen : false
         const _completion   = App.Emu._ActionStr(completion)
-
-        // if (_isNavigation && !) {
-        //   return console.error(`🔴 ${_title} nav 格式錯誤，不是物件格式`)
-        // }
         
         const _nav = App._T.obj(struct.nav) ? `{ ${[
           `barHidden: ${App._T.bool(struct.nav.barHidden) && struct.nav.barHidden ? 'true' : 'false'}`,
-          `title: "${App._T.str(struct.nav.title) ? struct.nav.title : ''}"`,
-          `left: { text: "${App._T.obj(struct.nav.left) && App._T.str(struct.nav.left.text) ? struct.nav.left.text : ''}", click: ${App.Emu._ActionStr(struct.nav.left.click)} }`,
-          `right: { text: "${App._T.obj(struct.nav.right) && App._T.str(struct.nav.right.text) ? struct.nav.right.text : ''}", click: ${App.Emu._ActionStr(struct.nav.right.click)} }`,
+          `barAppearance: "${App._T.neStr(struct.nav.barAppearance) && App._NavBarAppearance.includes(struct.nav.barAppearance) ? struct.nav.barAppearance : App._NavBarAppearance[0]}"`,
+          `barTitle: "${App._T.str(struct.nav.barTitle) ? struct.nav.barTitle : ''}"`,
+          `barLeft: { text: "${App._T.obj(struct.nav.barLeft) && App._T.str(struct.nav.barLeft.text) ? struct.nav.barLeft.text : ''}", click: ${App.Emu._ActionStr(struct.nav.barLeft.click)} }`,
+          `barRight: { text: "${App._T.obj(struct.nav.barRight) && App._T.str(struct.nav.barRight.text) ? struct.nav.barRight.text : ''}", click: ${App.Emu._ActionStr(struct.nav.barRight.click)} }`,
         ].join(', ')} }` : 'null'
+
+
+        const _tab = `{ ${[
+          `barAppearance: "${App._T.neStr(struct.tab.barAppearance) && App._TabBarAppearance.includes(struct.tab.barAppearance) ? struct.tab.barAppearance : App._TabBarAppearance[0]}"`,
+          `barTitle: ${App._T.str(struct.tab.barTitle) ? `"${struct.tab.barTitle}"` : 'null'}`,
+        ].join(', ')} }`
+
 
         if (_type == 'webView') {
           const _url = App._T.url(struct.url) ? struct.url : null
@@ -446,8 +483,8 @@
               `View：WebView`,
               `Url：${_url}`,
               `Nav：${_nav}`,
+              `Tab：${_tab}`,
               `isAnimated：${_isAnimated ? 'true' : 'false'}`,
-              // `isNavigation：${_isNavigation ? 'true' : 'false'}`,
               `isFullScreenl：${_isFullScreen ? 'true' : 'false'}`,
               `Completion：${_completion}`,
             ]
@@ -537,12 +574,20 @@
           }
 
           const _isAnimated = App._T.bool(struct.isAnimated) ? struct.isAnimated : true
+          
           const _nav = `{ ${[
             `barHidden: ${App._T.bool(struct.nav.barHidden) && struct.nav.barHidden ? 'true' : 'false'}`,
-            `title: "${App._T.str(struct.nav.title) ? struct.nav.title : ''}"`,
-            `left: { text: "${App._T.obj(struct.nav.left) && App._T.str(struct.nav.left.text) ? struct.nav.left.text : ''}", click: ${App.Emu._ActionStr(struct.nav.left.click)} }`,
-            `right: { text: "${App._T.obj(struct.nav.right) && App._T.str(struct.nav.right.text) ? struct.nav.right.text : ''}", click: ${App.Emu._ActionStr(struct.nav.right.click)} }`,
+            `barAppearance: "${App._T.neStr(struct.nav.barAppearance) && App._NavBarAppearance.includes(struct.nav.barAppearance) ? struct.nav.barAppearance : App._NavBarAppearance[0]}"`,
+            `barTitle: "${App._T.str(struct.nav.barTitle) ? struct.nav.barTitle : ''}"`,
+            `barLeft: { text: "${App._T.obj(struct.nav.barLeft) && App._T.str(struct.nav.barLeft.text) ? struct.nav.barLeft.text : ''}", click: ${App.Emu._ActionStr(struct.nav.barLeft.click)} }`,
+            `barRight: { text: "${App._T.obj(struct.nav.barRight) && App._T.str(struct.nav.barRight.text) ? struct.nav.barRight.text : ''}", click: ${App.Emu._ActionStr(struct.nav.barRight.click)} }`,
           ].join(', ')} }`
+
+          const _tab = `{ ${[
+            `barAppearance: "${App._T.neStr(struct.tab.barAppearance) && App._TabBarAppearance.includes(struct.tab.barAppearance) ? struct.tab.barAppearance : App._TabBarAppearance[0]}"`,
+            `barTitle: ${App._T.str(struct.tab.barTitle) ? `"${struct.tab.barTitle}"` : 'null'}`,
+          ].join(', ')} }`
+
           const _completion = App.Emu._ActionStr(completion)
 
           if (_type == 'webView') {
@@ -558,6 +603,7 @@
                 `View：WebView`,
                 `Url：${_url}`,
                 `Nav：${_nav}`,
+                `Tab：${_tab}`,
                 `isAnimated：${_isAnimated ? 'true' : 'false'}`,
                 `Completion：${_completion}`,
               ]
@@ -568,6 +614,7 @@
 
           return console.error(`🔴 ${_title} 格式錯誤，沒有符合的 Type，Type：${struct.type}`)
         }
+
       // ======== App.Emu.VC.Nav.Pop
         App.Emu.VC.Nav.Pop = function(struct, completion, done) {
           const _title = `App.Emu.VC.Nav.Pop`
@@ -587,94 +634,172 @@
           })
           return App._T.obj(done) && App.Emu(done)
         }
-      // ======== App.Emu.VC.Nav.SetBarHidden
-        App.Emu.VC.Nav.SetBarHidden = function(struct, completion, done) {
-          const _title = `App.Emu.VC.Nav.SetBarHidden`
-          if (!App._T.obj(struct)) {
-            return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+
+      // ======== App.Emu.VC.Nav.Bar
+        App.Emu.VC.Nav.Bar = function() {}
+        // ======== App.Emu.VC.Nav.Bar.Hidden
+          App.Emu.VC.Nav.Bar.Hidden = function(struct, completion, done) {
+            const _title = `App.Emu.VC.Nav.Bar.Hidden`
+            if (!App._T.obj(struct)) {
+              return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+            }
+
+            const _isHidden   = App._T.bool(struct.isHidden) ? struct.isHidden : true
+            const _isAnimated = App._T.bool(struct.isAnimated) ? struct.isAnimated : true
+            const _completion = App.Emu._ActionStr(completion)
+
+            Toastr.success({
+              title: _title,
+              items: [
+                `isHidden：${_isHidden ? 'true' : 'false'}`,
+                `isAnimated：${_isAnimated ? 'true' : 'false'}`,
+                `Completion：${_completion}`,
+              ]
+            })
+            App._T.obj(done) && App.Emu(done)
+            return 
           }
+        
+        // ======== App.Emu.VC.Nav.Bar.Appearance
+          App.Emu.VC.Nav.Bar.Appearance = function(struct, completion, done) {
+            const _title = `App.Emu.VC.Nav.Bar.Appearance`
+            if (!App._T.obj(struct)) {
+              return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+            }
 
-          const _isHidden   = App._T.bool(struct.isHidden) ? struct.isHidden : true
-          const _isAnimated = App._T.bool(struct.isAnimated) ? struct.isAnimated : true
-          const _completion = App.Emu._ActionStr(completion)
-
-          Toastr.success({
-            title: _title,
-            items: [
-              `isHidden：${_isHidden ? 'true' : 'false'}`,
-              `isAnimated：${_isAnimated ? 'true' : 'false'}`,
-              `Completion：${_completion}`,
-            ]
-          })
-          App._T.obj(done) && App.Emu(done)
-          return 
-        }
-      // ======== App.Emu.VC.Nav.SetTitle
-        App.Emu.VC.Nav.SetTitle = function(struct, completion, done) {
-          const _title = `App.Emu.VC.Nav.SetTitle`
-          if (!App._T.obj(struct)) {
-            return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+            const _style = App._T.neStr(struct.style)&& App._NavBarAppearance.includes(struct.style) ? struct.style : true
+            const _completion = App.Emu._ActionStr(completion)
+ 
+            Toastr.success({
+              title: _title,
+              items: [
+                `Style：${_style}`,
+                `Completion：${_completion}`,
+              ]
+            })
+            App._T.obj(done) && App.Emu(done)
+            return 
           }
-          
-          const _text       = App._T.str(struct.text) ? struct.text : ''
-          const _completion = App.Emu._ActionStr(completion)
+        
+        // ======== App.Emu.VC.Nav.Bar.Title
+          App.Emu.VC.Nav.Bar.Title = function(struct, completion, done) {
+            const _title = `App.Emu.VC.Nav.Bar.Title`
+            if (!App._T.obj(struct)) {
+              return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+            }
+            
+            const _text       = App._T.str(struct.text) ? struct.text : ''
+            const _completion = App.Emu._ActionStr(completion)
 
-          Toastr.success({
-            title: _title,
-            items: [
-              `Text："${_text}"`,
-              `Completion：${_completion}`,
-            ]
-          })
-          
-          return App._T.obj(done) && App.Emu(done)
-        }
-      // ======== App.Emu.VC.Nav.SetLeft
-        App.Emu.VC.Nav.SetLeft = function(struct, completion, done) {
-          const _title = `App.Emu.VC.Nav.SetLeft`
-
-          if (!App._T.obj(struct)) {
-            return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+            Toastr.success({
+              title: _title,
+              items: [
+                `Text："${_text}"`,
+                `Completion：${_completion}`,
+              ]
+            })
+            
+            return App._T.obj(done) && App.Emu(done)
           }
+        
+        // ======== App.Emu.VC.Nav.Bar.Button
+          App.Emu.VC.Nav.Bar.Button = function(){}
 
-          const _text       = App._T.str(struct.text) ? struct.text : ''
-          const _click      = App.Emu._ActionStr(struct.click)
-          const _completion = App.Emu._ActionStr(completion)
+          // ======== App.Emu.VC.Nav.Bar.Button.Left
+            App.Emu.VC.Nav.Bar.Button.Left = function(struct, completion, done) {
+              const _title = `App.Emu.VC.Nav.Bar.Button.Left`
 
-          Toastr.success({
-            title: _title,
-            items: [
-              `Text："${_text}"`,
-              `Click：${_click}`,
-              `Completion：${_completion}`,
-            ]
-          })
+              if (!App._T.obj(struct)) {
+                return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+              }
 
-          return App._T.obj(done) && App.Emu(done)
-        }
-      // ======== App.Emu.VC.Nav.SetRight
-        App.Emu.VC.Nav.SetRight = function(struct, completion, done) {
-          const _title = `App.Emu.VC.Nav.SetRight`
-          
-          if (!App._T.obj(struct)) {
-            return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+              const _text       = App._T.str(struct.text) ? struct.text : ''
+              const _click      = App.Emu._ActionStr(struct.click)
+              const _completion = App.Emu._ActionStr(completion)
+
+              Toastr.success({
+                title: _title,
+                items: [
+                  `Text："${_text}"`,
+                  `Click：${_click}`,
+                  `Completion：${_completion}`,
+                ]
+              })
+
+              return App._T.obj(done) && App.Emu(done)
+            }
+
+          // ======== App.Emu.VC.Nav.Bar.Button.Right
+            App.Emu.VC.Nav.Bar.Button.Right = function(struct, completion, done) {
+              const _title = `App.Emu.VC.Nav.Bar.Button.Right`
+              
+              if (!App._T.obj(struct)) {
+                return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+              }
+
+              const _text       = App._T.str(struct.text) ? struct.text : ''
+              const _click      = App.Emu._ActionStr(struct.click)
+              const _completion = App.Emu._ActionStr(completion)
+
+              Toastr.success({
+                title: _title,
+                items: [
+                  `Text："${_text}"`,
+                  `Click：${_click}`,
+                  `Completion：${_completion}`,
+                ]
+              })
+              
+              return App._T.obj(done) && App.Emu(done)
+            }
+
+    // ======== App.Emu.VC.Tab
+      App.Emu.VC.Tab = function() {}
+
+      // ======== App.Emu.VC.Tab.Bar
+        App.Emu.VC.Tab.Bar = function() {}
+        // ======== App.Emu.VC.Tab.Bar.Appearance
+          App.Emu.VC.Tab.Bar.Appearance = function(struct, completion, done) {
+            const _title = `App.Emu.VC.Tab.Bar.Appearance`
+            if (!App._T.obj(struct)) {
+              return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+            }
+
+            const _style = App._T.neStr(struct.style)&& App._TabBarAppearance.includes(struct.style) ? struct.style : true
+            const _completion = App.Emu._ActionStr(completion)
+ 
+            Toastr.success({
+              title: _title,
+              items: [
+                `Style：${_style}`,
+                `Completion：${_completion}`,
+              ]
+            })
+            App._T.obj(done) && App.Emu(done)
+            return 
           }
+        
+        // ======== App.Emu.VC.Tab.Bar.Title
+          App.Emu.VC.Tab.Bar.Title = function(struct, completion, done) {
+            const _title = `App.Emu.VC.Tab.Bar.Title`
+            if (!App._T.obj(struct)) {
+              return console.error(`🔴 ${_title} 格式錯誤，不是物件格式`)
+            }
+            
+            const _text       = App._T.str(struct.text) ? struct.text : null
+            const _completion = App.Emu._ActionStr(completion)
 
-          const _text       = App._T.str(struct.text) ? struct.text : ''
-          const _click      = App.Emu._ActionStr(struct.click)
-          const _completion = App.Emu._ActionStr(completion)
-
-          Toastr.success({
-            title: _title,
-            items: [
-              `Text："${_text}"`,
-              `Click：${_click}`,
-              `Completion：${_completion}`,
-            ]
-          })
-          
-          return App._T.obj(done) && App.Emu(done)
-        }
+            Toastr.success({
+              title: _title,
+              items: [
+                `Text：${_text === null ? 'null' : `"${_text}"`}`,
+                `Completion：${_completion}`,
+              ]
+            })
+            
+            return App._T.obj(done) && App.Emu(done)
+          }
+        
 
   // ======== App.Emu.GPS
     App.Emu.GPS = function() {}
