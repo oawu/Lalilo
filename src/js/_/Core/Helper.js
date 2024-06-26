@@ -17,28 +17,27 @@ const Helper = {
     }
     return w.reverse().join('')
   },
+  pad0: (t, n = 2, c = '0') => {
+    t = '' + t
+    c = '' + c
+    n = '' + Math.pow(10, n - 1)
+    if (t.length > n.length) {
+      return t
+    }
+    n = n.length - t.length
+    return c.repeat(n) + t
+  },
   date: (format = 'Y-m-d H:i:s', now = new Date()) => {
     if (format instanceof Date) {
       now = format
       format = typeof now == 'string' ? now : 'Y-m-d H:i:s'
     }
 
-    const pad0 = (t, n = 2, c = '0') => {
-      t = '' + t
-      c = '' + c
-      n = '' + Math.pow(10, n - 1)
-      if (t.length > n.length) {
-        return t
-      }
-      n = n.length - t.length
-      return c.repeat(n) + t
-    }
-
     now = now instanceof Date
       ? now
       : new Date(now * 1000)
 
-    return format.replace('Y', now.getFullYear()).replace('m', pad0(now.getMonth() + 1)).replace('d', pad0(now.getDate())).replace('H', pad0(now.getHours())).replace('i', pad0(now.getMinutes())).replace('s', pad0(now.getSeconds()))
+    return format.replace('Y', now.getFullYear()).replace('m', Helper.pad0(now.getMonth() + 1)).replace('d', Helper.pad0(now.getDate())).replace('H', Helper.pad0(now.getHours())).replace('i', Helper.pad0(now.getMinutes())).replace('s', Helper.pad0(now.getSeconds()))
   },
   copyStr: (text, done, fail) => {
     let error = null
