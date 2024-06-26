@@ -169,11 +169,13 @@ const path1or2Exists = (path1, path2, closure) => FileSystem.exists(`${path1}`, 
     : closure(null)))
 
 const main = 'index'
-
+const getFileExtension = path => {
+  const idx = path.lastIndexOf('.')
+  return idx !== -1 && idx !== path.length - 1 ? path.substring(idx + 1) : ''
+}
 module.exports = function(request, response) {
   const pathname  = URL.parse(request.url).pathname.replace(/\/+/gm, '/').replace(/\/$|^\//gm, '')
-  const extension = pathname === '' ? null : Mime.getExtension(Mime.getType(pathname))
-  
+  const extension = getFileExtension(pathname)
   const dirs = pathname.split('/').filter(t => t !== '')
 
   // http://127.0.0.1/
@@ -192,7 +194,7 @@ module.exports = function(request, response) {
   }
 
   // http://127.0.0.1/a/b
-  if (extension === null) {
+  if (extension === '') {
     return path1or2Exists(
       HtmlModelPath(
         `${Config.Source.dir.html}${dirs.join(Path.sep)}.html`,
