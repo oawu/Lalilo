@@ -30,9 +30,12 @@ module.exports = {
     .js('_/Core/Helper.js')
     .js('_/Core/Alert.js')
     .js('_/Core/Toastr.js')
+    .js('_/Core/DB.js')
     
     .js('_/Core/App.js')
     .js('_/Core/App.Emu.js')
+
+    .js('_/DB/Date.js')
 
     .js('Log.js')
 }

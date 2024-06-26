@@ -42,7 +42,7 @@ Load.Vue({
         this.date = date
       })
 
-      // DB._clear(_ => {
+      // // DB._clear(_ => {
 
       //   this._count()
       //   // this._upload()
@@ -54,8 +54,11 @@ Load.Vue({
       //       this.activity = activity
       //     })
       //   })
-      // })
+      // // })
     })
+
+
+    setTimeout(_ => (new ResizeObserver((entries) => entries[0].target == this.$el && this.$el.dispatchEvent(new CustomEvent('scroll')))).observe(this.$el))
 
   },
   methods: {
@@ -96,10 +99,13 @@ Load.Vue({
       DB.Date.where('ymd', [year, month, day]).first(
         (error, date) => error
           ? closure(null)
-          : DB.Date.create({ year, month, day, cntActivities: 0 },
+          : (
+            date instanceof DB.Date
+            ? closure(date)
+            : DB.Date.create({ year, month, day, cntActivities: 0 },
             (error, date) => closure(error
               ? null
-              : date)))
+              : date))))
     },
     
     _refresh (locations) {

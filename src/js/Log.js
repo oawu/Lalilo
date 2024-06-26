@@ -8,83 +8,76 @@
 Load.Vue({
   data: {
 
-    groups: null
+    oriGroups: null
   },
   mounted () {
-    setTimeout(_ => this.$el.dispatchEvent(new CustomEvent('scroll')), 1)
-
-
     App.emits([
       App.VC.Nav.Bar.Title("首頁  1"),
       App.VC.Tab.Bar.Title("首頁  2"),
     ])
-    App.VC.Mounted().emit(_ => {
+    
+    App.VC.Mounted().emit()
+
+    setTimeout(_ => (new ResizeObserver((entries) => entries[0].target == this.$el && this.$el.dispatchEvent(new CustomEvent('scroll')))).observe(this.$el))
+
+    // setTimeout(_ => {
+
+
+    //   // this.groups = [
+    //   // {
+    //   //   header: '其他',
+    //   //   footer: '',
+    //   //   items: [
+    //   //     { title: '控制前頁', subtitle: 'Emit 上一個頁面 func', href: `${window.baseUrl}Test/12-emitPrev-1.html` },
+    //   //     { title: 'HUD', subtitle: '抬頭顯示器', href: `${window.baseUrl}Test/13-hud.html` },
+    //   //     { title: 'Youtube Player', subtitle: 'Youtube 播放器', href: `${window.baseUrl}Test/14-youtubePlayer.html` },
+    //   //     { title: 'GPS', subtitle: '定位功能', href: `${window.baseUrl}Test/15-gps-1.html` },
+    //   //     { title: 'Feedback', subtitle: '觸感回應', href: `${window.baseUrl}Test/16-feedback.html` },
+    //   //   ] 
+    //   // },]
+      
+    // }, 2000)
+    DB.Date.all((error, dates) => {
+      if (error) {
+        return
+      }
+
+      this.oriGroups = dates.reverse().map(date => {
+        const group = {
+          header: `${date.year}/${date.month}/${date.day}`,
+          items: []
+        }
+
+        DB.Date.Activity.where('dateId', date.id).all((error, activities) => {
+          if (error) {
+            return
+          }
+
+          group.items = activities.reverse().map(activity => {
+            return {
+              title: `${date.year}.${date.month}.${date.day} ${activity.hour}:${activity.min}:${activity.sec}`
+            }
+          })
+        })
+
+        return group
+      })
       
     })
-    // App.emits([
-    //   App.VC.Nav.Bar.Title("首頁  1"),
-    //   App.VC.Tab.Bar.Title("首頁  2"),
-    // ], App.VC.Mounted())
 
-    // setTimeout(_ => this.groups = [
-    //   {
-    //     header: '其他',
-    //     footer: '',
-    //     items: [
-    //       { title: '控制前頁', subtitle: 'Emit 上一個頁面 func', href: `${window.baseUrl}Test/12-emitPrev-1.html` },
-    //       { title: 'HUD', subtitle: '抬頭顯示器', href: `${window.baseUrl}Test/13-hud.html` },
-    //       { title: 'Youtube Player', subtitle: 'Youtube 播放器', href: `${window.baseUrl}Test/14-youtubePlayer.html` },
-    //       { title: 'GPS', subtitle: '定位功能', href: `${window.baseUrl}Test/15-gps-1.html` },
-    //       { title: 'Feedback', subtitle: '觸感回應', href: `${window.baseUrl}Test/16-feedback.html` },
-    //     ] 
-    //   },
-    //   {
-    //     header: '基本測試',
-    //     footer: '',
-    //     items: [
-    //       { title: 'Action',  subtitle: '回應測試', href: `${window.baseUrl}Test/01-action.html` },
-    //       { title: 'Alert',   subtitle: '彈窗測試', href: `${window.baseUrl}Test/02-alert.html` },
-
-    //     ] 
-    //   },
-    //   {
-    //     header: 'Nav 系列',
-    //     footer: '',
-    //     items: [
-    //       { title: 'Push',                 subtitle: 'NavigationController Push', href: `${window.baseUrl}Test/Nav/01-push.html` },
-    //       { title: 'Pop',                  subtitle: 'NavigationController Pop', href: `${window.baseUrl}Test/Nav/02-pop.html` },
-    //       { title: 'Bar.Hidden',           subtitle: '更新 Navigation Bar 是否隱藏', href: `${window.baseUrl}Test/Nav/03-bar.Hidden.html` },
-    //       { title: 'Bar.Appearance',       subtitle: '更新 Navigation Bar 樣式', href: `${window.baseUrl}Test/Nav/04-bar.Appearance.html` },
-    //       { title: 'Bar.Title',            subtitle: '更新 Navigation title', href: `${window.baseUrl}Test/Nav/05-bar.Title.html` },
-    //       { title: 'Bar.Button.Left',      subtitle: '更新 Navigation 左上按鈕', href: `${window.baseUrl}Test/Nav/06-bar.Button.Left.html` },
-    //       { title: 'Bar.Button.Right',     subtitle: '更新 Navigation 右上按鈕', href: `${window.baseUrl}Test/Nav/07-bar.Button.Right.html` },
-    //     ] 
-    //   },
-    //   {
-    //     header: 'Tab 系列',
-    //     footer: '',
-    //     items: [
-    //       { title: 'Bar.Appearance',       subtitle: '更新 Tab Bar 樣式', href: `${window.baseUrl}Test/Tab/01-bar.Appearance.html` },
-    //       { title: 'Bar.Title',            subtitle: '更新 Tab title', href: `${window.baseUrl}Test/Tab/02-bar.Title.html` },
-    //     ] 
-    //   },
-    //   {
-    //     header: 'VC 系列',
-    //     footer: '',
-    //     items: [
-    //       { title: 'Present', subtitle: 'ViewController Present', href: `${window.baseUrl}Test/VC/01-present.html` },
-    //       { title: 'Dismiss', subtitle: 'ViewController Dismiss', href: `${window.baseUrl}Test/VC/02-dismiss.html` },
-    //       { title: 'Close', subtitle: 'ViewController Close', href: `${window.baseUrl}Test/VC/03-close.html` },
-    //     ] 
-    //   },], 1000)
   },
-  computed: {
+  watch: {
   },
   methods: {
     click (item) {
     },
     scroll (e) {
       App.OnScroll(e.target.scrollTop, e.target.clientHeight, e.target.scrollHeight).emit()
+    },
+  },
+  computed: {
+    groups () {
+      return this.oriGroups === null ? null : this.oriGroups.filter(group => group.items.length)
     }
   },
   template: `

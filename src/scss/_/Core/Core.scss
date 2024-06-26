@@ -55,6 +55,7 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
+  
   margin: 0;
   padding: 0;
   
@@ -64,13 +65,16 @@ html, body {
   justify-content: flex-start;
   
   overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
 }
 #app {
   position: fixed;
   left: 0;
   top: 0;
   right: 0;
-  bottom: 0;
+  // bottom: 0;
   z-index: 1;
 
   display: inline-flex;
@@ -84,9 +88,9 @@ html, body {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 
   width: 100vw;
-  height: 100vh;
+  max-height: 100vh;
+  // border: 1px solid rgba(255, 0, 0, .3);
 
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  background-color: var(--ui-color-iOS-systemGroupedBackground);
 }

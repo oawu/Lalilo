@@ -72,13 +72,13 @@ Load.Vue({
   //   App.Bridge.on('vc:viewDidLayoutSubviews', _ => console.error('vc:viewDidLayoutSubviews'); )
   //   App.Bridge.on('vc:webViewDidFinish', _ => console.error('vc:webViewDidFinish'); )
 
-    setTimeout(_ => this.$el.dispatchEvent(new CustomEvent('scroll')), 1)
-
     App.Bridge.emits([
       App.VC.Nav.Bar.Title("首頁  1"),
       App.VC.Tab.Bar.Title("首頁  2"),
       App.VC.Nav.Bar.Button.Right("關閉", App.VC.Close()),
     ], App.VC.Mounted())
+
+    setTimeout(_ => (new ResizeObserver((entries) => entries[0].target == this.$el && this.$el.dispatchEvent(new CustomEvent('scroll')))).observe(this.$el))
   },
   computed: {
   },
