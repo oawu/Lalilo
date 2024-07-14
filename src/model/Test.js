@@ -21,9 +21,7 @@ module.exports = {
     .css('_/Core/Alert.css')
     .css('_/Core/Toastr.css')
     .css('_/Component/TableViewGroups.css')
-    
     .css('Test.css')
-
 
     .js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
     .js('_/Core/vue-2.7.16.min.js', false)

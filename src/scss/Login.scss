@@ -1,0 +1,297 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "_/_Lib";
+@import "Lalilo";
+
+#app {
+  bottom: 0;
+  height: 100vh;
+  
+  
+}
+#login {
+  position: fixed;
+  left: calc(env(safe-area-inset-left, 0px) + (100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)) / 2);
+  top: calc(env(safe-area-inset-top, 0px) + (100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) / 2);
+  
+  @include transform(translate(-50%, -50%));
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  min-width: 320px;
+
+  @include range-height(0, 500px) {
+    flex-direction: row;
+    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  };
+  @include range-height(500px) {
+    flex-direction: column;
+    // max-width: 600px;
+    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+
+  }
+}
+.input {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 0, 0, .3);
+  
+  width: 100%;
+
+  span, i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  i {
+    z-index: 3;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 0, 0, .3);
+    text-align: center;
+  }
+  span {
+    z-index: 1;
+    border: 1px solid rgba(255, 0, 0, .3);
+    
+  }
+  span, input {
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    @include border-radius(32px / 2);
+  }
+
+  input {
+    position: relative;
+    z-index: 2;
+
+    display: inline-block;
+
+    padding-left: 32px + 8px;
+    padding-right: 8px;
+    border: 0;
+    background-color: transparent;
+
+    @include appearance(none);
+
+    @include input-placeholder {
+      font-size: small;
+      color: rgba(60, 60, 67, 0.6);
+    }
+
+    &:focus {
+      outline: 0;
+      + span {
+        border-color: var(--ui-color-macOS-selectedControlColor);
+      }
+    }
+
+
+
+  }
+}
+#intro {
+  position: fixed;
+  left: calc(env(safe-area-inset-left, 0px) + (100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)) / 2);
+  top: calc(env(safe-area-inset-top, 0px) + (100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) / 2);
+  
+  @include transform(translate(-50%, -50%));
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  min-width: 320px;
+
+  @include range-height(0, 500px) {
+    flex-direction: row;
+    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  };
+  @include range-height(500px) {
+    flex-direction: column;
+    // max-width: 600px;
+    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+
+  }
+}
+#cover {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  flex-shrink: 0;
+  
+  aspect-ratio: 1;
+  
+  figure {
+    @extend %-cover;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    margin: 0;
+    padding: 0;
+
+    aspect-ratio: 1;
+    width: 100%;
+  }
+  @include range-height(0, 500px) {
+    height: 210px;
+  }
+  @include range-height(500px) {
+    height: 160px;
+  }
+}
+#version {
+  position: absolute;
+
+  left: 50%;
+  bottom: env(safe-area-inset-bottom, 0px);
+  @include transform(translateX(-50%));
+  font-size: small;
+  color: var(--ui-color-iOS-secondaryLabel);
+  @extend %-select-none;
+}
+
+#hello {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  flex-grow: 1;
+  .title {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    font-size: xx-large;
+    color: var(--ui-color-iOS-label);
+    @extend %-select-none;
+  }
+  .descs {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 12px;
+    
+    .desc {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      font-size: small;
+      
+      text-align: center;
+      color: var(--ui-color-iOS-secondaryLabel);
+      @extend %-select-none;
+    }
+  }
+  .buttons {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    width: 100%;
+    max-width: 200px;
+    margin-top: 24px;
+
+    .login {
+      @extend %-select-none;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 44px;
+      line-height: 44px;
+      @include border-radius(math.div(44px, 2));
+      color: white;
+      cursor: pointer;
+      background-color: rgba(78, 110, 129, 1.00);
+    }
+
+    .regest {
+      @extend %-select-none;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 44px;
+      line-height: 44px;
+      cursor: pointer;
+      margin-top: 24px;
+      
+      
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+      color: rgba(78, 110, 129, 1.00);
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        border: 2px solid rgba(78, 110, 129, 1.00);
+        @include border-radius(math.div(44px, 2));
+      }
+    }
+
+    .offline {
+      @extend %-select-none;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      
+      width: 100%;
+      
+      font-size: small;
+      color: var(--ui-color-iOS-link);
+      margin-top: 24px;
+      cursor: pointer;
+    }
+  }
+
+  @include range-height(0, 500px) {
+    width: 400px;
+  }
+  @include range-height(500px) {
+    width: 320px;
+    margin-top: 64px;
+  }
+}

@@ -21,7 +21,6 @@ module.exports = {
     .css('_/Core/Alert.css')
     .css('_/Core/Toastr.css')
     .css('_/Component/TableViewGroups.css')
-
     .css('Log.css')
 
     .js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')

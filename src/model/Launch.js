@@ -15,13 +15,13 @@ module.exports = {
 
   asset: _ => Asset()
     .css('https://unpkg.com/leaflet@1.9.2/dist/leaflet.css')
-
+    
     .css('icon/icon.css')
     .css('_/Core/Core.css')
     .css('_/Core/Alert.css')
     .css('_/Core/Toastr.css')
     .css('_/Component/TableViewGroups.css')
-    .css('LogDetail.css')
+    .css('Launch.css')
 
     .js('https://unpkg.com/leaflet@1.9.2/dist/leaflet.js')
     .js('_/Core/vue-2.7.16.min.js', false)
@@ -33,13 +33,13 @@ module.exports = {
     .js('_/Core/Helper.js')
     .js('_/Core/Alert.js')
     .js('_/Core/Toastr.js')
-    .js('_/Core/Param.js')
     .js('_/Core/Queue.js')
     
     .js('_/Core/App.js')
     .js('_/Core/App.Emu.js')
-    
+
+    .js('_/Lib/MapMyLocation.js')
     .js('_/Lib/PointTool.js')
 
-    .js('LogDetail.js')
+    .js('Launch.js')
 }
