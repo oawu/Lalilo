@@ -13,157 +13,971 @@
   bottom: 0;
   height: 100vh;
   
-  
 }
-#login {
+#panels {
   position: fixed;
   left: calc(env(safe-area-inset-left, 0px) + (100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)) / 2);
   top: calc(env(safe-area-inset-top, 0px) + (100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) / 2);
-  
   @include transform(translate(-50%, -50%));
 
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
 
   min-width: 320px;
 
   @include range-height(0, 500px) {
     flex-direction: row;
+    justify-content: center;
+
     max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
-  };
-  @include range-height(500px) {
-    flex-direction: column;
-    // max-width: 600px;
-    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    width: 100%;
+    height: calc(100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 44px);
+    overflow: auto;
 
   }
+  @include range-height(500px) {
+    flex-direction: column;
+    justify-content: flex-start;
+
+    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    max-height: calc(100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    min-height: 75vh;
+  }
 }
-.input {
+
+// #login {
+//   @include range-height(500px) {
+//     --top-offset: -10%;
+//   }
+//   .form {
+//     @include range-height(0, 500px) {
+//       padding-left: 80px;
+
+//     }
+//   }
+// }
+
+#panels {
+  &._login {
+    .cover {
+      @include range-height(500px) {
+        figure {
+          height: 15vh;
+        }
+      }
+    }
+  }
+  &._register {
+    .cover {
+      @include range-height(500px) {
+        figure {
+          height: 15vh;
+        }
+      }
+    }
+  }
+}
+
+.cover {
+  figure {
+    @extend %-cover;
+    margin: 0;
+    padding: 0;
+    aspect-ratio: 1;
+    @include transition(height .3s, width .3s);
+  }
+
+  @include range-height(0, 500px) {
+    figure {
+      height: 40vh;
+    }
+    + .form {
+      margin-left: 64px;
+    }
+  }
+  @include range-height(500px) {
+    figure {
+      height: 20vh;
+    }
+
+    + .form {
+      margin-top: 64px;
+    }
+  }
+}
+
+.panel-intro, .panel-login, .panel-register {
   display: inline-flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  
-  position: relative;
-  z-index: 1;
-  border: 1px solid rgba(255, 0, 0, .3);
-  
   width: 100%;
+  // overflow: auto;
+}
 
-  span, i {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    
+.panel-intro {
+  @include range-height(0, 500px) {
+    align-items: flex-start;
+  }
+  @include range-height(500px) {
+    align-items: center;
+  }
+}
+
+.form {
+  
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  @extend %-select-none;
+
+  .title {
+    flex-shrink: 0;
+    @extend %-select-none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: xx-large;
+    color: var(--ui-color-iOS-label);
+    @include overflow-docx3();
+    + .descs {
+      margin-top: 12px;
+    }
+  }
+  .descs {
+    flex-shrink: 0;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-  }
-  i {
-    z-index: 3;
-    width: 32px;
-    height: 32px;
-    border: 1px solid rgba(255, 0, 0, .3);
-    text-align: center;
-  }
-  span {
-    z-index: 1;
-    border: 1px solid rgba(255, 0, 0, .3);
-    
-  }
-  span, input {
     width: 100%;
-    height: 32px;
-    line-height: 32px;
-    @include border-radius(32px / 2);
-  }
 
-  input {
-    position: relative;
-    z-index: 2;
-
-    display: inline-block;
-
-    padding-left: 32px + 8px;
-    padding-right: 8px;
-    border: 0;
-    background-color: transparent;
-
-    @include appearance(none);
-
-    @include input-placeholder {
+    .desc {
+      display: inline-block;
+      width: 100%;
       font-size: small;
-      color: rgba(60, 60, 67, 0.6);
+      text-align: center;
+      color: var(--ui-color-iOS-secondaryLabel);
+      @extend %-select-none;
     }
 
-    &:focus {
-      outline: 0;
-      + span {
-        border-color: var(--ui-color-macOS-selectedControlColor);
+    + .buttons {
+      margin-top: 24px;
+    }
+
+    + .inputs {
+      margin-top: 24px;
+    }
+  }
+
+  %-button {
+    @extend %-select-none;
+    display: inline-block;
+    
+    height: var(--height);
+    line-height: var(--height);
+    cursor: pointer;
+    text-align: center;
+    @include border-radius(calc(var(--height) / 2));
+    @include overflow-docx3();
+
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -2;
+      border: 2px solid var(--color);
+      @include border-radius(calc(var(--height) / 2));
+    }
+
+    &._full {
+      color: white;
+      background-color: var(--color);
+    }
+    &:not(._full) {
+      
+      color: var(--color);
+      background-color: transparent;
+
+      &:before {
+        content: '';
+      }
+    }
+  }
+
+  .buttons {
+    @extend %-select-none;
+
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    
+    width: 100%;
+    max-width: 85%;
+
+    --height: 48px;
+    --color: rgba(78, 110, 129, 1.00);
+
+    .login, .register {
+      @extend %-button;
+      width: 100%;
+
+      + %-button {
+        margin-top: 16px;
+      }
+    }
+
+    .register {
+      + .offline {
+        margin-top: 16px;
+      }
+    }
+
+    .offline {
+      @extend %-select-none;
+      display: inline-block;
+      text-align: center;
+      
+      width: 100%;
+      @include overflow-docx3();
+      
+      font-size: small;
+      color: var(--ui-color-iOS-link);
+      cursor: pointer;
+    }
+  }
+  .inputs {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    // max-width: 85%;
+    position: relative;
+
+    @extend %-select-none;
+
+    + .inputs {
+      margin-top: 24px;
+    }
+    + .errors {
+      margin-top: 24px;
+    }
+    + .ctrl {
+      margin-top: 44px;
+    }
+    + .forget {
+      margin-top: 8px;
+    }
+  }
+
+  .input {
+    --z-index: 1;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    
+    position: relative;
+    z-index: 1;
+    &._focus {
+      z-index: 2;
+      .eye {
+        display: inline-block;
+      }
+    }
+    
+    width: 100%;
+
+    --height: 48px;
+
+    &:first-child {
+      > i {
+        @include border-top-left-radius(calc(var(--height) / 4));
+      }
+      span, input {
+        @include border-top-radius(calc(var(--height) / 4));
+      }
+    }
+    &:last-child {
+      > i {
+        @include border-bottom-left-radius(calc(var(--height) / 4));
+      }
+      span, input {
+        @include border-bottom-radius(calc(var(--height) / 4));
+      }
+    }
+
+    + .input {
+      margin-top: -1px;
+    }
+
+    span, > i {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    > i {
+      z-index: 3;
+      width: var(--height);
+      height: var(--height);
+      text-align: center;
+      &:before {
+        position: absolute;
+        top: 50%;
+        left: calc(50% + 2px);
+        @include transform(translate(-50%, -50%));
+        color: var(--ui-color-iOS-tertiaryLabel);
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        display: inline-block;
+        width: 1px;
+        border-right: 1px solid var(--ui-color-iOS-tertiaryLabel);
+        height: 50%;
+        @include transform(translateY(-50%));
+      }
+    }
+    span {
+      z-index: 1;
+      background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+      border: 1px solid var(--ui-color-iOS-secondarySystemFill);
+      @include box-shadow(none);
+      @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+    }
+    span, input {
+      width: 100%;
+      height: var(--height);
+      line-height: var(--height);
+    }
+    input {
+      position: relative;
+      z-index: 2;
+
+      display: inline-block;
+
+      padding-left: calc(var(--height) * 1 + 8px);
+      padding-right: 8px;
+      border: 0;
+      font-size: medium;
+      background-color: transparent;
+
+
+      @include appearance(none);
+
+      @include input-placeholder {
+        font-size: small;
+        color: rgba(60, 60, 67, 0.6);
+      }
+
+      &:focus {
+        outline: 0;
+        + span {
+          border-color: var(--ui-color-iOS-link);
+          @include box-shadow(0 0 0 3px var(--ui-color-macOS-keyboardFocusIndicatorColor));
+        }
+      }
+    }
+
+    .eye, .result, .loading {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      z-index: 3;
+      display: inline-block;
+      width: var(--height);
+      height: var(--height);
+      @extend %-select-none;
+      @include transform(translate(0, -50%));
+      + input {
+        padding-right: var(--height);
+      }
+    }
+    .eye {
+      cursor: pointer;
+      font-size: 24px;
+      color: var(--ui-color-iOS-link);
+      display: none;
+
+
+      &:before {
+        @extend %-icon;
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+
+        display: inline-block;
+        @include transform(translate(-50%, -50%));
+      }
+      &._on {
+        &:before {
+          content: "\e904";
+        }
+      }
+      &:not(._on) {
+        &:before {
+          content: "\e905";
+        }
+      }
+    }
+    .result {
+      &._done {
+        &:before {
+          content: '';
+          position: absolute;
+          left: 50%;
+          top: calc(50% - 2px);
+          display: inline-block;
+          width: 18px;
+          height: 10px;
+          border-bottom: 3px solid var(--ui-color-iOS-systemGreen);
+          border-left: 3px solid var(--ui-color-iOS-systemGreen);
+          @include transform(translate(-50%, -50%) rotate(-45deg));
+        }
+      }
+      &._fail {
+        &:before, &:after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: inline-block;
+          width: 40%;
+          height: 3px;
+          @include border-radius(2px);
+          background-color: var(--ui-color-iOS-systemRed);
+          @include transform(translate(-50%, -50%) rotate(-45deg));
+        }
+        &:after {
+          @include transform(translate(-50%, -50%) rotate(45deg));
+        }
+        
       }
     }
 
 
+    .loading {
+      --loading-color-0: var(--ui-color-iOS-label);
+      --loading-color-1: var(--ui-color-iOS-secondarySystemFill);
+      --loading-color-2: var(--ui-color-iOS-systemGray);
 
+      i {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+
+        display: inline-block;
+        width: 2px;
+        height: 6px;
+
+        background-color: var(--loading-color-1);
+
+        @include border-radius(math.div(2px, 2));
+        @include transform(translate(-50%, -50%));
+        
+      }
+      @for $cnt from 1 through 12 {
+        &[c='#{$cnt}'] {
+          i {
+            $deg: math.div(360deg, $cnt);
+            $r: 8px;
+            @for $i from 0 through $cnt - 1 {
+              &.__i#{$i} {
+                @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
+                @include animation-delay($i * .075s);
+              }
+            }
+            @include animation(loading-rotate $cnt * .075s linear infinite);
+          }
+        }
+      }
+    }
   }
-}
-#intro {
-  position: fixed;
-  left: calc(env(safe-area-inset-left, 0px) + (100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)) / 2);
-  top: calc(env(safe-area-inset-top, 0px) + (100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) / 2);
-  
-  @include transform(translate(-50%, -50%));
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-
-  min-width: 320px;
-
-  @include range-height(0, 500px) {
+  .forget {
+    display: inline-flex;
     flex-direction: row;
-    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
-  };
-  @include range-height(500px) {
-    flex-direction: column;
-    // max-width: 600px;
-    max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
 
+    label {
+      display: inline-block;
+      max-width: 100%;
+      font-size: small;
+
+      cursor: pointer;
+      color: var(--ui-color-iOS-link);
+      @extend %-select-none;
+    }
+
+
+    + .errors {
+      margin-top: 24px;
+    }
+    + .ctrl {
+      margin-top: 44px;
+    }
   }
-}
-#cover {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  flex-shrink: 0;
-  
-  aspect-ratio: 1;
-  
-  figure {
-    @extend %-cover;
+
+  .errors {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    
-    margin: 0;
-    padding: 0;
-
-    aspect-ratio: 1;
     width: 100%;
+    
+    
+    background-color: var(--ui-color-iOS-systemRed);
+    @include border-radius(12px);
+    padding: 4px;
+    @extend %-select-none;
+
+    .error {
+      display: inline-block;
+      width: 100%;
+      padding: 1px 8px;
+      color: white;
+      text-align: left;
+      @include word-break(break-all);
+      @extend %-select-none;
+    }
+
+    + .ctrl {
+      margin-top: 24px;
+    }
   }
+
+  .ctrl {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    justify-content: space-between;
+    // max-width: 85%;
+    width: 100%;
+
+    --height: 44px;
+    --color: rgba(78, 110, 129, 1.00);
+
+    .back, .submit {
+      @extend %-button;
+      width: calc(50% - 16px / 2);
+
+    }
+    .submit {
+      &._vaild {
+        cursor: pointer;
+      }
+      &:not(._vaild) {
+        cursor: not-allowed;
+        @include opacity(.5);
+      }
+    }
+  }
+
   @include range-height(0, 500px) {
-    height: 210px;
+    width: 300px;
+    max-height: 100%;
+    
+    .title {
+      text-align: left;
+      font-size: x-large;
+      + .descs {
+        margin-top: 8px;
+      }
+    }
+    .descs {
+      .desc {
+        text-align: left;
+      }
+    }
+    .buttons {
+    }
   }
   @include range-height(500px) {
-    height: 160px;
+    width: 100%;
+    .buttons {
+    }
   }
 }
+
+
+
+// .cover {
+//   display: inline-flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+  
+//   flex-shrink: 0;
+  
+//   aspect-ratio: 1;
+  
+//   figure {
+//     @extend %-cover;
+//     display: inline-flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: flex-start;
+    
+//     margin: 0;
+//     padding: 0;
+
+//     aspect-ratio: 1;
+//     width: 100%;
+//   }
+//   @include range-height(0, 500px) {
+//     height: 210px;
+//   }
+//   @include range-height(500px) {
+//     height: 160px;
+//   }
+// }
+
+// .form {
+//   display: inline-flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: flex-start;
+  
+//   flex-grow: 1;
+//   .title {
+//     display: inline-flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+//     width: 100%;
+//     text-align: center;
+//     font-size: xx-large;
+//     color: var(--ui-color-iOS-label);
+//     @extend %-select-none;
+//   }
+//   .descs {
+//     display: inline-flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: flex-start;
+//     width: 100%;
+//     margin-top: 12px;
+    
+//     .desc {
+//       display: inline-flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: center;
+
+//       width: 100%;
+//       font-size: small;
+      
+//       text-align: center;
+//       color: var(--ui-color-iOS-secondaryLabel);
+//       @extend %-select-none;
+//     }
+//   }
+//   .buttons {
+//     display: inline-flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: flex-start;
+    
+//     width: 100%;
+//     max-width: 200px;
+//     margin-top: 24px;
+
+//     .login {
+//       @extend %-select-none;
+//       display: inline-flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: center;
+//       width: 100%;
+//       height: 44px;
+//       line-height: 44px;
+//       @include border-radius(math.div(44px, 2));
+//       color: white;
+//       cursor: pointer;
+//       background-color: rgba(78, 110, 129, 1.00);
+//     }
+
+//     .regest {
+//       @extend %-select-none;
+//       display: inline-flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: center;
+//       width: 100%;
+//       height: 44px;
+//       line-height: 44px;
+//       cursor: pointer;
+//       margin-top: 24px;
+      
+      
+//       position: relative;
+//       z-index: 2;
+//       overflow: hidden;
+//       color: rgba(78, 110, 129, 1.00);
+
+//       &:before {
+//         content: '';
+//         position: absolute;
+//         left: 0;
+//         top: 0;
+//         right: 0;
+//         bottom: 0;
+//         z-index: -1;
+//         border: 2px solid rgba(78, 110, 129, 1.00);
+//         @include border-radius(math.div(44px, 2));
+//       }
+//     }
+
+//     .offline {
+//       @extend %-select-none;
+//       display: inline-flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: center;
+      
+//       width: 100%;
+      
+//       font-size: small;
+//       color: var(--ui-color-iOS-link);
+//       margin-top: 24px;
+//       cursor: pointer;
+//     }
+//   }
+
+//   .inputs {
+//     display: inline-flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: flex-start;
+//     width: 100%;
+//     margin-top: 24px;
+//     position: relative;
+//       @extend %-select-none;
+//   }
+//   .input {
+//     --z-index: 1;
+//     display: inline-flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: flex-start;
+    
+//     position: relative;
+//     z-index: var(--z-index);
+    
+//     width: 100%;
+
+//     --height: 44px;
+
+//     &:first-child {
+//       i {
+//         @include border-top-left-radius(calc(var(--height) / 2));
+//       }
+//       span, input {
+//         @include border-top-radius(calc(var(--height) / 2));
+//       }
+//     }
+//     &:last-child {
+//       i {
+//         @include border-bottom-left-radius(calc(var(--height) / 2));
+//       }
+//       span, input {
+//         @include border-bottom-radius(calc(var(--height) / 2));
+//       }
+//     }
+//     + .input {
+//       margin-top: -1px;
+//     }
+
+//     span, i {
+//       position: absolute;
+//       left: 0;
+//       top: 0;
+//       bottom: 0;
+      
+//       display: inline-flex;
+//       flex-direction: column;
+//       align-items: center;
+//       justify-content: flex-start;
+//     }
+//     i {
+//       z-index: 3;
+//       width: calc(var(--height) * 1.2);
+//       height: var(--height);
+//       text-align: center;
+//       background-color: rgba(0, 0, 255, 0.2);
+//     }
+//     span {
+//       z-index: 1;
+//       background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+//       border: 1px solid var(--ui-color-iOS-secondarySystemFill);
+//       @include box-shadow(none);
+//       @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+//     }
+//     span, input {
+//       width: 100%;
+//       height: var(--height);
+//       line-height: var(--height);
+//     }
+
+//     input {
+//       position: relative;
+//       z-index: 2;
+
+//       display: inline-block;
+
+//       padding-left: calc(var(--height) * 1.2 + 8px);
+//       padding-right: 8px;
+//       border: 0;
+//       font-size: medium;
+//       background-color: transparent;
+
+
+//       @include appearance(none);
+
+//       @include input-placeholder {
+//         font-size: small;
+//         color: rgba(60, 60, 67, 0.6);
+//       }
+
+//       &:focus {
+//         outline: 0;
+//         + span {
+//           border-color: var(--ui-color-iOS-link);
+//           @include box-shadow(0 0 0 3px var(--ui-color-macOS-keyboardFocusIndicatorColor));
+//         }
+//       }
+//     }
+//   }
+//   .ctrl {
+//     display: inline-flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: space-around;
+//     justify-content: space-between;
+
+//     width: 100%;
+//     margin-top: 20px;
+    
+
+//     .back, .submit {
+//       display: inline-flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: center;
+      
+//       width: calc(50% - 16px / 2);
+//       flex-shrink: 0;
+//     }
+//     .back {
+//       @extend %-select-none;
+//       display: inline-flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: center;
+//       height: 44px;
+//       line-height: 44px;
+//       cursor: pointer;
+      
+//       position: relative;
+//       z-index: 2;
+//       overflow: hidden;
+
+//       &:before {
+//         content: '';
+//         position: absolute;
+//         left: 0;
+//         top: 0;
+//         right: 0;
+//         bottom: 0;
+//         z-index: -1;
+//         border: 2px solid rgba(78, 110, 129, 1.00);
+//         @include border-radius(math.div(44px, 2));
+//       }
+
+
+//       span {
+//         color: rgba(78, 110, 129, 1.00);
+//       }
+//       i {
+//         --color: rgba(78, 110, 129, 1.00);
+//         display: inline-block;
+//         width: 16px;
+//         height: 20px;
+//         margin-right: 3px;
+//         position: relative;
+//         &:before {
+//           content: '';
+//           position: absolute;
+//           left: 1px;
+//           top: 50%;
+//           display: inline-block;
+//           width: 8px;
+//           height: 8px;
+//           @include transform(translate(0, -50%) rotate(45deg));
+//           border-left: 1px solid var(--color);
+//           border-bottom: 1px solid var(--color);
+//         }
+//         &:after {
+//           content: '';
+//           position: absolute;
+//           left: 0;
+//           right: 0;
+//           top: 50%;
+//           display: inline-block;
+//           height: 1px;
+//           border-top: 1px solid var(--color);
+          
+//           @include transform(translateY(-50%));
+          
+//         }
+//       }
+
+//     }
+//     .submit {
+//       @extend %-select-none;
+//       display: inline-flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: center;
+//       height: 44px;
+//       line-height: 44px;
+//       @include border-radius(math.div(44px, 2));
+//       color: white;
+//       cursor: pointer;
+//       background-color: rgba(78, 110, 129, 1.00);
+//     }
+//   }
+
+//   @include range-height(0, 500px) {
+//     width: 400px;
+//   }
+//   @include range-height(500px) {
+//     width: 320px;
+//     margin-top: 64px;
+//   }
+// }
 #version {
   position: absolute;
 
@@ -173,125 +987,4 @@
   font-size: small;
   color: var(--ui-color-iOS-secondaryLabel);
   @extend %-select-none;
-}
-
-#hello {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  
-  flex-grow: 1;
-  .title {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    text-align: center;
-    font-size: xx-large;
-    color: var(--ui-color-iOS-label);
-    @extend %-select-none;
-  }
-  .descs {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    margin-top: 12px;
-    
-    .desc {
-      display: inline-flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-
-      width: 100%;
-      font-size: small;
-      
-      text-align: center;
-      color: var(--ui-color-iOS-secondaryLabel);
-      @extend %-select-none;
-    }
-  }
-  .buttons {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    
-    width: 100%;
-    max-width: 200px;
-    margin-top: 24px;
-
-    .login {
-      @extend %-select-none;
-      display: inline-flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 44px;
-      line-height: 44px;
-      @include border-radius(math.div(44px, 2));
-      color: white;
-      cursor: pointer;
-      background-color: rgba(78, 110, 129, 1.00);
-    }
-
-    .regest {
-      @extend %-select-none;
-      display: inline-flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 44px;
-      line-height: 44px;
-      cursor: pointer;
-      margin-top: 24px;
-      
-      
-      position: relative;
-      z-index: 2;
-      overflow: hidden;
-      color: rgba(78, 110, 129, 1.00);
-
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
-        border: 2px solid rgba(78, 110, 129, 1.00);
-        @include border-radius(math.div(44px, 2));
-      }
-    }
-
-    .offline {
-      @extend %-select-none;
-      display: inline-flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      
-      width: 100%;
-      
-      font-size: small;
-      color: var(--ui-color-iOS-link);
-      margin-top: 24px;
-      cursor: pointer;
-    }
-  }
-
-  @include range-height(0, 500px) {
-    width: 400px;
-  }
-  @include range-height(500px) {
-    width: 320px;
-    margin-top: 64px;
-  }
 }

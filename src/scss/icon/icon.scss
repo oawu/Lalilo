@@ -6,3 +6,21 @@
  */
 
 @import "Lalilo";
+
+@font-face { font-family: "icon"; src: url("http://127.0.0.1:8001/icon/icomoon/fonts/icomoon.eot?t=1723737701577") format("embedded-opentype"), url("http://127.0.0.1:8001/icon/icomoon/fonts/icomoon.woff?t=1723737701577") format("woff"), url("http://127.0.0.1:8001/icon/icomoon/fonts/icomoon.ttf?t=1723737701577") format("truetype"), url("http://127.0.0.1:8001/icon/icomoon/fonts/icomoon.svg?t=1723737701577") format("svg") }
+
+*[class^="icon-"]:before, *[class*=" icon-"]:before {
+  font-family: "icon";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+}
+
+.icon-at:before { content: "\e902"; }
+.icon-eye-off:before { content: "\e905"; }
+.icon-eye-on:before { content: "\e904"; }
+.icon-key:before { content: "\e903"; }
+.icon-locked:before { content: "\e901"; }
+.icon-mail:before { content: "\e800"; }
+.icon-user:before { content: "\e900"; }
