@@ -42,7 +42,7 @@
     "@oawu/cli-progress": "^1.0.22",
     "@oawu/dog": "^1.0.1",
     "@oawu/queue": "^1.0.14",
-    "@oawu/scss": "^1.0.24",
+    "@oawu/scss": "^1.0.26",
     "@oawu/uploader": "^2.0.1",
     "@oawu/xterm": "^1.0.7",
     "babel-preset-minify": "^0.5.1",
