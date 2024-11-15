@@ -7,37 +7,71 @@
 
 Load.Vue({
   data: {
-    style: {
-      color: 'rgba(120, 120, 120, 1.00);'
-    },
-    version: '2.0.1'
+    // 公開、密碼、隱藏
+    // oa: `${window.baseUrl}img/oa.jpg`,
+    size: 2,
+    albums: [
+    //   { src: `${window.baseUrl}img/album/01.JPG`, title: '2024_11_10_姿萱表哥楊上逸婚禮！', subtitle: '530 個項目' },
+    //   { src: `${window.baseUrl}img/album/02.JPG`, title: '2024_04_27_歲次甲辰年_農曆三月十九日_北港迓媽祖', subtitle: '680 個項目' },
+    //   { src: `${window.baseUrl}img/album/03.JPG`, title: '大頭貼照', subtitle: '50 個項目' },
+    //   { src: `${window.baseUrl}img/album/04.JPG`, title: '2024_11_10_姿萱表哥楊上逸婚禮！', subtitle: '530 個項目' },
+    //   { src: `${window.baseUrl}img/album/05.JPG`, title: '2024_04_27_歲次甲辰年_農曆三月十九日_北港迓媽祖', subtitle: '530 個項目' },
+    //   { src: `${window.baseUrl}img/album/06.JPG`, title: '大頭貼照', subtitle: '530 個項目' },
+    //   { src: `${window.baseUrl}img/album/07.JPG`, title: '2024_04_27_歲次甲辰年_農曆三月十九日_北港迓媽祖', subtitle: '530 個項目' },
+    //   { src: `${window.baseUrl}img/album/08.JPG`, title: '2024_11_10_姿萱表哥楊上逸婚禮！', subtitle: '530 個項目' },
+    ],
   },
   mounted () {
-    console.error(1);
-    
+
+    Api(`${window.baseUrl}json/index.json`)
+      .done(({ title, baseURL, albums }) => {
+        this.title = title
+        
+        // const srcURL = `${baseURL}${srcPath}/`
+        // const thumbURL = `${baseURL}${thumbPath}/`
+
+        this.albums = albums.map(({ id, cover, title }) => ({
+          id,
+          title,
+          subtitle: '',
+          cover: `${baseURL}${cover}`,
+        }))
+
+        // this.pictures = pics
+        
+
+      })
+      .fail(e => {
+        console.error(e);
+      })
+      .send()
   },
   computed: {
   },
   methods: {
-    date (format) {
-      const pad0 = t => (t < 10 ? '0' : '') + t
-      const date = new Date()
-      return format.replace('Y', date.getFullYear())
-        .replace('m', pad0(date.getMonth() + 1))
-        .replace('d', pad0(date.getDate()))
-        .replace('H', pad0(date.getHours()))
-        .replace('i', pad0(date.getMinutes()))
-        .replace('s', pad0(date.getSeconds()))
+    click (album) {
+      window.location.assign(`${window.location.protocol}//${window.location.host}/album.html?id=${album.id}`)
+      throw new Error('頁面重新導向中…')
     }
   },
   template: `
-  main#app.a
-    h1 => *text='你好，世界！'
-    div => :style=style
-      span => *text='這是 '
-      b    => *text='Lalilo'
-      span => *text='，你目前版本是 '
-      b    => *text=version
-    br
-    span => *text=date('Y-m-d H:i:s')`
+  main#app => :size=size
+    #nav
+      .left
+        b.logo => *text='PicMate'
+        span.title => *if=0
+      .right => *if=0
+        .user
+          figure
+            img => :src=oa
+    #ctrl
+      segmented-auto => :items=['大','中','小']   *model=size
+
+    #albums
+      label.album => *for=(album, i) in albums   :key=i   @click=click(album)
+        figure
+          img => :src=album.cover
+        b => *text=album.title
+        span => *text=album.subtitle
+  `
 })

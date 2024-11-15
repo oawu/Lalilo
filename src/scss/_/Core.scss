@@ -35,24 +35,53 @@
   }
 }
 
-body {
-  position: relative;
-
-  display: inline-block;
-  width: 100%;
-
+html, body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
   margin: 0;
   padding: 0;
-  color: rgba(0, 0, 0, 1);
-
-  font-size: medium;
-  text-align: center;
-  font-family: $font-family;
   
-  color: rgba(0, 0, 0, 1);
-  background-color: rgba(255, 255, 255, 1);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
 }
+#app {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  // bottom: 0;
+  z-index: 1;
 
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+
+  width: 100vw;
+  max-height: 100vh;
+  min-height: 100vh;
+  // border: 1px solid rgba(255, 0, 0, .3);
+
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  
+}
 .__lalilo_copy_str {
   position: fixed;
   left: -1000px;

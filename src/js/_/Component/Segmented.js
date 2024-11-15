@@ -8,7 +8,7 @@
 Load.VueComponent('segmented-auto', {
   props: {
     items: { type: Array, default: [], required: true },
-    index: { type: Number, default: 0, required: true }
+    value: { type: Number, default: 0, required: true }
   },
   data: _ => ({
     position: null,
@@ -16,7 +16,6 @@ Load.VueComponent('segmented-auto', {
     privateItems: []
   }),
   mounted () {
-
     this.privateItems = this.items
       .map(item => ({
         title: Array.isArray(item) ? item[0] : item,
@@ -31,7 +30,7 @@ Load.VueComponent('segmented-auto', {
     setTimeout(_ => this.click(null, _ => setTimeout(_ => this.ani = true, 300)), 10)
   },
   watch: {
-    index (index) {
+    value (val) {
       this.click()
     }
   },
@@ -42,29 +41,29 @@ Load.VueComponent('segmented-auto', {
     num (item) {
       return Array.isArray(item) ? item[1] : null
     },
-    click (index = null, closure = null) {
-      if (index !== null) {
-        this.$emit('click', index)
-        this.index = index
+    click (val = null, closure = null) {
+      if (val !== null) {
+        this.value = val
+        this.$emit('input', val)
       }
 
-      if (this.index < 0 || this.index >= this.$refs.items.length) {
+      if (this.value < 0 || this.value >= this.$refs.items.length) {
         if (typeof closure == 'function') {
           closure()
         }
         return
       }
 
-      let el = this.$refs.items[this.index]
+      let el = this.$refs.items[this.value]
 
-      if (this.index == this.$refs.items.length - 1) {
+      if (this.value == this.$refs.items.length - 1) {
         this.position = {
           top: `${el.offsetTop + 2}px`,
           left: `${el.offsetLeft + 2}px`,
           width: `${this.$refs.segmented.offsetWidth - el.offsetLeft - 2 * 2}px`,
           height: `${el.offsetHeight - 2 * 2}px`
         }
-      } else if (this.index == 0) {
+      } else if (this.value == 0) {
         this.position = {
           top: `${el.offsetTop + 2}px`,
           left: `2px`,
@@ -86,8 +85,8 @@ Load.VueComponent('segmented-auto', {
     }
   },
   template: `
-    div._segmented.__auto => :i=index   :n=privateItems.length   :ref='segmented'
-      label => *for=({ title, subtitle }, i) in privateItems   :ref='items'   @click=index=i
+    div._segmented.__auto => :i=value   :n=privateItems.length   :ref='segmented'
+      label => *for=({ title, subtitle }, i) in privateItems   :ref='items'   @click=_=>click(i)
         span => *text=title
         i => *if=subtitle!==''   *text=subtitle
       span => :class={show: position, ani }   :style=position`

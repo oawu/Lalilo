@@ -8,5 +8,306 @@
 @use "sass:math";
 @import "_/_Lib";
 @import "Lalilo";
+#app {
+  --count: 5;
+  --space: 28px;
 
-body {}
+  &[size="0"] {
+    @include range-width(0, 450px) {
+      --count: 1;
+      --space: 8px;
+    }
+    @include range-width(450px, 550px) {
+      --count: 1;
+      --space: 12px;
+    }
+    @include range-width(550px, 700px) {
+      --count: 1;
+      --space: 16px;
+    }
+    @include range-width(700px, 850px) {
+      --count: 2;
+      --space: 16px;
+    }
+    @include range-width(850px, 1000px) {
+      --count: 2;
+      --space: 20px;
+    }
+    @include range-width(1000px, 1300px) {
+      --count: 3;
+      --space: 20px;
+    }
+    @include range-width(1300px, 1600px) {
+      --count: 4;
+      --space: 20px;
+    };
+    @include range-width(1600px, 2000px) {
+      --count: 5;
+      --space: 24px;
+    };
+    @include range-width(2000px, 2500px) {
+      --count: 6;
+      --space: 28px;
+    };
+    @include range-width(2500px, 3000px) {
+      --count: 7;
+      --space: 32px;
+    };
+    @include range-width(3000px) {
+      --count: 8;
+      --space: 36px;
+    };
+
+  }
+  &[size="1"] {
+
+    @include range-width(0, 450px) {
+      --count: 1;
+      --space: 12px;
+    }
+    @include range-width(450px, 550px) {
+      --count: 1;
+      --space: 16px;
+    }
+    @include range-width(550px, 700px) {
+      --count: 2;
+      --space: 16px;
+    }
+    @include range-width(700px, 850px) {
+      --count: 2;
+      --space: 20px;
+    }
+    @include range-width(850px, 1000px) {
+      --count: 3;
+      --space: 20px;
+    }
+    @include range-width(1000px, 1300px) {
+      --count: 4;
+      --space: 20px;
+    }
+    @include range-width(1300px, 1600px) {
+      --count: 5;
+      --space: 20px;
+    };
+    @include range-width(1600px, 2000px) {
+      --count: 6;
+      --space: 20px;
+    };
+    @include range-width(2000px, 2500px) {
+      --count: 7;
+      --space: 24px;
+    };
+    @include range-width(2500px, 3000px) {
+      --count: 8;
+      --space: 28px;
+    };
+    @include range-width(3000px) {
+      --count: 9;
+      --space: 32px;
+    };
+  }
+  &[size="2"] {
+    @include range-width(0, 450px) {
+      --count: 1;
+      --space: 16px;
+    }
+    @include range-width(450px, 550px) {
+      --count: 2;
+      --space: 16px;
+    }
+    @include range-width(550px, 700px) {
+      --count: 2;
+      --space: 20px;
+    }
+    @include range-width(700px, 850px) {
+      --count: 3;
+      --space: 20px;
+    }
+    @include range-width(850px, 1000px) {
+      --count: 4;
+      --space: 20px;
+    }
+    @include range-width(1000px, 1300px) {
+      --count: 5;
+      --space: 20px;
+    }
+    @include range-width(1300px, 1600px) {
+      --count: 6;
+      --space: 20px;
+    };
+    @include range-width(1600px, 2000px) {
+      --count: 7;
+      --space: 20px;
+    };
+    @include range-width(2000px, 2500px) {
+      --count: 8;
+      --space: 20px;
+    };
+    @include range-width(2500px, 3000px) {
+      --count: 9;
+      --space: 20px;
+    };
+    @include range-width(3000px) {
+      --count: 10;
+      --space: 28px;
+    };
+  }
+}
+
+#nav {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+  height: 44px;
+  
+  background-color: var(--ui-color-iOS-systemGroupedBackground);
+  padding: 8px 16px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: inline-block;
+    border-bottom: 1px solid var(--ui-color-iOS-systemGray5);
+  }
+
+  .left, .right {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    flex-shrink: 0;
+  }
+  .logo {
+    @extend %-select-none;
+  }
+  .title {
+    @extend %-select-none;
+    margin-left: 8px;
+    color: var(--ui-color-iOS-secondaryLabel);
+  }
+  .user {
+    flex-shrink: 0;
+    display: inline-block;
+    height: 100%;
+    aspect-ratio: 1;
+
+    figure {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+      width: 100%;
+      aspect-ratio: 1;
+      overflow: hidden;
+      @include border-radius(50%);
+
+      img {
+        @extend %-select-none;
+        @extend %-drag-none;
+
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+#ctrl {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+  padding: var(--space);
+  padding-top: calc(var(--space) - 2px);
+  padding-bottom: 0;
+}
+
+#albums {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+
+  padding-top: var(--space);
+  padding-left: var(--space);
+  padding-bottom: var(--space);
+
+}
+
+
+.album {
+  width: calc((100% / var(--count)) - var(--space));
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  margin-right: var(--space);
+  margin-bottom: var(--space);
+  cursor: pointer;
+  
+  figure {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 100%;
+    aspect-ratio: 16 / 12;
+    overflow: hidden;
+    @include border-radius(6px);
+    
+    background: radial-gradient(circle at 100% 0,hsla(0,0%,100%,.85) 0,hsla(0,0%,96.1%,.13) 183%);
+
+    --box-shadow: rgba(0, 0, 0, .1);
+
+    @include backdrop-filter(blur(24px));
+    @include box-shadow(2px 2.5px 5px var(--box-shadow));
+    
+    @include dark {
+      --box-shadow: rgba(0, 0, 0, .65);
+    }
+
+    img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: inline-block;
+    }
+  }
+  b, span {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    // border: 1px solid rgba(255, 0, 0, .3);
+  }
+  b {
+    margin-top: 8px;
+    font-weight: normal;
+    font-size: medium;
+  }
+  span {
+    font-size: small;
+    color: var(--ui-color-iOS-secondaryLabel);
+  }
+}

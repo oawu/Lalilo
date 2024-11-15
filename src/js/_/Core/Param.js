@@ -146,7 +146,7 @@ Object.defineProperty(Param._.Meta.prototype, 'val', {
   set (val) {
     this._val = val
     this._d4 = false
-    history.pushState({}, null, `${window.location.protocol}//${window.location.host}${window.location.pathname}${Param.Query}${Param.Hash}`)
+    history.pushState({}, null, `${window.location.protocol}//${window.location.host}${window.location.pathname}${typeof Param.Query != 'function' ? Param.Query : ''}${typeof Param.Hash != 'function' ? Param.Hash : ''}`)
     return this
 } })
 Param._.Object.Query.prototype.toString = function() {

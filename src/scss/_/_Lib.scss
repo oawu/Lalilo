@@ -19,7 +19,9 @@
 %-select-none {
   @include user-select(none);
 }
-
+%-drag-none {
+  @include prefix(user-drag, unquote(none), not(-o), -ms, -moz, -webkit, official);
+}
 %-cover {
   background-size: cover;
   background-position: center center;
