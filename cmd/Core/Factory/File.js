@@ -1,27 +1,31 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
 
 const Factory = require('@oawu/_Factory')
+const { closureOrPromise, Type: T } = require('@oawu/helper')
 
-const File = function(file) {
+const File = function (file) {
   if (!(this instanceof File)) {
     return new File(file)
   }
 
   Factory.call(this, file)
 }
+
+File.prototype = Object.create(Factory.prototype)
+
 File.$ = new Map()
 File.$on = (key, func) => {
-  if (typeof func != 'function') {
+  if (!(T.func(func) || T.asyncFunc(func) || T.promise(func))) {
     return File
   }
 
   let funcs = File.$.get(key)
-  if (!Array.isArray(funcs)) {
+  if (!T.arr(funcs)) {
     funcs = []
   }
   funcs.push(func)
@@ -29,50 +33,62 @@ File.$on = (key, func) => {
   return File
 }
 File.$emit = (key, ...data) => {
-  let funcs = File.$.get(key)
-  if (!Array.isArray(funcs)) {
+  let funcs = File.$.get(key) || []
+  if (!T.arr(funcs)) {
     funcs = []
   }
 
   for (let func of funcs) {
-    func(...data)
+    setTimeout(_ => {
+      if (T.func(func)) {
+        try { func(...data) } catch (_) { }
+      } else if (T.asyncFunc(func)) {
+        func(...data).catch(_ => { })
+      } else if (T.promise(func)) {
+        func.catch(_ => { })
+      }
+    })
   }
+
   return File
 }
 
-let actions = []
-let reloadTimer = null
-const reload = _ => {
-  clearTimeout(reloadTimer)
 
-  reloadTimer = setTimeout(_ => {
-    File.$emit('reload', actions)
-    actions = []
-    clearTimeout(reloadTimer)
-    reloadTimer = null
+let _actions = []
+let _reloadTimer = null
+const _reload = _ => {
+  clearTimeout(_reloadTimer)
+
+  _reloadTimer = setTimeout(_ => {
+    File.$emit('reload', _actions)
+    _actions = []
+    clearTimeout(_reloadTimer)
+    _reloadTimer = null
   }, 300)
 }
 
-File.prototype = Object.create(Factory.prototype)
-
-File.prototype.build = function(done) {
-  return done([])
+File.prototype.create = function (done) {
+  return closureOrPromise(done, done => {
+    _actions.push({ type: '新增', name: this._name })
+    _reload()
+    done()
+  })
 }
 
-File.prototype.create = function(done) {
-  actions.push({ type: '新增', name: this.name })
-  reload()
-  return done()
+File.prototype.update = function (done) {
+  return closureOrPromise(done, done => {
+    _actions.push({ type: '修改', name: this._name })
+    _reload()
+    done()
+  })
 }
-File.prototype.update = function(done) {
-  actions.push({ type: '修改', name: this.name })
-  reload()
-  return done()
-}
-File.prototype.remove = function(done) {
-  actions.push({ type: '刪除', name: this.name })
-  reload()
-  return done()
+
+File.prototype.remove = function (done) {
+  return closureOrPromise(done, done => {
+    _actions.push({ type: '刪除', name: this._name })
+    _reload()
+    done()
+  })
 }
 
 module.exports = File

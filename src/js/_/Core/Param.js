@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -8,13 +8,13 @@
 const Param = {
   _: {
     split: (str, map = new Map()) => (str.split('&').forEach(val => {
-      
+
       const splitter = val.split('=')
-      
+
       if (splitter.length < 2) {
         return
       }
-      
+
       const k = decodeURIComponent(splitter.shift())
       const v = decodeURIComponent(splitter.join('='))
 
@@ -43,7 +43,7 @@ const Param = {
         Param._[key].set(k, map.has(k)
           ? Param._.Meta(map.get(k), false, key == 'hash')
           : Param._.Meta(sets[k], true, key == 'hash'))
-        
+
         Object.defineProperty(object, k, {
           set (val) {
             const data = Param._[key].get(k)
@@ -78,7 +78,7 @@ const Param = {
           }
         }
       }
-      
+
       if (object instanceof Param._.Object.Hash || object instanceof Param._.Object.Query) {
         sets.push(...Param._.kv(object))
       }
@@ -163,6 +163,6 @@ Param.toString = function() {
   const h = this.Hash instanceof this._.Object.Hash
     ? this.Hash
     : ''
-  
+
   return `${q}${h}`
 }

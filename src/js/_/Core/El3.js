@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -17,7 +17,7 @@ const El3 = function(str) {
 
     // 依據 => 切割
     const splitLine = El3._.split(line, /\s+=\>\s+/gm)
-    
+
     // 依據 . 或 # 切割 header，得到 header 物件
     const tmpH = El3._.split(splitLine.header, /\.|#/gm)
 
@@ -159,7 +159,7 @@ El3._.Line.prototype.toString = function() {
   if (!(tmp !== '>>' && tmp !== '||')) {
     return `{{ ${this.header.substr(2).trim()} }}`
   }
-  
+
   if (!(this.header[0] !== '>' && this.header[0] !== '|')) {
     return this.header.substr(1).trim()
   }

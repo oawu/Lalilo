@@ -1,100 +1,67 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
 
-require('@oawu/xterm').stringPrototype()
-require('@oawu/cli-progress').option.color = true
+const Path = require('path')
 
-const Path       = require('path')
-const FileSystem = require('fs')
+const xterm = require('@oawu/xterm')
+const { Print, Sigint, Type: T, Argv } = require('@oawu/helper')
+const { cli, during } = require('@oawu/_Helper')
+const Valid = require('@oawu/_Valid')
+const Config = require('@oawu/_Config')
 
-const Queue      = require('@oawu/queue')
-const cli        = require('@oawu/cli-progress')
+xterm.stringPrototype()
 
-const Helper     = require('@oawu/_Helper')
-const Valid      = require('@oawu/_Valid')
-const ArgV       = require('@oawu/_ArgV')
-const Sigint     = require('@oawu/_Sigint')
+const startAt = Date.now()
 
-const startAt    = Date.now()
+const _baseUrl = async _ => await cli('判斷基本網址', async cli => {
+  cli.cmdSubtitle('取得參數', '-U 或 --url')
 
-Queue()
-  .enqueue(next => {
-    // 定義終止時
-    process.on('SIGINT', _ => Sigint.run())
+  const argvs = Argv.dash()
 
-    // 顯示主要大標題
-    Helper.Print.cn()
-    Helper.Print.ln(`\n${' § '.dim}${'啟動 Lalilo'.bold}`)
+  const urls = [
+    ...(T.arr(argvs['-U']) ? argvs['-U'] : []),
+    ...(T.arr(argvs['--url']) ? argvs['--url'] : []),
+  ].reduce((a, b) => a.includes(b) ? a : a.concat(b), [])
+    .filter(url => T.neStr(url) && (url === '/' || /(http(s?)):\/\//i.test(url)))
+    .map(url => url === '' ? url : `${url.replace(/\/*$/, '')}/`)
 
-    next()
-  })
-  .enqueue(next => {
-    const CmdExists = require('command-exists').sync
+  urls.unshift('')
+  return urls.pop()
+})
 
-    Helper.Print.ln(`\n ${'【檢查環境】'.yellow}`)
+const main = async _ => {
+  process.on('SIGINT', async _ => await Sigint.execute())
 
-    Queue()
-      .enqueue(Valid.Path)
-      .enqueue(Valid.Config)
-      .enqueue((next, Config) => Valid.Source(next, Config))
-      .enqueue(Valid.Build)
-      .enqueue((_next, Config) => next(Config, _next()))
-  })
-  .enqueue((next, Config) => {
-    Helper.Print.ln(`\n ${'【檢查參數】'.yellow}`)
+  Print.cn()
+  Print.ln(`\n${' § '.dim}${'啟動 Lalilo'.bold}`)
 
-    const env      = ArgV.env('Production')
-    const baseUrl  = ArgV.buildUrl()
-    const isMinify = ArgV.min()
-    const isMerge  = ArgV.merge()
-    const vals     = ArgV.vals()
+  Print.ln(`\n ${'【檢查環境】'.yellow}`)
+  await Valid.path()
+  await Valid.config()
+  await Valid.sourceConfig()
+  await Valid.buildConfig()
 
-    cli.title('配置設定檔')
+  Print.ln(`\n ${'【檢查參數】'.yellow}`)
+  await Valid.setConfig({ ...await Valid.argv('Production'), baseUrl: await _baseUrl() })
 
-    Object.defineProperty(Config, 'env', { get () { return env } })
-    Object.defineProperty(Config, 'baseUrl', { get () { return baseUrl } })
-    Object.defineProperty(Config, 'isMinify', { get () { return isMinify } })
-    Object.defineProperty(Config, 'isMerge', { get () { return isMerge } })
-    Object.defineProperty(Config, 'argVals', { get () { return vals } })
+  Print.ln(`\n ${'【編譯檔案】'.yellow}`)
+  await Valid.cssIconScss()
 
-    cli.appendTitle(Helper.Display.cmd('baseUrl', Config.baseUrl))
-    cli.appendTitle(Helper.Display.cmd('env', Config.env))
-    cli.appendTitle(Helper.Display.cmd('merge', Config.isMerge ? 'yes' : 'no'))
-    cli.appendTitle(Helper.Display.cmd('min', Config.isMinify ? 'yes' : 'no'))
-    for (let {key, val} of Config.argVals) { cli.appendTitle(Helper.Display.cmd(key, val)) }
-    cli.done()
+  Print.ln(`\n ${'【編譯並輸出目錄】'.yellow}`)
+  await Valid.build()
 
-    next(Config)
-  })
 
-  .enqueue((next, Config) => Valid._CssIconScss(next, Config))
-  .enqueue((next, Config) => Valid._Build(next, Config))
+  Print.ln(`\n ${'【編譯完成】'.yellow}`)
+  Print.ln(`${' '.repeat(3)}🎉 太棒惹，已經完成編譯囉，趕緊去看一下的吧！`)
+  Print.ln(`${' '.repeat(3)}⏰ 編譯耗費時間${'：'.dim}${during(startAt).lightGray}`)
+  Print.ln(`${' '.repeat(3)}🚀 編譯完後的目錄在專案下的${'：'.dim}${Path.$.rRoot(Config.Build.path, true).lightGray}`)
+  Print.ln('')
+}
 
-  .enqueue((next, Config) => {
-    Helper.Print.ln(`\n ${'【編譯完成】'.yellow}`)
-    Helper.Print.ln(`${' '.repeat(3)}🎉 太棒惹，已經完成編譯囉，趕緊去看一下的吧！`)
-    Helper.Print.ln(`${' '.repeat(3)}⏰ 編譯耗費時間${'：'.dim}${Helper.Display.during(startAt).lightGray}`)
-    Helper.Print.ln(`${' '.repeat(3)}🚀 編譯完後的目錄在專案下的${'：'.dim}${Helper.Fs.dirOrEmpty(Path.$.rRoot(Config.Build.path)).lightGray}`)
-    Helper.Print.ln(``)
-
-    if (Config.Build.autoOpenFolder) {
-      try {
-        let open = require('open')
-        if (typeof open == 'function') {
-          open(Config.Build.path)
-        }
-      } catch (_) {
-        // 
-      }
-    }
-
-    next()
-  })
-  .enqueue(next => {
-    next()
-    Sigint.run()
-  })
+main()
+  .catch(Valid.error)
+  .finally(async _ => await Sigint.execute())

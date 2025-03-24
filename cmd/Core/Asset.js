@@ -1,26 +1,18 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
 
-const FileSystem = require('fs')
-const Path       = require('path')
 
-const Babel      = require("@babel/core")
+const fs = require('fs/promises')
+const Path = require('path')
+const Babel = require("@babel/core")
 
-const Config     = require('@oawu/_Config')
-const Helper     = require('@oawu/_Helper')
-
-const Comment = [
-  '/**',
-  ' * @author      OA Wu <oawu.tw@gmail.com>',
-  ` * @copyright   Copyright (c) 2015 - ${new Date().getFullYear()}, Lalilo`,
-  ' * @license     http://opensource.org/licenses/MIT  MIT License',
-  ' * @link        https://www.ioa.tw/',
-  ' */',
-].join('\n')
+const Config = require('@oawu/_Config')
+const { Type: T, tryIgnore } = require('@oawu/helper')
+const { inDir, Concat, scanFiles, fileExt } = require('@oawu/_Helper')
 
 const cssDir = _ => {
   return Config.assetDir.css
@@ -31,106 +23,69 @@ const jsDir = _ => {
 const entryDir = _ => {
   return Config.assetDir.entry
 }
+const baseUrl = _ => {
+  return Config.baseUrl
+}
+const isMerge = _ => {
+  return Config.isMerge
+}
+const isMinify = _ => {
+  return Config.isMinify
+}
+const jsMinify = _ => {
+  return Config.Build.jsMinify
+}
 
-const Asset = function() {
+const _Comment = [
+  '/**',
+  ' * @author      OA Wu <oawu.tw@gmail.com>',
+  ` * @copyright   Copyright (c) 2015 - ${new Date().getFullYear()}, Lalilo`,
+  ' * @license     http://opensource.org/licenses/MIT  MIT License',
+  ' * @link        https://www.ioa.tw/',
+  ' */',
+].join('\n')
+
+
+const Asset = function () {
   if (!(this instanceof Asset)) {
     return new Asset()
   }
 
-  this._cssMap = new Map()
-  this._jsMap = new Map()
-
   this._cssList = []
   this._jsList = []
-
 }
 
-Asset.prototype.css = function(src, attr = { type: 'text/css', rel: 'stylesheet' }) {
-  if (!(typeof src == 'string' && src !== '')) {
+Asset.prototype.css = function (src, attr = { type: 'text/css', rel: 'stylesheet' }) {
+  if (!T.str(src)) {
     return this
   }
-  if (src.startsWith('http://') || src.startsWith('https://')) {
-    if (!this._cssMap.get(src)) {
-      this._cssList.push({ src, file: null, attr })
-      this._cssMap.set(src, true)
-    }
+  src = src.trim()
+  if (!T.neStr(src)) {
     return this
   }
 
-  let files = []
-  const dirs = src.split('/').filter(t => t !== '')
-  if (!dirs.length) {
-    files = []
-  } else if (dirs[dirs.length - 1] == '**') {
-    files = Helper.Fs.scanDirSync(`${cssDir()}${Helper.Fs.dirOrEmpty(dirs.slice(0, -1).join(Path.sep))}`, true).filter(file => Path.extname(file) == '.css')
-  } else if (dirs[dirs.length - 1] == '*') {
-    files = Helper.Fs.scanDirSync(`${cssDir()}${Helper.Fs.dirOrEmpty(dirs.slice(0, -1).join(Path.sep))}`, false).filter(file => Path.extname(file) == '.css')
-  } else {
-    const file = `${cssDir()}${dirs.join(Path.sep)}`
-    if (Helper.Fs.exists(file)) {
-      files = [file]
-    }
-  }
-
-  for (const file of files) {
-    if (Helper.Fs.inDir(entryDir(), file)) {
-      if (!this._cssMap.get(file)) {
-        let name = Path.relative(entryDir(), file)
-        this._cssList.push({ file, attr, name, src: `${Config.baseUrl}${name.split(Path.sep).join('/')}` })
-        this._cssMap.set(file, true)
-      }
-    }
-  }
-
-  return this
-}
-Asset.prototype.js = function(src, minify = true, attr = { type: 'text/javascript', language: 'javascript' }) {
-  if (!(typeof src == 'string' && src !== '')) {
-    return this
-  }
-
-  if (src.startsWith('http://') || src.startsWith('https://')) {
-    if (!this._jsMap.get(src)) {
-      this._jsList.push({ src, file: null, attr })
-      this._jsMap.set(src, true)
-    }
-    return this
-  }
-
-  let files = []
-
-  const dirs = src.split('/').filter(t => t !== '')
-
-  if (!dirs.length) {
-    files = []
-  } else if (dirs[dirs.length - 1] == '**') {
-    files = Helper.Fs.scanDirSync(`${jsDir()}${Helper.Fs.dirOrEmpty(dirs.slice(0, -1).join(Path.sep))}`, true).filter(file => Path.extname(file) == '.js')
-  } else if (dirs[dirs.length - 1] == '*') {
-    files = Helper.Fs.scanDirSync(`${jsDir()}${Helper.Fs.dirOrEmpty(dirs.slice(0, -1).join(Path.sep))}`, false).filter(file => Path.extname(file) == '.js')
-  } else {
-    const file = `${jsDir()}${dirs.join(Path.sep)}`
-    if (Helper.Fs.exists(file)) {
-      files = [file]
-    }
-  }
-
-  for (const file of files) {
-    if (Helper.Fs.inDir(entryDir(), file)) {
-      if (!this._jsMap.get(file)) {
-        let name = Path.relative(entryDir(), file)
-        this._jsList.push({ file, minify, attr, name, src: `${Config.baseUrl}${name.split(Path.sep).join('/')}` })
-        this._jsMap.set(file, true)
-      }
-    }
-  }
-
+  this._cssList.push({ src, attr, merge: false })
   return this
 }
 
-const joinAttr = obj => {
+Asset.prototype.js = function (src, merge = true, attr = { type: 'text/javascript', language: 'javascript' }) {
+  if (!T.str(src)) {
+    return this
+  }
+  src = src.trim()
+  if (!T.neStr(src)) {
+    return this
+  }
+
+  this._jsList.push({ src, merge, attr })
+  return this
+}
+
+
+const _joinAttr = obj => {
   const attrs = []
   for (let key in obj) {
-    if (typeof key == 'string' && key !== '') {
+    if (T.str(key)) {
       let val = obj[key]
       if (val === undefined) {
 
@@ -143,56 +98,106 @@ const joinAttr = obj => {
   }
   return attrs.length ? ` ${attrs.join(' ')}` : ''
 }
-const mergeCss = list => {
+
+const _extract = async (list, dir, _ext) => {
+  const filesList = await Promise.all(list.map(async ({ src, attr, merge }) => {
+    if (src.startsWith('http://') || src.startsWith('https://')) {
+      return [{ src, file: null, attr, merge }]
+    }
+
+    let files = []
+
+    const dirs = src.split('/').filter(t => t !== '')
+    if (!dirs.length) {
+      return files
+    }
+
+    if (dirs[dirs.length - 1] == '**') {
+      files = await scanFiles(Concat.dir(dir, dirs.slice(0, -1).join(Path.sep), ''), true)
+    } else if (dirs[dirs.length - 1] == '*') {
+      files = await scanFiles(Concat.dir(dir, dirs.slice(0, -1).join(Path.sep), ''), false)
+    } else {
+      const fullpath = Concat.file(dir, dirs.join(Path.sep), '')
+      files = [{ fullpath, attr, merge, ext: fileExt(fullpath) }]
+    }
+
+    return files.filter(({ fullpath, ext }) => ext === _ext && inDir(entryDir(), fullpath)).map(({ fullpath: file }) => {
+      let name = Path.relative(entryDir(), file)
+      const src = baseUrl() + name.split(Path.sep).join('/')
+      return { file, attr, name, src, merge }
+    })
+  }))
+
+  const _files = filesList.reduce((a, b) => a.concat(b), []).reverse()
+
+  const files = []
+  const _map = new Map()
+  for (const file of _files) {
+    if (file.file === null) {
+      if (!_map.get(file.src)) {
+        files.push(file)
+        _map.set(file.src, true)
+      }
+    } else {
+      if (!_map.get(file.file)) {
+        files.push(file)
+        _map.set(file.file, true)
+      }
+    }
+  }
+
+  return files.reverse()
+}
+
+const _mergeCss = async list => {
   const tags = []
   let strs = []
-  let merge = _ => {
+
+  let _merge = _ => {
     if (!strs.length) {
       return null
     }
-    tags.push(`<style${joinAttr({ type: 'text/css' })}>\n@charset "UTF-8";\n\n${strs.join('\n\n')}\n</style>`)
+    tags.push(`<style${_joinAttr({ type: 'text/css' })}>\n@charset "UTF-8";\n\n${strs.join('\n\n')}\n</style>`)
     strs = []
   }
 
   for (const { file, src, attr, name } of list) {
     if (file === null) {
-      merge()
-      tags.push(`<link href="${src}"${joinAttr(attr)} />`)
-    } else {
-      let content = null
-      try {
-        content = FileSystem.readFileSync(file, 'utf8').trim().replace(/^\uFEFF/gm, "")
-        if (content.startsWith('@charset "UTF-8";')) {
-          content = content.substring('@charset "UTF-8";'.length).trim()
-        }
-      } catch (_) {
-        content = null
-      }
-
-      if (content !== null) {
-        strs.push(`/* ----- ${name} ----- */\n${content}`)
-        // strs.push(`/* ---------- */\n${content}`)
-      }
+      _merge()
+      tags.push(`<link href="${src}"${_joinAttr(attr)} />`)
+      continue
     }
+
+    let content = await tryIgnore(fs.readFile(file, { encoding: 'utf8' }))
+    if (T.err(content)) {
+      continue
+    }
+
+    content = content.trim().replace(/^\uFEFF/gm, "")
+    if (content.startsWith('@charset "UTF-8";')) {
+      content = content.substring('@charset "UTF-8";'.length).trim()
+    }
+    strs.push(`/* ----- ${name} ----- */\n${content}`)
   }
-  merge()
+  _merge()
 
   return tags
 }
-const mergeJs = list => {
+
+const _mergeJs = async list => {
   const tags = []
   let strs = []
 
-  let merge = _ => {
+  let _merge = _ => {
     if (!strs.length) {
       return null
     }
 
     let content = null
 
-    if (Config.isMinify) {
+    if (isMinify()) {
       try {
-        content = [Comment, `${Babel.transformSync(strs.join('\n\n'), Config.Build.jsMinify).code}`].join('\n')
+        content = [_Comment, `${Babel.transformSync(strs.join('\n\n'), jsMinify()).code}`].join('\n')
       } catch (_) {
         content = null
       }
@@ -202,55 +207,53 @@ const mergeJs = list => {
       content = strs.join('\n\n')
     }
 
-    tags.push(`<script${joinAttr({ type: 'text/javascript', language: 'javascript' })}>\n${content}\n</script>`)
+    tags.push(`<script${_joinAttr({ type: 'text/javascript', language: 'javascript' })}>\n${content}\n</script>`)
     strs = []
   }
 
-  for (const { file, minify, src, attr, name } of list) {
+  for (const { file, merge, src, attr, name } of list) {
     if (file === null) {
-      merge()
-      tags.push(`<script src="${src}"${joinAttr(attr)}></script>`)
-    } else if (!minify) {
-      let content = null
-      try {
-        content = FileSystem.readFileSync(file, 'utf8').trim().replace(/^\uFEFF/gm, "")
-      } catch (_) {
-        content = null
-      }
-
-      if (content !== null) {
-        merge()
-        tags.push(`<script${joinAttr(attr)}>${content}</script>`)
-      }
-    } else {
-      let content = null
-      try {
-        content = FileSystem.readFileSync(file, 'utf8').trim().replace(/^\uFEFF/gm, "")
-      } catch (_) {
-        content = null
-      }
-
-      if (content !== null) {
-        strs.push(`/* ----- ${name} ----- */\n${content}`)
-        // strs.push(`/* ---------- */\n${content}`)
-      }
+      _merge()
+      tags.push(`<script src="${src}"${_joinAttr(attr)}></script>`)
+      continue
     }
+
+    if (!merge) {
+      let content = await tryIgnore(fs.readFile(file, { encoding: 'utf8' }))
+      if (T.err(content)) {
+        continue
+      }
+
+      content = content.trim().replace(/^\uFEFF/gm, "")
+      _merge()
+      tags.push(`<script${_joinAttr(attr)}>${content}</script>`)
+      continue
+    }
+
+    let content = await tryIgnore(fs.readFile(file, { encoding: 'utf8' }))
+    if (T.err(content)) {
+      continue
+    }
+    content = content.trim().replace(/^\uFEFF/gm, "")
+    strs.push(`/* ----- ${name} ----- */\n${content}`)
+    // strs.push(`/* ---------- */\n${content}`)
   }
-  merge()
+  _merge()
 
   return tags
 }
 
-Asset.prototype.toString = function() {
-  return Config.isMerge
+Asset.prototype.toString = async function () {
+  const [cssList, jsList] = await Promise.all([_extract(this._cssList, cssDir(), '.css'), _extract(this._jsList, jsDir(), '.js')])
+  return isMerge()
     ? [
-        ...mergeCss(this._cssList),
-        ...mergeJs(this._jsList),
-      ].join('\n')
+      ...await _mergeCss(cssList),
+      ...await _mergeJs(jsList),
+    ].join('\n')
     : [
-        ...this._cssList.map(({ src, attr }) => `<link href="${src}"${joinAttr(attr)} />`),
-        ...this._jsList.map(({ src, attr }) => `<script src="${src}"${joinAttr(attr)}></script>`)
-      ].join('\n')
+      ...cssList.map(({ src, attr }) => `<link href="${src}"${_joinAttr(attr)} />`),
+      ...jsList.map(({ src, attr }) => `<script src="${src}"${_joinAttr(attr)}></script>`)
+    ].join('\n')
 }
 
 module.exports = Asset

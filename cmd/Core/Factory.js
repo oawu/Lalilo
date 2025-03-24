@@ -1,24 +1,25 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
 
 const Path = require('path')
+const { closureOrPromise } = require('@oawu/helper')
 
-const Factory = function(file) {
+const Factory = function (file) {
   if (!(this instanceof Factory)) {
     return new Factory(file)
   }
 
-  this.file = file
-  this.name = Path.$.rRoot(file)
+  this._file = file
+  this._name = Path.$.rRoot(file)
 }
 
-Factory.prototype.build = function(done) { return typeof done == 'function' && done([]) }
-Factory.prototype.create = function(done) { return typeof done == 'function' && done() }
-Factory.prototype.update = function(done) { return typeof done == 'function' && done() }
-Factory.prototype.remove = function(done) { return typeof done == 'function' && done() }
+Factory.prototype.build = function (done) { return closureOrPromise(done, async _ => { }) }
+Factory.prototype.create = function (done) { return closureOrPromise(done, async _ => { }) }
+Factory.prototype.update = function (done) { return closureOrPromise(done, async _ => { }) }
+Factory.prototype.remove = function (done) { return closureOrPromise(done, async _ => { }) }
 
 module.exports = Factory

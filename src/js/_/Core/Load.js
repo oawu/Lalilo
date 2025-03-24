@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -34,7 +34,7 @@ const Load = {
       if (typeof opt.template == 'object') {
         opt.template = opt.template.toString()
       }
-      
+
       return opt
     }
   },

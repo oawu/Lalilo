@@ -1,93 +1,103 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
 
-const Path         = require('path')
+const Path = require('path')
 
-const queue        = require('@oawu/queue').create()
+const { Type: T } = require('@oawu/helper')
+const { inDir, fileExt } = require('@oawu/_Helper')
 
-const Helper       = require('@oawu/_Helper')
-const FactoryIcon  = require('@oawu/_FactoryIcon')
-const FactoryScss  = require('@oawu/_FactoryScss')
-const FactoryFile  = require('@oawu/_FactoryFile')
+const Config = require('@oawu/_Config')
+const FactoryIcon = require('@oawu/_FactoryIcon')
+const FactoryScss = require('@oawu/_FactoryScss')
+const FactoryFile = require('@oawu/_FactoryFile')
 
-const iconTimerMap = new Map()
-const scssTimerMap = new Map()
-const fileTimerMap = new Map()
+const _icon = new Map()
+const _scss = new Map()
+const _file = new Map()
 
-const Config       = require('@oawu/_Config')
+const _defer = (map, timer) => {
+  map.ing = false
+  _loop(map, timer)
+}
 
-module.exports = (file, action) => {
-  const last = file.split(Path.sep).pop()
+const _action = (action, defer) => {
+  if (T.func(action)) {
+    try { action() }
+    catch (_) { }
+    finally { defer() }
+  } else if (T.asyncFunc(action)) {
+    action().catch(_ => { }).finally(defer)
+  } else if (T.promise(action)) {
+    action.catch(_ => { }).finally(defer)
+  } else {
+    defer()
+  }
+}
 
-  if (last == '.DS_Store') {
+const _loop = (_map, timer) => {
+  if (_map.ing) {
+    return
+  } else {
+    _map.ing = true
+  }
+
+  if (_map.tasks.length == 0) {
+    _map.ing = false
     return
   }
-  
-  const ext = Path.extname(last).toLowerCase()
 
-  if (Helper.Fs.inDir(Config.Source.dir.icon, file) && ext == '.css' && last == 'style.css') {
-    clearTimeout(iconTimerMap.get(file))
+  setTimeout(_ => {
+    const task = _map.tasks.shift()
+    if (task.id != _map.id) {
+      return _defer(_map, timer)
+    }
 
-    return iconTimerMap.set(file, setTimeout(_ => queue.enqueue(next => {
-      if (typeof action != 'function') {
-        iconTimerMap.delete(file)
-        return next()
-      }
+    if (T.func(task.action)) {
+      try { _action(task.action(), _ => _defer(_map, timer)) }
+      catch (_) { _defer(_map, timer) }
+    } else if (T.asyncFunc(task.action)) {
+      task.action()
+        .then(action => _action(action, _ => _defer(_map, timer)))
+        .catch(_ => _defer(_map, timer))
+    } else if (T.promise(task.action)) {
+      task.action
+        .then(action => _action(action, _ => _defer(_map, timer)))
+        .catch(_ => _defer(_map, timer))
+    } else {
+      _defer(_map, timer)
+    }
+  }, timer)
+}
 
-      const icon = FactoryIcon(file)
-      action = action(icon)
-
-      iconTimerMap.delete(file)
-      typeof action == 'function'
-        ? action.call(icon, next)
-        : next()
-    }), 357))
+module.exports = (file, action) => {
+  if (inDir(Config.Source.dir.icon, file) && file.endsWith('style.css')) {
+    const _map = _icon.get(file) || { id: 0, ing: false, tasks: [] }
+    const factory = FactoryIcon(file)
+    const task = { id: ++_map.id, action: action(factory).bind(factory) }
+    _map.tasks.push(task)
+    _icon.set(file, _map)
+    _loop(_map, 357)
   }
-
-  if (Helper.Fs.inDir(Config.Source.dir.scss, file) && ext == '.scss') {
-    clearTimeout(scssTimerMap.get(file))
-
-    return scssTimerMap.set(file, setTimeout(_ => queue.enqueue(next => {
-      if (typeof action != 'function') {
-        scssTimerMap.delete(file)
-        return next()
-      }
-
-      const scss = FactoryScss(file)
-      action = action(scss)
-
-      scssTimerMap.delete(file)
-
-      typeof action == 'function'
-        ? action.call(scss, next)
-        : next()
-    }), 357))
+  if (inDir(Config.Source.dir.scss, file) && file.endsWith('.scss')) {
+    const _map = _scss.get(file) || { id: 0, ing: false, tasks: [] }
+    const factory = FactoryScss(file)
+    const task = { id: ++_map.id, action: action(factory).bind(factory) }
+    _map.tasks.push(task)
+    _scss.set(file, _map)
+    _loop(_map, 357)
   }
-
-  if (Helper.Fs.inDir(Config.Source.path, file)
-    && !Config.Serve.watch.ignoreDirs.filter(dir => Helper.Fs.inDir(dir, file)).length
-    && Config.Serve.watch.exts.includes(ext)) {
-
-    clearTimeout(fileTimerMap.get(file))
-
-    return fileTimerMap.set(file, setTimeout(_ => queue.enqueue(next => {
-      if (typeof action != 'function') {
-        fileTimerMap.delete(file)
-        return next()
-      }
-
-      const _file = FactoryFile(file)
-      action = action(_file)
-
-      fileTimerMap.delete(file)
-
-      typeof action == 'function'
-        ? action.call(_file, next)
-        : next()
-    }), 357))
+  if (inDir(Config.Source.path, file)
+    && !Config.Server.watch.ignoreDirs.filter(dir => inDir(dir, file)).length
+    && Config.Server.watch.exts.filter(ext => fileExt(file) === ext).length) {
+    const _map = _file.get(file) || { id: 0, ing: false, tasks: [] }
+    const factory = FactoryFile(file)
+    const task = { id: ++_map.id, action: action(factory).bind(factory) }
+    _map.tasks.push(task)
+    _file.set(file, _map)
+    _loop(_map, 357)
   }
 }
