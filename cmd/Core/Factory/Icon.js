@@ -1,19 +1,20 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
 
-const Path       = require('path')
-const FileSystem = require('fs')
+const Path = require('path')
+const fs = require('fs/promises')
+const Factory = require('@oawu/_Factory')
+const Config = require('@oawu/_Config')
 
-const Factory    = require('@oawu/_Factory')
-const Notifier   = require('@oawu/_Notifier')
-const Helper     = require('@oawu/_Helper')
-const Config     = require('@oawu/_Config')
+const { closureOrPromise, Type: T, tryIgnore } = require('@oawu/helper')
+const { Exist } = require('@oawu/_Helper')
+const Display = require('@oawu/_Display')
 
-const parse = function(className, dir, face, data) {
+const _parse = function (className, dir, face, data) {
   const contents = [
     `/**`,
     ` * @author      OA Wu <oawu.tw@gmail.com>`,
@@ -25,16 +26,16 @@ const parse = function(className, dir, face, data) {
     `@import "Lalilo";`
   ]
 
-  const basePath = `${Config.baseUrl}${Helper.Fs.dirOrEmpty(Path.relative(Config.Source.path, Config.Source.dir.icon)).split(Path.sep).join('/')}`
+  const tmp = Path.relative(Config.Source.path, Config.Source.dir.icon).split(Path.sep).join('/')
+  const basePath = Config.baseUrl + (tmp !== '' ? `${tmp}/` : '')
 
   data = data.match(/\.icon-[a-zA-Z_\-0-9]*:before\s?\{\s*content:\s*"[\\A-Za-z0-9]*";(\s*color:\s*#[A-Za-z0-9]*;)?\s*}/g)
-
-  data = Array.isArray(data)
+  data = T.arr(data)
     ? data.map(v => v.replace(/^\.icon-/g, className)
-        .replace(/\n/g, ' ')
-        .replace(/\{\s*/g, '{ ')
-        .replace(/\s+/g, ' '))
-        .sort((a, b) => a >= b ? a == b ? 0 : 1 : -1)
+      .replace(/\n/g, ' ')
+      .replace(/\{\s*/g, '{ ')
+      .replace(/\s+/g, ' '))
+      .sort((a, b) => a >= b ? a == b ? 0 : 1 : -1)
     : []
 
   const path = `${basePath}${dir}`
@@ -55,13 +56,13 @@ const parse = function(className, dir, face, data) {
       ].join('; ')} }`,
       ``,
       `*[class^="${face}-"]:before, *[class*=" ${face}-"]:before {`,
-        ...[
-          `font-family: "${face}"`,
-          `speak: none`,
-          `font-style: normal`,
-          `font-weight: normal`,
-          `font-variant: normal`,
-        ].map(t => `  ${t};`),
+      ...[
+        `font-family: "${face}"`,
+        `speak: none`,
+        `font-style: normal`,
+        `font-weight: normal`,
+        `font-variant: normal`,
+      ].map(t => `  ${t};`),
       `}`,
       ``,
       ...data,
@@ -69,158 +70,111 @@ const parse = function(className, dir, face, data) {
     : contents).join("\n")
 }
 
-const Icon = function(file) {
+const Icon = function (file) {
   if (!(this instanceof Icon)) {
     return new Icon(file)
   }
 
   Factory.call(this, file)
-
-  this.dir   = Path.dirname(this.file).split(Path.sep).pop()
-  this.face  = `icon${this.dir != 'icomoon' ? `-${this.dir}` : ''}`
-  this.scss  = `${Config.Source.iconDirInScss}${this.face}.scss`
+  this._dir = Path.dirname(this._file).split(Path.sep).pop()
+  this._face = `icon${this._dir != 'icomoon' ? `-${this._dir}` : ''}`
+  this._scss = `${Config.Source.iconDirInScss}${this._face}.scss`
 }
 
 Icon.prototype = Object.create(Factory.prototype)
 
-Icon.prototype.build = function(done) {
-  return FileSystem.readFile(this.file, 'utf8', (error, data) => {
-    if (error) {
-      return typeof done == 'function'
-        ? done([`無法讀取：${this.name}`, error])
-        : null
+
+Icon.prototype.build = function (done) {
+  return closureOrPromise(done, async _ => {
+    let data = await tryIgnore(fs.readFile(this._file, { encoding: 'utf8' }))
+    if (T.err(data)) {
+      throw new Error(`無法讀取：${this._name}`, { cause: data })
     }
 
-    FileSystem.writeFile(this.scss, parse(`.${this.face}-`, this.dir, this.face, data), error => {
-      if (typeof done != 'function') {
-        return null
-      }
+    let result = await tryIgnore(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
+    if (T.err(result)) {
+      throw new Error(`無法寫入：${Path.$.rRoot(this._scss)}`, { cause: result })
+    }
 
-      return error
-        ? done([`無法寫入：${Path.$.rRoot(this.scss)}`, error])
-        : done([])
-    })
+    return this
   })
 }
 
-Icon.prototype.create = function(done) {
-  return FileSystem.readFile(this.file, 'utf8', (error, data) => {    
-    if (error) {
-      Helper.Display.LineRed('新增 icon 失敗')
-        .row('錯誤', `無法讀取「${this.name}」`)
-        .row('原因', error.message)
+Icon.prototype.create = function (done) {
+  return closureOrPromise(done, async _ => {
+    let data = await tryIgnore(fs.readFile(this._file, { encoding: 'utf8' }))
+    if (T.err(data)) {
+      Display.Red('新增 icon 失敗')
+        .row('錯誤', `無法讀取「${this._name}」`)
+        .row('原因', data.message)
         .go()
-
-      Notifier('新增 icon 失敗')
-        .row('錯誤', `無法讀取「${this.name}」`)
-        .row('原因', error.message)
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
+      return this
     }
 
-    FileSystem.writeFile(this.scss, parse(`.${this.face}-`, this.dir, this.face, data), error => {
-      if (error) {
-        Helper.Display.LineRed('新增 icon 失敗')
-          .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
-          .row('原因', error.message)
-          .go()
-
-        Notifier('新增 icon 失敗')
-          .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
-          .row('原因', error.message)
-          .go()
-
-        return typeof done == 'function'
-          ? done()
-          : null
-      }
-
-      Helper.Display.LineBlue('新增 icon 成功')
-        .row('檔案路徑', this.name.dim)
-        .row('新增檔案', Path.$.rRoot(this.scss).dim)
+    let result = await tryIgnore(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
+    if (T.err(result)) {
+      Display.Red('新增 icon 失敗')
+        .row('錯誤', `無法寫入「${Path.$.rRoot(this._scss)}」`)
+        .row('原因', result.message)
         .go()
-
-      typeof done == 'function'
-        ? done()
-        : null
-    })
-  })
-}
-Icon.prototype.update = function(done) {
-  return FileSystem.readFile(this.file, 'utf8', (error, data) => {
-    if (error) {
-      Helper.Display.LineRed('修改 icon 失敗')
-        .row('錯誤', `無法讀取「${this.name}」`)
-        .row('原因', error.message)
-        .go()
-
-      Notifier('修改 icon 失敗')
-        .row('錯誤', `無法讀取「${this.name}」`)
-        .row('原因', error.message)
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
+      return this
     }
 
-    FileSystem.writeFile(this.scss, parse(`.${this.face}-`, this.dir, this.face, data), error => {
-      if (error) {
-        Helper.Display.LineRed('修改 icon 失敗')
-          .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
-          .row('原因', error.message)
-          .go()
-
-        Notifier('修改 icon 失敗')
-          .row('錯誤', `無法寫入「${Path.$.rRoot(this.scss)}」`)
-          .row('原因', error.message)
-          .go()
-
-        return typeof done == 'function'
-          ? done()
-          : null
-      }
-
-      Helper.Display.LineBlue('修改 icon 成功')
-        .row('檔案路徑', this.name.dim)
-        .row('修改檔案', Path.$.rRoot(this.scss).dim)
-        .go()
-
-      typeof done == 'function'
-        ? done()
-        : null
-    })
-  })
-}
-Icon.prototype.remove = function(done) {
-  return Helper.Fs.remove(this.scss, error => {
-    if (error) {
-      Helper.Display.LineRed('移除 scss 失敗')
-        .row('錯誤', `無法移除：${Path.$.rRoot(this.scss)}`)
-        .row('原因', error.message)
-        .go()
-
-      Notifier('移除 scss 失敗')
-        .row('檔案', Path.$.rRoot(this.scss))
-        .row('原因', error.message)
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
-    }
-
-    Helper.Display.LineGreen('移除 scss 成功')
-      .row('檔案路徑', Path.$.rRoot(this.scss).dim)
+    Display.Blue('新增 icon 成功')
+      .row('檔案路徑', this._name.dim)
+      .row('新增檔案', Path.$.rRoot(this._scss).dim)
       .go()
-
-    return typeof done == 'function'
-      ? done()
-      : null
+    return this
   })
 }
+Icon.prototype.update = function (done) {
+  return closureOrPromise(done, async _ => {
+    let data = await tryIgnore(fs.readFile(this._file, { encoding: 'utf8' }))
+    if (T.err(data)) {
+      Display.Red('修改 icon 失敗')
+        .row('錯誤', `無法讀取「${this._name}」`)
+        .row('原因', data.message)
+        .go()
+      return this
+    }
+
+    let result = await tryIgnore(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
+    if (T.err(result)) {
+      Display.Red('修改 icon 失敗')
+        .row('錯誤', `無法寫入「${Path.$.rRoot(this._scss)}」`)
+        .row('原因', result.message)
+        .go()
+      return this
+    }
+
+    Display.Blue('修改 icon 成功')
+      .row('檔案路徑', this._name.dim)
+      .row('修改檔案', Path.$.rRoot(this._scss).dim)
+      .go()
+    return this
+  })
+}
+Icon.prototype.remove = function (done) {
+  return closureOrPromise(done, async _ => {
+    if (T.err(await tryIgnore(Exist.file(this._scss, fs.constants.R_OK)))) {
+      return this
+    }
+
+    await tryIgnore(fs.unlink(this._scss))
+
+    if (T.err(await tryIgnore(Exist.file(this._scss, fs.constants.R_OK)))) {
+      Display.Green('移除 scss 成功')
+        .row('檔案路徑', Path.$.rRoot(this._scss).dim)
+        .go()
+    } else {
+      Display.Red('移除 scss 失敗')
+        .row('錯誤', `無法移除：${Path.$.rRoot(this._scss)}`)
+        .go()
+    }
+
+    return this
+  })
+}
+
 
 module.exports = Icon

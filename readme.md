@@ -21,14 +21,14 @@
 ## 開發
 
 1. 終端機進入專案目錄下的 `cmd` 目錄。
-2. 第一次使用請先於 `cmd` 目錄下執行指令 `npm install .`，接著繼續於 `cmd` 目錄內再執行指令 `node Serve.js` 即可。
+2. 第一次使用請先於 `cmd` 目錄下執行指令 `npm install .`，接著繼續於 `cmd` 目錄內再執行指令 `node Server.js` 即可。
 3. 開發皆在 `src` 目錄內開發。
 
 ### 參數
 
 * `--env` 縮寫 `-E`，用來代表「環境」，分別有 `Development`、`Testing`、`Staging`、`Production`，預設為 `Development`，可在 `Config.env` 提取使用。
-* `--merge`，是否將 css 與 js 合併至 HTML 的參數，可在 `Config.isMerge` 提取使用。
-* `--val-{key}={val}`，過度資料使用，可在 `Config.argVals` 提取使用。
+* `--merge` 縮寫 `-M`，是否將 css 與 js 合併至 HTML 的參數，可在 `Config.isMerge` 提取使用。
+* `{key}={val}`，過度資料使用，可在 `Config.vals` 提取使用。
 
 
 ## 編譯
@@ -40,10 +40,10 @@
 ### 參數
 
 * `--env` 縮寫 `-E`，用來代表「環境」，分別有 `Development`、`Testing`、`Staging`、`Production`，預設為 `Production`，可在 `Config.env` 提取使用。
-* `--merge`，是否將 css 與 js 合併至 HTML 的參數，可在 `Config.isMerge` 提取使用。
-* `--val-{key}={val}`，過度資料使用，可在 `Config.argVals` 提取使用。
+* `--merge` 縮寫 `-M`，是否將 css 與 js 合併至 HTML 的參數，可在 `Config.isMerge` 提取使用。
+* `{key}={val}`，過度資料使用，可在 `Config.vals` 提取使用。
 * `--url` 縮寫 `-U`，用來代表「baseUrl」，若不給予則為 **空字串**，可在 `Config.baseUrl` 提取使用。
-* `--isMinify`，是否壓縮 css 與 js 檔案，可在 `Config.isMinify` 提取使用。
+* `--isMinify` 縮寫 `-N`，是否壓縮 css 與 js 檔案，可在 `Config.isMinify` 提取使用。
 
 ## 部署
 

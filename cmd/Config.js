@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -16,44 +16,36 @@ module.exports = {
       icon: 'icon',   // 圖示
       scss: 'scss',   // scss
       html: 'html',   // html
-      model: 'model', // html
+      model: 'model' // html
     },
-   
+
     iconDirInScss: 'icon',
-    modelTmpDir: '_model',
+    modelTmpDir: '_model'
   },
 
-  Serve: {
-    autoOpenBrowser: false, // 啟動自動開網頁
-
+  Server: {
     watch: { // Live reload
-      exts: ['.html', '.css', '.js'],
-      ignoreDirs: ['icon'], // 不監聽的目錄
+      exts: ['.html', '.css', '.js'], // 監聽的副檔名
+      ignoreDirs: ['icon'] // 不監聽的目錄
     },
 
     server: {
-      domain: '127.0.0.1',
+      domain: '127.0.0.1', // 開發伺服器域名
 
-      port: {
+      port: { // 開發伺服器端口
         min: 8000,
         max: 8999,
-        default: 8000,
+        default: 8000
       },
 
-      utf8Exts: [
-        '.html',
-        '.css',
-        '.js',
-        '.json',
-        '.txt'
-      ], // 採用 utf8 編碼的副檔名
-    },
+      utf8Exts: [ // 採用 utf8 編碼的副檔名
+        '.html', '.css', '.js', '.json', '.txt'
+      ]
+    }
   },
 
   Build: {
     path: 'dist',
-    
-    autoOpenFolder: false, // 自動開啟目錄
 
     jsMinify: { // JS minify 時外加的轉譯
       comments: false,
@@ -70,47 +62,42 @@ module.exports = {
 
     copy: {
       // files: ['CNAME'], // 包含檔案
-      // dirs: ['a'] // 包含目錄
+      // dirs: [''] // 包含目錄
     },
 
     exts: [ // 允許的副檔名
-      '.html',
-      '.txt',
-      '.xml',
-      '.json',
-
-      '.css',
-      '.js',
-
-      '.eot',
-      '.svg',
-      '.ttf',
-      '.woff',
-
-      '.png',
-      '.jpg',
-      '.jpeg',
-      '.gif',
-      '.ico',
+      '.html', '.txt', '.xml', '.json',
+      '.css', '.js',
+      '.eot', '.svg', '.ttf', '.woff',
+      '.png', '.jpg', '.jpeg', '.gif', '.ico'
     ]
-
   },
+
   Deploy: {
     github: {
       account: '',
       repository: '',
       branch: 'gh-pages',
       message: '🚀 部署！',
-    },
-
-    s3: {
-      region: 'ap-northeast-1',
 
       prefix: '',
 
-      ignoreNames: [], // 忽略的檔案
+      ignoreNames: ['.DS_Store', 'Thumbs.db', '.gitignore', '.gitkeep'], // 忽略的檔案
       ignoreExts: [], // 忽略的副檔名
-      ignoreDirs: [], // 忽略的目錄
+      ignoreDirs: ['.git'], // 忽略的目錄
+    },
+
+    s3: {
+      bucket: '',
+      access: '',
+      secret: '',
+      region: '',
+
+      prefix: '',
+
+      ignoreNames: ['.DS_Store', 'Thumbs.db', '.gitignore', '.gitkeep'], // 忽略的檔案
+      ignoreExts: [], // 忽略的副檔名
+      ignoreDirs: ['.git'], // 忽略的目錄
 
       putOptions: {
         ACL: 'public-read',
@@ -118,5 +105,4 @@ module.exports = {
       }
     }
   },
-
 }

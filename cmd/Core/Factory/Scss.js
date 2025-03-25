@@ -1,215 +1,153 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
 
-const Path       = require('path')
-const FileSystem = require('fs')
+const Path = require('path')
+const fs = require('fs/promises')
+const Factory = require('@oawu/_Factory')
+const Config = require('@oawu/_Config')
 
-const SCSS       = require('@oawu/scss')
+const { closureOrPromise, Type: T, tryIgnore } = require('@oawu/helper')
+const { Exist, checkDirs } = require('@oawu/_Helper')
+const Display = require('@oawu/_Display')
+const _scss = require('@oawu/scss')
 
-const Factory    = require('@oawu/_Factory')
-const Notifier   = require('@oawu/_Notifier')
-const Helper     = require('@oawu/_Helper')
-const Config     = require('@oawu/_Config')
+const _content = result => {
+  const content = result.utf8.trim().replace(/^\uFEFF/gm, "")
+  if (content.startsWith('@charset "UTF-8";') && content.substring('@charset "UTF-8";'.length).trim() === '') {
+    return ''
+  }
+  return content
+}
 
-const err1 = error => error.line !== undefined || error.column !== undefined ? [
-  `錯誤位置：第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字`,
-  `錯誤原因：${error.message}`,
-] : [
-  `錯誤原因：${error.message}`,
-]
-
-const Scss = function(file) {
+const Scss = function (file) {
   if (!(this instanceof Scss)) {
     return new Scss(file)
   }
 
   Factory.call(this, file)
-
-  this.dirs = Helper.Fs.deSlash(Path.relative(Config.Source.dir.scss, this.file))
-  this.css = `${Config.Source.dir.css}${[...this.dirs.slice(0, -1), `${Path.basename(this.dirs.pop(), '.scss')}.css`].join(Path.sep)}`
+  this._dirs = Path.relative(Config.Source.dir.scss, this._file).split(Path.sep).filter(t => t !== '')
+  this._css = Config.Source.dir.css + [...this._dirs.slice(0, -1), `${Path.basename(this._dirs.pop(), '.scss')}.css`].join(Path.sep)
 }
 
 Scss.prototype = Object.create(Factory.prototype)
 
-Scss.prototype.build = function(done) {
-  return SCSS.file(this.file, (error, result) => {
-    if (error) {
-      return typeof done == 'function'
-        ? done([`無法編譯：${this.name}`, ...err1(error)])
-        : null
+Scss.prototype.build = async function (done) {
+  return closureOrPromise(done, async _ => {
+    const result = await tryIgnore(_scss.file(this._file))
+    if (T.err(result)) {
+      throw new Error(`無法編譯：${this._name}`, { cause: result })
     }
 
-    if (Helper.Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
-      return typeof done == 'function'
-        ? done([`無法建立目錄：${Path.$.rRoot(Path.dirname(this.css), true)}`])
-        : null
+    const mkdir = await tryIgnore(checkDirs(Config.Source.dir.css, this._dirs))
+    if (T.err(mkdir)) {
+      throw new Error(`無法建立目錄：${Path.$.rRoot(Path.dirname(this._css), true)}`, { cause: mkdir })
     }
 
-    FileSystem.writeFile(this.css, result.utf8.replace(/^\uFEFF/gm, ""), error => {
-      if (typeof done != 'function') {
-        return null
-      }
+    const write = await tryIgnore(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
+    if (T.err(write)) {
+      throw new Error(`無法寫入：${Path.$.rRoot(this._css)}`, { cause: write })
+    }
 
-      return error
-        ? done([`無法寫入：${Path.$.rRoot(this.css)}`, error])
-        : done([])
-    })
+    return this
   })
 }
-
-Scss.prototype.create = function(done) {
-  return SCSS.file(this.file, (error, result) => {
-    if (error) {
-      Helper.Display.LineRed('編譯 scss 失敗')
-        .row('檔案', this.name)
-        .row('位置', error.line !== undefined || error.column !== undefined ? `第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字` : '')
-        .row('原因', error.info !== undefined ? error.info : error.message)
+Scss.prototype.create = async function (done) {
+  return closureOrPromise(done, async _ => {
+    const result = await tryIgnore(_scss.file(this._file))
+    if (T.err(result)) {
+      Display.Red('編譯 scss 失敗')
+        .row('檔案', this._name)
+        .row('位置', result.line !== undefined || result.column !== undefined ? `第 ${result.line !== undefined ? result.line : '?'} 行，第 ${result.column !== undefined ? result.column : '?'} 個字` : '')
+        .row('原因', result.info !== undefined ? result.info : result.message)
         .go()
-
-      Notifier('編譯 scss 失敗')
-        .row('檔案', this.name)
-        .row('位置', error.line !== undefined || error.column !== undefined ? `第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字` : '')
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
-    }
-    
-    if (Helper.Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
-      Helper.Display.LineRed('無法建立 css 目錄')
-        .row('目錄', `${Path.$.rRoot(Path.dirname(this.css), true)}`)
-        .go()
-
-      Notifier('無法建立 css 目錄')
-        .row('目錄', `${Path.$.rRoot(Path.dirname(this.css), true)}`)
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
+      return this
     }
 
-    FileSystem.writeFile(this.css, result.utf8.replace(/^\uFEFF/gm, ""), error => {
-      if (error) {
-        Helper.Display.LineRed('新增 scss 失敗')
-          .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
-          .row('原因', error.message)
-          .go()
-
-        Notifier('寫入 css 失敗')
-          .row('檔案', Path.$.rRoot(this.css))
-          .row('原因', error.message)
-          .go()
-
-        return typeof done == 'function'
-          ? done()
-          : null
-      }
-      
-      Helper.Display.LineGreen('新增 scss 成功')
-        .row('檔案路徑', this.name.dim)
-        .row('新增檔案', Path.$.rRoot(this.css).dim)
-        .row('編譯耗時', `${result.stats.duration / 1000}${' 秒'.dim}`)
+    const mkdir = await tryIgnore(checkDirs(Config.Source.dir.css, this._dirs))
+    if (T.err(mkdir)) {
+      Display.Red('無法建立 css 目錄')
+        .row('目錄', `${Path.$.rRoot(Path.dirname(this._css), true)}`)
         .go()
-
-      typeof done == 'function'
-        ? done()
-        : null
-    })
-  })
-}
-Scss.prototype.update = function(done) {
-  return SCSS.file(this.file, (error, result) => {
-    if (error) {
-      Helper.Display.LineRed('編譯 scss 失敗')
-        .row('檔案', this.name)
-        .row('位置', error.line !== undefined || error.column !== undefined ? `第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字` : '')
-        .row('原因', error.info !== undefined ? error.info : error.message)
-        .go()
-
-      Notifier('編譯 scss 失敗')
-        .row('檔案', this.name)
-        .row('位置', error.line !== undefined || error.column !== undefined ? `第 ${error.line !== undefined ? error.line : '?'} 行，第 ${error.column !== undefined ? error.column : '?'} 個字` : '')
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
-    }
-    
-    if (Helper.Fs.checkDirsExist(Config.Source.dir.css, this.dirs) !== true) {
-      Helper.Display.LineRed('無法建立 css 目錄')
-        .row('目錄', `${Path.$.rRoot(Path.dirname(this.css), true)}`)
-        .go()
-
-      Notifier('無法建立 css 目錄')
-        .row('目錄', `${Path.$.rRoot(Path.dirname(this.css), true)}`)
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
+      return this
     }
 
-    FileSystem.writeFile(this.css, result.utf8.replace(/^\uFEFF/gm, ""), error => {
-      if (error) {
-        Helper.Display.LineRed('修改 scss 失敗')
-          .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
-          .row('原因', error.message)
-          .go()
-
-        Notifier('寫入 css 失敗')
-          .row('檔案', Path.$.rRoot(this.css))
-          .row('原因', error.message)
-          .go()
-
-        return typeof done == 'function'
-          ? done()
-          : null
-      }
-      
-      Helper.Display.LineGreen('修改 scss 成功')
-        .row('檔案路徑', this.name.dim)
-        .row('修改檔案', Path.$.rRoot(this.css).dim)
-        .row('編譯耗時', `${result.stats.duration / 1000}${' 秒'.dim}`)
-        .go()
-
-      typeof done == 'function'
-        ? done()
-        : null
-    })
-  })
-}
-Scss.prototype.remove = function(done) {
-  return Helper.Fs.remove(this.css, error => {
-    if (error) {
-      Helper.Display.LineRed('移除 css 失敗')
-        .row('錯誤', `無法移除：${Path.$.rRoot(this.css)}`)
+    const write = await tryIgnore(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
+    if (T.err(write)) {
+      Display.Red('新增 scss 失敗')
+        .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
         .row('原因', error.message)
         .go()
-
-      Notifier('移除 css 失敗')
-        .row('檔案', Path.$.rRoot(this.css))
-        .row('原因', error.message)
-        .go()
-
-      return typeof done == 'function'
-        ? done()
-        : null
+      return this
     }
 
-    Helper.Display.LineGreen('移除 css 成功')
-      .row('檔案路徑', Path.$.rRoot(this.css).dim)
+    Display.Green('新增 scss 成功')
+      .row('檔案路徑', this._name.dim)
+      .row('新增檔案', Path.$.rRoot(this._css).dim)
+      .row('編譯耗時', `${result.stats.duration / 1000}${' 秒'.dim}`)
       .go()
+    return this
+  })
+}
+Scss.prototype.update = async function (done) {
+  return closureOrPromise(done, async _ => {
+    const result = await tryIgnore(_scss.file(this._file))
+    if (T.err(result)) {
+      Display.Red('編譯 scss 失敗')
+        .row('檔案', this._name)
+        .row('位置', result.line !== undefined || result.column !== undefined ? `第 ${result.line !== undefined ? result.line : '?'} 行，第 ${result.column !== undefined ? result.column : '?'} 個字` : '')
+        .row('原因', result.info !== undefined ? result.info : result.message)
+        .go()
+      return this
+    }
 
-    return typeof done == 'function'
-      ? done()
-      : null
+    const mkdir = await tryIgnore(checkDirs(Config.Source.dir.css, this._dirs))
+    if (T.err(mkdir)) {
+      Display.Red('無法建立 css 目錄')
+        .row('目錄', `${Path.$.rRoot(Path.dirname(this._css), true)}`)
+        .go()
+      return this
+    }
+
+    const write = await tryIgnore(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
+    if (T.err(write)) {
+      Display.Red('修改 scss 失敗')
+        .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
+        .row('原因', error.message)
+        .go()
+      return this
+    }
+
+    Display.Green('修改 scss 成功')
+      .row('檔案路徑', this._name.dim)
+      .row('修改檔案', Path.$.rRoot(this._css).dim)
+      .row('編譯耗時', `${result.stats.duration / 1000}${' 秒'.dim}`)
+      .go()
+    return this
+  })
+}
+Scss.prototype.remove = async function (done) {
+  return closureOrPromise(done, async _ => {
+    if (T.err(await tryIgnore(Exist.file(this._css, fs.constants.R_OK)))) {
+      return this
+    }
+
+    await tryIgnore(fs.unlink(this._css))
+
+    if (T.err(await tryIgnore(Exist.file(this._css, fs.constants.R_OK)))) {
+      Display.Green('移除 css 成功')
+        .row('檔案路徑', Path.$.rRoot(this._css).dim)
+        .go()
+    } else {
+      Display.Red('移除 css 失敗')
+        .row('錯誤', `無法移除：${Path.$.rRoot(this._css)}`)
+        .go()
+    }
+
+    return this
   })
 }
 
