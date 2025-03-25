@@ -6,7 +6,7 @@
  */
 
 const Path = require('path')
-const { closureOrPromise } = require('@oawu/helper')
+const { promisify } = require('@oawu/helper')
 
 const Factory = function (file) {
   if (!(this instanceof Factory)) {
@@ -17,9 +17,9 @@ const Factory = function (file) {
   this._name = Path.$.rRoot(file)
 }
 
-Factory.prototype.build = function (done) { return closureOrPromise(done, async _ => { }) }
-Factory.prototype.create = function (done) { return closureOrPromise(done, async _ => { }) }
-Factory.prototype.update = function (done) { return closureOrPromise(done, async _ => { }) }
-Factory.prototype.remove = function (done) { return closureOrPromise(done, async _ => { }) }
+Factory.prototype.build = function (done) { return promisify(done, async _ => { }) }
+Factory.prototype.create = function (done) { return promisify(done, async _ => { }) }
+Factory.prototype.update = function (done) { return promisify(done, async _ => { }) }
+Factory.prototype.remove = function (done) { return promisify(done, async _ => { }) }
 
 module.exports = Factory

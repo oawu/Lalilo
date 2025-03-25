@@ -6,7 +6,7 @@
  */
 
 const Factory = require('@oawu/_Factory')
-const { closureOrPromise, Type: T } = require('@oawu/helper')
+const { promisify, Type: T } = require('@oawu/helper')
 
 const File = function (file) {
   if (!(this instanceof File)) {
@@ -68,7 +68,7 @@ const _reload = _ => {
 }
 
 File.prototype.create = function (done) {
-  return closureOrPromise(done, done => {
+  return promisify(done, done => {
     _actions.push({ type: '新增', name: this._name })
     _reload()
     done()
@@ -76,7 +76,7 @@ File.prototype.create = function (done) {
 }
 
 File.prototype.update = function (done) {
-  return closureOrPromise(done, done => {
+  return promisify(done, done => {
     _actions.push({ type: '修改', name: this._name })
     _reload()
     done()
@@ -84,7 +84,7 @@ File.prototype.update = function (done) {
 }
 
 File.prototype.remove = function (done) {
-  return closureOrPromise(done, done => {
+  return promisify(done, done => {
     _actions.push({ type: '刪除', name: this._name })
     _reload()
     done()

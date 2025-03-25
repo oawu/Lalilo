@@ -10,7 +10,7 @@ const fs = require('fs/promises')
 const Factory = require('@oawu/_Factory')
 const Config = require('@oawu/_Config')
 
-const { closureOrPromise, Type: T, tryIgnore } = require('@oawu/helper')
+const { promisify, Type: T, tryFunc } = require('@oawu/helper')
 const { Exist, checkDirs } = require('@oawu/_Helper')
 const Display = require('@oawu/_Display')
 const _scss = require('@oawu/scss')
@@ -36,18 +36,18 @@ const Scss = function (file) {
 Scss.prototype = Object.create(Factory.prototype)
 
 Scss.prototype.build = async function (done) {
-  return closureOrPromise(done, async _ => {
-    const result = await tryIgnore(_scss.file(this._file))
+  return promisify(done, async _ => {
+    const result = await tryFunc(_scss.file(this._file))
     if (T.err(result)) {
       throw new Error(`無法編譯：${this._name}`, { cause: result })
     }
 
-    const mkdir = await tryIgnore(checkDirs(Config.Source.dir.css, this._dirs))
+    const mkdir = await tryFunc(checkDirs(Config.Source.dir.css, this._dirs))
     if (T.err(mkdir)) {
       throw new Error(`無法建立目錄：${Path.$.rRoot(Path.dirname(this._css), true)}`, { cause: mkdir })
     }
 
-    const write = await tryIgnore(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
+    const write = await tryFunc(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
     if (T.err(write)) {
       throw new Error(`無法寫入：${Path.$.rRoot(this._css)}`, { cause: write })
     }
@@ -56,8 +56,8 @@ Scss.prototype.build = async function (done) {
   })
 }
 Scss.prototype.create = async function (done) {
-  return closureOrPromise(done, async _ => {
-    const result = await tryIgnore(_scss.file(this._file))
+  return promisify(done, async _ => {
+    const result = await tryFunc(_scss.file(this._file))
     if (T.err(result)) {
       Display.Red('編譯 scss 失敗')
         .row('檔案', this._name)
@@ -67,7 +67,7 @@ Scss.prototype.create = async function (done) {
       return this
     }
 
-    const mkdir = await tryIgnore(checkDirs(Config.Source.dir.css, this._dirs))
+    const mkdir = await tryFunc(checkDirs(Config.Source.dir.css, this._dirs))
     if (T.err(mkdir)) {
       Display.Red('無法建立 css 目錄')
         .row('目錄', `${Path.$.rRoot(Path.dirname(this._css), true)}`)
@@ -75,7 +75,7 @@ Scss.prototype.create = async function (done) {
       return this
     }
 
-    const write = await tryIgnore(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
+    const write = await tryFunc(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
     if (T.err(write)) {
       Display.Red('新增 scss 失敗')
         .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
@@ -93,8 +93,8 @@ Scss.prototype.create = async function (done) {
   })
 }
 Scss.prototype.update = async function (done) {
-  return closureOrPromise(done, async _ => {
-    const result = await tryIgnore(_scss.file(this._file))
+  return promisify(done, async _ => {
+    const result = await tryFunc(_scss.file(this._file))
     if (T.err(result)) {
       Display.Red('編譯 scss 失敗')
         .row('檔案', this._name)
@@ -104,7 +104,7 @@ Scss.prototype.update = async function (done) {
       return this
     }
 
-    const mkdir = await tryIgnore(checkDirs(Config.Source.dir.css, this._dirs))
+    const mkdir = await tryFunc(checkDirs(Config.Source.dir.css, this._dirs))
     if (T.err(mkdir)) {
       Display.Red('無法建立 css 目錄')
         .row('目錄', `${Path.$.rRoot(Path.dirname(this._css), true)}`)
@@ -112,7 +112,7 @@ Scss.prototype.update = async function (done) {
       return this
     }
 
-    const write = await tryIgnore(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
+    const write = await tryFunc(fs.writeFile(this._css, _content(result), { encoding: 'utf8' }))
     if (T.err(write)) {
       Display.Red('修改 scss 失敗')
         .row('錯誤', `無法寫入 ${Path.$.rRoot(this.css)}`)
@@ -130,14 +130,14 @@ Scss.prototype.update = async function (done) {
   })
 }
 Scss.prototype.remove = async function (done) {
-  return closureOrPromise(done, async _ => {
-    if (T.err(await tryIgnore(Exist.file(this._css, fs.constants.R_OK)))) {
+  return promisify(done, async _ => {
+    if (T.err(await tryFunc(Exist.file(this._css, fs.constants.R_OK)))) {
       return this
     }
 
-    await tryIgnore(fs.unlink(this._css))
+    await tryFunc(fs.unlink(this._css))
 
-    if (T.err(await tryIgnore(Exist.file(this._css, fs.constants.R_OK)))) {
+    if (T.err(await tryFunc(Exist.file(this._css, fs.constants.R_OK)))) {
       Display.Green('移除 css 成功')
         .row('檔案路徑', Path.$.rRoot(this._css).dim)
         .go()
