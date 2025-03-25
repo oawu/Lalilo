@@ -11,7 +11,7 @@ const Path = require('path')
 const Babel = require("@babel/core")
 
 const Config = require('@oawu/_Config')
-const { Type: T, tryIgnore } = require('@oawu/helper')
+const { Type: T, tryFunc } = require('@oawu/helper')
 const { inDir, Concat, scanFiles, fileExt } = require('@oawu/_Helper')
 
 const cssDir = _ => {
@@ -168,7 +168,7 @@ const _mergeCss = async list => {
       continue
     }
 
-    let content = await tryIgnore(fs.readFile(file, { encoding: 'utf8' }))
+    let content = await tryFunc(fs.readFile(file, { encoding: 'utf8' }))
     if (T.err(content)) {
       continue
     }
@@ -219,7 +219,7 @@ const _mergeJs = async list => {
     }
 
     if (!merge) {
-      let content = await tryIgnore(fs.readFile(file, { encoding: 'utf8' }))
+      let content = await tryFunc(fs.readFile(file, { encoding: 'utf8' }))
       if (T.err(content)) {
         continue
       }
@@ -230,7 +230,7 @@ const _mergeJs = async list => {
       continue
     }
 
-    let content = await tryIgnore(fs.readFile(file, { encoding: 'utf8' }))
+    let content = await tryFunc(fs.readFile(file, { encoding: 'utf8' }))
     if (T.err(content)) {
       continue
     }

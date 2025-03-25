@@ -12,7 +12,7 @@ const mime = require('mime-types')
 const crypto = require('crypto')
 const Handlebars = require('handlebars')
 
-const { tryIgnore, Type: T } = require('@oawu/helper')
+const { tryFunc, Type: T } = require('@oawu/helper')
 
 const Config = require('@oawu/_Config')
 const { Exist, fileExt, execModel } = require('@oawu/_Helper')
@@ -81,11 +81,11 @@ const _appendWebSocket = data => {
 }
 
 const _outputModel = async (response, path, html) => {
-  if (T.err(await tryIgnore(Exist.file(`${path}`, fs.constants.R_OK)))) {
+  if (T.err(await tryFunc(Exist.file(`${path}`, fs.constants.R_OK)))) {
     return _output(response, 200, 'text/html; charset=UTF-8', _appendWebSocket(html))
   }
 
-  const model = await tryIgnore(fs.readFile(path, { encoding: 'utf8' }))
+  const model = await tryFunc(fs.readFile(path, { encoding: 'utf8' }))
   if (T.err(model)) {
     Display.Red('讀取 Model 失敗')
       .row('目錄', `${Path.$.rRoot(path)}`)
@@ -97,7 +97,7 @@ const _outputModel = async (response, path, html) => {
   const md5 = crypto.createHash('md5').update(model).digest('hex')
   const tmpPath = `${Config.Source.modelTmpDir}${md5}.js`
 
-  const copy = await tryIgnore(fs.copyFile(path, tmpPath))
+  const copy = await tryFunc(fs.copyFile(path, tmpPath))
   if (T.err(copy)) {
     Display.Red('無法複製 Model')
       .row('檔案', `${Path.$.rRoot(path)}`)
@@ -107,8 +107,8 @@ const _outputModel = async (response, path, html) => {
     return _output(response, 200, 'text/html; charset=UTF-8', _appendWebSocket(html))
   }
 
-  const obj = await tryIgnore(require(tmpPath))
-  await tryIgnore(fs.unlink(tmpPath))
+  const obj = await tryFunc(require(tmpPath))
+  await tryFunc(fs.unlink(tmpPath))
 
   if (T.err(obj)) {
     Display.Red('執行 Model 錯誤')
@@ -125,7 +125,7 @@ const _outputModel = async (response, path, html) => {
 
 const _readHtml = async (response, htmlModel) => {
 
-  const html = await tryIgnore(fs.readFile(htmlModel.html, { encoding: 'utf8' }))
+  const html = await tryFunc(fs.readFile(htmlModel.html, { encoding: 'utf8' }))
   if (T.err(html)) {
     return _outputError(response, '無法讀取檔案！')
   }
@@ -137,7 +137,7 @@ const _readHtml = async (response, htmlModel) => {
 
 const _readFile = async (response, path, extension) => {
   const isUtf8 = Config.Server.server.utf8Exts.includes(extension)
-  const data = await tryIgnore(fs.readFile(path, isUtf8 ? { encoding: 'utf8' } : {}))
+  const data = await tryFunc(fs.readFile(path, isUtf8 ? { encoding: 'utf8' } : {}))
   if (T.err(data)) {
     return _outputError(response, '無法讀取檔案！')
   }
@@ -157,7 +157,7 @@ module.exports = async (request, response) => {
       `${Config.Source.dir.html}${_main}.html`,
       `${Config.Source.dir.model}${_main}.js`)
 
-    if (!T.err(await tryIgnore(Exist.file(path.html, fs.constants.R_OK)))) {
+    if (!T.err(await tryFunc(Exist.file(path.html, fs.constants.R_OK)))) {
       return await _readHtml(response, path)
     }
 
@@ -172,7 +172,7 @@ module.exports = async (request, response) => {
       `${Config.Source.dir.html}${dirs.join(Path.sep)}${Path.sep}${name}`,
       `${Config.Source.dir.model}${dirs.join(Path.sep)}${Path.sep}${Path.basename(name, '.html')}.js`)
 
-    if (!T.err(await tryIgnore(Exist.file(path.html, fs.constants.R_OK)))) {
+    if (!T.err(await tryFunc(Exist.file(path.html, fs.constants.R_OK)))) {
       return await _readHtml(response, path)
     }
 
@@ -185,7 +185,7 @@ module.exports = async (request, response) => {
       `${Config.Source.dir.html}${dirs.join(Path.sep)}.html`,
       `${Config.Source.dir.model}${dirs.join(Path.sep)}.js`)
 
-    if (!T.err(await tryIgnore(Exist.file(path1.html, fs.constants.R_OK)))) {
+    if (!T.err(await tryFunc(Exist.file(path1.html, fs.constants.R_OK)))) {
       return await _readHtml(response, path1)
     }
 
@@ -193,7 +193,7 @@ module.exports = async (request, response) => {
       `${Config.Source.dir.html}${dirs.join(Path.sep)}${Path.sep}${_main}.html`,
       `${Config.Source.dir.model}${dirs.join(Path.sep)}${Path.sep}${_main}.js`)
 
-    if (!T.err(await tryIgnore(Exist.file(path2.html, fs.constants.R_OK)))) {
+    if (!T.err(await tryFunc(Exist.file(path2.html, fs.constants.R_OK)))) {
       return await _readHtml(response, path2)
     }
 
@@ -202,12 +202,12 @@ module.exports = async (request, response) => {
 
   // other
   const path1 = `${Config.Source.dir.html}${dirs.join(Path.sep)}`
-  if (!T.err(await tryIgnore(Exist.file(path1, fs.constants.R_OK)))) {
+  if (!T.err(await tryFunc(Exist.file(path1, fs.constants.R_OK)))) {
     return await _readFile(response, path1, extension)
   }
 
   const path2 = `${Config.Source.path}${dirs.join(Path.sep)}`
-  if (!T.err(await tryIgnore(Exist.file(path2, fs.constants.R_OK)))) {
+  if (!T.err(await tryFunc(Exist.file(path2, fs.constants.R_OK)))) {
     return await _readFile(response, path2, extension)
   }
 

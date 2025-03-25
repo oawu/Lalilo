@@ -9,7 +9,7 @@ const fs = require('fs/promises')
 const Path = require('path')
 const { cli, Concat, checkDir, Exist, scanFiles, inDir, checkDirs, execModel } = require('@oawu/_Helper')
 const Config = require('@oawu/_Config')
-const { Type: T, Sigint, tryIgnore, Argv, Print } = require('@oawu/helper')
+const { Type: T, Sigint, tryFunc, Argv, Print } = require('@oawu/helper')
 const exec = require('child_process').exec
 const FactoryIcon = require('@oawu/_FactoryIcon')
 const FactoryScss = require('@oawu/_FactoryScss')
@@ -19,7 +19,7 @@ const crypto = require('crypto')
 const Handlebars = require('handlebars')
 
 const _buildHtml = async file => {
-  const html = await tryIgnore(fs.readFile(file.src.file, { encoding: 'utf8' }))
+  const html = await tryFunc(fs.readFile(file.src.file, { encoding: 'utf8' }))
   if (T.err(html)) {
     throw new Error(`無法讀取 ${Path.$.rRoot(file.src.file)}`, { cause: html })
   }
@@ -28,7 +28,7 @@ const _buildHtml = async file => {
     return html
   }
 
-  const model = await tryIgnore(fs.readFile(file.src.model, { encoding: 'utf8' }))
+  const model = await tryFunc(fs.readFile(file.src.model, { encoding: 'utf8' }))
   if (T.err(model)) {
     throw new Error(`無法讀取 ${Path.$.rRoot(file.src.model)}`, { cause: model })
   }
@@ -36,13 +36,13 @@ const _buildHtml = async file => {
   const md5 = crypto.createHash('md5').update(model).digest('hex')
   const tmpPath = `${Config.Source.modelTmpDir}${md5}.js`
 
-  const copy = await tryIgnore(fs.copyFile(file.src.model, tmpPath))
+  const copy = await tryFunc(fs.copyFile(file.src.model, tmpPath))
   if (T.err(copy)) {
     throw new Error(`無法複製 Model`, { cause: copy })
   }
 
-  const obj = await tryIgnore(require(tmpPath))
-  await tryIgnore(fs.unlink(tmpPath))
+  const obj = await tryFunc(require(tmpPath))
+  await tryFunc(fs.unlink(tmpPath))
 
   if (T.err(obj)) {
     throw new Error(`執行 Model 錯誤`, { cause: obj })
@@ -57,7 +57,7 @@ const _buildHtml = async file => {
 const _Goal = {
   _git: async _ => {
     let result = { account: '', repository: '', branch: '', message: '' }
-    const output = await tryIgnore(new Promise((resolve, reject) => exec('git remote get-url origin', (error, stdout, stderr) => error ? reject(error) : resolve({ stdout, stderr }))))
+    const output = await tryFunc(new Promise((resolve, reject) => exec('git remote get-url origin', (error, stdout, stderr) => error ? reject(error) : resolve({ stdout, stderr }))))
     if (T.err(output)) {
       return result
     }
@@ -267,7 +267,7 @@ module.exports = {
       Config.Server.watch.ignoreDirs = Config.Server.watch.ignoreDirs.filter(dir => T.neStr(dir))
       const _dirs = await Promise.all(Config.Server.watch.ignoreDirs.map(async dir => {
         dir = Concat.dir(Config.Source.path, dir)
-        return T.err(await tryIgnore(Exist.dir(dir, fs.constants.R_OK))) ? null : dir
+        return T.err(await tryFunc(Exist.dir(dir, fs.constants.R_OK))) ? null : dir
       }))
       Config.Server.watch.ignoreDirs = _dirs.filter(dir => dir !== null)
 
@@ -321,7 +321,7 @@ module.exports = {
 
       Config.Build.path = Concat.dir(Path.$.root, Config.Build.path, 'dist')
 
-      await tryIgnore(checkDir(Config.Build.path, fs.constants.R_OK | fs.constants.W_OK, Path.$.rRoot))
+      await tryFunc(checkDir(Config.Build.path, fs.constants.R_OK | fs.constants.W_OK, Path.$.rRoot))
 
       cli.cmdSubtitle('檢查', '出口路徑是否有讀寫權限')
       await checkDir(Config.Build.path, fs.constants.R_OK | fs.constants.W_OK, Path.$.rRoot)
@@ -342,7 +342,7 @@ module.exports = {
       Config.Build.copy.files = Config.Build.copy.files.filter(dir => T.neStr(dir))
       const _files = await Promise.all(Config.Build.copy.files.map(async file => {
         file = Concat.file(Config.Source.path, file)
-        return T.err(await tryIgnore(Exist.file(file, fs.constants.R_OK))) ? null : file
+        return T.err(await tryFunc(Exist.file(file, fs.constants.R_OK))) ? null : file
       }))
       Config.Build.copy.files = _files.filter(file => file !== null)
 
@@ -352,7 +352,7 @@ module.exports = {
       Config.Build.copy.dirs = Config.Build.copy.dirs.filter(dir => T.neStr(dir))
       const _dirs = await Promise.all(Config.Build.copy.dirs.map(async dir => {
         dir = Concat.dir(Config.Source.path, dir)
-        return T.err(await tryIgnore(Exist.dir(dir, fs.constants.R_OK))) ? null : dir
+        return T.err(await tryFunc(Exist.dir(dir, fs.constants.R_OK))) ? null : dir
       }))
       Config.Build.copy.dirs = _dirs.filter(dir => dir !== null)
 
@@ -529,7 +529,7 @@ module.exports = {
       cli.cmdSubtitle('執行動作', 'verify src/icon/**/style.css')
 
       const files = await scanFiles(Config.Source.dir.icon, false)
-      const icons = await Promise.all(files.filter(({ type }) => type === 'dir').map(({ path }) => path + 'style.css').map(async file => T.err(await tryIgnore(Exist.file(file, fs.constants.R_OK))) ? null : file))
+      const icons = await Promise.all(files.filter(({ type }) => type === 'dir').map(({ path }) => path + 'style.css').map(async file => T.err(await tryFunc(Exist.file(file, fs.constants.R_OK))) ? null : file))
       await Promise.all(icons.filter(file => file !== null).map(async file => await FactoryIcon(file).build()))
     })
 
@@ -613,11 +613,11 @@ module.exports = {
       cli.total(files.cssFiles.length)
 
       for (const file of files.cssFiles) {
-        const mkdir = await tryIgnore(checkDirs(file.dist.base, file.dist.dirs))
+        const mkdir = await tryFunc(checkDirs(file.dist.base, file.dist.dirs))
         if (T.err(mkdir)) {
           throw new Error(`無法建立 ${Path.$.rRoot(`${Concat.dir(file.dist.base, file.dist.dirs.join(Path.sep), '')}`)}`, { cause: mkdir })
         }
-        const content = await tryIgnore(fs.readFile(file.src.file, { encoding: 'utf8' }))
+        const content = await tryFunc(fs.readFile(file.src.file, { encoding: 'utf8' }))
         if (T.err(content)) {
           throw new Error(`無法讀取 ${Path.$.rRoot(file.src.file)}`, { cause: content })
         }
@@ -634,11 +634,11 @@ module.exports = {
       cli.total(files.jsFiles.length)
 
       for (const file of files.jsFiles) {
-        const mkdir = await tryIgnore(checkDirs(file.dist.base, file.dist.dirs))
+        const mkdir = await tryFunc(checkDirs(file.dist.base, file.dist.dirs))
         if (T.err(mkdir)) {
           throw new Error(`無法建立 ${Path.$.rRoot(`${Concat.dir(file.dist.base, file.dist.dirs.join(Path.sep), '')}`)}`, { cause: mkdir })
         }
-        const content = await tryIgnore(fs.readFile(file.src.file, { encoding: 'utf8' }))
+        const content = await tryFunc(fs.readFile(file.src.file, { encoding: 'utf8' }))
         if (T.err(content)) {
           throw new Error(`無法讀取 ${Path.$.rRoot(file.src.file)}`, { cause: content })
         }
@@ -656,12 +656,12 @@ module.exports = {
       cli.total(files.htmlFiles.length)
 
       for (const file of files.htmlFiles) {
-        const mkdir = await tryIgnore(checkDirs(file.dist.base, file.dist.dirs))
+        const mkdir = await tryFunc(checkDirs(file.dist.base, file.dist.dirs))
         if (T.err(mkdir)) {
           throw new Error(`無法建立 ${Path.$.rRoot(`${Concat.dir(file.dist.base, file.dist.dirs.join(Path.sep), '')}`)}`, { cause: mkdir })
         }
 
-        const content = await tryIgnore(_buildHtml(file))
+        const content = await tryFunc(_buildHtml(file))
         if (T.err(content)) {
           throw content
         }
@@ -678,12 +678,12 @@ module.exports = {
       cli.cmdSubtitle('執行動作', 'copy other files')
       cli.total(files.otherFiles.length)
       for (const file of files.otherFiles) {
-        const mkdir = await tryIgnore(checkDirs(file.dist.base, file.dist.dirs))
+        const mkdir = await tryFunc(checkDirs(file.dist.base, file.dist.dirs))
         if (T.err(mkdir)) {
           throw new Error(`無法建立 ${Path.$.rRoot(`${Concat.dir(file.dist.base, file.dist.dirs.join(Path.sep), '')}`)}`, { cause: mkdir })
         }
 
-        const copy = await tryIgnore(fs.copyFile(file.src.file, file.dist.file))
+        const copy = await tryFunc(fs.copyFile(file.src.file, file.dist.file))
         if (T.err(copy)) {
           throw new Error(`無法複製 ${Path.$.rRoot(file.src.file)} 至 ${Path.$.rRoot(file.dist.file)}`, { cause: copy })
         }

@@ -6,9 +6,9 @@
  */
 
 const Net = require('net')
-const { closureOrPromise, Type: T } = require('@oawu/helper')
+const { promisify, Type: T } = require('@oawu/helper')
 
-module.exports = async (port, closure = null) => closureOrPromise(closure, done => {
+module.exports = async (port, closure = null) => promisify(closure, done => {
   const net = Net.createServer()
 
   net.once('error', error => error.code == 'EADDRINUSE'

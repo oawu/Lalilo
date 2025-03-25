@@ -10,7 +10,7 @@ const fs = require('fs/promises')
 const Factory = require('@oawu/_Factory')
 const Config = require('@oawu/_Config')
 
-const { closureOrPromise, Type: T, tryIgnore } = require('@oawu/helper')
+const { promisify, Type: T, tryFunc } = require('@oawu/helper')
 const { Exist } = require('@oawu/_Helper')
 const Display = require('@oawu/_Display')
 
@@ -85,13 +85,13 @@ Icon.prototype = Object.create(Factory.prototype)
 
 
 Icon.prototype.build = function (done) {
-  return closureOrPromise(done, async _ => {
-    let data = await tryIgnore(fs.readFile(this._file, { encoding: 'utf8' }))
+  return promisify(done, async _ => {
+    let data = await tryFunc(fs.readFile(this._file, { encoding: 'utf8' }))
     if (T.err(data)) {
       throw new Error(`無法讀取：${this._name}`, { cause: data })
     }
 
-    let result = await tryIgnore(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
+    let result = await tryFunc(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
     if (T.err(result)) {
       throw new Error(`無法寫入：${Path.$.rRoot(this._scss)}`, { cause: result })
     }
@@ -101,8 +101,8 @@ Icon.prototype.build = function (done) {
 }
 
 Icon.prototype.create = function (done) {
-  return closureOrPromise(done, async _ => {
-    let data = await tryIgnore(fs.readFile(this._file, { encoding: 'utf8' }))
+  return promisify(done, async _ => {
+    let data = await tryFunc(fs.readFile(this._file, { encoding: 'utf8' }))
     if (T.err(data)) {
       Display.Red('新增 icon 失敗')
         .row('錯誤', `無法讀取「${this._name}」`)
@@ -111,7 +111,7 @@ Icon.prototype.create = function (done) {
       return this
     }
 
-    let result = await tryIgnore(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
+    let result = await tryFunc(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
     if (T.err(result)) {
       Display.Red('新增 icon 失敗')
         .row('錯誤', `無法寫入「${Path.$.rRoot(this._scss)}」`)
@@ -128,8 +128,8 @@ Icon.prototype.create = function (done) {
   })
 }
 Icon.prototype.update = function (done) {
-  return closureOrPromise(done, async _ => {
-    let data = await tryIgnore(fs.readFile(this._file, { encoding: 'utf8' }))
+  return promisify(done, async _ => {
+    let data = await tryFunc(fs.readFile(this._file, { encoding: 'utf8' }))
     if (T.err(data)) {
       Display.Red('修改 icon 失敗')
         .row('錯誤', `無法讀取「${this._name}」`)
@@ -138,7 +138,7 @@ Icon.prototype.update = function (done) {
       return this
     }
 
-    let result = await tryIgnore(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
+    let result = await tryFunc(fs.writeFile(this._scss, _parse(`.${this._face}-`, this._dir, this._face, data), { encoding: 'utf8' }))
     if (T.err(result)) {
       Display.Red('修改 icon 失敗')
         .row('錯誤', `無法寫入「${Path.$.rRoot(this._scss)}」`)
@@ -155,14 +155,14 @@ Icon.prototype.update = function (done) {
   })
 }
 Icon.prototype.remove = function (done) {
-  return closureOrPromise(done, async _ => {
-    if (T.err(await tryIgnore(Exist.file(this._scss, fs.constants.R_OK)))) {
+  return promisify(done, async _ => {
+    if (T.err(await tryFunc(Exist.file(this._scss, fs.constants.R_OK)))) {
       return this
     }
 
-    await tryIgnore(fs.unlink(this._scss))
+    await tryFunc(fs.unlink(this._scss))
 
-    if (T.err(await tryIgnore(Exist.file(this._scss, fs.constants.R_OK)))) {
+    if (T.err(await tryFunc(Exist.file(this._scss, fs.constants.R_OK)))) {
       Display.Green('移除 scss 成功')
         .row('檔案路徑', Path.$.rRoot(this._scss).dim)
         .go()

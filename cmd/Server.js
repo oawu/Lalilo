@@ -10,7 +10,7 @@ const chokidar = require('chokidar')
 const socketIo = require('socket.io')
 
 const xterm = require('@oawu/xterm')
-const { Print, Sigint, Type: T, tryIgnore } = require('@oawu/helper')
+const { Print, Sigint, Type: T, tryFunc } = require('@oawu/helper')
 const { cli, during } = require('@oawu/_Helper')
 const Valid = require('@oawu/_Valid')
 const Config = require('@oawu/_Config')
@@ -28,7 +28,7 @@ let ready = false
 
 const _portTry = async val => await cli(`檢查 ${`${val}`.lightGray}`, async cli => {
   cli.cmdSubtitle('執行動作', `Listening port: ${val}`)
-  const result = await tryIgnore(Port(val))
+  const result = await tryFunc(Port(val))
   return T.err(result) ? result : val
 })
 

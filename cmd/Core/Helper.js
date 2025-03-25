@@ -8,14 +8,14 @@
 const cli = require('@oawu/cli-progress')
 const fs = require('fs/promises')
 
-const { Type: T, tryIgnore } = require('@oawu/helper')
+const { Type: T, tryFunc } = require('@oawu/helper')
 const Path = require('path')
 
 cli.option.color = true
 cli.cmdSubtitle = (desc, action = null) => cli.appendTitle(desc.lightGray.dim + (action !== null ? '：'.dim + action.lightGray.dim.italic : ''))
 
 const _access = async (path, permission, type = 0, rRoot = null) => {
-  const access = await tryIgnore(fs.access(path, permission))
+  const access = await tryFunc(fs.access(path, permission))
   if (T.err(access)) {
     throw new Error(`路徑「${rRoot ? rRoot(path, true) : path}」沒有訪問權限。`, { cause: access })
   }
@@ -39,8 +39,8 @@ const _access = async (path, permission, type = 0, rRoot = null) => {
 const inDir = (parent, child) => Path.normalize(child).startsWith(Path.normalize(parent))
 
 const checkDir = async (dir, permission, rRoot = null) => {
-  if (T.err(await tryIgnore(fs.access(dir)))) {
-    await tryIgnore(fs.mkdir(dir, { recursive: false }))
+  if (T.err(await tryFunc(fs.access(dir)))) {
+    await tryFunc(fs.mkdir(dir, { recursive: false }))
   }
 
   return _access(dir, permission, -1, rRoot)
