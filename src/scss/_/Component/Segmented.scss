@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -31,7 +31,7 @@
       z-index: 2;
       height: $h;
       line-height: $h;
-      
+
       @include transition(opacity .3s);
       span, i {
         position: relative;
@@ -54,7 +54,7 @@
         font-style: normal;
         color: var(--ui-color-iOS-label);
         background-color: var(--ui-color-iOS-tertiaryLabel);
-        
+
         @include opacity(.7);
         @include border-radius(math.div(16px, 2));
         @include transition(opacity .3s, background-color .3s, color .3s);
@@ -75,14 +75,14 @@
         background-color: var(--ui-color-iOS-systemFill);
         @include opacity(0);
         @include transition(opacity .3s);
-        
+
       }
       + label {
         &:before {
           @include opacity(1);
         }
       }
-    } 
+    }
 
     > span {
       position: absolute;
@@ -118,7 +118,7 @@
             &:before {
               @include opacity(0);
             }
-          } 
+          }
         }
       }
     }
@@ -146,7 +146,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      
+
       font-size: medium;
       text-align: center;
       padding: 8px 0;
@@ -210,7 +210,7 @@
         font-style: normal;
         color: var(--ui-color-iOS-label);
         background-color: var(--ui-color-iOS-tertiaryLabel);
-        
+
         @include opacity(.7);
         @include border-radius(math.div(16px, 2));
         @include transition(opacity .3s, background-color .3s, color .3s);
@@ -246,7 +246,7 @@
         }
       }
     }
-    
+
     @for $i from 0 through ($n - 1) {
       &[i="#{$i}"] {
         &:before {

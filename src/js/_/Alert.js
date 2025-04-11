@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -22,7 +22,7 @@ const Alert = function(title = null, message = null, buttons = [], inputs = []) 
       inputs: [],
       status: {
         p0: false,
-        p1: false, 
+        p1: false,
       }
     },
     methods: {
@@ -47,7 +47,7 @@ const Alert = function(title = null, message = null, buttons = [], inputs = []) 
               }, 50)
 
               this.status.p1 = true
-              
+
               if (typeof completion == 'function') {
                 completion()
               }
@@ -93,7 +93,7 @@ const Alert = function(title = null, message = null, buttons = [], inputs = []) 
 
         setTimeout(_ => {
           this.display = false
-          
+
           if (typeof completion == 'function') {
             completion()
           }
@@ -227,7 +227,7 @@ Object.defineProperty(Alert, 'shared', { get () {
   if (this._shared === undefined) {
     this._shared = this()
   }
-  
+
   return this._shared
 } })
 

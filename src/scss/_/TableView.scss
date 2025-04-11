@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -12,7 +12,7 @@
 
 .__oaui-tbv {
   --tbv-color: transparent;
-  
+
   --tbv-section-margin-top: 16px;
   --tbv-section-margin-bottom: 12px;
 
@@ -48,11 +48,11 @@
   --tbv-cell-padding-left: 16px;
   --tbv-cell-padding-right: 16px;
   --tbv-cell-empty-color: var(--ui-color-iOS-secondaryLabel);
-  
+
   --tbv-cell-radius-hover: 8px;
   --tbv-cell-color-hover: var(--ui-color-iOS-quaternarySystemFill);
   --tbv-cell-color-active: var(--ui-color-iOS-tertiarySystemFill);
-  
+
   --tbv-cell-title-color: var(--ui-color-iOS-label);
   --tbv-cell-subtitle-color: var(--ui-color-iOS-secondaryLabel);
   --tbv-cell-value-color: var(--ui-color-iOS-secondaryLabel);
@@ -136,7 +136,7 @@
   --tbv-cell-switch-loading-color-2: var(--ui-color-iOS-systemGray);
 
   --user-select: none;
-  
+
   @include dark {
     --tbv-section-body-shadow: 0 0 1px rgba(235, 235, 245, 0.3);
   }
@@ -147,7 +147,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  
+
   width: 100%;
   overflow: hidden;
   background-color: var(--tbv-color);
@@ -163,7 +163,7 @@
     width: 100%;
     margin-top: var(--tbv-section-margin-top);
     margin-bottom: var(--tbv-section-margin-bottom);
-    
+
     padding-top: var(--tbv-section-padding-top);
     padding-bottom: var(--tbv-section-padding-bottom);
     padding-left: var(--tbv-section-padding-left);
@@ -219,7 +219,7 @@
       @include border-radius(var(--tbv-section-body-radius));
       // &:not(:empty) {
       //   padding-top: calc(var(--tbv-section-body-radius) / 2);
-      //   padding-bottom: calc(var(--tbv-section-body-radius) / 2); 
+      //   padding-bottom: calc(var(--tbv-section-body-radius) / 2);
       // }
     }
 
@@ -261,7 +261,7 @@
     &:last-child {
       --last-padding-bottom: var(--tbv-section-body-radius) / 4;
     }
-    
+
     > ._separator {
       position: absolute;
       left: var(--tbv-cell-padding-left);
@@ -360,7 +360,7 @@
       @include box-shadow(0 0 0 2px var(--tbv-cell-switch-focus));
       @include border-radius(calc(var(--tbv-cell-switch-height) / 2));
       @include transform(translateY(calc(-50% + var(--first-padding-top) / 2 - var(--last-padding-bottom) / 2)));
-      
+
       &:before, &:after {
         content: '';
         position: absolute;
@@ -568,7 +568,7 @@
 
         margin: 0;
         padding: 8px 12px;
-        
+
         @include appearance(none);
         @include input-placeholder {
           font-size: small;
@@ -578,7 +578,7 @@
         &:focus {
           outline: 0;
         }
-        
+
         &:not([readonly]):focus {
           border-color: var(--ui-color-iOS-link);
           @include box-shadow(0 0 0 3px var(--ui-color-macOS-keyboardFocusIndicatorColor));
@@ -638,7 +638,7 @@
         color: var(--tbv-cell-empty-color);
         font-style: italic;
         font-size: small;
-        text-align: center;  
+        text-align: center;
       }
     }
     &.__radio_on, &.__radio_off {

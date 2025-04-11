@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, @oawu/queue
+ * @copyright   Copyright (c) 2015 - 2025, @oawu/queue
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -16,7 +16,7 @@ const Queue = function(...params) {
 }
 
 Queue.prototype = {
-  ...Queue.prototype, 
+  ...Queue.prototype,
 
   enqueue (closure, ...args) {
     this.closures.push({ closure, args})
