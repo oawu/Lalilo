@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -52,7 +52,7 @@
 
   &[type='warning'], &[type='info'] {
     padding-left: 36px;
-    
+
     &:before, &:after {
       position: absolute;
       left: 20px;
@@ -83,7 +83,7 @@
       border-right: 4px solid white;
       border-bottom: 4px solid white;
       @include opacity(.7);
-      
+
       position: absolute;
       left: 16px;
       top: calc(50% - #{math.div(16px, 2) + 2px});
@@ -100,10 +100,10 @@
     padding-left: 36px;
 
     &:before, &:after {
-        
+
       content: '';
       background-color: white;
-      
+
       position: absolute;
       left: 20px;
       top: calc(50% - #{math.div(16px, 2)});

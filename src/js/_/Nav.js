@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -220,7 +220,7 @@ const Nav = function(root, type = 'center') {
           setTimeout(_ => {
             this.status.p1 = true
             this.ing = false
-            
+
             if (typeof completion == 'function') {
               completion.call(this.nav, this.view, this.nav)
             }
@@ -254,7 +254,7 @@ const Nav = function(root, type = 'center') {
               this.view = null
               this.status.display = false
               this.ing = false
-    
+
               if (typeof completion == 'function') {
                 completion.call(this.nav, this.nav)
               }
@@ -267,7 +267,7 @@ const Nav = function(root, type = 'center') {
           this.view = null
           this.status.display = false
           this.ing = false
-          
+
           if (typeof completion == 'function') {
             completion.call(this.nav, this.nav)
           }
@@ -298,7 +298,7 @@ const Nav = function(root, type = 'center') {
 
         this.ing = true
         view._('ing', true)
-        
+
         if (prev) {
           prev._('ing', true)
           if (view._header._left === null) {
@@ -312,14 +312,14 @@ const Nav = function(root, type = 'center') {
 
         if (animated) {
           view._('a', true)
-          
+
           if (prev) {
             prev._('a', true)
           }
 
           setTimeout(_ => {
             view._('n0', true)
-            
+
             if (prev) {
               prev._('f0', true)
             }
@@ -333,7 +333,7 @@ const Nav = function(root, type = 'center') {
 
               setTimeout(_ => {
                 view._('n2', true)._('a', false)._('ing', false)._('load', true)
-                
+
                 if (prev) {
                   prev._('f2', true)._('a', false)._('ing', false)
                 }
@@ -354,7 +354,7 @@ const Nav = function(root, type = 'center') {
           if (prev) {
             prev._('a', false)._('f0', true)._('f1', true)._('f2', true)._('f3', true)._('ing', false)
           }
-          
+
           this.ing = false
           if (typeof completion == 'function') {
             completion.call(this.nav, this.view, this.nav)
@@ -808,7 +808,7 @@ Nav.View = function(identifier, title = '', props = null) {
   this._ing = false
   this._isLoaded = false
   this._status = { a: false, h: false, n0: false, n1: false, n2: false, n3: false, f0: false, f1: false, f2: false, f3: false }
-  
+
   if (typeof title == 'object') {
     props = title
     title = ''
@@ -1059,7 +1059,7 @@ Nav.Header = function(title = '', left = null, right = null) {
     if (btn.text === '' && btn.icon === null) {
       return this
     }
-    
+
     this._left = btn
     return this
   }

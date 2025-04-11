@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -12,7 +12,7 @@ const GoogleMap = {
     if (this.inited) {
       return
     }
-    
+
     this.inited = true
 
     void function() { // init GoogleMap.Marker
@@ -23,14 +23,14 @@ const GoogleMap = {
           this._vue.pixel = this._vue.$el && this._vue.position
             ? this.getProjection().fromLatLngToDivPixel(this._vue.position)
             : null
-          
+
           return this
         },
         onAdd () {
           if (!this._vue.$el) {
             this._el.appendChild(this._vue.$mount().$el)
           }
-          
+
           this._removeVue()._addVue()
 
           if (this._vue.$el) {
@@ -77,7 +77,7 @@ const GoogleMap = {
           if (!(latLng instanceof google.maps.LatLng)) {
             return this
           }
-          
+
           this._vue.position = latLng
           this.draw()
 
@@ -85,17 +85,17 @@ const GoogleMap = {
         },
         setClassName (val) {
           val = GoogleMap.Marker._toStr(val, true)
-          
+
           if (val === null || val === '') {
             return this
           }
-          
+
           this._vue.className = val
           return this
         },
         setTop (val) {
           val = GoogleMap.Marker._toNum(val)
-          
+
           if (val === null) {
             return this
           }
@@ -105,17 +105,17 @@ const GoogleMap = {
         },
         setLeft (val) {
           val = GoogleMap.Marker._toNum(val)
-          
+
           if (val === null) {
             return this
           }
-          
+
           this._vue.left = val
           return this
         },
         setWidth (val) {
           val = GoogleMap.Marker._toNum(val)
-          
+
           if (val === null || val < 0) {
             return this
           }
@@ -125,7 +125,7 @@ const GoogleMap = {
         },
         setHeight (val) {
           val = GoogleMap.Marker._toNum(val)
-          
+
           if (val === null || val < 0) {
             return this
           }
@@ -135,21 +135,21 @@ const GoogleMap = {
         },
         setText (val) {
           val = GoogleMap.Marker._toStr(val, true)
-          
+
           if (val === null) {
             return this
           }
-            
+
           this._vue.text = val
           return this
         },
         setHtml (val) {
           val = GoogleMap.Marker._toStr(val, true)
-          
+
           if (val === null) {
             return this
           }
-          
+
           this._vue.html = val
           return this
         },
@@ -157,7 +157,7 @@ const GoogleMap = {
           if (func === null) {
             if (this._vue.drag) {
               google.maps.event.removeListener(this._vue.drag.mouseleave)
-              google.maps.event.removeListener(this._vue.drag.mousemove) 
+              google.maps.event.removeListener(this._vue.drag.mousemove)
             }
 
             this._vue.drag = null
@@ -189,7 +189,7 @@ const GoogleMap = {
             }
 
             this.map.set('draggable', false)
-            
+
             this._vue.drag.ing = true
             this._vue.drag.origin = e
 
@@ -197,7 +197,7 @@ const GoogleMap = {
 
             this._vue.drag.mouseleave = this.getMap().getDiv().addEventListener('mouseleave', e => this._vue.events && this._vue.events.mouseup && this._vue.events.mouseup())
             this._vue.drag.mousemove = this.getMap().getDiv().addEventListener('mousemove', e => {
-              
+
               if (!(this._vue.drag && this._vue.drag.origin)) {
                 return
               }
@@ -232,11 +232,11 @@ const GoogleMap = {
 
             this._vue.drag.mouseleave = null
             this._vue.drag.mousemove = null
-            
+
             if (ing) {
               this._vue.drag.func.call(this, this.position, -1, this, e)
             }
-            
+
             setTimeout(_ => this._vue.drag.clickAble = true, 50)
           }
 
@@ -326,7 +326,7 @@ const GoogleMap = {
           if (!(val instanceof Vue)) {
             return this
           }
-          
+
           this._removeVue()
           val.marker = this
           this._vue.vue = val
@@ -338,12 +338,12 @@ const GoogleMap = {
           if (!(typeof options == 'object' && options !== null && !Array.isArray(options))) {
             options = {}
           }
-          
+
           this.setTop(options.top).setTop(options.t)
           this.setLeft(options.left).setLeft(options.l)
           this.setWidth(options.width).setWidth(options.w)
           this.setHeight(options.height).setHeight(options.h)
-          
+
           this.setHtml(options.html)
           this.setText(options.text)
 
@@ -361,7 +361,7 @@ const GoogleMap = {
         },
         _removeVue () {
           if (this._vue.vue && this._vue.vue.$el) {
-            this._vue.vue.$el.parentNode.removeChild(this._vue.vue.$el)  
+            this._vue.vue.$el.parentNode.removeChild(this._vue.vue.$el)
             this._vue.vue.$el = null
             this._vue.vue = null
           }
@@ -411,13 +411,13 @@ GoogleMap.Marker = function(className, options = {}, el = null) {
   if (!(this instanceof GoogleMap.Marker)) {
     return new GoogleMap.Marker(className, options)
   }
-  
+
   this._el = document.body
 
   if (el instanceof HTMLElement) {
     this._el = el
   }
-  
+
   if (el instanceof Vue) {
     this._el = el.$el
   }
@@ -503,7 +503,7 @@ GoogleMap.Marker._toStr = (val, trim) => {
   if (typeof val == 'object' && val !== null) {
     val = `${val}`
   }
-  
+
   if (typeof val == 'number') {
     if (isNaN(val)) {
       return null
@@ -521,13 +521,13 @@ GoogleMap.Marker._toStr = (val, trim) => {
 }
 GoogleMap.Marker._toNum = val => {
   val = GoogleMap.Marker._toStr(val, true)
-  
+
   if (val === null || val === '') {
     return null
   }
 
   val = parseFloat(val)
-  
+
   return isNaN(val)
     ? null
     : val

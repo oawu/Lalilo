@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -14,13 +14,13 @@ const Api = function(url) {
   this._url = ''
   this._method = 'GET'
   this._header = {}
-  
+
   this._befores = []
   this._dones = []
   this._fails = []
   this._afters = []
   this._progresses = []
-  
+
   this._query = null
   this._raw = null
   this._form = null
@@ -83,7 +83,7 @@ Api.prototype.method = function(method) {
   if (typeof method != 'string') {
     return this
   }
-  
+
   method = method.toUpperCase()
 
   if (!['GET', 'POST', 'PUT', 'DELETE'].includes(method)) {

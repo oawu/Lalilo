@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -29,7 +29,7 @@
   --nv-bottom: auto;
   --nv-left: auto;
   --nv-right: auto;
-  
+
   --nv-width: auto;
   --nv-max-width: 100%;
 
@@ -47,7 +47,7 @@
   --nv-radius-top-right: var(--nv-radius);
   --nv-radius-bottom-left: var(--nv-radius);
   --nv-radius-bottom-right: var(--nv-radius);
-  
+
   --nv-padding-top: 0;
   --nv-padding-left: 0;
   --nv-padding-right: 0;
@@ -64,7 +64,7 @@
   --view-shadow: var(--ui-color-iOS-systemFill);
 
 
-  
+
   --view-header-height: 50px;
   --view-header-button-width: calc(100px - var(--nv-radius) / 2);
   --view-header-padding: calc(var(--nv-radius) / 2);
@@ -74,7 +74,7 @@
   --view-header-blur: none;
   --view-header-button-color: var(--ui-color-iOS-link);
   --view-header-shadow: 0 0 3px 0.1px rgba(60, 60, 67, 0.29);
-  
+
   --font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
 
   @include dark {
@@ -98,7 +98,7 @@
     position: absolute;
     z-index: 2;
     overflow: hidden;
-    
+
     top: var(--nv-top);
     bottom: var(--nv-bottom);
     left: var(--nv-left);
@@ -107,7 +107,7 @@
     height: var(--nv-height);
     max-width: var(--nv-max-width);
     max-height: var(--nv-max-height);
-    
+
     padding-top: var(--nv-padding-top);
     padding-left: var(--nv-padding-left);
     padding-right: var(--nv-padding-right);
@@ -205,13 +205,13 @@
           bottom: 0;
 
           z-index: 15;
-          
+
 
           display: inline-flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          
+
           font-size: small;
           font-style: italic;
           text-align: center;
@@ -231,14 +231,14 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            
+
             div {
               position: relative;
               display: inline-block;
               flex-shrink: 0;
               width: 28px;
               height: 28px;
-              
+
               i {
                 --loading-color-1: var(--view-loading-color-1);
                 --loading-color-2: var(--view-loading-color-2);
@@ -281,7 +281,7 @@
           left: 0;
           top: 0;
           right: 0;
-          
+
           display: inline-block;
           width: 100%;
           height: calc(var(--view-header-height) + var(--view-safe-top));
@@ -292,7 +292,7 @@
           @include border-top-left-radius(var(--nv-radius-top-left));
           @include border-top-right-radius(var(--nv-radius-top-right));
           @include transition(background-color .3s, box-shadow .3s, backdrop-filter .3s);
-          
+
 
           > b {
             @extend %-select-none;
@@ -451,7 +451,7 @@
 
       --nv-x: 0;
       --nv-width: auto;
-      
+
       &.__type_hn {
         --nv-radius: 16px;
       }
@@ -462,7 +462,7 @@
     @include range-width(700px, 1000px) { --nv-width: 520px; };
     @include range-width(1000px, 1440px) { --nv-width: 576px; };
     @include range-width(1440px) { --nv-width: calc(100% / 5 * 2); };
-    
+
     &.__type_from_bottom {
       --nv-y: 100%;
       --nv-bottom: 0;
@@ -721,7 +721,7 @@
           --nv-x: calc(-100% + var(--nv-buffer));
         }
       }
-      
+
       --nv-transition: transform var(--sec-present) cubic-bezier(0.385, 1.260, 0.595, 0.975), opacity .3s;
       @include range-width(0, 600px) {
         --nv-transition: transform var(--sec-present) ease-in-out, opacity .3s;

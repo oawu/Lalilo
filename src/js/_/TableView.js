@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -37,7 +37,7 @@ const TableView = {
 
       selectAble: { type: Boolean, default: null },
       clickAble: { type: Boolean, default: null },
-      
+
       arrowUI: { type: Boolean, default: null },
       radioUI: { type: Boolean, default: null },
 
@@ -102,7 +102,7 @@ const TableView = {
         types.push(`__title_align_${['left', 'center', 'right'].includes(this.titleAlign)
           ? this.titleAlign
           : 'left'}`)
-        
+
         types.push(`__subtitle_color_${['black', 'gray', 'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'brown'].includes(this.subtitleColor)
           ? this.subtitleColor
           : 'gray'}`)
@@ -210,7 +210,7 @@ const TableView = {
       },
       className () {
         let types = ['_cell']
-        
+
         if (this.isClickAble) {
           types.push('__click')
         }
