@@ -1,6 +1,6 @@
 /**
  * @author      OA Wu <oawu.tw@gmail.com>
- * @copyright   Copyright (c) 2015 - 2024, Lalilo
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
  * @license     http://opensource.org/licenses/MIT  MIT License
  * @link        https://www.ioa.tw/
  */
@@ -88,12 +88,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    
+
     height: auto;
     min-width: 280px;
     max-width: var(--content-width);
     overflow: hidden;
-    
+
     background-color: var(--content-bg-color);
 
     @include opacity(0);
@@ -119,7 +119,7 @@
       width: auto;
       font-style: normal;
       padding: 0 calc(var(--content-radius) / 3 * 5);
-      
+
       display: inline-flex;
       flex-direction: row;
       align-items: center;
@@ -192,7 +192,7 @@
 
     > ._title {
       color: var(--title-color);
-      
+
       + ._subtitle {
         margin-top: 8px;
       }
@@ -222,7 +222,7 @@
       font-size: large;
 
       margin: 0 auto;
-      
+
       + ._input {
         margin-top: 10px;
       }
@@ -290,7 +290,7 @@
         display: inline-block;
         width: 100%;
         margin: 0;
-        
+
         height: var(--button-height);
         line-height: var(--button-height);
         color: var(--button-color);
