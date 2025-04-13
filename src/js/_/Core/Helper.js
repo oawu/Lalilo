@@ -61,5 +61,5 @@ const Helper = {
       : done
 
     typeof func == 'function' && func()
-  }
+  },
 }

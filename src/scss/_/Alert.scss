@@ -9,7 +9,7 @@
 @import "@/CSS3/Appearance";
 @import "_Lib";
 
-#__oaui-alert {
+#alert {
   --sec: .320s;
   --z-index: 999999;
   --font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
@@ -17,7 +17,6 @@
   --content-width: 340px;
   --content-radius: 16px;
   --content-bg-color: var(--ui-color-iOS-tertiarySystemGroupedBackground);
-
 
   --title-color: var(--ui-color-iOS-label);
   --subtitle-color: var(--ui-color-iOS-label);
@@ -35,7 +34,7 @@
   --button-color: var(--ui-color-iOS-link);
   --button-warning-color: var(--ui-color-iOS-systemRed);
   --button-bg-color: var(--content-bg-color);
-  --button-hover-bg-color:  rgb(237, 237, 242);
+  --button-hover-bg-color: rgb(237, 237, 242);
   --button-active-bg-color: rgba(235, 235, 245, 1);
 
   --separator: rgba(219, 219, 224, 1.00);
@@ -58,20 +57,23 @@
 
   &:before {
     content: '';
+
     position: absolute;
     z-index: 1;
     background-color: rgba(32, 33, 36, 0.6);
     will-change: backdrop-filter;
+
     @include opacity(0);
     @include backdrop-filter(none);
     @include transition(opacity var(--sec), backdrop-filter var(--sec));
   }
 
-  &.__p0 {
+  &.__show {
     &:before {
       @include backdrop-filter(blur(4px));
       @include opacity(1);
     }
+
     > ._body {
       @include opacity(1);
       @include transform(translate(-50%, -50%) scale(1));
@@ -109,11 +111,7 @@
     @include range-width(0, 360px) {
       width: 100%;
       --content-width: calc(100% - #{12px * 2});
-
-      &.__l {
-        width: auto;
-      }
-    };
+    }
 
     > ._loading {
       width: auto;
@@ -150,18 +148,21 @@
 
           @include border-radius(math.div(2px, 2));
           @include transform(translate(-50%, -50%));
-          $cnt: 12;
+          $cnt: 10;
           $deg: math.div(360deg, $cnt);
           $r: 9px;
+
           @for $i from 0 through $cnt - 1 {
             &.__i#{$i} {
               @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
-              @include animation-delay($i * .1s);
+              @include animation-delay($i * .08s);
             }
           }
-          @include animation(loading-rotate $cnt * .1s linear infinite);
+
+          @include animation(loading-rotate $cnt * .08s linear infinite);
         }
       }
+
       span {
         @extend %-select-none;
         display: inline-block;
@@ -171,12 +172,14 @@
       }
     }
 
-    > ._title, > ._subtitle, > ._input {
+    > ._title, > ._subtitle, > ._inputs {
       display: inline-block;
       width: 100%;
+
       &:first-child {
         margin-top: var(--content-radius);
       }
+
       &:last-child {
         margin-bottom: var(--content-radius);
       }
@@ -186,7 +189,8 @@
       @extend %-select-none;
       font-size: medium;
     }
-    > ._title, > ._subtitle, > ._input, ._buttons > ._button {
+
+    > ._title, > ._subtitle, > ._inputs, ._buttons > ._button {
       padding: 0 12px;
     }
 
@@ -196,9 +200,11 @@
       + ._subtitle {
         margin-top: 8px;
       }
-      + ._input {
+
+      + ._inputs {
         margin-top: var(--content-radius);
       }
+
       + ._buttons {
         margin-top: var(--content-radius);
       }
@@ -207,49 +213,63 @@
     > ._subtitle {
       color: var(--subtitle-color);
 
-      + ._input {
+      + ._inputs {
         margin-top: var(--content-radius);
       }
+
       + ._buttons {
         margin-top: var(--content-radius);
       }
     }
 
-    > ._input {
-      max-width: calc(100% - #{12px * 2});
-      height: var(--input-height);
-      line-height: var(--input-height);
-      font-size: large;
+    > ._inputs {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
 
-      margin: 0 auto;
-
-      + ._input {
-        margin-top: 10px;
-      }
       + ._buttons {
         margin-top: var(--content-radius);
       }
 
-      color: var(--input-color);
-      font-family: var(--font-family);
-      border: 1px solid var(--input-border-color);
-      background-color: var(--input-bg-color);
+      > ._input {
+        padding: 0 12px;
+        width: 100%;
 
-      @include appearance(none);
-      @include box-shadow(none);
-      @include border-radius(6px);
-      @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
-      @include input-placeholder {
-        font-size: small;
-        color: var(--input-placeholder-color);
-      }
+        height: var(--input-height);
+        line-height: var(--input-height);
+        font-size: large;
 
-      &:focus {
-        outline: 0;
-      }
-      &:focus {
-        border-color: var(--input-focus-border-color);
-        @include box-shadow(0 0 0 3px var(--input-focus-border-shadow-color));
+        margin: 0 auto;
+
+        + ._input {
+          margin-top: 10px;
+        }
+
+        color: var(--input-color);
+        font-family: var(--font-family);
+        border: 1px solid var(--input-border-color);
+        background-color: var(--input-bg-color);
+
+        @include appearance(none);
+        @include box-shadow(none);
+        @include border-radius(6px);
+        @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+
+        @include input-placeholder {
+          font-size: small;
+          color: var(--input-placeholder-color);
+        }
+
+        &:focus {
+          outline: 0;
+        }
+
+        &:focus {
+          border-color: var(--input-focus-border-color);
+          @include box-shadow(0 0 0 3px var(--input-focus-border-shadow-color));
+        }
       }
     }
 
@@ -264,8 +284,10 @@
       &[n="1"] {
         flex-direction: row;
       }
+
       &[n="2"] {
         flex-direction: row;
+
         > ._button {
           width: 50%;
 
@@ -307,29 +329,35 @@
           outline: 0;
           border: 0;
         }
+
         &:focus {
           font-weight: bold;
           background-color: var(--button-hover-bg-color);
         }
+
         &.__preferred {
           font-weight: bold;
         }
+
         &.__warning {
           --button-color: var(--button-warning-color);
         }
+
         &:before, &:after {
           position: absolute;
           left: 0;
           top: 0;
           display: inline-block;
         }
+
         &:before {
-          right: 0;
           content: '';
+          right: 0;
           width: 100%;
           height: 1px;
           border-top: 1px solid var(--separator);
         }
+
         &:after {
           bottom: 0;
           height: 100%;

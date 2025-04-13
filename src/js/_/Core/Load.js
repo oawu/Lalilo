@@ -6,38 +6,62 @@
  */
 
 const Load = {
-  _: {
-    mount (opt) {
-      return document.body.appendChild(new Vue(this.option(opt)).$mount().$el)
-    },
-    option (opt) {
-      if (typeof opt == 'function') {
+  $ (opt, closure = null) {
+    return window.Helper.promisify(closure, async _ => {
+      const T = window.Helper.Type
+      if (T.func(opt)) {
         opt = opt()
       }
+      if (T.asyncFunc(opt)) {
+        opt = await opt()
+      }
+      if (T.promise(opt)) {
+        opt = await opt
+      }
 
-      if (typeof opt != 'object' || opt === null || Array.isArray(opt)) {
+      if (!T.obj(opt)) {
         return opt
       }
 
-      if (typeof opt.template == 'undefined') {
+      if (opt.template === undefined) {
         opt.template = ''
       }
 
-      if (typeof opt.template == 'string') {
+      if (T.func(opt.template)) {
+        opt.template = opt.template()
+      }
+      if (T.asyncFunc(opt.template)) {
+        opt.template = await opt.template()
+      }
+      if (T.promise(opt.template)) {
+        opt.template = await opt.template
+      }
+
+      if (T.num(opt.template)) {
+        opt.template = `${opt.template}`
+      }
+      if (T.bool(opt.template)) {
+        opt.template = ''
+      }
+      if (T.arr(opt.template)) {
+        opt.template = ''
+      }
+
+      if (T.str(opt.template)) {
         opt.template = El3(opt.template)
       }
 
-      if (opt.template instanceof El3) {
+      if (T.func(El3) && opt.template instanceof El3) {
         opt.template = opt.template.toString()
       }
 
-      if (typeof opt.template == 'object') {
+      if (T.obj(opt.template)) {
         opt.template = opt.template.toString()
       }
 
       return opt
-    }
+    })
   },
-  Vue: opt => document.addEventListener('DOMContentLoaded', _ => Load._.mount(opt)),
-  VueComponent: (identifier, opt) => Vue.component(identifier, Load._.option(opt))
+  Vue: (opt, closure = null) => window.Helper.promisify(closure, async _ => document.addEventListener('DOMContentLoaded', async _ => document.body.appendChild(new Vue(await Load.$(opt)).$mount().$el))),
+  VueComponent: (identifier, opt, closure = null) => window.Helper.promisify(closure, async _ => Vue.component(identifier, await Load.$(opt)))
 }

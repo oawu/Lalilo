@@ -1,0 +1,152 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+@import "_/_Lib";
+@import "Lalilo";
+
+#app {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 460px;
+  max-width: 100%;
+  padding: 0 16px;
+  margin-top: 64px;
+}
+
+h1, h2 {
+  display: inline-block;
+  width: 100%;
+  @extend %-select-none;
+  color: var(--ui-color-iOS-label);
+  text-align: left;
+  margin: 0;
+}
+h1 {
+  text-align: center;
+  height: 80px;
+  line-height: 80px;
+}
+h2 {
+  border-left: 5px solid var(--ui-color-iOS-systemMint);
+  padding-left: 16px;
+}
+
+footer {
+  @extend %-select-none;
+  display: inline-block;
+  width: 100%;
+  margin-top: 12px;
+  color: var(--ui-color-iOS-secondaryLabel);
+  font-size: small;
+}
+form {
+  width: 100%;
+  background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+  @include border-radius(16px);
+  @include box-shadow(0 0 4px var(--ui-color-iOS-tertiarySystemFill));
+  @include dark {
+    @include box-shadow(0 0 2px rgba(255, 255, 255, .5));
+  }
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 32px;
+  $h: 44px;
+
+  h2 {
+    margin-bottom: 12px;
+  }
+
+  .unit {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 16px;
+
+    i {
+      position: absolute;
+      left: 1px;
+      top: 1px;
+      bottom: 1px;
+      display: inline-block;
+      width: $h - 2px;
+      height: $h - 2px;
+      line-height: $h - 2px;
+      z-index: 2;
+      font-style: normal;
+      @include border-left-radius(6px);
+      background-color: var(--ui-color-iOS-systemGroupedBackground);
+      color: var(--ui-color-iOS-secondaryLabel);
+      &:before {
+        @extend %-icon;
+        font-size: 20px;
+      }
+      &.acc {
+        &:before {
+          content: '\f0001';
+        }
+      }
+      &.psw {
+        &:before {
+          content: '\f0002';
+        }
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: inline-block;
+        width: 1px;
+        height: 100%;
+        border-right: 1px solid var(--ui-color-iOS-separator);
+      }
+    }
+
+    input {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      width: 100%;
+      height: $h;
+      line-height: $h;
+      padding: 0 12px;
+      padding-left: $h - 2px + 12px;
+    }
+  }
+
+  .message {
+    margin-top: 32px;
+  }
+
+  .button {
+    display: inline-block;
+    height: $h;
+    width: 100%;
+    margin-top: 32px;
+    letter-spacing: 1px;
+    &:after {
+      @include border-radius(10px);
+    }
+  }
+}
+
+footer {
+  @extend %-select-none;
+  display: inline-block;
+  width: 100%;
+  margin-top: 12px;
+  color: var(--ui-color-iOS-secondaryLabel);
+  font-size: small;
+}
