@@ -20,6 +20,7 @@ module.exports = {
 
     .js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
 
+    .js('_/Core.js')
     .js('_/Core/El3.js')
     .js('_/Core/Load.js')
 
