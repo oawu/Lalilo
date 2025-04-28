@@ -9,37 +9,52 @@ const Data = {
   _enable: null,
   get enable () {
     if (this._enable === null) {
-      this._enable = typeof Storage != 'undefined'
-        && typeof localStorage != 'undefined'
-        && typeof JSON != 'undefined'
+      const { Type: T } = window.Helper
+      this._enable = T.func(Storage) && T.obj(localStorage) && T.obj(JSON)
     }
 
     return this._enable
   },
-  set (key, val) {
-    if (this.enable) {
-      localStorage.setItem(key, JSON.stringify({ val: val }))
+  set (key, val, ttl = null) {
+    if (!this.enable) {
+      return this
+    }
+
+    const { Type: T, Json } = window.Helper
+    const str = Json.encode({ val, ttl: T.num(ttl) ? Date.now() + ttl : null })
+
+    if (!T.err(str)) {
+      localStorage.setItem(key, str)
     }
     return this
+  },
+  del (key) {
+    localStorage.removeItem(key)
   },
   get (key) {
     if (!this.enable) {
       return undefined
     }
 
-    key = localStorage.getItem(key)
+    const content = localStorage.getItem(key)
 
-    if (key === null) {
+    if (content === null) {
       return undefined
     }
 
-    try {
-      key = JSON.parse(key)
-      key = key.val
-    } catch (_) {
-      key = undefined
+    const { Type: T, Json } = window.Helper
+
+    const val = Json.decode(content)
+    if (T.err(val)) {
+      return undefined
     }
 
-    return key
+    if (Date.now() <= val.ttl) {
+      return val.val
+    }
+
+    localStorage.removeItem(key)
+
+    return undefined
   }
 }
