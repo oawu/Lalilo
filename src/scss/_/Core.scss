@@ -43,11 +43,13 @@ body {
 
   margin: 0;
   padding: 0;
-  color: rgba(0, 0, 0, 1);
 
   font-size: medium;
   text-align: center;
   font-family: $font-family;
+
+  color: var(--ui-color-iOS-label);
+  background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
 }
 
 .__lalilo_copy_str {
