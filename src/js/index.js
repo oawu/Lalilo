@@ -5,37 +5,31 @@
  * @link        https://www.ioa.tw/
  */
 
-Load.Vue({
+window.Load.Vue({
   data: {
     style: {
       color: 'rgba(120, 120, 120, 1.00);'
     },
-    version: '2.0.1'
+    version: '3.0.1'
   },
-  mounted () {
+  async mounted () {
   },
   computed: {
-  },
-  methods: {
-    date (format) {
-      const pad0 = t => (t < 10 ? '0' : '') + t
-      const date = new Date()
-      return format.replace('Y', date.getFullYear())
-        .replace('m', pad0(date.getMonth() + 1))
-        .replace('d', pad0(date.getDate()))
-        .replace('H', pad0(date.getHours()))
-        .replace('i', pad0(date.getMinutes()))
-        .replace('s', pad0(date.getSeconds()))
+    date () {
+      return window.Helper.Str.date()
     }
   },
+  methods: {
+  },
   template: `
-  main#app.a
-    h1 => *text='你好，世界！'
-    div => :style=style
-      span => *text='這是 '
-      b    => *text='Lalilo'
-      span => *text='，你目前版本是 '
-      b    => *text=version
-    br
-    span => *text=date('Y-m-d H:i:s')`
+    main#app
+      h1 => *text='你好，世界！'
+      div => :style=style
+        span => *text='這是 '
+        b    => *text='Lalilo'
+        span => *text='，你目前版本是 '
+        b    => *text=version
+      br
+      span => *text=date
+    `
 })
