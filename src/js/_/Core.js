@@ -208,3 +208,42 @@ window.Helper.Json = {
     return text
   }
 }
+
+window.Helper.Str = {
+  pad: (t, l = 2, s = '0', r = false) => r ? String(t).padEnd(l, s) : String(t).padStart(l, s),
+  numFormat: (n, d = 3) => {
+    const w = []
+    for (let i = 0, a = ('' + n).split('').reverse(); i < a.length; i++) {
+      if (!i || (i % d)) {
+        w.push(a[i])
+      } else {
+        w.push(',', a[i])
+      }
+    }
+    return w.reverse().join('')
+  },
+  date: (format = 'Y-m-d H:i:s', now = new Date()) => {
+    if (window.Helper.Type.num(format)) {
+      format = window.Helper.Type.neStr(now) ? now : 'Y-m-d H:i:s'
+      now = format
+    }
+    if (format instanceof Date) {
+      format = window.Helper.Type.neStr(now) ? now : 'Y-m-d H:i:s'
+      now = format
+    }
+    if (window.Helper.Type.num(now)) {
+      now = new Date(now * 1000)
+    }
+    if (!(now instanceof Date)) {
+      now = new Date()
+    }
+
+    return format
+      .replace('Y', now.getFullYear())
+      .replace('m', window.Helper.Str.pad(now.getMonth() + 1))
+      .replace('d', window.Helper.Str.pad(now.getDate()))
+      .replace('H', window.Helper.Str.pad(now.getHours()))
+      .replace('i', window.Helper.Str.pad(now.getMinutes()))
+      .replace('s', window.Helper.Str.pad(now.getSeconds()))
+  }
+}

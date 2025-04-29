@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-const Data = {
+window.Data = {
   _enable: null,
   get enable () {
     if (this._enable === null) {

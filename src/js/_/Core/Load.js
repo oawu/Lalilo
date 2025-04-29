@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-const Load = {
+window.Load = {
   $ (opt, closure = null) {
     return window.Helper.promisify(closure, async _ => {
       const T = window.Helper.Type
@@ -62,6 +62,6 @@ const Load = {
       return opt
     })
   },
-  Vue: (opt, closure = null) => window.Helper.promisify(closure, async _ => document.addEventListener('DOMContentLoaded', async _ => document.body.appendChild(new Vue(await Load.$(opt)).$mount().$el))),
-  VueComponent: (identifier, opt, closure = null) => window.Helper.promisify(closure, async _ => Vue.component(identifier, await Load.$(opt)))
+  Vue: (opt, closure = null) => window.Helper.promisify(closure, async _ => document.addEventListener('DOMContentLoaded', async _ => document.body.appendChild(new Vue(await window.Load.$(opt)).$mount().$el))),
+  VueComponent: (identifier, opt, closure = null) => window.Helper.promisify(closure, async _ => Vue.component(identifier, await window.Load.$(opt)))
 }

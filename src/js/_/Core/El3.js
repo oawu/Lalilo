@@ -6,9 +6,9 @@
  */
 
 // Element3
-const El3 = function(str) {
-  if (!(this instanceof El3)) {
-    return new El3(str)
+window.El3 = function(str) {
+  if (!(this instanceof window.El3)) {
+    return new window.El3(str)
   }
 
   const lines = str.split("\n").filter(t => t.trim().length).map(line => {
@@ -16,17 +16,17 @@ const El3 = function(str) {
     const space = line.search(/\S|$/)
 
     // 依據 => 切割
-    const splitLine = El3._.split(line, /\s+=\>\s+/gm)
+    const splitLine = window.El3._.split(line, /\s+=\>\s+/gm)
 
     // 依據 . 或 # 切割 header，得到 header 物件
-    const tmpH = El3._.split(splitLine.header, /\.|#/gm)
+    const tmpH = window.El3._.split(splitLine.header, /\.|#/gm)
 
     // 將 #id 以及 .class 轉化為 attr
-    const attrH = `${tmpH.match}${tmpH.tokens}`.replace(/#/gm, ' '.repeat(El3._.splitLength) + '#')
-                                              .replace(/\./gm, ' '.repeat(El3._.splitLength) + '.')
+    const attrH = `${tmpH.match}${tmpH.tokens}`.replace(/#/gm, ' '.repeat(window.El3._.splitLength) + '#')
+                                              .replace(/\./gm, ' '.repeat(window.El3._.splitLength) + '.')
 
-    // 依據三個(El3._.splitLength)以上的空格做切割
-    const tokens = `${splitLine.tokens}${attrH}`.split(new RegExp('\\s{' + El3._.splitLength + ',}', 'gm')).map(attr => {
+    // 依據三個(window.El3._.splitLength)以上的空格做切割
+    const tokens = `${splitLine.tokens}${attrH}`.split(new RegExp('\\s{' + window.El3._.splitLength + ',}', 'gm')).map(attr => {
       if (attr === '*else') {
         return { key: 'v-else', val: null }
       }
@@ -84,7 +84,7 @@ const El3 = function(str) {
     }
 
     // 回傳 Line 物件
-    return El3._.Line(tmpH.header, space, attr.join(' '))
+    return window.El3._.Line(tmpH.header, space, attr.join(' '))
   }).filter(t => t !== null)
 
   // 組合出巢狀
@@ -106,13 +106,13 @@ const El3 = function(str) {
   }
   tmp = null
 }
-El3.prototype.toString = function() { return this.els.join('') }
-El3._ = {
+window.El3.prototype.toString = function() { return this.els.join('') }
+window.El3._ = {
   splitLength: 3,
   singles: ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
   Line: function(header, space, attr) {
-    if (!(this instanceof El3._.Line)) {
-      return new El3._.Line(header, space, attr)
+    if (!(this instanceof window.El3._.Line)) {
+      return new window.El3._.Line(header, space, attr)
     }
 
     this.header = header
@@ -144,16 +144,16 @@ El3._ = {
     }
   },
   join: (header, attr, children = []) => {
-    return El3._.singles.indexOf(header) == -1
+    return window.El3._.singles.indexOf(header) == -1
       ? `<${header}${attr}>${children.join('')}</${header}>`
       : `<${header}${attr} />`
   }
 }
-El3._.Line.prototype.toString = function() {
+window.El3._.Line.prototype.toString = function() {
   let tmp = this.header.slice(0, 2)
 
   if (!(tmp !== '//')) {
-    return `<!-- ${El3._.join(this.header.substr(2).trim(), this.attr, this.children)} -->`
+    return `<!-- ${window.El3._.join(this.header.substr(2).trim(), this.attr, this.children)} -->`
   }
 
   if (!(tmp !== '>>' && tmp !== '||')) {
@@ -164,5 +164,5 @@ El3._.Line.prototype.toString = function() {
     return this.header.substr(1).trim()
   }
 
-  return El3._.join(this.header, this.attr, this.children)
+  return window.El3._.join(this.header, this.attr, this.children)
 }
