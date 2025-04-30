@@ -47,6 +47,8 @@ window.Load = {
         opt.template = ''
       }
 
+      const El3 = window.El3
+
       if (T.str(opt.template)) {
         opt.template = El3(opt.template)
       }
