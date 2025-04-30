@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-Load.VueComponent('segmented-auto', {
+window.Load.VueComponent('segmented-auto', {
   props: {
     items: { type: Array, default: [], required: true },
     value: { type: Number, default: 0, required: true }
@@ -92,7 +92,7 @@ Load.VueComponent('segmented-auto', {
       span => :class={show: position, ani }   :style=position`
 })
 
-Load.VueComponent('segmented-fixed', {
+window.Load.VueComponent('segmented-fixed', {
   props: {
     items: { type: Array, default: [], required: true },
     index: { type: Number, default: 0, required: true }

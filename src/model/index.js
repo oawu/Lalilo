@@ -16,6 +16,7 @@ module.exports = {
   asset: _ => Asset()
     .css('icon/icon.css')
     .css('_/Core.css')
+    .css('_/Toastr.css')
     .css('index.css')
 
     .js('https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js')
@@ -23,6 +24,8 @@ module.exports = {
     .js('_/Core.js')
     .js('_/Core/El3.js')
     .js('_/Core/Load.js')
+
+    .js('_/Toastr.js')
 
     .js('index.js')
 }

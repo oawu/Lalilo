@@ -5,7 +5,7 @@
  * @link        https://www.ioa.tw/
  */
 
-Load.VueComponent('form-message', {
+window.Load.VueComponent('form-message', {
   props: {
     type: { type: String, default: 'warning', required: false },
     messages: { type: Array, default: [], required: false }

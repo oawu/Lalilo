@@ -5,17 +5,16 @@
  * @link        https://www.ioa.tw/
  */
 
-const Alert = function (title = '', message = null) {
-
-  if (!(this instanceof Alert)) {
-    if (Alert._shared instanceof Alert) {
-      Alert._shared.reset()
-      Alert._shared.title(title)
-      Alert._shared.message(message)
-      return Alert._shared
+window.Alert = function (title = '', message = null) {
+  if (!(this instanceof window.Alert)) {
+    if (window.Alert._shared instanceof window.Alert) {
+      window.Alert._shared.reset()
+      window.Alert._shared.title(title)
+      window.Alert._shared.message(message)
+      return window.Alert._shared
     }
 
-    return Alert._shared = new Alert(title, message)
+    return window.Alert._shared = new window.Alert(title, message)
   }
 
   const _that = this
@@ -42,9 +41,9 @@ const Alert = function (title = '', message = null) {
       }
     },
     template: `
-    <div class="_buttons" v-if="buttons.length" :n="buttons.length">
-      <button class='_button' v-for="(button, i) in buttons" :key="'_alert_button_' + i" @click="click(button)" :class="{ '__preferred': button._isPreferred, '__warning': button._isDestructive }" ref="button">{{ button._text }}</button>
-    </div>`
+      <div class="_buttons" v-if="buttons.length" :n="buttons.length">
+        <button class='_button' v-for="(button, i) in buttons" :key="'_alert_button_' + i" @click="click(button)" :class="{ '__preferred': button._isPreferred, '__warning': button._isDestructive }" ref="button">{{ button._text }}</button>
+      </div>`
   }
 
   const _input = {
@@ -164,7 +163,7 @@ const Alert = function (title = '', message = null) {
   this.message(message)
 }
 
-Alert.prototype.present = function (completion = null, animated = true) {
+window.Alert.prototype.present = function (completion = null, animated = true) {
   const T = window.Helper.Type
 
   if (T.bool(completion)) {
@@ -178,7 +177,7 @@ Alert.prototype.present = function (completion = null, animated = true) {
 
   return this._vue.present(completion, animated)
 }
-Alert.prototype.dismiss = function (completion = null, animated = true) {
+window.Alert.prototype.dismiss = function (completion = null, animated = true) {
   const T = window.Helper.Type
 
   if (T.bool(completion)) {
@@ -192,11 +191,11 @@ Alert.prototype.dismiss = function (completion = null, animated = true) {
 
   return this._vue.dismiss(completion, animated)
 }
-Alert.prototype.reset = function () {
+window.Alert.prototype.reset = function () {
   this._vue.reset()
   return this
 }
-Alert.prototype.title = function (title) {
+window.Alert.prototype.title = function (title) {
   if (title === null) {
     this._vue.title = title
   }
@@ -205,7 +204,7 @@ Alert.prototype.title = function (title) {
   }
   return this
 }
-Alert.prototype.message = function (text, isHTML = false) {
+window.Alert.prototype.message = function (text, isHTML = false) {
   if (text === null) {
     this._vue.message = null
   }
@@ -214,7 +213,7 @@ Alert.prototype.message = function (text, isHTML = false) {
   }
   return this
 }
-Alert.prototype.loading = function (text = '讀取中…', completion = null) {
+window.Alert.prototype.loading = function (text = '讀取中…', completion = null) {
   const T = window.Helper.Type
 
   if (T.func(text) || T.asyncFunc(text) || T.promise(text)) {
@@ -233,23 +232,23 @@ Alert.prototype.loading = function (text = '讀取中…', completion = null) {
   return this
 }
 
-Alert.prototype.input = function (placeholder = '', value = '') {
-  this._vue.inputs.push(new Alert._Input(placeholder, value))
+window.Alert.prototype.input = function (placeholder = '', value = '') {
+  this._vue.inputs.push(new window.Alert._Input(placeholder, value))
   return this
 }
-Alert.prototype.button = function (text, click = null, isDestructive = false, isPreferred = false) {
+window.Alert.prototype.button = function (text, click = null, isDestructive = false, isPreferred = false) {
   if (!window.Helper.Type.neStr(text)) {
     return this
   }
 
-  this._vue.buttons.push(Alert._Button(text, click, isDestructive, isPreferred))
+  this._vue.buttons.push(window.Alert._Button(text, click, isDestructive, isPreferred))
 
   return this
 }
 
-Alert._Input = function (placeholder = '', value = '') {
-  if (!(this instanceof Alert._Input)) {
-    return new Alert._Input(placeholder, value)
+window.Alert._Input = function (placeholder = '', value = '') {
+  if (!(this instanceof window.Alert._Input)) {
+    return new window.Alert._Input(placeholder, value)
   }
   this._value = ''
   this._placeholder = ''
@@ -257,22 +256,22 @@ Alert._Input = function (placeholder = '', value = '') {
   this.value(value)
   this.placeholder(placeholder)
 }
-Alert._Input.prototype.value = function (value) {
+window.Alert._Input.prototype.value = function (value) {
   if (window.Helper.Type.str(value)) {
     this._value = value
   }
   return this
 }
-Alert._Input.prototype.placeholder = function (placeholder) {
+window.Alert._Input.prototype.placeholder = function (placeholder) {
   if (window.Helper.Type.str(placeholder)) {
     this._placeholder = placeholder
   }
   return this
 }
 
-Alert._Button = function (text = '', click = null, isDestructive = false, isPreferred = false) {
-  if (!(this instanceof Alert._Button)) {
-    return new Alert._Button(text, click, isDestructive, isPreferred)
+window.Alert._Button = function (text = '', click = null, isDestructive = false, isPreferred = false) {
+  if (!(this instanceof window.Alert._Button)) {
+    return new window.Alert._Button(text, click, isDestructive, isPreferred)
   }
 
   this._text = ''
@@ -285,26 +284,26 @@ Alert._Button = function (text = '', click = null, isDestructive = false, isPref
   this.isDestructive(isDestructive)
   this.isPreferred(isPreferred)
 }
-Alert._Button.prototype.text = function (text) {
+window.Alert._Button.prototype.text = function (text) {
   if (window.Helper.Type.str(text)) {
     this._text = text
   }
 
   return this
 }
-Alert._Button.prototype.click = function (click) {
+window.Alert._Button.prototype.click = function (click) {
   if (window.Helper.Type.func(click) || window.Helper.Type.asyncFunc(click) || window.Helper.Type.promise(click)) {
     this._click = click
   }
   return this
 }
-Alert._Button.prototype.isDestructive = function (isDestructive) {
+window.Alert._Button.prototype.isDestructive = function (isDestructive) {
   if (window.Helper.Type.bool(isDestructive)) {
     this._isDestructive = isDestructive
   }
   return this
 }
-Alert._Button.prototype.isPreferred = function (isPreferred) {
+window.Alert._Button.prototype.isPreferred = function (isPreferred) {
   if (window.Helper.Type.bool(isPreferred)) {
     this._isPreferred = isPreferred
   }

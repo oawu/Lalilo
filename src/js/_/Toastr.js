@@ -5,32 +5,31 @@
  * @link        https://www.ioa.tw/
  */
 
-const Toastr = function(message, type = 'success') {
-  if (Toastr._vue === undefined) {
-    Toastr._vue = new Vue({
+window.Toastr = function(message, type = 'success') {
+  if (!window.Helper.Type.obj(window.Toastr._vue)) {
+    window.Toastr._vue = new Vue({
       data: {
         id: 0,
         toastrs: [],
       },
       methods: {
-        close (toastr) {
-
+        async close (toastr) {
           toastr.predisappear = true
 
-          setTimeout(_ => {
-            toastr.disappear = true
+          await new Promise(resolve => setTimeout(resolve, 10))
 
-            setTimeout(_ => {
-              let i = this.toastrs.indexOf(toastr)
-              if (i != -1) {
-                this.toastrs.splice(i, 1)
-              }
-            }, 100)
-          }, 10)
+          toastr.disappear = true
+
+          await new Promise(resolve => setTimeout(resolve, 100))
+
+          let i = this.toastrs.indexOf(toastr)
+          if (i != -1) {
+            this.toastrs.splice(i, 1)
+          }
 
           return this
         },
-        push (message, type) {
+        async push (message, type) {
           if (!this.$el && this.$mount()) {
             document.body.append(this.$el)
           }
@@ -47,38 +46,32 @@ const Toastr = function(message, type = 'success') {
 
           this.toastrs.push(object)
 
-          setTimeout(_ => {
-            object.appear = true
-            setTimeout(_ => {
-              object.appeared = true
-              setTimeout(_ => this.close(object), 5000)
-            }, 300)
-          }, 100)
+          await new Promise(resolve => setTimeout(resolve, 100))
+          object.appear = true
+
+          await new Promise(resolve => setTimeout(resolve, 300))
+          object.appeared = true
+
+          await new Promise(resolve => setTimeout(resolve, 5000))
+          await this.close(object)
 
           return this
         }
       },
-      template: `<div id="toastr" v-if="toastrs.length"><div v-for="toastr in toastrs" :key="toastr.id" :class="['toastr', { appear: toastr.appear, appeared: toastr.appeared, predisappear: toastr.predisappear, disappear: toastr.disappear }]" :type="toastr.type" @click="close(toastr)"><span v-if="toastr.message">{{ toastr.message }}</span></div></div>`
+      template: `
+        <div id="toastr" v-if="toastrs.length">
+          <div v-for="toastr in toastrs" :key="toastr.id" :class="['toastr', { appear: toastr.appear, appeared: toastr.appeared, predisappear: toastr.predisappear, disappear: toastr.disappear }]" :type="toastr.type" @click="close(toastr)">
+            <span v-if="toastr.message">{{ toastr.message }}</span>
+          </div>
+        </div>`
     })
   }
 
-  Toastr._vue.push(message, type)
-  return Toastr
+  window.Toastr._vue.push(message, type)
+  return window.Toastr
 }
 
-Toastr.failure = function(message) {
-  Toastr(message, 'failure')
-  return this
-}
-Toastr.success = function(message) {
-  Toastr(message, 'success')
-  return this
-}
-Toastr.warning = function(message) {
-  Toastr(message, 'warning')
-  return this
-}
-Toastr.info = function(message) {
-  Toastr(message, 'info')
-  return this
-}
+window.Toastr.failure = message => window.Toastr(message, 'failure')
+window.Toastr.success = message => window.Toastr(message, 'success')
+window.Toastr.warning = message => window.Toastr(message, 'warning')
+window.Toastr.info = message => window.Toastr(message, 'info')
