@@ -1,0 +1,44 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@import "_Var";
+@import "_Lib";
+@import "Lalilo";
+
+* {
+  &, &:after, &:before {
+    vertical-align: top;
+    @include box-sizing(border-box);
+    @include font-smoothing(subpixel-antialiased);
+  }
+}
+
+:root {
+}
+
+body {
+  position: relative;
+
+  display: inline-block;
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 1);
+
+  font-size: medium;
+  text-align: center;
+  font-family: $font-family;
+}
+
+.__lalilo_copy_str {
+  position: fixed;
+  left: -1000px;
+  top: -1000px;
+  z-index: -9999;
+  @include opacity(0);
+}
