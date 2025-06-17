@@ -23,6 +23,5 @@ module.exports = {
     .js('_/Core.js')
     .js('_/Core/El3.js')
     .js('_/Core/Load.js')
-
     .js('index.js')
 }

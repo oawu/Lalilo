@@ -1,0 +1,126 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+window.Load.VueComponent('segmented-auto', {
+  props: {
+    items: { type: Array, default: [], required: true },
+    value: { type: Number, default: 0, required: true }
+  },
+  data: _ => ({
+    position: null,
+    ani: false,
+    privateItems: []
+  }),
+  mounted () {
+    this.privateItems = this.items
+      .map(item => ({
+        title: Array.isArray(item) ? item[0] : item,
+        subtitle: Array.isArray(item) ? item[1] : ''
+      }))
+      .map(({ title, subtitle }) => ({
+        title: (typeof title == 'string') || (typeof title == 'number' && !isNaN(title) && title !== Infinity) || (typeof title == 'boolean') ? `${title}` : '',
+        subtitle: (typeof subtitle == 'string') || (typeof subtitle == 'number' && !isNaN(subtitle) && subtitle !== Infinity) || (typeof subtitle == 'boolean') ? `${subtitle}` : ''
+      }))
+      .filter(({ title, subtitle }) => title !== '')
+
+    setTimeout(_ => this.click(null, _ => setTimeout(_ => this.ani = true, 300)), 10)
+  },
+  watch: {
+    value (val) {
+      this.click()
+    }
+  },
+  methods: {
+    text (item) {
+      return Array.isArray(item) ? item[0] : item
+    },
+    num (item) {
+      return Array.isArray(item) ? item[1] : null
+    },
+    click (val = null, closure = null) {
+      if (val !== null) {
+        this.value = val
+        this.$emit('input', val)
+      }
+
+      if (this.value < 0 || this.value >= this.$refs.items.length) {
+        if (typeof closure == 'function') {
+          closure()
+        }
+        return
+      }
+
+      let el = this.$refs.items[this.value]
+
+      if (this.value == this.$refs.items.length - 1) {
+        this.position = {
+          top: `${el.offsetTop + 2}px`,
+          left: `${el.offsetLeft + 2}px`,
+          width: `${this.$refs.segmented.offsetWidth - el.offsetLeft - 2 * 2}px`,
+          height: `${el.offsetHeight - 2 * 2}px`
+        }
+      } else if (this.value == 0) {
+        this.position = {
+          top: `${el.offsetTop + 2}px`,
+          left: `2px`,
+          width: `${el.offsetWidth - 2 * 2}px`,
+          height: `${el.offsetHeight - 2 * 2}px`
+        }
+      } else {
+        this.position = {
+          top: `${el.offsetTop + 2}px`,
+          left: `${el.offsetLeft + 2}px`,
+          width: `${el.offsetWidth - 2 * 2}px`,
+          height: `${el.offsetHeight - 2 * 2}px`
+        }
+      }
+
+      if (typeof closure == 'function') {
+        closure()
+      }
+    }
+  },
+  template: `
+    div._segmented.__auto => :i=value   :n=privateItems.length   :ref='segmented'
+      label => *for=({ title, subtitle }, i) in privateItems   :ref='items'   @click=_=>click(i)
+        span => *text=title
+        i => *if=subtitle!==''   *text=subtitle
+      span => :class={show: position, ani }   :style=position`
+})
+
+window.Load.VueComponent('segmented-fixed', {
+  props: {
+    items: { type: Array, default: [], required: true },
+    index: { type: Number, default: 0, required: true }
+  },
+  data: _ => ({
+    privateItems: []
+  }),
+  mounted () {
+    this.privateItems = this.items
+      .map(item => ({
+        title: Array.isArray(item) ? item[0] : item,
+        subtitle: Array.isArray(item) ? item[1] : ''
+      }))
+      .map(({ title, subtitle }) => ({
+        title: (typeof title == 'string') || (typeof title == 'number' && !isNaN(title) && title !== Infinity) || (typeof title == 'boolean') ? `${title}` : '',
+        subtitle: (typeof subtitle == 'string') || (typeof subtitle == 'number' && !isNaN(subtitle) && subtitle !== Infinity) || (typeof subtitle == 'boolean') ? `${subtitle}` : ''
+      }))
+      .filter(({ title, subtitle }) => title !== '')
+  },
+  methods: {
+    click (index) {
+      this.$emit('click', index)
+      this.index = index
+    },
+  },
+  template: `
+    div._segmented.__fixed => :i=index   :n=privateItems.length
+      label => *for=({ title, subtitle }, i) in privateItems   @click=click(i)
+        span => *text=title
+        i => *if=subtitle!==''   *text=subtitle`
+})

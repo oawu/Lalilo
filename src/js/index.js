@@ -13,6 +13,7 @@ window.Load.Vue({
     version: '3.0.1'
   },
   async mounted () {
+    window.Toastr.success('a')
   },
   computed: {
     date () {

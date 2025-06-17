@@ -1,0 +1,75 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@import "../_Lib";
+
+._form-messages {
+  position: relative;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  width: 100%;
+  margin: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 12px + 20px + 12px;
+  padding-right: 16px;
+
+  overflow: hidden;
+  overflow-x: auto;
+  @include border-radius(10px);
+
+  &:before {
+    content: '!';
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: rgba(255, 255, 255, .8);
+    text-align: center;
+    color: transparent;
+    z-index: 2;
+    font-size: small;
+    font-weight: bold;
+    @include border-radius(50%);
+  }
+
+  ._form-message {
+    position: relative;
+    z-index: 3;
+    display: inline-block;
+    font-size: small;
+    color: white;
+    flex-shrink: 0;
+    @extend %-select-none;
+    @include prefix(white-space, pre);
+
+    + ._form-message {
+      margin-top: 4px;
+    }
+  }
+
+  &.__warning {
+    &:before {
+      color: var(--ui-color-iOS-systemRed);
+    }
+    background-color: var(--ui-color-iOS-systemRed);
+  }
+
+  &.__info {
+    &:before {
+      color: var(--ui-color-iOS-systemGreen);
+    }
+    background-color: var(--ui-color-iOS-systemGreen);
+  }
+}
