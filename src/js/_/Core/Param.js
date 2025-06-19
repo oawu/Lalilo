@@ -160,7 +160,7 @@ Object.defineProperty(window.Param._.Meta.prototype, 'val', {
   set (val) {
     this._val = val
     this._d4 = false
-    history.pushState({}, null, `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.Param.Query}${window.Param.Hash}`)
+    history.pushState({}, null, `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.Helper.Type.obj(window.Param.Query) ? window.Param.Query : ''}${window.Helper.Type.obj(window.Param.Hash) ? window.Param.Hash : ''}`)
     return this
 } })
 window.Param._.Object.Query.prototype.toString = function() {
