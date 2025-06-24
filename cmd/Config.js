@@ -5,6 +5,8 @@
  * @link        https://www.ioa.tw/
  */
 
+const { Type: T } = require('@oawu/helper')
+
 module.exports = {
   Source: {
     path: 'src',
@@ -106,6 +108,7 @@ module.exports = {
       }
     }
   },
+
   get Comments () {
     return [
       `@author      OA Wu <oawu.tw@gmail.com>`,
@@ -114,4 +117,46 @@ module.exports = {
       `@link        https://www.ioa.tw/`,
     ]
   },
+
+  get jsEnv () {
+    let api = undefined
+
+    if (this.env === 'Beta') {
+      // api = 'http://.../'
+    }
+    if (this.env === 'Production') {
+      // api = 'http://.../'
+    }
+
+    const _to = v => {
+      if (v === null) {
+        return 'null'
+      }
+      if (T.str(v)) {
+        return `"${v}"`
+      }
+      if (T.num(v)) {
+        return `${v}`
+      }
+      if (T.bool(v)) {
+        return `${v ? 'true' : 'false'}`
+      }
+      if (T.arr(v)) {
+        return `[${v.map(_to).filter(v => T.str(v)).join(',')}]`
+      }
+      if (T.obj(v)) {
+        const tokens = []
+        for (const k in v) {
+          const _v = _to(v[k])
+          if (T.str(_v)) {
+            tokens.push(`${k}:${_v}`)
+          }
+        }
+        return `{${tokens.join(',')}}`
+      }
+      return null
+    }
+
+    return `window.Env={url:${_to({ base: this.baseUrl, api })},toString(){return "${this.env}"}}`
+  }
 }

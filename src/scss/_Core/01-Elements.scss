@@ -5,8 +5,12 @@
  * @link        https://www.ioa.tw/
  */
 
-@import "_Var";
-@import "_Lib";
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
 @import "Lalilo";
 
 * {
@@ -15,30 +19,4 @@
     @include box-sizing(border-box);
     @include font-smoothing(subpixel-antialiased);
   }
-}
-
-:root {
-}
-
-body {
-  position: relative;
-
-  display: inline-block;
-  width: 100%;
-
-  margin: 0;
-  padding: 0;
-  color: rgba(0, 0, 0, 1);
-
-  font-size: medium;
-  text-align: center;
-  font-family: $font-family;
-}
-
-.__lalilo_copy_str {
-  position: fixed;
-  left: -1000px;
-  top: -1000px;
-  z-index: -9999;
-  @include opacity(0);
 }
