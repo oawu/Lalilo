@@ -15,10 +15,10 @@ window.Load.Vue(_ => {
       },
       version: '3.0.1'
     },
-    async mounted () {
+    async mounted() {
     },
     computed: {
-      date () {
+      date() {
         return Str.date()
       }
     },
