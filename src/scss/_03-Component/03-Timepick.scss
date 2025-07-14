@@ -1,0 +1,226 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
+@import "Lalilo";
+
+
+.Timepick {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 12px 32px;
+  background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+
+  > * {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+  }
+
+  --width: 50px;
+  --height: 40px;
+  --space: 20px;
+
+  .top, .bottom {
+    label {
+      --height: 40px;
+      position: relative;
+
+      width: var(--width);
+      height: var(--height);
+
+      @include user-select(none);
+
+      + label {
+        margin-left: var(--space);
+      }
+
+      &:before, &:after {
+        content: '';
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+
+        display: inline-block;
+
+
+      }
+
+      &:before {
+        z-index: 2;
+
+        width: 12px;
+        height: 12px;
+
+        @include transform(translate(-50%, -50%));
+
+        border-top: 3px solid var(--ui-color-iOS-link);
+        border-right: 3px solid var(--ui-color-iOS-link);
+      }
+
+      &:after {
+        z-index: 1;
+
+        width: calc(var(--width) - 2px);
+        height: calc(var(--height) - 2px);
+
+        background-color: transparent;
+
+        @include border-radius(12px);
+        @include transform(translate(-50%, -50%) scale(1));
+        @include transition(background-color .3s, transform .3s);
+      }
+
+      @include hover {
+        cursor: pointer;
+
+        &:hover {
+          &:after {
+            background-color: var(--ui-color-iOS-quaternarySystemFill);
+          }
+        }
+      }
+
+      &:active {
+        &:after {
+          background-color: var(--ui-color-iOS-tertiarySystemFill);
+          @include transform(translate(-50%, -50%) scale(1.05));
+        }
+      }
+    }
+  }
+
+  .top {
+    label {
+      &:before {
+        @include transform(translate(-50%, -50%) rotate(-45deg));
+      }
+    }
+  }
+
+  .bottom {
+    label {
+      &:before {
+        @include transform(translate(-50%, -50%) rotate(135deg));
+      }
+    }
+  }
+
+  .middle {
+    margin-top: 4px;
+    margin-bottom: 4px;
+
+    * {
+      width: var(--width);
+      height: var(--height);
+      line-height: var(--height);
+
+      font-size: 22px;
+
+      @include user-select(none);
+    }
+
+    select {
+      color: var(--ui-color-iOS-label);
+      text-align-last: center;
+
+      border: 0;
+      outline: 0;
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+
+      @include border-radius(8px);
+      @include appearance(none);
+
+      @include hover {
+        cursor: pointer;
+      }
+    }
+
+    i {
+      position: relative;
+      width: var(--space);
+
+      &:before, &:after {
+        content: '';
+
+        position: absolute;
+
+        top: 12px;
+        left: calc(50% - 4px / 2);
+
+        display: inline-block;
+
+        width: 4px;
+        height: 4px;
+
+        background-color: var(--ui-color-iOS-tertiaryLabel);
+        @include border-radius(50%);
+      }
+
+      &:after {
+        top: auto;
+        bottom: 12px;
+      }
+    }
+  }
+
+  .button {
+    position: relative;
+
+    display: inline-block;
+
+    margin: 16px;
+    padding: 8px 0;
+
+    color: var(--ui-color-iOS-link);
+    @include user-select(none);
+
+    &:before {
+      content: '';
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+
+      @include border-radius(12px);
+      @include transition(background-color .3s);
+    }
+
+    @include hover {
+      cursor: pointer;
+
+      &:hover {
+        &:before {
+          background-color: var(--ui-color-iOS-tertiarySystemFill);
+        }
+      }
+    }
+
+    &:active {
+      &:before {
+        background-color: var(--ui-color-iOS-secondarySystemFill);
+      }
+    }
+  }
+}
