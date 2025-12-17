@@ -1,0 +1,32 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
+@import "Lalilo";
+
+:root {
+  @each $env, $colors in $ui-color {
+    @each $name, $color in $colors {
+      --ui-color-#{$env}-#{$name}: #{map-get($color, light)};
+    }
+  }
+}
+
+@include dark {
+  :root {
+    @each $env, $colors in $ui-color {
+      @each $name, $color in $colors {
+        --ui-color-#{$env}-#{$name}: #{map-get($color, dark)};
+      }
+    }
+  }
+}

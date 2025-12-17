@@ -1,0 +1,392 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
+@import "Lalilo";
+
+#Alert {
+  --sec: .320s;
+  --z-index: 999999;
+  --font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+
+  --content-width: 340px;
+  --content-radius: 16px;
+  --content-bg-color: var(--ui-color-iOS-tertiarySystemGroupedBackground);
+
+  --title-color: var(--ui-color-iOS-label);
+  --subtitle-color: var(--ui-color-iOS-label);
+
+  --input-color: var(--ui-color-iOS-label);
+  --input-border-color: var(--ui-color-iOS-separator);
+  --input-bg-color: white;
+  --input-placeholder-color: var(--ui-color-iOS-secondaryLabel);
+  --input-height: 36px;
+
+  --input-focus-border-color: var(--ui-color-iOS-link);
+  --input-focus-border-shadow-color: var(--ui-color-macOS-keyboardFocusIndicatorColor);
+
+  --button-height: 44px;
+  --button-color: var(--ui-color-iOS-link);
+  --button-warning-color: var(--ui-color-iOS-systemRed);
+  --button-bg-color: var(--content-bg-color);
+  --button-hover-bg-color: rgb(237, 237, 242);
+  --button-active-bg-color: rgba(235, 235, 245, 1);
+
+  --separator: rgba(219, 219, 224, 1.00);
+
+  --loading-color-0: var(--ui-color-iOS-label);
+  --loading-color-1: var(--ui-color-iOS-secondarySystemFill);
+  --loading-color-2: var(--ui-color-iOS-systemGray);
+
+  position: fixed;
+  z-index: var(--z-index);
+
+  text-align: center;
+  font-family: var(--font-family);
+
+  &, &:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &:before {
+    content: '';
+
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(32, 33, 36, 0.6);
+    will-change: backdrop-filter;
+
+    @include opacity(0);
+    @include backdrop-filter(none);
+    @include transition(opacity var(--sec), backdrop-filter var(--sec));
+  }
+
+  &.__show {
+    &:before {
+      @include backdrop-filter(blur(4px));
+      @include opacity(1);
+    }
+
+    > ._body {
+      @include opacity(1);
+      @include transform(translate(-50%, -50%) scale(1));
+    }
+  }
+
+  > ._body {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    height: auto;
+    min-width: 280px;
+    max-width: var(--content-width);
+    overflow: hidden;
+
+    background-color: var(--content-bg-color);
+
+    @include opacity(0);
+    @include border-radius(var(--content-radius));
+    @include box-shadow(0 4px 10px 1px rgba(0, 0, 0, .26));
+    @include transform(translate(-50%, -50%) scale(0.5));
+    @include transition(transform var(--sec), opacity ease-out var(--sec));
+
+    &.__loading {
+      min-width: auto;
+    }
+
+    @include range-width(0, 360px) {
+      width: 100%;
+      --content-width: calc(100% - #{12px * 2});
+    }
+
+    > ._loading {
+      width: auto;
+      font-style: normal;
+      padding: 0 calc(var(--content-radius) / 3 * 5);
+
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+
+      margin-top: calc(var(--content-radius) / 4 * 3);
+      margin-bottom: calc(var(--content-radius) / 4 * 3);
+
+      div {
+        position: relative;
+        display: inline-block;
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+
+        i {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+
+          display: inline-block;
+          width: 2px;
+          height: 6px;
+
+          background-color: var(--loading-color-1);
+
+          @include border-radius(math.div(2px, 2));
+          @include transform(translate(-50%, -50%));
+          $cnt: 10;
+          $deg: math.div(360deg, $cnt);
+          $r: 9px;
+
+          @for $i from 0 through $cnt - 1 {
+            &.__i#{$i} {
+              @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
+              @include animation-delay($i * .08s);
+            }
+          }
+
+          @include animation(loading-rotate $cnt * .08s linear infinite);
+        }
+      }
+
+      span {
+        @extend %-select-none;
+        display: inline-block;
+        flex-shrink: 0;
+        color: var(--loading-color-0);
+        margin-left: calc(var(--content-radius) / 2);
+      }
+    }
+
+    > ._title, > ._subtitle, > ._inputs {
+      display: inline-block;
+      width: 100%;
+
+      &:first-child {
+        margin-top: var(--content-radius);
+      }
+
+      &:last-child {
+        margin-bottom: var(--content-radius);
+      }
+    }
+
+    > ._title, > ._subtitle {
+      @extend %-select-none;
+      font-size: medium;
+    }
+
+    > ._title, > ._subtitle, > ._inputs, ._buttons> ._button {
+      padding: 0 12px;
+    }
+
+    > ._title {
+      color: var(--title-color);
+
+      +._subtitle {
+        margin-top: 8px;
+      }
+
+      +._inputs {
+        margin-top: var(--content-radius);
+      }
+
+      +._buttons {
+        margin-top: var(--content-radius);
+      }
+    }
+
+    > ._subtitle {
+      color: var(--subtitle-color);
+
+      +._inputs {
+        margin-top: var(--content-radius);
+      }
+
+      +._buttons {
+        margin-top: var(--content-radius);
+      }
+    }
+
+    > ._inputs {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+
+      +._buttons {
+        margin-top: var(--content-radius);
+      }
+
+      > ._input {
+        padding: 0 12px;
+        width: 100%;
+
+        height: var(--input-height);
+        line-height: var(--input-height);
+        font-size: large;
+
+        margin: 0 auto;
+
+        +._input {
+          margin-top: 10px;
+        }
+
+        color: var(--input-color);
+        font-family: var(--font-family);
+        border: 1px solid var(--input-border-color);
+        background-color: var(--input-bg-color);
+
+        @include appearance(none);
+        @include box-shadow(none);
+        @include border-radius(6px);
+        @include transition(box-shadow .16s ease-in-out, border-color .16s ease-in-out);
+
+        @include input-placeholder {
+          font-size: small;
+          color: var(--input-placeholder-color);
+        }
+
+        &:focus {
+          outline: 0;
+        }
+
+        &:focus {
+          border-color: var(--input-focus-border-color);
+          @include box-shadow(0 0 0 3px var(--input-focus-border-shadow-color));
+        }
+      }
+    }
+
+    > ._buttons {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 100%;
+      overflow: hidden;
+
+      &[n="1"] {
+        flex-direction: row;
+      }
+
+      &[n="2"] {
+        flex-direction: row;
+
+        > ._button {
+          width: 50%;
+
+          &:first-child:after {
+            content: '';
+          }
+        }
+      }
+
+      &:first-child {
+        @include border-top-radius(var(--content-radius));
+      }
+
+      &:last-child {
+        @include border-bottom-radius(var(--content-radius));
+      }
+
+      > ._button {
+        @extend %-select-none;
+        flex-shrink: 0;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        margin: 0;
+
+        height: var(--button-height);
+        line-height: var(--button-height);
+        color: var(--button-color);
+        background-color: var(--button-bg-color);
+
+        cursor: pointer;
+        text-align: center;
+        font-size: medium;
+
+        @include overflow-docx3();
+        @include transition(background-color .3s);
+
+        &, &:focus {
+          outline: 0;
+          border: 0;
+        }
+
+        &:focus {
+          font-weight: bold;
+          background-color: var(--button-hover-bg-color);
+        }
+
+        &.__preferred {
+          font-weight: bold;
+        }
+
+        &.__warning {
+          --button-color: var(--button-warning-color);
+        }
+
+        &:before, &:after {
+          position: absolute;
+          right: 0;
+          top: 0;
+          display: inline-block;
+        }
+
+        &:before {
+          content: '';
+          left: 0;
+          width: 100%;
+          height: 1px;
+          border-top: 1px solid var(--separator);
+        }
+
+        &:after {
+          bottom: 0;
+          height: 100%;
+          width: 1px;
+          border-left: 1px solid var(--separator);
+        }
+
+        @include hover {
+          &:hover {
+            background-color: var(--button-hover-bg-color);
+          }
+        }
+
+        &:active {
+          background-color: var(--button-active-bg-color);
+        }
+      }
+    }
+  }
+
+  @include dark {
+    --button-hover-bg-color: rgba(60, 60, 67, 0.6);
+    --button-active-bg-color: rgba(60, 60, 67, 0.6);
+    --input-bg-color: rgba(120, 120, 128, 0.16);
+    --separator: rgba(73, 73, 78, 1.00);
+  }
+}

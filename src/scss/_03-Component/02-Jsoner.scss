@@ -1,0 +1,446 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
+@import "Lalilo";
+
+
+.Jsoner {
+  position: relative;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  width: 100%;
+  padding: 16px;
+
+  font-size: small;
+  font-family: Hack, Comfortaa, $font-family;
+
+  overflow: auto;
+
+  &._empty {
+    padding: 8px;
+  }
+
+  .Jsoner-NS {
+    @include user-select(none);
+  }
+  .Jsoner-Adds {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+  }
+
+  .Jsoner-Remove, .Jsoner-Add {
+    position: relative;
+
+    display: inline-block;
+
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+    @include opacity(0.9);
+    @include border-radius(50%);
+    @include transition(opacity .3s);
+
+    @include hover {
+      cursor: pointer;
+      &:hover {
+        @include opacity(1);
+      }
+    }
+  }
+  .Jsoner-Remove {
+    background-color: var(--ui-color-iOS-systemRed);
+
+    &:before {
+      content: '';
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      display: inline-block;
+
+      width: 52%;
+      height: 2px;
+
+      background-color: white;
+      @include border-radius(1px);
+      @include transform(translate(-50%, -50%));
+    }
+  }
+  .Jsoner-Add {
+    background-color: var(--ui-color-iOS-systemGreen);
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      display: inline-block;
+
+      width: 52%;
+      height: 3px;
+
+      background-color: white;
+      @include border-radius(2px);
+    }
+
+    &:before {
+      @include transform(translate(-50%, -50%));
+    }
+    &:after {
+      @include transform(translate(-50%, -50%) rotate(90deg));
+    }
+  }
+
+  .Jsoner-Copy {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin-left: 8px;
+    padding: 1px 6px;
+
+    color: var(--ui-color-iOS-link);
+    background-color: var(--ui-color-iOS-quaternarySystemFill);
+
+    @include opacity(0);
+    @include border-radius(3px);
+    @include transition(background-color .3s, opacity .3s);
+
+    &:before {
+      content: '複製';
+    }
+    @include hover {
+      cursor: pointer;
+      &:hover {
+        background-color: var(--ui-color-iOS-tertiarySystemFill);
+      }
+    }
+    &:active {
+      background-color: var(--ui-color-iOS-secondarySystemFill);
+    }
+  }
+  .Jsoner-Empty {
+    flex-shrink: 0;
+
+    display: inline-block;
+
+    width: 100%;
+    min-height: 14px;
+
+    font-size: small;
+    font-style: italic;
+    color: var(--ui-color-iOS-tertiaryLabel);
+    text-align: center;
+
+    @include border-radius(6px);
+    @include prefix(white-space, pre);
+  }
+
+  .Jsoner-Desc {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding-left: 2px;
+    color: var(--ui-color-iOS-secondaryLabel);
+
+    &:before {
+      content: '//';
+      display: inline-block;
+      margin-right: 2px;
+    }
+    &:empty {
+      display: none;
+    }
+  }
+  .Jsoner-More {
+    color: var(--ui-color-iOS-secondaryLabel);
+    margin-left: 4px;
+  }
+  .Jsoner-Comma {
+    color: var(--ui-color-iOS-label);
+    margin-left: 2px;
+  }
+  .Jsoner-Quote {
+  }
+  .Jsoner-Colon {
+    color: var(--ui-color-iOS-label);
+    margin-left: 2px;
+    margin-right: 6px;
+  }
+  .Jsoner-Square-Left {
+    color: var(--ui-color-iOS-label);
+  }
+  .Jsoner-Square-Right {
+    color: var(--ui-color-iOS-label);
+  }
+  .Jsoner-Curly-Left {
+    color: var(--ui-color-iOS-label);
+  }
+  .Jsoner-Curly-Right {
+    color: var(--ui-color-iOS-label);
+  }
+  .Jsoner-Null, .Jsoner-Num, .Jsoner-Str, .Jsoner-Bool {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+
+    .Jsoner-Remove {
+      margin-right: 4px;
+    }
+
+    .Jsoner-Data, .Jsoner-Datas {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      flex-grow: 1;
+
+      padding: 0;
+    }
+
+    label.Jsoner-Data, label.Jsoner-Datas {
+      padding: 3px 6px;
+      background-color: var(--ui-color-iOS-tertiarySystemFill);
+
+      @include border-radius(3px);
+      @include transition(background-color .3s);
+
+      @include hover {
+        cursor: pointer;
+        &:hover {
+          background-color: var(--ui-color-iOS-secondarySystemFill);
+        }
+      }
+      &:active {
+        background-color: var(--ui-color-iOS-systemFill);
+      }
+    }
+
+    .Jsoner-Data {
+      &._str {
+        @include prefix(white-space, pre);
+      }
+    }
+
+    &:hover {
+      .Jsoner-Copy {
+        @include opacity(1);
+      }
+    }
+  }
+  .Jsoner-Null {
+    &._is-key {
+      > .Jsoner-Data {
+        color: rgba(175, 51, 51, 1.00);
+        @include dark {
+          color: rgba(207, 91, 91, 1.00);
+        }
+      }
+    }
+
+    &._is-val {
+      > .Jsoner-Data {
+        font-weight: bold;
+
+        color: rgba(15, 82, 165, 1.00);
+        @include dark {
+          color: rgba(127, 184, 255, 1.00);
+        }
+      }
+    }
+  }
+  .Jsoner-Num {
+    &._is-key {
+      > .Jsoner-Data {
+        color: rgba(175, 51, 51, 1.00);
+        @include dark {
+          color: rgba(207, 91, 91, 1.00);
+        }
+      }
+    }
+
+    &._is-val {
+      > .Jsoner-Data {
+        color: rgba(38, 143, 100, 1.00);
+        @include dark {
+          color: rgba(70, 180, 135, 1.00);
+        }
+      }
+    }
+  }
+  .Jsoner-Str {
+    &._is-key {
+      > .Jsoner-Data {
+        color: rgba(175, 51, 51, 1.00);
+        @include dark {
+          color: rgba(207, 91, 91, 1.00);
+        }
+      }
+    }
+
+    &._is-val {
+      > .Jsoner-Data {
+        color: rgba(15, 82, 166, 1.00);
+
+        @include dark {
+          color: rgba(127, 184, 255, 1.00);
+        }
+      }
+    }
+  }
+  .Jsoner-Bool {
+    &._is-key {
+      > .Jsoner-Data {
+        color: rgba(175, 51, 51, 1.00);
+        @include dark {
+          color: rgba(207, 91, 91, 1.00);
+        }
+      }
+    }
+
+    &._is-val {
+      > .Jsoner-Data {
+        color: rgba(42, 107, 177, 1.00);
+        @include dark {
+          color: rgba(159, 165, 253, 1.00)
+        }
+      }
+    }
+  }
+  .Jsoner-Arr, .Jsoner-Obj {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    min-width: 100%;
+    width: max-content;
+  }
+  .Jsoner-R0, .Jsoner-R1, .Jsoner-R2 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+  }
+  .Jsoner-R0 {
+    flex-direction: row;
+
+    > * {
+      flex-shrink: 0;
+    }
+
+    .Jsoner-Remove {
+      margin-right: 4px;
+    }
+    @include transition(background-color .3s);
+
+
+    &:hover {
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+      ~ .Jsoner-R1 {
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+      }
+      ~ .Jsoner-R2 {
+        background-color: var(--ui-color-iOS-quaternarySystemFill);
+      }
+
+      .Jsoner-Copy {
+        @include opacity(1);
+      }
+    }
+  }
+  label.Jsoner-R0 {
+    @include hover {
+      cursor: pointer;
+      &:hover {
+        background-color: var(--ui-color-iOS-tertiarySystemFill);
+      }
+    }
+  }
+  .Jsoner-R1 {
+    position: relative;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding-top: 2px;
+    padding-left: 20px;
+    padding-bottom: 2px;
+
+    &:before {
+      content: '';
+      position: absolute;
+
+      left: 2px;
+      top: 4px;
+      bottom: 4px;
+
+      display: inline-block;
+
+      width: 1px;
+
+      border-left: 1px dashed var(--ui-color-iOS-quaternaryLabel);
+    }
+  }
+  .Jsoner-R2 {
+    flex-direction: row;
+  }
+  .Jsoner-For {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    min-width: 100%;
+
+    + .Jsoner-For {
+      margin-top: 2px;
+    }
+  }
+  .Jsoner-Kvs, .Jsoner-Els {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    min-width: 100%;
+
+    &:hover {
+      background-color: var(--ui-color-iOS-quaternarySystemFill);
+    }
+    span {
+      flex-shrink: 0;
+    }
+  }
+}

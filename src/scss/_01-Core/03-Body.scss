@@ -13,8 +13,19 @@
 
 @import "Lalilo";
 
-:root {}
+body {
+  position: relative;
 
-@include dark {
-  :root {}
+  display: inline-block;
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  font-size: medium;
+  text-align: center;
+  font-family: $font-family;
+
+  color: var(--ui-color-iOS-label);
+  background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
 }

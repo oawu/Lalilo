@@ -1,0 +1,73 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
+@import "Lalilo";
+
+#PopupBox {
+  --z-index: 99999;
+  position: fixed;
+  z-index: var(--z-index);
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: inline-block;
+  width: 100%;
+
+  background-color: rgba(0, 0, 0, 0);
+
+  will-change: backdrop-filter;
+  @include backdrop-filter(blur(5px));
+  @include transition(background-color .3s);
+
+  > .cover {
+    position: absolute;
+    z-index: 1;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
+
+  > .box {
+    position: absolute;
+    z-index: 2;
+
+    top: 50%;
+    left: 50%;
+
+    overflow: hidden;
+    background-color: transparent;
+
+    @include opacity(0);
+    @include box-shadow(0 0 10px 1px rgba(60, 60, 67, 0.29));
+    @include transform(translate(-50%, -50%) scale(.5));
+    @include transition(transform .3s, opacity .3s);
+    @include border-radius(10px);
+  }
+
+  &._present {
+    background-color: rgba(0, 0, 0, .5);
+    .box {
+      @include opacity(1);
+      @include transform(translate(-50%, -50%) scale(1));
+    }
+  }
+}

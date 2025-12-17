@@ -1,0 +1,297 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
+@import "Lalilo";
+
+.Segmented {
+  &._auto {
+    $h: 40px;
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    background-color: var(--ui-color-iOS-tertiarySystemFill);
+    @include border-radius(8px);
+
+    label {
+      @extend %-select-none;
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+      font-size: medium;
+      text-align: center;
+      padding: 0 12px;
+      z-index: 2;
+      height: $h;
+      line-height: $h;
+
+      @include transition(opacity .3s);
+
+      span, i {
+        position: relative;
+        z-index: 1;
+      }
+
+      span {
+        color: var(--ui-color-iOS-label);
+        @include transition(color .3s);
+      }
+
+      i {
+        display: inline-block;
+        padding: 0 6px;
+        height: 16px;
+        line-height: 16px;
+        margin-top: math.div(($h - 16px), 2);
+        margin-left: 4px;
+
+        font-weight: bold;
+        font-size: x-small;
+        font-style: normal;
+        color: var(--ui-color-iOS-label);
+        background-color: var(--ui-color-iOS-tertiaryLabel);
+
+        @include opacity(.7);
+        @include border-radius(math.div(16px, 2));
+        @include transition(opacity .3s, background-color .3s, color .3s);
+      }
+
+      &:active {
+        span {
+          color: var(--ui-color-iOS-secondaryLabel);
+        }
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 10px;
+        bottom: 10px;
+        display: inline-block;
+        width: 1px;
+        background-color: var(--ui-color-iOS-systemFill);
+        @include opacity(0);
+        @include transition(opacity .3s);
+
+      }
+
+      + label {
+        &:before {
+          @include opacity(1);
+        }
+      }
+    }
+
+    > span {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      z-index: 1;
+      background-color: var(--ui-color-macOS-controlColor);
+      @include border-radius(6px);
+      @include opacity(0);
+      @include box-shadow(0 0 4px var(--ui-color-iOS-secondarySystemFill));
+
+      &._show {
+        @include opacity(1);
+      }
+
+      &._ani {
+        @include transition(opacity 0.3s, top 0.3s, left 0.3s, width 0.3s, height 0.3s);
+        will-change: opacity, top, left, width, height;
+      }
+    }
+
+    @for $i from 1 through 10 {
+      &[i='#{$i - 1}'] {
+        label:nth-child(#{$i}) {
+          &:active {
+            span {
+              color: var(--ui-color-iOS-label);
+            }
+          }
+
+          &:before {
+            @include opacity(0);
+          }
+
+          + label {
+            &:before {
+              @include opacity(0);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &._fixed {
+    $n: 10;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    background-color: var(--ui-color-iOS-tertiarySystemFill);
+    @include border-radius(8px);
+    padding: 4px;
+    position: relative;
+
+    label {
+      cursor: pointer;
+      flex-grow: 1;
+      @extend %-select-none;
+      position: relative;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      font-size: medium;
+      text-align: center;
+      padding: 8px 0;
+      z-index: 2;
+
+      &:before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+        @include border-radius(6px);
+        background-color: transparent;
+        @include transition(background-color .3s);
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: 50%;
+        display: inline-block;
+        width: 1px;
+        height: 50%;
+        @include transform(translateY(-50%));
+        background-color: var(--ui-color-iOS-tertiaryLabel);
+        @include opacity(0);
+        @include transition(opacity .3s);
+      }
+
+      + label {
+        margin-left: 1px;
+
+        &:after {
+          @include opacity(.7);
+        }
+      }
+
+      &:hover {
+        &:before {
+          background-color: var(--ui-color-iOS-quaternarySystemFill);
+        }
+      }
+
+      &:active {
+        &:before {
+          background-color: var(--ui-color-iOS-tertiarySystemFill);
+        }
+      }
+
+      span {
+        display: inline-block;
+      }
+
+      i {
+        display: inline-block;
+        padding: 0 6px;
+        height: 16px;
+        line-height: 16px;
+        margin-left: 4px;
+
+        font-weight: bold;
+        font-size: x-small;
+        font-style: normal;
+        color: var(--ui-color-iOS-label);
+        background-color: var(--ui-color-iOS-tertiaryLabel);
+
+        @include opacity(.7);
+        @include border-radius(math.div(16px, 2));
+        @include transition(opacity .3s, background-color .3s, color .3s);
+      }
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 4px + 2px;
+      top: 4px + 2px;
+      bottom: 4px + 2px;
+      display: inline-block;
+      background-color: var(--ui-color-macOS-controlColor);
+      @include opacity(0);
+      @include box-shadow(0 0 4px var(--ui-color-iOS-secondarySystemFill));
+      @include border-radius(6px);
+      @include transform(translateX(0%));
+      @include transition(transform .3s, opacity .3s);
+    }
+
+    &[n="0"] {
+      display: none;
+    }
+
+    @for $i from 1 through $n {
+      &[n="#{$i}"] {
+        label {
+          width: calc((100% - 1px * #{$i - 1}) / #{$i});
+        }
+
+        &:before {
+          width: calc((100% - 4px * 2 - 1px * #{$i - 1}) / #{$i} - 2px * 2);
+        }
+      }
+    }
+
+    @for $i from 0 through ($n - 1) {
+      &[i="#{$i}"] {
+        &:before {
+          @include opacity(1);
+          @include transform(translateX(calc((4px + 1px + 100%) * #{$i})));
+        }
+
+        label {
+          &:nth-child(#{$i + 1}) {
+            &:before {
+              background-color: transparent;
+            }
+
+            &:after {
+              @include opacity(0);
+            }
+          }
+
+          &:nth-child(#{$i + 2}) {
+            &:after {
+              @include opacity(0);
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,902 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@use "sass:math";
+@import "@/CSS3/Appearance";
+
+@import "../_01-Var";
+@import "../_02-Lib";
+
+@import "Lalilo";
+
+$g-max-width: 640px;
+
+@mixin _nav-header () {
+  --safe-top: env(safe-area-inset-top, 0px);
+
+  position: relative;
+
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  @include range-width(0, $g-max-width) {
+    padding-top: var(--safe-top);
+    height: calc(var(--header-height) + var(--safe-top));
+  }
+  @include range-width($g-max-width) {
+    height: var(--header-height);
+  }
+
+  padding: 0;
+  padding-left: var(--header-padding-left);
+  padding-right: var(--header-padding-right);
+
+  background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+
+  &:before {
+    content: '';
+
+    position: absolute;
+    z-index: 2;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 1px;
+
+    background-color: var(--ui-color-iOS-systemGray5);
+  }
+
+  > b {
+    flex-grow: 1;
+
+    position: relative;
+    z-index: 3;
+
+    display: inline-block;
+
+    width: 100%;
+    min-width: 0;
+
+    height: var(--header-height);
+    line-height: var(--header-height);
+
+    @include overflow-docx3();
+    @include user-select(none);
+  }
+
+  > label {
+    flex-shrink: 0;
+
+    position: absolute;
+    z-index: 5;
+
+    @include range-width(0, $g-max-width) {
+      @include transform(translateY(calc(-50% + var(--safe-top) / 2)));
+    }
+
+    @include range-width($g-max-width) {
+      @include transform(translateY(-50%));
+    }
+    top: 50%;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 12px;
+    // font-size: small;
+    @include user-select(none);
+
+    &:first-child {
+      left: 8px;
+    }
+
+    &:last-child {
+      right: 8px;
+    }
+
+    color: var(--ui-color-iOS-label);
+
+    &._click {
+      color: var(--ui-color-iOS-link);
+
+      @include hover {
+        cursor: pointer;
+        color: var(--ui-color-iOS-link);
+
+        &:hover {
+          &:before {
+            background-color: var(--ui-color-iOS-quaternarySystemFill);
+          }
+        }
+      }
+
+      &:active {
+        &:before {
+          background-color: var(--ui-color-iOS-tertiarySystemFill);
+        }
+      }
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background-color: transparent;
+      @include border-radius(8px);
+      @include transition(background-color .3s);
+    }
+
+    &._back {
+      &:after {
+        position: absolute;
+        z-index: 1;
+
+        left: 10px;
+        top: 50%;
+
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+
+        border-top: 2px solid var(--ui-color-iOS-link);
+        border-left: 2px solid var(--ui-color-iOS-link);
+        @include opacity(.85);
+        @include transform(translateY(-50%) rotate(-45deg));
+      }
+      padding-left: 10px + 4px + 5px;
+
+      &:after {
+        content: '';
+      }
+    }
+
+    &._red {
+      color: var(--ui-color-iOS-systemRed);
+    }
+  }
+}
+
+
+.Vc {
+  --g-max-width: #{$g-max-width};
+  --z-index: 9999;
+
+  position: fixed;
+  z-index: var(--z-index);
+
+  &, &:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &:before {
+    content: '';
+
+    position: absolute;
+    z-index: 1;
+
+    background-color: rgba(32, 33, 36, 0.6);
+    will-change: backdrop-filter;
+
+    @include opacity(0);
+    @include backdrop-filter(none);
+  }
+
+  > .container {
+    position: absolute;
+    z-index: 2;
+
+    top: 0;
+    left: 50%;
+    height: 100vh;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    max-width: var(--g-max-width);
+
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+    overflow: hidden;
+
+    @include box-shadow(0 -2px 20px rgba(0, 0, 0, .05), 0 0 12px rgba(0, 0, 0, .05));
+    @include opacity(0);
+    @include transform(translate(-50%, 100%));
+  }
+
+  @include range-width($g-max-width) {
+    > .container {
+      top: 10px;
+      height: calc(100vh - 10px * 2);
+      @include border-radius(20px);
+      > .footer {
+        > label {
+          &:first-child {
+            &:before {
+              @include border-bottom-left-radius(20px - 4px);
+            }
+          }
+          &:last-child {
+            &:before {
+              @include border-bottom-right-radius(20px - 4px);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &._ani {
+    &:before {
+      @include transition(opacity .3s, backdrop-filter .3s);
+    }
+
+    > .container {
+      @include transition(opacity .3s, transform .3s);
+    }
+  }
+
+  &._opa1 {
+    &:before {
+      @include opacity(1);
+    }
+    > .container {
+      @include opacity(1);
+    }
+  }
+
+  &._move {
+    &:before {
+      @include backdrop-filter(blur(4px));
+    }
+    > .container {
+      @include transform(translate(-50%, 0));
+    }
+  }
+
+  > .container {
+  }
+}
+
+.Vc-Tab {
+  --g-max-width: #{$g-max-width};
+  --z-index: 9999;
+
+  position: fixed;
+  z-index: var(--z-index);
+
+  &, &:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &:before {
+    content: '';
+
+    position: absolute;
+    z-index: 1;
+
+    background-color: rgba(32, 33, 36, 0.6);
+    will-change: backdrop-filter;
+
+    @include opacity(0);
+    @include backdrop-filter(none);
+  }
+
+  > .container {
+    position: absolute;
+    z-index: 2;
+
+    top: 0;
+    left: 50%;
+    height: 100vh;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    max-width: var(--g-max-width);
+
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+    overflow: hidden;
+
+    @include box-shadow(0 -2px 20px rgba(0, 0, 0, .05), 0 0 12px rgba(0, 0, 0, .05));
+    @include opacity(0);
+    @include transform(translate(-50%, 100%));
+    // @include border-top-radius(20px);
+  }
+  @include range-width($g-max-width) {
+    > .container {
+      top: 10px;
+      height: calc(100vh - 10px * 2);
+      @include border-radius(20px);
+      > .footer {
+        > label {
+          &:first-child {
+            &:before {
+              @include border-bottom-left-radius(20px - 4px);
+            }
+          }
+          &:last-child {
+            &:before {
+              @include border-bottom-right-radius(20px - 4px);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &._ani {
+    &:before {
+      @include transition(opacity .3s, backdrop-filter .3s);
+    }
+
+    > .container {
+      @include transition(opacity .3s, transform .3s);
+    }
+  }
+
+  &._opa1 {
+    &:before {
+      @include opacity(1);
+    }
+    > .container {
+      @include opacity(1);
+    }
+  }
+
+  &._move {
+    &:before {
+      @include backdrop-filter(blur(4px));
+    }
+    > .container {
+      @include transform(translate(-50%, 0));
+    }
+  }
+
+  > .container {
+    --footer-height: 48px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+    > .tabs {
+      position: relative;
+      z-index: 5;
+
+      display: inline-block;
+
+      width: 100%;
+
+
+      @include range-width(0, $g-max-width) {
+        height: calc(100% - var(--footer-height) - var(--safe-bottom));
+
+      }
+      @include range-width($g-max-width) {
+        height: calc(100% - var(--footer-height));
+      }
+
+      > .tab {
+        position: absolute;
+
+        z-index: 1;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+
+        @include opacity(0);
+        @include transition(opacity .3s);
+        > .view {
+
+        }
+        > .nav {
+          display: inline-flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+
+          width: 100%;
+          height: 100%;
+
+          background-color: var(--ui-color-iOS-systemGroupedBackground);
+          overflow: hidden;
+        }
+      }
+    }
+
+    > .footer {
+      position: absolute;
+      z-index: 10;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      @include range-width(0, $g-max-width) {
+        height: calc(var(--footer-height) + var(--safe-bottom));
+        padding-bottom: var(--safe-bottom);
+      }
+      @include range-width($g-max-width) {
+        height: var(--footer-height);
+      }
+
+      width: 100%;
+      background-color: var(--ui-color-iOS-secondarySystemGroupedBackground);
+
+      &:before {
+        content: '';
+
+        position: absolute;
+        z-index: 2;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        // height: 1px;
+
+        // background-color: var(--ui-color-iOS-systemGray5);
+        border-top: 1px solid var(--ui-color-iOS-systemGray5);
+        // @include border-radius(8px);
+        pointer-events: none;
+      }
+
+      > i {
+        position: relative;
+        z-index: 1;
+
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+
+        width: 1px;
+        height: 70%;
+
+        flex-shrink: 0;
+        background-color: var(--ui-color-iOS-systemGray5);
+      }
+
+      > label {
+        flex-shrink: 0;
+
+        position: relative;
+        z-index: 1;
+
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        // width: calc((100% - 1px) / 2);
+        height: var(--footer-height);
+        padding-top: 2px;
+
+        @include user-select(none);
+
+        i {
+          position: relative;
+          z-index: 2;
+
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+
+          margin-right: 4px;
+
+          color: var(--ui-color-iOS-secondaryLabel);
+          &:before {
+            @extend %-icon;
+          }
+        }
+        span {
+          position: relative;
+          z-index: 2;
+          display: inline-block;
+        }
+
+        &:before {
+          content: '';
+          position: absolute;
+          z-index: -1;
+          top: 5px;
+          left: 4px;
+          right: 4px;
+          bottom: 4px;
+          background-color: transparent;
+          @include border-radius(2px);
+          @include transition(background-color .3s);
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          top: 1px;
+          left: 50%;
+
+          display: inline-block;
+          width: calc(100% - 10px * 2);
+          height: 2px;
+
+          background-color: transparent;
+          @include transition(background-color .3s);
+
+          @include border-bottom-radius(2px);
+          @include transform(translateX(-50%));
+        }
+
+        @include hover {
+          cursor: pointer;
+          &:hover {
+            &:before {
+              background-color: var(--ui-color-iOS-quaternarySystemFill);
+            }
+          }
+        }
+        &:active {
+          &:before {
+            background-color: var(--ui-color-iOS-tertiarySystemFill);
+          }
+        }
+      }
+
+      @for $i from 0 through 6 {
+        &[n="#{$i}"] {
+          > label {
+            @if $i == 0 {
+              width: 100%;
+            } @else {
+              width: calc((100% - #{1px * $i - 1}) / #{$i});
+            }
+          }
+        }
+      }
+    }
+
+    @for $i from 0 through 6 {
+      &[index="#{$i}"] {
+        > .tabs > .tab {
+          &:nth-child(#{$i + 1}) {
+            @include opacity(1);
+            z-index: 2;
+          }
+        }
+        > .footer {
+          > label {
+            &:nth-child(#{$i * 2 + 1}) {
+              z-index: 2;
+
+              i, span {
+                color: var(--ui-color-iOS-link);
+              }
+              &:after {
+                background-color: var(--ui-color-iOS-link);
+              }
+
+              &:before {
+                // background-color: var(--ui-color-iOS-secondarySystemFill);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.Vc-Tab > .container > .tabs > .tab > .nav,
+.Vc-Nav > .nav {
+
+  --header-height: 50px;
+  --header-padding-left: 16px;
+  --header-padding-right: 16px;
+
+  > .views {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: inline-block;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    > .view {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      bottom: 0;
+
+      @include opacity(0);
+      @include box-shadow(none);
+      @include transform(translateX(0));
+      @include transition(none);
+
+      &._ani {
+        @include transition(transform .36s ease-out);
+      }
+
+      &._opa1 {
+        @include opacity(1);
+      }
+
+      &._sdw {
+        @include box-shadow(0 0 8px var(--ui-color-iOS-systemFill));
+      }
+
+      &._move_1 {
+        @include transform(translateX(-100%));
+      }
+
+      &._move_2 {
+        @include transform(translateX(-135%));
+      }
+    }
+  }
+}
+.Vc > .container,
+.Vc-Tab> .container > .tabs > .tab {
+  > .view {
+    position: relative;
+  }
+}
+
+.Vc-Tab > .container > .tabs > .tab > .nav > .views,
+.Vc-Nav > .nav > .views,
+.Vc > .container,
+.Vc-Tab> .container > .tabs > .tab {
+
+  > .view {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: auto;
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+    > .loading {
+      position: absolute;
+      z-index: 15;
+
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--ui-color-iOS-secondaryLabel);
+      font-size: small;
+      font-style: italic;
+      text-align: center;
+
+      background-color: var(--ui-color-iOS-systemGroupedBackground);
+
+      > div {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 40px;
+
+        div {
+          flex-shrink: 0;
+
+          position: relative;
+
+          display: inline-block;
+
+          width: 28px;
+          height: 28px;
+
+          i {
+            --loading-color-1: var(--ui-color-iOS-secondarySystemFill);
+            --loading-color-2: var(--ui-color-iOS-systemGray);
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            display: inline-block;
+
+            width: 2px;
+            height: 6px;
+
+            background-color: var(--view-loading-color-1);
+
+            @include border-radius(math.div(2px, 2));
+            @include transform(translate(-50%, -50%));
+
+            $cnt: 10;
+            $deg: math.div(360deg, $cnt);
+            $r: 8px;
+            $s: math.div(0.5s, $cnt);
+
+            @for $i from 0 through $cnt - 1 {
+              &._i#{$i} {
+                @include transform(translate(calc(-50% + #{$r * math.sin($i * $deg)}), calc(-50% - #{$r * math.cos($i * $deg)})) rotate($i * $deg));
+                @include animation-delay($i * $s);
+              }
+            }
+
+            @include animation(loading-rotate $cnt * $s linear infinite);
+          }
+        }
+
+        span {
+          flex-shrink: 0;
+
+          display: inline-block;
+
+          height: 40px;
+          line-height: 40px;
+          padding-left: 8px;
+
+          @include user-select(none);
+        }
+      }
+
+    }
+
+    > .header {
+      z-index: 10;
+      flex-shrink: 0;
+      @include _nav-header()
+    }
+
+    > .body {
+      flex-grow: 1;
+
+      position: relative;
+      z-index: 5;
+
+
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+}
+.Vc-Nav {
+  --g-max-width: #{$g-max-width};
+
+  --z-index: 9999;
+
+  position: fixed;
+  z-index: var(--z-index);
+
+  &, &:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &:before {
+    content: '';
+
+    position: absolute;
+    z-index: 1;
+
+    background-color: rgba(32, 33, 36, 0.6);
+    will-change: backdrop-filter;
+
+    @include opacity(0);
+    @include backdrop-filter(none);
+  }
+
+  > .nav {
+    position: fixed;
+    z-index: 2;
+
+    top: 0;
+    left: 50%;
+
+    height: 100vh;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    max-width: var(--g-max-width);
+
+    background-color: var(--ui-color-iOS-systemGroupedBackground);
+    overflow: hidden;
+
+    @include box-shadow(0 -2px 20px rgba(0, 0, 0, .05), 0 0 12px rgba(0, 0, 0, .05));
+    @include opacity(0);
+    @include opacity(1);
+    @include transform(translate(-50%, 100%));
+    // @include border-top-radius(20px);
+  }
+
+  &._ani {
+    &:before {
+      @include transition(opacity .3s, backdrop-filter .3s);
+    }
+
+    > .nav {
+      @include transition(opacity .3s, transform .3s);
+    }
+  }
+
+  &._opa1 {
+    &:before {
+      @include opacity(1);
+    }
+    > .nav {
+      @include opacity(1);
+    }
+  }
+
+  &._move {
+    &:before {
+      @include backdrop-filter(blur(4px));
+    }
+    > .nav {
+      @include transform(translate(-50%, 0));
+    }
+  }
+
+  @include range-width($g-max-width) {
+    > .nav {
+      top: 10px;
+      height: calc(100vh - 10px * 2);
+      @include border-radius(20px);
+    }
+  }
+}
