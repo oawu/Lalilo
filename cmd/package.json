@@ -1,0 +1,57 @@
+{
+  "name": "Lalilo",
+  "version": "3.0.0",
+  "description": "用自己做出來的工具開發，就想再品嚐自己做的一道菜，美味只有自己知道。",
+  "main": "Serve.js",
+  "scripts": {
+    "serve": "node Serve.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oawu/Lalilo.git"
+  },
+  "keywords": [
+    "SCSS",
+    "JavaScript",
+    "HTML"
+  ],
+  "author": {
+    "name": "OA Wu",
+    "email": "oawu.tw@gmail.com",
+    "url": "https://www.ioa.tw/"
+  },
+  "license": "MIT",
+  "homepage": "https://www.ioa.tw/",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.774.0",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@oawu/_Asset": "file:Core/Asset.js",
+    "@oawu/_Config": "file:Config.js",
+    "@oawu/_Display": "file:Core/Display.js",
+    "@oawu/_Factory": "file:Core/Factory.js",
+    "@oawu/_FactoryDispatch": "file:Core/Factory/Dispatch.js",
+    "@oawu/_FactoryFile": "file:Core/Factory/File.js",
+    "@oawu/_FactoryIcon": "file:Core/Factory/Icon.js",
+    "@oawu/_FactoryScss": "file:Core/Factory/Scss.js",
+    "@oawu/_Helper": "file:Core/Helper.js",
+    "@oawu/_Port": "file:Core/Port.js",
+    "@oawu/_Response": "file:Core/Response.js",
+    "@oawu/_Uploader": "file:Core/Uploader.js",
+    "@oawu/_Valid": "file:Core/Valid.js",
+    "@oawu/cli-progress": "^2.0.0",
+    "@oawu/helper": "^3.0.4",
+    "@oawu/scss": "^3.0.7",
+    "@oawu/uploader": "^3.0.6",
+    "@oawu/xterm": "^1.0.9",
+    "babel-preset-minify": "^0.5.2",
+    "chokidar": "^4.0.3",
+    "clean-css": "^5.3.3",
+    "command-exists": "^1.2.9",
+    "handlebars": "^4.7.8",
+    "html-minifier": "^4.0.0",
+    "mime-types": "^2.1.35",
+    "socket.io": "^4.8.1",
+    "terser": "^5.41.0"
+  }
+}

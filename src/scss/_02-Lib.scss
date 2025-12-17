@@ -1,0 +1,41 @@
+/**
+ * @author      OA Wu <oawu.tw@gmail.com>
+ * @copyright   Copyright (c) 2015 - 2025, Lalilo
+ * @license     http://opensource.org/licenses/MIT  MIT License
+ * @link        https://www.ioa.tw/
+ */
+
+@import "_01-Var";
+@import "Lalilo";
+
+%-icon {
+  font-family: "icon";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+}
+
+%-select-none {
+  @include user-select(none);
+}
+
+%-cover {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+@mixin container-width($min: 0, $max: 0) {
+  // 父層要加 container-type: inline-size;
+  @if $max == 0 {
+    @container (min-width: #{$min}) {
+      @content;
+    }
+  } @else {
+    @container (min-width: #{$min}) and (max-width: #{$max - 1px}) {
+      @content;
+    }
+  }
+}
